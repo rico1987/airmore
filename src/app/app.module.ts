@@ -28,7 +28,7 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     SharedModule,
     LayoutModule,
     CloudModule,
-    // DeviceModule,
+    DeviceModule,
     AppRoutingModule
   ],
   providers: [

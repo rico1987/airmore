@@ -1,0 +1,25 @@
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="20.59" height="20" viewBox="0 0 20.59 20">
+    <defs>
+        <style>
+            .cls-1,
+            .cls-2 {
+                fill: none;
+                stroke: #666;
+            }
+
+            .cls-1 {
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+
+            .cls-2 {
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <title>Vector Smart Object</title>
+    <line class="cls-1" x1="0.5" y1="19.5" x2="5.7" y2="18.37" />
+    <line class="cls-1" x1="0.5" y1="19.5" x2="1.63" y2="14.3" />
+    <path class="cls-2" d="M117,43.7a2.34,2.34,0,0,1-3.31,0L112,42a2.34,2.34,0,0,1,0-3.31L122,28.79a2.34,2.34,0,0,1,3.31,0l1.66,1.66a2.34,2.34,0,0,1,0,3.31Z"
+        transform="translate(-107.53 -27.6)" />
+</svg>

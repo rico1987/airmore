@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="52px" height="52px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
+<circle fill="#C7E3F5" cx="26" cy="26" r="25"/>
+<g>
+	<defs>
+		<circle id="SVGID_1_" cx="26" cy="26" r="25"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	</clipPath>
+	<g clip-path="url(#SVGID_2_)">
+		<path fill="#FFFFFF" d="M31.254,26.582c0,3.179-2.577,5.755-5.754,5.755c-3.178,0-5.754-2.576-5.754-5.755
+			c0-3.175,2.576-5.752,5.754-5.752C28.677,20.829,31.254,23.406,31.254,26.582z"/>
+		<path fill="#FFFFFF" d="M38,45.603c0,6.861-5.596,7.55-12.5,7.55c-6.903,0-12.5-0.689-12.5-7.55c0-6.86,5.596-12.42,12.5-12.42
+			C32.404,33.182,38,38.743,38,45.603z"/>
+	</g>
+	<g opacity="0.7" clip-path="url(#SVGID_2_)">
+		<circle fill="#FFFFFF" cx="11" cy="30.431" r="4.603"/>
+		<path opacity="0.9" fill="#FFFFFF" d="M21,45.648c0,5.489-4.477,6.04-10,6.04c-5.523,0-10-0.552-10-6.04
+			c0-5.488,4.477-9.936,10-9.936C16.523,35.712,21,40.16,21,45.648z"/>
+	</g>
+	<g opacity="0.7" clip-path="url(#SVGID_2_)">
+		<circle fill="#FFFFFF" cx="40" cy="30.431" r="4.603"/>
+		<path opacity="0.9" fill="#FFFFFF" d="M50,45.648c0,5.489-4.477,6.04-10,6.04c-5.523,0-10-0.552-10-6.04
+			c0-5.488,4.477-9.936,10-9.936C45.523,35.712,50,40.16,50,45.648z"/>
+	</g>
+</g>
+</svg>

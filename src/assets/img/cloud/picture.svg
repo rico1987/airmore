@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="19" height="16" viewBox="0 0 19 16">
+    <defs>
+        <style>
+            .cls-1,
+            .cls-2 {
+                fill: none;
+                stroke: #666;
+            }
+
+            .cls-1 {
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+
+            .cls-2 {
+                stroke-miterlimit: 10;
+            }
+        </style>
+    </defs>
+    <title>Vector Smart Object2</title>
+    <g id="Layer_1" data-name="Layer 1">
+        <path class="cls-1" d="M348.5,287.5h-13a2,2,0,0,1-2-2v-11a2,2,0,0,1,2-2h14a2,2,0,0,1,2,2v11" transform="translate(-333 -272)" />
+    </g>
+    <g id="Layer_2" data-name="Layer 2">
+        <path class="cls-2" d="M344.06,283.5l-3-3.59a.93.93,0,0,0-1.47,0l-3,3.59" transform="translate(-333 -272)" />
+        <path class="cls-2" d="M348.17,283.5l-2.43-2.9a.57.57,0,0,0-1,.11l-.6,1.15" transform="translate(-333 -272)" />
+        <circle class="cls-2" cx="12.9" cy="4.67" r="0.87" />
+    </g>
+</svg>

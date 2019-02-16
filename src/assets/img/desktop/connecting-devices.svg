@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="200px" height="60px" viewBox="0 0 200 60" enable-background="new 0 0 200 60" xml:space="preserve">
+<g>
+	<path fill="#517BAE" d="M23,11H8c-1.657,0-3,1.343-3,3v37c0,1.657,1.343,3,3,3h15c1.657,0,3-1.343,3-3V14
+		C26,12.343,24.657,11,23,11z M25,49H6V15h19V49z"/>
+	<path fill="#517BAE" d="M195,54.5c0,0.828-0.672,1.5-1.5,1.5h-93c-0.828,0-1.5-0.672-1.5-1.5l0,0c0-0.828,0.672-1.5,1.5-1.5h93
+		C194.328,53,195,53.672,195,54.5L195,54.5z"/>
+	<path fill="#517BAE" d="M183,3h-72c-1.657,0-3,1.343-3,3v46c0,1.657,1.343,3,3,3h72c1.657,0,3-1.343,3-3V6
+		C186,4.343,184.657,3,183,3z M182,51h-70V7h70V51z"/>
+	<circle fill="#FFFFFF" cx="67.35" cy="30.65" r="26.35"/>
+	<g display="none">
+		<g display="inline">
+			<defs>
+				<polygon id="SVGID_1_" points="80.689,27 43.305,27 39,32 83,32 83,43.868 53,45 53,15 88.166,15 				"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  overflow="visible"/>
+			</clipPath>
+			
+				<circle clip-path="url(#SVGID_2_)" fill="none" stroke="#4575CE" stroke-linecap="round" stroke-miterlimit="10" cx="67.094" cy="30.726" r="12.235"/>
+		</g>
+		<polyline display="inline" fill="none" stroke="#4575CE" stroke-linecap="round" stroke-miterlimit="10" points="79.5,21 
+			79.5,27.5 73,27.5 		"/>
+		<polyline display="inline" fill="none" stroke="#4575CE" stroke-linecap="round" stroke-miterlimit="10" points="54.5,40 
+			54.5,32.5 62,32.5 		"/>
+	</g>
+	<rect x="29" y="30" fill="#517BAE" width="3" height="2"/>
+	<rect x="35" y="30" fill="#517BAE" width="3" height="2"/>
+	<rect x="96" y="30" fill="#517BAE" width="3" height="2"/>
+	<rect x="102" y="30" fill="#517BAE" width="3" height="2"/>
+	<path opacity="0.2" fill="#FFFFFF" d="M150.5,3H183c1.657,0,3,1.343,3,3v47h-8L150.5,3z"/>
+	<path opacity="0.2" fill="#FFFFFF" d="M15.5,11H23c1.657,0,3,1.343,3,3v34.7L15.5,11z"/>
+</g>
+</svg>
