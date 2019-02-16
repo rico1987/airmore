@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const deviceRoutes: Routes = [];
+import { ItemListComponent } from './components/item-list/item-list.component'; 
+
+const deviceRoutes: Routes = [
+  { path: 'files',  component: ItemListComponent },
+];
 
 @NgModule({
   imports: [

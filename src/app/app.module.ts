@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 // modules
@@ -23,10 +24,11 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
     BrowserModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
+    FormsModule,
     SharedModule,
     LayoutModule,
     CloudModule,
-    DeviceModule,
+    // DeviceModule,
     AppRoutingModule
   ],
   providers: [

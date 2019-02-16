@@ -1,12 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+
 import { DeviceRoutingModule } from './device-routing.module';
+import { ItemListComponent } from './components/item-list/item-list.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [ItemListComponent],
   imports: [
-    BrowserModule,
+    CommonModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     DeviceRoutingModule,
