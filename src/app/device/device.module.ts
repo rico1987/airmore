@@ -1,18 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { CloudRoutingModule } from './cloud-routing.module';
-import { ItemListComponent } from './components/item-list/item-list.component';
-
+import { DeviceRoutingModule } from './device-routing.module';
 
 @NgModule({
-  declarations: [ItemListComponent],
+  declarations: [],
   imports: [
     BrowserModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
-    CloudRoutingModule,
+    DeviceRoutingModule,
   ],
   providers: []
 })
-export class CloudModule { }
+export class DeviceModule { }

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-layout-default',
-  templateUrl: './default.component.html',
-  styleUrls: ['./default.component.sass']
+  templateUrl: './default.component.html'
 })
 export class LayoutDefaultComponent implements OnInit {
 

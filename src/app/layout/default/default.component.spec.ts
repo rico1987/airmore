@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PhoneComponent } from './phone.component';
+import { LayoutDefaultComponent } from './default.component';
 
-describe('PhoneComponent', () => {
-  let component: PhoneComponent;
-  let fixture: ComponentFixture<PhoneComponent>;
+describe('LayoutDefaultComponent', () => {
+  let component: LayoutDefaultComponent;
+  let fixture: ComponentFixture<LayoutDefaultComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PhoneComponent ]
+      declarations: [ LayoutDefaultComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PhoneComponent);
+    fixture = TestBed.createComponent(LayoutDefaultComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
