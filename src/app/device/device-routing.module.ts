@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ItemListComponent } from './components/item-list/item-list.component'; 
+import { ItemListComponent } from './components/item-list/item-list.component';
 
 const deviceRoutes: Routes = [
-  { path: 'files',  component: ItemListComponent },
+  { path: 'aaa',  component: ItemListComponent },
 ];
 
 @NgModule({
@@ -15,4 +15,4 @@ const deviceRoutes: Routes = [
     RouterModule
   ]
 })
-export class DeviceRoutingModule { }
+export class DeviceRoutingModule {}

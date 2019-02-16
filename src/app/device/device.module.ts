@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { DeviceRoutingModule } from './device-routing.module';
 import { ItemListComponent } from './components/item-list/item-list.component';
+
+import { DeviceRoutingModule } from './device-routing.module';
 
 @NgModule({
   declarations: [ItemListComponent],

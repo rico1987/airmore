@@ -15,4 +15,4 @@ const cloudRoutes: Routes = [
     RouterModule
   ]
 })
-export class CloudRoutingModule { }
+export class CloudRoutingModule {}
