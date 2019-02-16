@@ -21,7 +21,7 @@ const appRoutes: Routes = [
     path: '',
     component: LayoutDesktopComponent,
     children: [
-      { path: '', redirectTo: 'cloud', pathMatch: 'full'},
+      { path: '', redirectTo: 'connect', pathMatch: 'full'},
       { path: 'connect', component: ConnectionComponent },
     ],
   },
