@@ -9,4 +9,6 @@ export class AppStateService {
   isAccountLogined = false; // 账号是否已登陆
 
   constructor() { }
+
+  
 }
