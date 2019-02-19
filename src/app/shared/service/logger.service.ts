@@ -1,5 +1,21 @@
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
 export class Logger {
-    log(msg: any) { console.log(msg); }
-    error(msg: any) { console.error(msg); }
-    warn(msg: any) { console.warn(msg); }
+
+  constructor() { }
+
+  log(msg: string): void {
+    console.log(msg);
+  }
+
+  warn(msg: string): void {
+    console.warn(msg);
+  }
+
+  error(msg: string): void {
+    console.error(msg);
+  }
 }

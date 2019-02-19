@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Logger } from './logger.service';
+import { WebsocketService } from './websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,10 @@ export class DeviceService {
 
   connecting = false;
 
-  constructor() { }
+  constructor(
+    private logger: Logger,
+    private websocketService: WebsocketService,
+  ) { }
 
   connect(): void {
   }
@@ -18,6 +23,6 @@ export class DeviceService {
   }
 
   getQrcode(): void {
-    
+
   }
 }
