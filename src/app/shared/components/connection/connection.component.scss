@@ -1,2 +1,59 @@
 @import "../../../../styles/mixins/bem.scss";
 @import "../../../../styles/themes/default/variables.scss";
+
+@include b(connection) {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: calc(50% - 210px);
+    margin: 0 auto;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.35);
+    width: 389px;
+    height: 415px;
+    padding: 9px 15px;
+    border-radius: 5px;
+    background: #fff;
+    z-index: 100;
+    text-align: center;
+
+    @include e(type) {
+        height: 48px;
+        border-bottom: 1px solid #e1e1e1;
+        display: flex;
+        list-style: none;
+        li{
+            flex: 0.3333;
+            position: relative;
+            font-size: 14px;
+            cursor: pointer;
+            span{
+                display: inline-block;
+                height: 47px;
+                line-height: 47px;
+                padding: 0 5px;
+                &:hover{
+                    color: $primary;
+                }
+                &.active{
+                    color: $primary;
+                    border-bottom: 2px solid $primary;
+                }
+            }
+            &:first-child, &:nth-child(2) {
+                &::after{
+                    content: '';
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    bottom: 4px;
+                    width: 1px;
+                    background: #e1e1e1;
+                }
+            }
+        }
+    }
+
+    @include e(tabs){
+        list-style: none;
+    }
+}

@@ -16,4 +16,8 @@ export class DeviceService {
 
   disConnect(): void {
   }
+
+  getQrcode(): void {
+    
+  }
 }

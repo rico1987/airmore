@@ -1,5 +1,12 @@
-<div class="connection">
-  <ul class="connection">
-
+<div class="airmore-connection">
+  <ul class="airmore-connection__type">
+    <li (click)="changeConnectionType('qrcode')"><span [class.active]="activeConnectionType==='qrcode'">QR Code</span></li>
+    <li (click)="changeConnectionType('radar')"><span [class.active]="activeConnectionType==='radar'">Radar</span></li>
+    <li (click)="changeConnectionType('account')"><span [class.active]="activeConnectionType==='account'">Account</span></li>
+  </ul>
+  <ul class="airmore-connection__tabs" [ngSwitch]="activeConnectionType">
+    <li *ngSwitchCase="'qrcode'"></li>
+    <li *ngSwitchCase="'radar'"></li>
+    <li *ngSwitchCase="'account'"></li>
   </ul>
 </div>

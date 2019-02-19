@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { ConnectionComponent } from './components/connection/connection.component';
@@ -12,6 +13,7 @@ const DIRECTIVES = [];
     ...DIRECTIVES,
   ],
   imports: [
+    CommonModule,
     RouterModule,
   ],
   providers: [
