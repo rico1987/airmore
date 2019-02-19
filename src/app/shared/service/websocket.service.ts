@@ -12,7 +12,7 @@ const hosts = [
 @Injectable({
   providedIn: 'root'
 })
-export class WebsocketService extends EventEmitter{
+export class WebsocketService extends EventEmitter {
 
   private client = null;
 
@@ -45,7 +45,7 @@ export class WebsocketService extends EventEmitter{
 
     this.client.onmessage = (e) => {
       if (typeof e.data === 'string') {
-        logger.log(`Received: ${e.data}`);
+        logger.info(`Received: ${e.data}`);
       }
       this.onMessage(e);
     };
@@ -58,7 +58,7 @@ export class WebsocketService extends EventEmitter{
       } else {
         this.client.send(obj);
       }
-      this.logger.log(`Send message: ${JSON.stringify(obj)}`);
+      this.logger.info(`Send message: ${JSON.stringify(obj)}`);
     }
   }
 
@@ -66,6 +66,19 @@ export class WebsocketService extends EventEmitter{
   }
 
   onMessage(e: any): void {
+    if (typeof e.data === 'string') {
+      let obj: object;
+      try {
+        obj = JSON.parse(e.data);
+      } catch (error) {
+        this.logger.error(`Can't parse message: ${e.data}`);
+      }
+      if (obj) {
+        const key = obj['Key'];
+        const data = obj['Data'];
+        this.emit(key, data);
+      }
+    }
   }
 
   onOpen(): void {

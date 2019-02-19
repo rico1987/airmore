@@ -5,7 +5,11 @@
     <li (click)="changeConnectionType('account')"><span [class.active]="activeConnectionType==='account'">Account</span></li>
   </ul>
   <ul class="airmore-connection__tabs" [ngSwitch]="activeConnectionType">
-    <li *ngSwitchCase="'qrcode'"></li>
+    <li *ngSwitchCase="'qrcode'">
+      <div *ngIf="qrCodeUrl">
+        <img [src]="qrCodeUrl" />
+      </div>
+    </li>
     <li *ngSwitchCase="'radar'"></li>
     <li *ngSwitchCase="'account'"></li>
   </ul>
