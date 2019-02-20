@@ -8,8 +8,8 @@ export class Phone {
     ContactCount: number;
     DeviceName: string;
     DeviceSN: string;
-    ExtSDAvaSize: 0
-    ExtSDSize: 0
+    ExtSDAvaSize: number;
+    ExtSDSize: number;
     IMEI: string;
     MAC: string;
     MemoryAvaSize: number;
