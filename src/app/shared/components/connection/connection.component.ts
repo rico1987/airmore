@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppStateService } from '../../service/app-state.service';
 import { QrcodeService } from '../../service/qrcode.service';
 
 @Component({
@@ -8,20 +9,21 @@ import { QrcodeService } from '../../service/qrcode.service';
 })
 export class ConnectionComponent implements OnInit {
 
-  activeConnectionType = 'qrcode'; // 当前连接方式, 可选值 'qrcode', 'radar', 'account'
-
   qrCodeUrl: string | null;
 
   private loadingQrCode = false;
 
-  constructor(private qrcodeService: QrcodeService) {}
+  constructor(
+    private appStateService: AppStateService,
+    private qrcodeService: QrcodeService,
+    ) {}
 
   ngOnInit() {
     this.getQrCode();
   }
 
   changeConnectionType(connectionType: string): void {
-    this.activeConnectionType = connectionType;
+    this.appStateService.changeConnectionType(connectionType);
   }
 
   getQrCode(): void {
@@ -34,6 +36,9 @@ export class ConnectionComponent implements OnInit {
       .catch((e) => {
         console.log(e);
       });
+  }
+
+  accountLogin(): void {
   }
 
 }

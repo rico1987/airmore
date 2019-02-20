@@ -19,7 +19,6 @@ export class QrcodeService extends WebsocketService {
     const host = hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[0];
 
     return new Promise((resolve) => {
-      debugger;
       this.send({
         Key: 'WebCreateQRImage',
         Value: {

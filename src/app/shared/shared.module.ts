@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { ConnectionComponent } from './components/connection/connection.component';
+import { AccountComponent } from './components/account/account.component';
 
-const COMPONENTS = [ConnectionComponent];
+const COMPONENTS = [ConnectionComponent, AccountComponent];
 const DIRECTIVES = [];
 
 @NgModule({

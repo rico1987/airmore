@@ -18,7 +18,7 @@
 
     @include e(type) {
         height: 48px;
-        border-bottom: 1px solid #e1e1e1;
+        border-bottom: 1px solid $gray-400;
         display: flex;
         list-style: none;
         li{
@@ -47,7 +47,7 @@
                     top: 0;
                     bottom: 4px;
                     width: 1px;
-                    background: #e1e1e1;
+                    background: $gray-400;
                 }
             }
         }

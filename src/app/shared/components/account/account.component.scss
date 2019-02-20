@@ -1,0 +1,47 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(account) {
+    @include e(password-login) {
+    }
+
+    @include e(row) {
+        width: 320px;
+        margin: 13px auto;
+        position: relative;
+        input{
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid $gray-400;
+            display: block;
+            height: 47px;
+            &::-webkit-input-placeholder{
+                color: $gray-300;
+            }
+        }
+    }
+
+    @include e(submit-btn) {
+        display: block;
+        text-align: center;
+        width: 320px;
+        height: 40px;
+        font-size: 16px;
+        line-height: 40px;
+        border-radius: 20px;
+        margin: 20px auto;
+        cursor: pointer;
+        color: $white;
+        background-color: $primary;
+    }
+
+    @include e(links) {
+        display: flex;
+        justify-content: space-between;
+        span{
+            cursor: pointer;
+            color: $primary;
+            font-size: $font-size-small;
+        }
+    }
+}

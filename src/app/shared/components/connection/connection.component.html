@@ -1,16 +1,18 @@
 <div class="airmore-connection">
   <ul class="airmore-connection__type">
-    <li (click)="changeConnectionType('qrcode')"><span [class.active]="activeConnectionType==='qrcode'">QR Code</span></li>
-    <li (click)="changeConnectionType('radar')"><span [class.active]="activeConnectionType==='radar'">Radar</span></li>
-    <li (click)="changeConnectionType('account')"><span [class.active]="activeConnectionType==='account'">Account</span></li>
+    <li (click)="changeConnectionType('qrcode')"><span [class.active]="appStateService.activeConnectionType==='qrcode'">QR Code</span></li>
+    <li (click)="changeConnectionType('radar')"><span [class.active]="appStateService.activeConnectionType==='radar'">Radar</span></li>
+    <li (click)="changeConnectionType('account')"><span [class.active]="appStateService.activeConnectionType==='account'">Account</span></li>
   </ul>
-  <ul class="airmore-connection__tabs" [ngSwitch]="activeConnectionType">
+  <ul class="airmore-connection__tabs" [ngSwitch]="appStateService.activeConnectionType">
     <li *ngSwitchCase="'qrcode'">
       <div *ngIf="qrCodeUrl">
         <img [src]="qrCodeUrl" />
       </div>
     </li>
     <li *ngSwitchCase="'radar'"></li>
-    <li *ngSwitchCase="'account'"></li>
+    <li *ngSwitchCase="'account'">
+      <app-account></app-account>
+    </li>
   </ul>
 </div>
