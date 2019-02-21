@@ -21,15 +21,15 @@ export class UserService {
     return this.userInfo;
   }
 
-  accountLogin(passwordLoginInfo: PasswordLoginInfo): Promise<any> {
-    const data = {
-      password: passwordLoginInfo.password,
-      brand: ,
-      language: ,
-    }
-  }
+  // accountLogin(passwordLoginInfo: PasswordLoginInfo): Promise<any> {
+  //   const data = {
+  //     password: passwordLoginInfo.password,
+  //     brand: ,
+  //     language: ,
+  //   }
+  // }
 
-  loginByToken(): Promise<any> {
-    
-  }
+  // loginByToken(): Promise<any> {
+
+  // }
 }

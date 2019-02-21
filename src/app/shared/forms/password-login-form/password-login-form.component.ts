@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AppStateService } from '../../service/app-state.service';
 import { PasswordLoginInfo } from '../../models/password-login-info.model';
+import { ANIMATIONS } from '../../animations';
 
 @Component({
   selector: 'app-password-login-form',
   templateUrl: './password-login-form.component.html',
-  styleUrls: ['./password-login-form.component.scss']
+  styleUrls: ['./password-login-form.component.scss'],
+  animations: ANIMATIONS,
 })
 export class PasswordLoginFormComponent implements OnInit {
   passwordLoginInfo: PasswordLoginInfo = {

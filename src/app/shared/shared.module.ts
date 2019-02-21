@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {TranslateModule} from '@ngx-translate/core';
 
 import { ConnectionComponent } from './components/connection/connection.component';
 import { AccountComponent } from './components/account/account.component';
@@ -35,6 +36,7 @@ const DIRECTIVES = [];
   ],
   exports: [
     RouterModule,
+    TranslateModule,
     ...COMPONENTS,
     ...DIRECTIVES,
   ],
