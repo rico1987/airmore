@@ -1,19 +1,5 @@
 <div class="airmore-account" [ngSwitch]="appStateService.accountRoute">
-  <div class="airmore-account__password-login" *ngSwitchCase="'passwordLogin'">
-    <div class="airmore-account__row">
-      <input type="text" placeholder="Email" />
-    </div>
-    <div class="airmore-account__row">
-      <input type="text" placeholder="Password" />
-    </div>
-    <div class="airmore-account__row">
-      <span class="airmore-account__submit-btn" (click)="accountLogin()">Login</span>
-    </div>
-    <div class="airmore-account__row airmore-account__links">
-      <span (click)="appStateService.accountRoute='resetPassword'">Forget password?</span>
-      <span (click)="appStateService.accountRoute='phonePasswordLess'">Password-less login</span>
-    </div>
-  </div>
+  <app-password-login-form *ngSwitchCase="'passwordLogin'"></app-password-login-form>
   <div class="airmore-account__reset-password" *ngSwitchCase="'resetPassword'">
 
   </div>
