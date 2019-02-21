@@ -23,7 +23,7 @@ export class PasswordLoginFormComponent implements OnInit {
     },
     password: {
       required: 'Password is required',
-      minLength: '',
+      minLength: 'The minimum length should be 6',
     },
   };
 

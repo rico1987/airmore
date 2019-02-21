@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UserInfo } from '../models/user-info.model';
+import { PasswordLoginInfo } from '../models/password-login-info.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,17 @@ export class UserService {
 
   getUserInfo(): UserInfo {
     return this.userInfo;
+  }
+
+  accountLogin(passwordLoginInfo: PasswordLoginInfo): Promise<any> {
+    const data = {
+      password: passwordLoginInfo.password,
+      brand: ,
+      language: ,
+    }
+  }
+
+  loginByToken(): Promise<any> {
+    
   }
 }
