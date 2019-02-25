@@ -18,7 +18,7 @@ export class Phone {
     MsgCount: number;
     MusicCount: number;
     MusicSize: number;
-    PhoneNumber: string;
+    Phonenumber: string;
     PicCount: number;
     PicSize: number;
     Platform: number;

@@ -3,6 +3,5 @@
  */
 export class PasswordLoginInfo {
     email: string;
-    phone: string;
     password: string;
 }

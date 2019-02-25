@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AppStateService } from '../../service/app-state.service';
+import { UserService } from '../../service/user.service';
 import { PasswordLoginInfo } from '../../models/password-login-info.model';
+import { CommonResponse } from '../../models/common-response.model';
 import { ANIMATIONS } from '../../animations';
 
 @Component({
@@ -13,12 +15,12 @@ import { ANIMATIONS } from '../../animations';
 export class PasswordLoginFormComponent implements OnInit {
   passwordLoginInfo: PasswordLoginInfo = {
     email: '',
-    phone: '',
     password: '',
   };
+
   passwordLoginForm: FormGroup;
 
-  errorMessages: any =  {
+  errorMessages: object =  {
     email: {
       required: 'Email is required',
       email: 'Please enter the correct email address',
@@ -30,6 +32,7 @@ export class PasswordLoginFormComponent implements OnInit {
   };
 
   constructor(
+    private userService: UserService,
     private appStateService: AppStateService,
     private fb: FormBuilder
   ) { }
@@ -50,9 +53,16 @@ export class PasswordLoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    debugger
     if (this.passwordLoginForm.valid) {
-      debugger
+      this.userService.accountLogin(this.passwordLoginInfo)
+        .subscribe(
+          (data: CommonResponse) => {
+            debugger;
+          },
+          (error) => {
+            debugger;
+          }
+        );
     }
   }
 
