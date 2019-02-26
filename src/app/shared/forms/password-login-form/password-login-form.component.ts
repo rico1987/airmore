@@ -4,7 +4,9 @@ import { AppStateService } from '../../service/app-state.service';
 import { UserService } from '../../service/user.service';
 import { PasswordLoginInfo } from '../../models/password-login-info.model';
 import { CommonResponse } from '../../models/common-response.model';
+import { CommonError } from '../../models/common-error.model';
 import { ANIMATIONS } from '../../animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-password-login-form',
@@ -32,6 +34,7 @@ export class PasswordLoginFormComponent implements OnInit {
   };
 
   constructor(
+    private router: Router,
     private userService: UserService,
     private appStateService: AppStateService,
     private fb: FormBuilder
@@ -57,10 +60,15 @@ export class PasswordLoginFormComponent implements OnInit {
       this.userService.accountLogin(this.passwordLoginInfo)
         .subscribe(
           (data: CommonResponse) => {
-            debugger;
+            this.userService.setUserInfo(data.data);
+            this.router.navigate(
+              ['cloud', 'files']
+            );
           },
           (error) => {
-            debugger;
+            if (error) {
+              debugger
+            }
           }
         );
     }

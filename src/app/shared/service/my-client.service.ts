@@ -10,13 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class MyClientService {
 
-  private baseUrl: string;
-
   constructor(private http: HttpClient) { }
-
-  setBaseUrl(baseUrl: string): void {
-    this.baseUrl = baseUrl;
-  }
 
   addInterceptor(): void {}
 
@@ -28,20 +22,20 @@ export class MyClientService {
       }
     }
 
-    return this.http.get(this.baseUrl + url, {
+    return this.http.get(url, {
       params: httpParams,
     });
   }
 
   post(url: string, data?: Object, options?: Object): Observable<any> {
-    return this.http.post(this.baseUrl + url, data, options);
+    return this.http.post(url, data, options);
   }
 
   put(url: string, data?: Object, options?: Object): Observable<any> {
-    return this.http.put(this.baseUrl + url, data, options);
+    return this.http.put(url, data, options);
   }
 
   delete(url: string, options?: Object): Observable<any> {
-    return this.http.delete(this.baseUrl + url, options);
+    return this.http.delete(url, options);
   }
 }

@@ -1,0 +1,56 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(header) {
+
+    height: $header-height;
+    border-bottom: $border-base;
+    position: absolute;
+    left: $main-content-position-left;
+    right: $main-content-position-right;
+
+    @include e(title) {
+        font-size: 20px;
+        width: 240px;
+        color: $gray-900;
+        padding-top: 15px;
+        height: 59px;
+        border-right: $border-base;
+        float: left;
+    }
+
+    @include e(viewmodes) {
+        float: right;
+        overflow: hidden;
+        border: $border-base;
+        border-radius: 15px;
+        padding: $header-viewmodes-padding;
+        margin-top: $header-viewmodes-margin-top;
+
+        >li{
+            float: left;
+            width: 40px;
+            height: 30px;
+            cursor: pointer;
+            background-repeat: no-repeat;
+            background-position: center;
+            list-style: none;
+        }
+        >li+li{
+            border-left: $border-base;
+        }
+        @include e(viewmode-list) {
+            background-image: url('../../../../assets/img/view/gray/list.svg');
+            &:hover, &.active{
+                background-image: url('../../../../assets/img/view/blue/list-blue.svg');
+            }
+        }
+
+        @include e(viewmode-grid) {
+            background-image: url('../../../../assets/img/view/gray/grid.svg');
+            &:hover, &.active{
+                background-image: url('../../../../assets/img/view/blue/grid-blue.svg');
+            }
+        }
+    }
+}

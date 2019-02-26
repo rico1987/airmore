@@ -1,14 +1,14 @@
 // 管理app全局状态
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Logger } from './logger.service';
-import { CONFIG } from '../../config';
+import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppStateService {
 
-  isDebug: boolean = CONFIG.app.isDebug; // 是否是调试模式
+  // isDebug: boolean = CONFIG.app.isDebug; // 是否是调试模式
 
   isAccountLogined = false; // 账号是否已登陆
 
@@ -16,9 +16,18 @@ export class AppStateService {
 
   activeConnectionType = 'account'; // 当前连接方式, 可选值 'qrcode', 'radar', 'account'
 
-  currentLanguage: string = CONFIG.app.defaultLang; // 当前语言
+  currentLanguage: string; // 当前语言
 
-  constructor(private logger: Logger) { }
+  activeViewMode:  'list' | 'grid' = 'list';
+
+  constructor(
+    @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
+    private logger: Logger,
+  ) { }
+
+  setActiveViewMode(mode: 'list' | 'grid'): void {
+    this.activeViewMode = mode;
+  }
 
   changeConnectionType(connectionType: string): void {
     this.activeConnectionType = connectionType;
@@ -27,4 +36,9 @@ export class AppStateService {
   setCurrentLang(lang: string): void {
     this.currentLanguage = lang;
   }
+
+  get isDebug() {
+    return this.appConfig.app.isDebug;
+  }
+
 }

@@ -1,0 +1,69 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(subheader) {
+    height: $subheader-height;
+    border-bottom: $border-base;
+    position: absolute;
+    left: $main-content-position-left;
+    right: $main-content-position-right;
+    top: $header-height;
+    display: flex;
+
+    @include e(info) {
+        width: $subheader-info-width;
+        height: 100%;
+        font-size: $font-size-base;
+        padding-top: 22px;
+    }
+
+    @include e(toolbar) {
+        padding: 6px 0 0 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        flex: 1;
+
+        @include e(toolbar-btn) {
+            min-width: 75px;
+            color: $gray-800;
+            cursor: pointer;
+            font-size: 10px;
+            border-radius: 3px;
+            padding: 23px 10px 0;
+            height: 50px;
+            white-space: nowrap;
+        } 
+    }
+
+    @include e(search) {
+        width: 180px;
+        margin-left: 60px;
+        height: 100%;
+        padding-left: 16px;
+        padding-top: 14px;
+        position: relative;
+        input{
+            width: 100%;
+            height: 32px;
+            border-radius: 16px;
+            border: $border-base;
+            padding: 0 24px 0 30px;
+        }
+
+        @include e(search-submit) {
+            position: absolute;
+            cursor: pointer;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 32px;
+            border: none;
+            background: transparent url('../../../../assets/img/action/gray/search.svg') center no-repeat;
+        }
+
+        @include e(search-clear) {
+
+        }
+    }
+}

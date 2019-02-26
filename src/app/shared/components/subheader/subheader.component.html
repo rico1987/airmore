@@ -1,0 +1,15 @@
+<div class="airmore-subheader">
+  <div class="airmore-subheader__info">
+    <span>0 selected</span>
+  </div>
+  <div class="airmore-subheader__toolbar">
+      <div class="airmore-subheader__toolbar-btn" *ngFor="let item of toolbarItems">
+        <div class="airmore-subheader__toolbar-icon" [ngClass]=item>{{item.text}}</div>
+      </div>
+  </div>
+  <div class="airmore-subheader__search">
+    <input type="text" placeholder="Search" />
+    <div class="airmore-subheader__search-submit"></div>
+    <div class="airmore-subheader__search-clear"></div>
+  </div>
+</div>

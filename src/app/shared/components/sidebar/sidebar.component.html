@@ -1,3 +1,7 @@
-<p>
-  sidebar works!
-</p>
+<div class="airmore-sidebar">
+  <div class="airmore-sidebar__fun-btn fun-home">
+  </div>
+  <div class="airmore-sidebar__fun-btn" *ngFor="let fun of functions">
+    <div class="airmore-sidebar__fun-icon" [ngClass]=fun>{{fun}}</div>
+  </div>
+</div>

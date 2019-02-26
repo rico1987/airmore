@@ -1,0 +1,67 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(sidebar) {
+    width: $sidebar-width;
+    background-color: $sidebar-background;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: $index-top;
+
+    @include e(fun-btn) {
+        height: $sidebar-fun-btn-height;
+        padding: $sidebar-fun-btn-padding;
+        &.fun-home{
+            cursor: pointer;
+            height: $sidebar-fun-home-height;
+            background: url('../../../../assets/img/fun/home.svg') no-repeat center;
+            background-size: 28px auto;
+            &:hover{
+                background-image: url('../../../../assets/img/fun/home-hover.svg');
+            }
+        }
+    }
+
+    @include e(fun-icon) {
+        cursor: pointer;
+        width: $sidebar-fun-icon-width;
+        height: $sidebar-fun-icon-height;
+        border-radius: $sidebar-fun-icon-width / 2;
+        background-repeat: no-repeat;
+        background-position: 7px center;
+        transition: padding .2s ease;
+        white-space: nowrap;
+        padding: $sidebar-fun-icon-padding;
+        line-height: 30px;
+        text-align: center;
+        font-size: 11px;
+        color: transparent;
+        overflow: hidden;
+
+        &:hover{
+            color: $black;
+            float: left;
+            width: auto;
+            overflow: visible;
+            background-color: $white;
+            padding-left: 44px;
+            padding-right: 15px;
+        }
+
+        @each $fun in $funs{
+            &.#{$fun}{
+                background-image: url('../../../../assets/img/fun/gray/#{$fun}.svg');
+            }
+    
+            &.#{$fun}:hover{
+                border: 2px solid #a5d2e9;
+            }
+    
+            &.#{$fun}:hover, .#{$fun}.active{
+                background-image: url('../../../../assets/img/fun/blue/#{$fun}-blue.svg');
+            }
+        }
+    }
+}

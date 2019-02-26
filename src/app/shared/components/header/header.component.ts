@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppStateService } from '../../../shared/service/app-state.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private appStateService: AppStateService) { }
 
   ngOnInit() {
   }
 
+  setActiveViewMode(viewMode: 'list' | 'grid'): void {
+    this.appStateService.setActiveViewMode(viewMode);
+  }
 }

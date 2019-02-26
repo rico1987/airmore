@@ -10,6 +10,9 @@ import { PasswordLoginFormComponent } from './forms/password-login-form/password
 import { ResetPasswordFormComponent } from './forms/reset-password-form/reset-password-form.component';
 import { PhonePasswordLessLoginFormComponent } from './forms/phone-password-less-login-form/phone-password-less-login-form.component';
 import { EmailPasswordLessLoginFormComponent } from './forms/email-password-less-login-form/email-password-less-login-form.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header.component';
+import { SubheaderComponent } from './components/subheader/subheader.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -18,6 +21,9 @@ const COMPONENTS = [
   ResetPasswordFormComponent,
   PhonePasswordLessLoginFormComponent,
   EmailPasswordLessLoginFormComponent,
+  SidebarComponent,
+  HeaderComponent,
+  SubheaderComponent,
 ];
 const DIRECTIVES = [];
 
