@@ -27,17 +27,13 @@ export class UserService {
   ) {}
 
   setUserInfo(v: UserInfo): void {
-    try {
-      this.storage.set('userInfo', v);
-      this.cloudBaseService.getCloudToken(v);
-    } catch (e) {
-      this.storage.set('userInfo', {});
-    }
+    this.storage.set(this.appConfig.app.accountStorageKey, v);
+    this.cloudBaseService.getCloudToken(v);
     this.userInfo = v;
   }
 
-  getUserInfo(): UserInfo {
-    return this.userInfo;
+  getUserInfo(): UserInfo | any {
+    return this.userInfo || this.storage.get(this.appConfig.app.accountStorageKey);
   }
 
   accountLogin(passwordLoginInfo: PasswordLoginInfo): Observable < any > {
@@ -50,7 +46,7 @@ export class UserService {
     if (passwordLoginInfo.email) {
       data['email'] = passwordLoginInfo.email;
     }
-    return this.myClientService.post('/sessions', data);
+    return this.myClientService.post('account', '/sessions', data);
   }
 
   // loginByToken(): Promise<any> {

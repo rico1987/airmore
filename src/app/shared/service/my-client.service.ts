@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class MyClientService {
 
   addInterceptor(): void {}
 
-  get(url: string, params?: Object): Observable<any> {
+  get(module: string, url: string, params?: Object): Observable<any> {
     const httpParams = new HttpParams();
     if (params) {
       for (const key of Object.keys(params)) {
@@ -22,20 +23,31 @@ export class MyClientService {
       }
     }
 
-    return this.http.get(url, {
+    return this.http.get(this.processUrl(url, module), {
       params: httpParams,
     });
   }
 
-  post(url: string, data?: Object, options?: Object): Observable<any> {
-    return this.http.post(url, data, options);
+  post(module: string, url: string, data?: Object, options?: Object): Observable<any> {
+    return this.http.post(this.processUrl(url, module), data, options);
   }
 
-  put(url: string, data?: Object, options?: Object): Observable<any> {
-    return this.http.put(url, data, options);
+  put(module: string, url: string, data?: Object, options?: Object): Observable<any> {
+    return this.http.put(this.processUrl(url, module), data, options);
   }
 
-  delete(url: string, options?: Object): Observable<any> {
-    return this.http.delete(url, options);
+  delete(module: string, url: string, options?: Object): Observable<any> {
+    return this.http.delete(this.processUrl(url, module), options);
+  }
+
+  processUrl(url: string, module: string): string {
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
+      if (module === 'cloud') {
+        url = environment.cloudApiBaseUrl + url;
+      } else if (module === 'account') {
+        url = environment.accountApiBaseUrl + url;
+      }
+    }
+    return url;
   }
 }

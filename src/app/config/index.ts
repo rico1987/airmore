@@ -7,6 +7,8 @@ export interface AppConfig {
         isDebug: boolean,
         functions: [string],
         cloudFunctions: [string],
+        accountStorageKey: string,
+        cloudStorageKey: string,
     };
     brand?: string;
 }
@@ -22,6 +24,8 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
             isDebug: true,
             functions: ['pictures', 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'cloud'],
             cloudFunctions: ['clouds', 'pictures', 'musics', 'videos', 'documents', 'others'],
+            accountStorageKey: 'userInfo',
+            cloudStorageKey: 'cloudUserInfo',
         },
         brand: 'Apowersoft',
     }
