@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AppStateService } from '../../service/app-state.service';
 import { UserService } from '../../service/user.service';
+import { CloudBaseService } from '../../../cloud/service/cloud-base.service';
 import { PasswordLoginInfo } from '../../models/password-login-info.model';
 import { CommonResponse } from '../../models/common-response.model';
 import { CommonError } from '../../models/common-error.model';
@@ -36,6 +37,7 @@ export class PasswordLoginFormComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
+    private cloudBaseService: CloudBaseService,
     private appStateService: AppStateService,
     private fb: FormBuilder
   ) { }
@@ -62,7 +64,7 @@ export class PasswordLoginFormComponent implements OnInit {
           (data: CommonResponse) => {
             this.userService.setUserInfo(data.data);
             this.router.navigate(
-              ['cloud', 'files']
+              ['cloud']
             );
           },
           (error) => {

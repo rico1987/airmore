@@ -9,6 +9,7 @@ const cloudRoutes: Routes = [
     path: '',
     component: CloudLayoutComponent,
     children: [
+      { path: '', redirectTo: 'clouds', pathMatch: 'full'},
       { path: 'clouds', component: CloudItemListComponent },
     ],
   },

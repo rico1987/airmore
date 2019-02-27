@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class CloudInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        debugger
         let url = req.url;
         if (!url.startsWith('https://') && !url.startsWith('http://')) {
             url = environment.cloudApiBaseUrl + url;

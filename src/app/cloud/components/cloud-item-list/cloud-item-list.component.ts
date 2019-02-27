@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
+import { AppStateService } from '../../../shared/service/app-state.service';
 
 @Component({
   selector: 'app-cloud-item-list',
@@ -8,11 +9,19 @@ import { Audio, Document, Label, Location, Node, OtherResource, People, Video } 
 })
 export class CloudItemListComponent implements OnInit {
 
-  @Input() itemList: [Audio | Document | Label | Location | Node | OtherResource | People | Video];
+  itemList: [Audio | Document | Label | Location | Node | OtherResource | People | Video];
 
-  constructor() { }
+  currentPage: number;
+
+  constructor(
+    private appStateService: AppStateService,
+  ) { }
 
   ngOnInit() {
+    this.getItemList();
   }
 
+  getItemList(): void {
+
+  }
 }

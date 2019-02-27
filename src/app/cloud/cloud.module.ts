@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { LayoutModule } from '../layout/layout.module';
 import { CloudRoutingModule } from './cloud-routing.module';
 
 // #region Http Interceptors
@@ -25,7 +24,6 @@ const INTERCEPTOR_PROVIDES = [
     CommonModule,
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
-    LayoutModule,
     CloudRoutingModule,
   ],
   providers: [

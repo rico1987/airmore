@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { CloudModule } from '../cloud/cloud.module';
+
 import { ConnectionComponent } from './components/connection/connection.component';
 import { AccountComponent } from './components/account/account.component';
 import { PasswordLoginFormComponent } from './forms/password-login-form/password-login-form.component';
@@ -36,6 +38,7 @@ const DIRECTIVES = [];
     CommonModule,
     RouterModule,
     FormsModule,
+    CloudModule,
     ReactiveFormsModule,
   ],
   providers: [

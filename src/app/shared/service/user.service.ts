@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { AppStateService } from './app-state.service';
 import { MyClientService } from './my-client.service';
+import { CloudBaseService } from '../../cloud/service/cloud-base.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { UserInfo } from '../models/user-info.model';
 import { PasswordLoginInfo } from '../models/password-login-info.model';
@@ -19,17 +20,17 @@ export class UserService {
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
+    private cloudBaseService: CloudBaseService,
     private myClientService: MyClientService,
     private appStateService: AppStateService,
     private storage: BrowserStorageService,
-  ) {
-    // this.myClientService.setBaseUrl('https://passport.aoscdn.com/api');
-  }
+  ) {}
 
   setUserInfo(v: UserInfo): void {
     try {
       this.storage.set('userInfo', v);
-    } catch(e) {
+      this.cloudBaseService.getCloudToken(v);
+    } catch (e) {
       this.storage.set('userInfo', {});
     }
     this.userInfo = v;
