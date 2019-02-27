@@ -6,6 +6,7 @@ export interface AppConfig {
         fallbackLang: string,
         isDebug: boolean,
         functions: [string],
+        cloudFunctions: [string],
     };
     brand?: string;
 }
@@ -20,6 +21,7 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
             fallbackLang: 'en',
             isDebug: true,
             functions: ['pictures', 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'cloud'],
+            cloudFunctions: ['clouds', 'pictures', 'musics', 'videos', 'documents', 'others'],
         },
         brand: 'Apowersoft',
     }

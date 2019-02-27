@@ -28,11 +28,13 @@ const appRoutes: Routes = [
   // cloud
   {
     path: 'cloud',
+    component: LayoutDefaultComponent,
     loadChildren: './cloud/cloud.module#CloudModule',
   },
   // device
   {
     path: 'device',
+    component: LayoutDefaultComponent,
     loadChildren: './device/device.module#DeviceModule',
   },
   { path: '**', component: PageNotFoundComponent }

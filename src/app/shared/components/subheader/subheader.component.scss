@@ -1,6 +1,7 @@
 @import "../../../../styles/mixins/bem.scss";
 @import "../../../../styles/themes/default/variables.scss";
 
+$actions: upload, upload-folder, download, refresh, delete, add, wallpaper, install, backup, play, pause, preview, add-folder, add-contact, add-message, rename, copy;
 @include b(subheader) {
     height: $subheader-height;
     border-bottom: $border-base;
@@ -33,6 +34,24 @@
             padding: 23px 10px 0;
             height: 50px;
             white-space: nowrap;
+            text-align: center;
+            background-position: center 3px;
+            background-repeat: no-repeat;
+
+            @each $action in $actions{
+                &.#{$action}{
+                    background-image: url('../../../../assets/img/action/gray/#{$action}-gray.svg');
+        
+                    &:hover, &.active{
+                        background-color: $primary;
+                        color: $white;
+                        background-image: url('../../../../assets/img/action/white/#{$action}-white.svg');
+                    }
+                }
+            }
+            @include e(toolbar-icon) {
+                line-height: 27px;
+            }
         } 
     }
 
@@ -54,12 +73,12 @@
         @include e(search-submit) {
             position: absolute;
             cursor: pointer;
-            left: 0;
-            top: 0;
+            left: 18px;
+            top: 16px;
             width: 30px;
             height: 32px;
             border: none;
-            background: transparent url('../../../../assets/img/action/gray/search.svg') center no-repeat;
+            background: transparent url('../../../../assets/img/action/gray/search-gray.svg') center no-repeat;
         }
 
         @include e(search-clear) {

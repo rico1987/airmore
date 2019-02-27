@@ -1,0 +1,19 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(cloud-layout) {
+    position: absolute;
+    bottom: 0;
+    left: $main-content-position-left;
+    right: $main-content-position-right;
+    top: $header-height + $subheader-height; 
+    
+
+    @include e(content) {
+        position: absolute;
+        top: 0;
+        right: $main-content-position-right;
+        bottom: 0;
+        left: $cloud-sidebar-width;
+    }
+}
