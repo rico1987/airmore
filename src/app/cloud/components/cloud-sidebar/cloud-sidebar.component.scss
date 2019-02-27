@@ -23,7 +23,7 @@
                 &.#{$fun}{
                     background-image: url('../../../../assets/img/cloud/gray/cloud-#{$fun}-gray.svg');
         
-                    &:hover, &.active{
+                    &.active{
                         background-color: $primary;
                         color: $white;
                         background-image: url('../../../../assets/img/cloud/white/cloud-#{$fun}-white.svg');

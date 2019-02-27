@@ -19,6 +19,8 @@ export class CloudSidebarComponent implements OnInit {
     'others': 'Others',
   };
 
+  activeFunction: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
+
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
@@ -29,4 +31,7 @@ export class CloudSidebarComponent implements OnInit {
   ngOnInit() {
   }
 
+  setCloudActiveFunction(fun: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others'): void {
+    this.activeFunction = fun;
+  }
 }

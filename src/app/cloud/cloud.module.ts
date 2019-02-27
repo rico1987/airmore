@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { ItemListComponent } from './components/item-list/item-list.component';
 import { LayoutModule } from '../layout/layout.module';
 import { CloudRoutingModule } from './cloud-routing.module';
 
@@ -12,6 +11,8 @@ import { CloudInterceptor } from './interceptors/cloud.interceptor';
 import { CloudItemComponent } from './components/cloud-item/cloud-item.component';
 import { CloudSidebarComponent } from './components/cloud-sidebar/cloud-sidebar.component';
 import { CloudLayoutComponent } from './layout/cloud-layout/cloud-layout.component';
+import { CloudItemListComponent } from './components/cloud-item-list/cloud-item-list.component';
+import { CloudNoItemComponent } from './components/cloud-no-item/cloud-no-item.component';
 const INTERCEPTOR_PROVIDES = [
   { provide: HTTP_INTERCEPTORS, useClass: CloudInterceptor, multi: true },
 ];
@@ -19,7 +20,7 @@ const INTERCEPTOR_PROVIDES = [
 
 
 @NgModule({
-  declarations: [ItemListComponent, CloudItemComponent, CloudSidebarComponent, CloudLayoutComponent],
+  declarations: [ CloudItemComponent, CloudSidebarComponent, CloudLayoutComponent, CloudItemListComponent, CloudNoItemComponent],
   imports: [
     CommonModule,
     // import HttpClientModule after BrowserModule.
