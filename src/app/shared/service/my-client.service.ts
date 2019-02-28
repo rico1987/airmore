@@ -36,8 +36,16 @@ export class MyClientService {
     return this.http.put(this.processUrl(url, module), data, options);
   }
 
-  delete(module: string, url: string, options?: Object): Observable<any> {
-    return this.http.delete(this.processUrl(url, module), options);
+  delete(module: string, url: string, params?: Object): Observable<any> {
+    const httpParams = new HttpParams();
+    if (params) {
+      for (const key of Object.keys(params)) {
+        httpParams.set(key, params[key]);
+      }
+    }
+    return this.http.delete(this.processUrl(url, module), {
+      params: httpParams,
+    });
   }
 
   processUrl(url: string, module: string): string {

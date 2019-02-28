@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
+import { CloudStateService } from '../../service/cloud-state.service';
 
 @Component({
   selector: 'app-cloud-sidebar',
@@ -24,6 +25,7 @@ export class CloudSidebarComponent implements OnInit {
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
+    private cloudStateService: CloudStateService,
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
   }
@@ -33,5 +35,6 @@ export class CloudSidebarComponent implements OnInit {
 
   setCloudActiveFunction(fun: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others'): void {
     this.activeFunction = fun;
+    this.cloudStateService.setCloudActiveFunction(fun);
   }
 }

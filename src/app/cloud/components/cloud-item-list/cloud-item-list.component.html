@@ -1,8 +1,8 @@
 <div class="airmore-cloud-item-list">
-  <div class="airmore-cloud-item-list__container">
-      <app-cloud-item *ngFor="let item of itemList"></app-cloud-item>
-      <div class="airmore-cloud-item-list__no-item" *ngIf="!itemList || itemList.lenght === 0">
-        No item
-      </div>
+  <div class="airmore-cloud-item-list__container" *ngIf="!loading">
+      <app-cloud-item *ngFor="let item of itemList" [item]="item"></app-cloud-item>
+  </div>
+  <div class="airmore-cloud-item-list__no-item" *ngIf="!loading && (!itemList || itemList.length === 0)">
+      No item
   </div>
 </div>

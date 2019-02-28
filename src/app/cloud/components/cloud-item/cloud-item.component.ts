@@ -8,11 +8,29 @@ import { Audio, Document, Label, Location, Node, OtherResource, People, Video } 
 })
 export class CloudItemComponent implements OnInit {
 
-  @Input() item: Audio | Document | Label | Location | Node | OtherResource | People | Video;
+  @Input() item: any;
 
-  constructor() { }
+  type: 'audio' | 'document' | 'label' | 'location' | 'node' | 'otherResource' | 'people' | 'video';
+
+  constructor() {
+    console.log(this.item);
+  }
 
   ngOnInit() {
+  }
+
+  getType() {
+    if (this.item.node_id && this.item.node_type) {
+      return 'folder';
+    }
+  }
+
+  getShortName(item) {
+    return item.title;
+  }
+
+  selectItem(item) {
+    console.log(item);
   }
 
 }

@@ -6,7 +6,7 @@ import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 })
 export class CloudStateService {
 
-  currentFunction: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
+  activeFunction: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
 
   private functions: [string];
 
@@ -14,5 +14,9 @@ export class CloudStateService {
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
+  }
+
+  setCloudActiveFunction(fun: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others'): void {
+    this.activeFunction = fun;
   }
 }

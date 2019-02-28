@@ -8,7 +8,7 @@ import { Logger } from '../../shared/service/logger.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 
 @Injectable({
-  providedIn: CloudModule,
+  providedIn: 'root'
 })
 export class CloudBaseService {
 

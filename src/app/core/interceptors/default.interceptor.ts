@@ -20,7 +20,6 @@ export class DefaultInterceptor implements HttpInterceptor {
         const userInfo: UserInfo | any = this.browserStorageService.get(this.appConfig.app.accountStorageKey);
         const cloudUserInfo: CloudUserInfo | any = this.browserStorageService.get(this.appConfig.app.cloudStorageKey);
         let newReq;
-
         if (url.startsWith(environment.accountApiBaseUrl)) {
             if (userInfo && userInfo.api_token) {
                 newReq = req.clone({
@@ -28,14 +27,18 @@ export class DefaultInterceptor implements HttpInterceptor {
                         'Authorization': `Bearer ${userInfo.api_token}`
                     }
                 });
-                newReq.headers.headers.set('Authorization', `Bearer ${userInfo.api_token}`);
             }
         } else if (url.startsWith(environment.cloudApiBaseUrl)) {
             if (cloudUserInfo && cloudUserInfo.api_token) {
-                newReq.headers.headers.set('Authorization', `Bearer ${userInfo.api_token}`);
+                newReq = req.clone({
+                    setHeaders: {
+                        'Authorization': `Bearer ${cloudUserInfo.api_token}`
+                    }
+                });
             }
+        } else {
+            newReq = req.clone();
         }
-
 
         return next.handle(newReq).pipe(
             mergeMap((event: any) => {

@@ -1,0 +1,34 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(cloud-item) {
+    margin-right: 30px;
+    margin-bottom: 40px;
+    float: left;
+    cursor: pointer;
+    position: relative;
+
+    @include e(container) {
+
+        @include e(top) {
+            width: 168px;
+            height: 168px;
+            position: relative;
+            background-size: contain;
+        }
+
+        &.folder {
+            @include e(top) {
+                background-image: url('../../../../assets/img/fun/blue/files-blue.svg');
+            }
+        }
+
+        @include e(title) {
+            text-align: center;
+            font-size: $font-size-small;
+            color: $gray-900;
+            margin-top: 19px;
+        }
+        
+    }
+}
