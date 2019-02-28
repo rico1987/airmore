@@ -37,6 +37,8 @@ export class AppStateService {
     this.currentLanguage = lang;
   }
 
+
+
   get isDebug() {
     return this.appConfig.app.isDebug;
   }

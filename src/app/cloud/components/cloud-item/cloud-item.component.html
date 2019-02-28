@@ -1,4 +1,4 @@
-<div class="airmore-cloud-item" (click)="selectItem(item)">
+<div class="airmore-cloud-item" (click)="selectItem()">
   <div class="airmore-cloud-item__container folder" *ngIf="getType() === 'folder'">
     <div class="airmore-cloud-item__top">
       <div class="airmore-cloud-item__image" [class.default]="!item.cover_thumb_url">
@@ -7,12 +7,11 @@
       <div class="airmore-cloud-item__toolbar">
   
       </div>
-      <div class="airmore-cloud-item__check">
-
+      <div class="airmore-cloud-item__check" [class.selected]="">
       </div>
     </div>
     <div class="airmore-cloud-item__title">
-      {{ getShortName(item) }}
+      {{ getShortName() }}
     </div>
   </div>
 </div>

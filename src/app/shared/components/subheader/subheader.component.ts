@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CloudStateService } from '../../../cloud/service/cloud-state.service';
 
 @Component({
   selector: 'app-subheader',
@@ -25,7 +26,9 @@ export class SubheaderComponent implements OnInit {
     { class: 'select', action: 'select-all', text: 'Select All' },
   ];
 
-  constructor() { }
+  constructor(
+    private cloudStateService: CloudStateService,
+  ) { }
 
   ngOnInit() {
   }

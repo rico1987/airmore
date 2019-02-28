@@ -9,7 +9,7 @@ import { CloudStateService } from '../../service/cloud-state.service';
 })
 export class CloudSidebarComponent implements OnInit {
 
-  functions: [string];
+  functions: Array<string>;
 
   functionNameMap = {
     'clouds': 'Cloud Files',

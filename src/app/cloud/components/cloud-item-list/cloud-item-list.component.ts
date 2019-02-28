@@ -16,7 +16,7 @@ export class CloudItemListComponent implements OnInit {
 
   itemsPerPage = 50;
 
-  parentsStack: [Node];
+  parentsStack: Array<Node>;
 
   loading = false;
 
