@@ -1,13 +1,15 @@
-<div class="airmore-cloud-item" (click)="selectItem()">
+<div class="airmore-cloud-item" (click)="checkItem()" (dblclick)="openResource()">
   <div class="airmore-cloud-item__container folder" *ngIf="getType() === 'folder'">
     <div class="airmore-cloud-item__top">
       <div class="airmore-cloud-item__image" [class.default]="!item.cover_thumb_url">
 
       </div>
-      <div class="airmore-cloud-item__toolbar">
-  
-      </div>
-      <div class="airmore-cloud-item__check" [class.selected]="">
+      <ul class="airmore-cloud-item__toolbar">
+        <li class="preview" [class.active]="supportOperation('preview')" (click)="preview(item)"></li>
+        <li class="download" [class.active]="supportOperation('download')" (click)="download(item)"></li>
+        <li class="delete" [class.active]="supportOperation('delete')" (click)="delete(item)"></li>
+      </ul>
+      <div class="airmore-cloud-item__check" [class.selected]="isSelected">
       </div>
     </div>
     <div class="airmore-cloud-item__title">

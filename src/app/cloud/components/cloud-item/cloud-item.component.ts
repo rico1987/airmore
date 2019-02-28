@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
 import { CloudStateService } from '../../service/cloud-state.service';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-cloud-item',
@@ -32,8 +33,43 @@ export class CloudItemComponent implements OnInit {
     return this.item.title;
   }
 
-  selectItem(): void {
-    this.cloudStateService.addItems([this.item]);
+  checkItem(): void {
+    if (this.isSelected) {
+      this.cloudStateService.removeItems([this.item]);
+    } else {
+      this.cloudStateService.addItems([this.item]);
+    }
+  }
+
+  /**
+   * 打开可打开的资源
+   */
+  openResource(): void {
+    event.stopPropagation();
+    if (this.item.node_type === 'folder') {
+      debugger
+      
+    } else if (this.item.node_type === 'file') {
+
+    } else if (this.item.type === 'image') {
+      this.preview();
+    }
+  }
+
+  preview(): void  {
+    event.stopPropagation();
+  }
+
+  download(): void {
+    event.stopPropagation();
+  }
+
+  delete(): void {
+    event.stopPropagation();
+  }
+
+  supportOperation(operation: 'preview' | 'download' | 'delete'): boolean {
+    return true;
   }
 
   get isSelected(): boolean {
