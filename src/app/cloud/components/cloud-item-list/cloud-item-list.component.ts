@@ -28,43 +28,6 @@ export class CloudItemListComponent implements OnInit {
     this.cloudStateService.getItemList();
   }
 
-  // getItemList() {
-
-  // }
-
-  // getItemList(
-  //   category?: 'image' | 'document' | 'video' | 'audio' | null,
-  //   per_page?: number | null,
-  //   page?: number | null,
-  //   parent_id?: string | null,
-  // ): void {
-  //   this.loading = true;
-  //   const activeFunction = this.cloudStateService.activeFunction;
-  //   if (activeFunction === 'clouds') {
-  //     this.nodeService.getNodeList(
-  //       page ? page : this.currentPage,
-  //       per_page ? per_page : this.itemsPerPage,
-  //       parent_id ? parent_id : this.getCurrentParentId(),
-  //     )
-  //     .subscribe(
-  //       (data: CommonResponse) => {
-  //         if (data.data.list) {
-  //           this.itemList = data.data.list;
-  //           console.log(this.itemList);
-  //         }
-  //       },
-  //       (error) => {
-  //         if (error) {
-  //           debugger
-  //         }
-  //       },
-  //       () => {
-  //         this.loading = false;
-  //       }
-  //     );
-  //   }
-  // }
-
   refresh(): void {
 
   }

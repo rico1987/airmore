@@ -15,14 +15,19 @@ export class MyClientService {
 
   addInterceptor(): void {}
 
+  /**
+   * 注意：HttpParams.set()方法会返回一个新的HttpParams对象
+   * @param module 
+   * @param url 
+   * @param params 
+   */
   get(module: string, url: string, params?: Object): Observable<any> {
-    const httpParams = new HttpParams();
+    let httpParams = new HttpParams();
     if (params) {
       for (const key of Object.keys(params)) {
-        httpParams.set(key, params[key]);
+        httpParams = httpParams.set(key, params[key]);
       }
     }
-
     return this.http.get(this.processUrl(url, module), {
       params: httpParams,
     });

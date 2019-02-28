@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
 import { CloudStateService } from '../../service/cloud-state.service';
-import { debug } from 'util';
 
 @Component({
   selector: 'app-cloud-item',
@@ -47,8 +46,10 @@ export class CloudItemComponent implements OnInit {
   openResource(): void {
     event.stopPropagation();
     if (this.item.node_type === 'folder') {
-      debugger
-      
+      // this.cloudStateService.
+      this.cloudStateService.resetPaging();
+      this.cloudStateService.parentsStack.push(this.item);
+      this.cloudStateService.getItemList();
     } else if (this.item.node_type === 'file') {
 
     } else if (this.item.type === 'image') {

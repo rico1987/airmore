@@ -19,9 +19,9 @@ export class CloudStateService {
 
   currentPage = 1;
 
-  itemsPerPage = 50;
+  itemsPerPage: number = this.appConfig.app.cloudItemsPerPage;
 
-  parentsStack: Array<Node>;
+  parentsStack: Array<any> = [];
 
   loading = false;
 
@@ -32,6 +32,13 @@ export class CloudStateService {
     this.functions = this.appConfig.app.cloudFunctions;
   }
 
+  /**
+   * 获取item列表
+   * @param category 
+   * @param per_page 
+   * @param page 
+   * @param parent_id 
+   */
   getItemList(
     category?: 'image' | 'document' | 'video' | 'audio' | null,
     per_page?: number | null,
@@ -44,7 +51,7 @@ export class CloudStateService {
       this.nodeService.getNodeList(
         page ? page : this.currentPage,
         per_page ? per_page : this.itemsPerPage,
-        parent_id ? parent_id : this.getCurrentParentId(),
+        parent_id ? parent_id : this.currentParentId,
       )
       .subscribe(
         (data: CommonResponse) => {
@@ -90,7 +97,12 @@ export class CloudStateService {
     return this.selectedItems;
   }
 
-  getCurrentParentId(): string {
+  resetPaging(): void {
+    this.currentPage = 1;
+    this.itemsPerPage = 50;
+  }
+
+  get currentParentId(): string {
     if (this.parentsStack && this.parentsStack.length > 0) {
       return this.parentsStack[this.parentsStack.length - 1].node_id;
     } else {

@@ -8,10 +8,18 @@ import { CloudSidebarComponent } from './components/cloud-sidebar/cloud-sidebar.
 import { CloudLayoutComponent } from './layout/cloud-layout/cloud-layout.component';
 import { CloudItemListComponent } from './components/cloud-item-list/cloud-item-list.component';
 import { CloudNoItemComponent } from './components/cloud-no-item/cloud-no-item.component';
+import { LazyLoadImageComponent } from './components/lazy-load-image/lazy-load-image.component';
 
 
 @NgModule({
-  declarations: [ CloudItemComponent, CloudSidebarComponent, CloudLayoutComponent, CloudItemListComponent, CloudNoItemComponent],
+  declarations: [
+    CloudItemComponent,
+    CloudSidebarComponent,
+    CloudLayoutComponent,
+    CloudItemListComponent,
+    CloudNoItemComponent,
+    LazyLoadImageComponent
+  ],
   imports: [
     CommonModule,
     CloudRoutingModule,

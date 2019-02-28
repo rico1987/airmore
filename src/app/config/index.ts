@@ -9,6 +9,7 @@ export interface AppConfig {
         cloudFunctions: [string],
         accountStorageKey: string,
         cloudStorageKey: string,
+        cloudItemsPerPage: number,
     };
     brand?: string;
 }
@@ -26,6 +27,7 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
             cloudFunctions: ['clouds', 'pictures', 'musics', 'videos', 'documents', 'others'],
             accountStorageKey: 'userInfo',
             cloudStorageKey: 'cloudUserInfo',
+            cloudItemsPerPage: 50,
         },
         brand: 'Apowersoft',
     }
