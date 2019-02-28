@@ -37,7 +37,7 @@ export class DefaultInterceptor implements HttpInterceptor {
                 });
             }
         } else {
-            newReq = req.clone();
+            newReq = req.clone({url});
         }
 
         return next.handle(newReq).pipe(
