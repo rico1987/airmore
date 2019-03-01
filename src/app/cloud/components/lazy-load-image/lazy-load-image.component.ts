@@ -9,12 +9,19 @@ export class LazyLoadImageComponent implements OnInit {
 
   @Input() imgSrc: string;
 
-  isLoaded: false;
+  isLoaded = false;
 
   constructor() { }
 
   ngOnInit() {
-    console.log('aaaa');
+    const image = document.createElement('img');
+    image.setAttribute('src', this.imgSrc);
+    const timer = setInterval(() => {
+      if (image.complete) {
+        // this.isLoaded = true;
+        clearInterval(timer);
+      }
+    }, 50);
   }
 
 }

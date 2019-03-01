@@ -93,10 +93,6 @@ export class CloudStateService {
     return this.selectedItems.indexOf(item) > -1;
   }
 
-  getSelectedItems(): Array<any> {
-    return this.selectedItems;
-  }
-
   resetPaging(): void {
     this.currentPage = 1;
     this.itemsPerPage = 50;

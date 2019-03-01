@@ -1,3 +1,4 @@
-<div class="airmore-lazy-load-image">
-  <img src="imgSrc" *ngIf="isLoaded" />
+<div class="airmore-lazy-load-image" [class.is-loaded]="isLoaded">
+  <img [src]="imgSrc" *ngIf="isLoaded" />
+  <div class="airmore-lazy-load-image__loading" *ngIf="!isLoaded"></div>
 </div>

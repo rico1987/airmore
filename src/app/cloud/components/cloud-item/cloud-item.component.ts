@@ -11,25 +11,14 @@ export class CloudItemComponent implements OnInit {
 
   @Input() item: any;
 
-  type: 'audio' | 'document' | 'label' | 'location' | 'node' | 'otherResource' | 'people' | 'video';
+  // type: 'audio' | 'document' | 'label' | 'location' | 'node' | 'otherResource' | 'people' | 'video';
 
   constructor(
     private cloudStateService: CloudStateService,
   ) {
-    console.log(this.item);
   }
 
   ngOnInit() {
-  }
-
-  getType() {
-    if (this.item.node_id && this.item.node_type) {
-      return 'folder';
-    }
-  }
-
-  getShortName() {
-    return this.item.title;
   }
 
   checkItem(): void {
@@ -76,5 +65,18 @@ export class CloudItemComponent implements OnInit {
   get isSelected(): boolean {
     return this.cloudStateService.hasItem(this.item);
   }
+
+  get type(): string {
+    if (this.item.node_id && this.item.node_type === 'folder') {
+      return 'folder';
+    } else if (this.item.node_type === 'file' && this.item.type === 'image') {
+      return 'image';
+    }
+  }
+
+  get shortName(): string {
+    return this.item.title || this.item.filename;
+  }
+
 
 }

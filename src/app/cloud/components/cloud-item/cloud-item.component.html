@@ -1,8 +1,12 @@
 <div class="airmore-cloud-item" (click)="checkItem()" (dblclick)="openResource()">
-  <div class="airmore-cloud-item__container folder" *ngIf="getType() === 'folder'">
-    <div class="airmore-cloud-item__top">
-      <div class="airmore-cloud-item__image" [class.default]="!item.cover_thumb_url">
-
+  <div class="airmore-cloud-item__container">
+    <div class="airmore-cloud-item__top" >
+      <div
+        class="airmore-cloud-item__image"
+        [class.defaultFolder]="type === 'folder' && !item.cover_thumb_url"
+      >
+        <app-lazy-load-image [imgSrc]="item.cover_thumb_url || item.image_url" *ngIf="type === 'folder' && item.cover_thumb_url"></app-lazy-load-image>
+        <app-lazy-load-image [imgSrc]="item.image_thumb_url || item.image_url" *ngIf="type === 'image'"></app-lazy-load-image>
       </div>
       <ul class="airmore-cloud-item__toolbar">
         <li class="preview" [class.active]="supportOperation('preview')" (click)="preview(item)"></li>
@@ -13,7 +17,7 @@
       </div>
     </div>
     <div class="airmore-cloud-item__title">
-      {{ getShortName() }}
+      {{ shortName }}
     </div>
   </div>
 </div>
