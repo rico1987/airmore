@@ -72,6 +72,27 @@ export class CloudStateService {
     }
   }
 
+  refreshItemList(): void {
+    this.resetPaging();
+    this.getItemList();
+  }
+
+  moveUp(): void {
+    if (this.parentsStack.length > 0) {
+      this.parentsStack.pop();
+      this.getItemList();
+    }
+  }
+
+  changeParent(parent: any): void {
+    const index = this.parentsStack.findIndex((ele) => ele.library_id === parent.library_id);
+    if (index > -1) {
+      this.parentsStack.splice(index + 1, this.parentsStack.length - index - 1);
+    }
+    this.resetPaging();
+    this.getItemList();
+  }
+
   setCloudActiveFunction(fun: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others'): void {
     this.activeFunction = fun;
   }

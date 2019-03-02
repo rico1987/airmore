@@ -10,12 +10,15 @@
     @include when(loaded) {
         background-image: none;
     }
-    img {
+
+    @include e(container) {
         width: 100%;
         height: 100%;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+        }
     }
-
-    @include e(loading) {
-        background: url('../../../../assets/img/common/spinner.svg') center no-repeat;
-    }
+    
 }

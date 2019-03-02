@@ -33,4 +33,7 @@ export class SubheaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  doAction(action: string): void {
+    console.log(action);
+  }
 }

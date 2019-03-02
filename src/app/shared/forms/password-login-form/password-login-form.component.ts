@@ -17,8 +17,8 @@ import { Router } from '@angular/router';
 })
 export class PasswordLoginFormComponent implements OnInit {
   passwordLoginInfo: PasswordLoginInfo = {
-    email: '13667988@qq.com',
-    password: 'wwwwwww',
+    email: 'zyy_solo@qq.com',
+    password: '123654',
   };
 
   passwordLoginForm: FormGroup;

@@ -319,3 +319,10 @@ $button-active-shade-percent: 10% !default;
 
 // main
 $main-padding: 20px !default;
+
+// keyframes
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}

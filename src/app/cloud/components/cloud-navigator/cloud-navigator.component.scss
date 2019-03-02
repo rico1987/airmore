@@ -1,0 +1,34 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(cloud-navigator) {
+    width: 100%;
+    font-size: $font-size-base;
+    height: 40px;
+    line-height: 40px;
+    border-bottom: $border-base;
+    color: $gray-600;
+
+    @include e(back) {
+        cursor: pointer;
+        display: inline-block;
+        width: 30px;
+        height: 100%;
+        border-right: $border-base;
+        background: url('../../../../assets/img/action/gray/back-gray.svg') center no-repeat;
+        float: left;
+        &:hover{
+            background-image: url('../../../../assets/img/action/blue/back-blue.svg');
+        }
+    }
+
+    @include e(breadcrumb) {
+        float: left;
+        display: inline-block;
+        margin-left: 10px;
+        span{
+            cursor: pointer;
+            display: inline-block;
+        }
+    }
+}

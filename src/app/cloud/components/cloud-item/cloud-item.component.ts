@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
 import { CloudStateService } from '../../service/cloud-state.service';
+import { getFileShortName } from '../../../utils';
 
 @Component({
   selector: 'app-cloud-item',
@@ -75,7 +76,7 @@ export class CloudItemComponent implements OnInit {
   }
 
   get shortName(): string {
-    return this.item.title || this.item.filename;
+    return getFileShortName(this.item.title || this.item.filename, 15);
   }
 
 

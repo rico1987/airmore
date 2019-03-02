@@ -25,4 +25,18 @@ export const ANIMATIONS = [
       animate('0.1s')
     ]),
   ]),
+  trigger('imageFadeIn', [
+    state('show', style({
+      opacity: 1,
+    })),
+    state('hide', style({
+      opacity: 0.5,
+    })),
+    transition('hide => show', [
+      animate('0.5s')
+    ]),
+    transition('show => hide', [
+      animate('0.1s')
+    ]),
+  ]),
 ];

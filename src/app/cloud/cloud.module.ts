@@ -9,6 +9,7 @@ import { CloudLayoutComponent } from './layout/cloud-layout/cloud-layout.compone
 import { CloudItemListComponent } from './components/cloud-item-list/cloud-item-list.component';
 import { CloudNoItemComponent } from './components/cloud-no-item/cloud-no-item.component';
 import { LazyLoadImageComponent } from './components/lazy-load-image/lazy-load-image.component';
+import { CloudNavigatorComponent } from './components/cloud-navigator/cloud-navigator.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { LazyLoadImageComponent } from './components/lazy-load-image/lazy-load-i
     CloudLayoutComponent,
     CloudItemListComponent,
     CloudNoItemComponent,
-    LazyLoadImageComponent
+    LazyLoadImageComponent,
+    CloudNavigatorComponent
   ],
   imports: [
     CommonModule,

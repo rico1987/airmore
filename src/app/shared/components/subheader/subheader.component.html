@@ -3,7 +3,7 @@
     <span>{{cloudStateService.selectedItems.length}} selected</span>
   </div>
   <div class="airmore-subheader__toolbar">
-      <div class="airmore-subheader__toolbar-btn" [ngClass]=item.class *ngFor="let item of toolbarItems">
+      <div class="airmore-subheader__toolbar-btn" [ngClass]=item.class *ngFor="let item of toolbarItems" (click)="doAction(item.action)">
         <div class="airmore-subheader__toolbar-icon">{{item.text}}</div>
       </div>
   </div>

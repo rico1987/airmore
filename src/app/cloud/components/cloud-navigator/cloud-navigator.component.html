@@ -1,0 +1,6 @@
+<div class="airmore-cloud-navigator">
+    <span class="airmore-cloud-navigator__back" (click)="moveUp()" *ngIf="cloudStateService.parentsStack.length > 0"></span>
+    <span class="airmore-cloud-navigator__breadcrumb">
+        <span *ngFor="let parent of cloudStateService.parentsStack" (click)="changeParent(parent)">{{ parent.title || parent.filename }}/</span>
+    </span>
+</div>

@@ -6,7 +6,7 @@
     bottom: 0;
     left: $main-content-position-left;
     right: $main-content-position-right;
-    top: $header-height + $subheader-height; 
+    top: $header-height + $subheader-height + 5px; 
     
 
     @include e(content) {
@@ -14,6 +14,6 @@
         top: 0;
         right: $main-content-position-right;
         bottom: 0;
-        left: $cloud-sidebar-width;
+        left: $cloud-sidebar-width + 10px;
     }
 }
