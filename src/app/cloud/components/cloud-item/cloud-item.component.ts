@@ -72,6 +72,10 @@ export class CloudItemComponent implements OnInit {
       return 'folder';
     } else if (this.item.node_type === 'file' && this.item.type === 'image') {
       return 'image';
+    } else if (this.item.node_type === 'file' && this.item.type === 'audio') {
+      return 'audio';
+    } else if (this.item.node_type === 'file' && this.item.type === 'video') {
+      return 'video';
     }
   }
 

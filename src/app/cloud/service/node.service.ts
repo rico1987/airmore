@@ -68,15 +68,38 @@ export class NodeService {
   }
 
   /**
-   * 读取分类下的照片
+   * 读取分类下的文件
    * @param category 分类
    * @param per_page 
    * @param page 
    */
-  getCategoryFiles(category: 'image' | 'document' | 'video' | 'audio' | 'others', per_page: number, page: number): Observable < any > {
-    return this.myClientService.get('cloud', `/type/${category}/files`, {
-      per_page,
+  getCategoryFiles(category: 'pictures' | 'musics' | 'videos' | 'documents' | 'others',
+  page: number, per_page: number): Observable < any > {
+    // 项目使用的category和api接口使用的category不一样，所以需要转换一下
+    let corresponding;
+    if (category === 'pictures') {
+      corresponding = '';
+    }
+    switch (category) {
+      case 'pictures':
+      corresponding = 'image';
+      break;
+      case 'musics':
+      corresponding = 'audio';
+      break;
+      case 'videos':
+      corresponding = 'video';
+      break;
+      case 'documents':
+      corresponding = 'document';
+      break;
+      case 'others':
+      corresponding = 'others';
+      break;
+    }
+    return this.myClientService.get('cloud', `/type/${corresponding}/files`, {
       page,
+      per_page,
     });
   }
 }

@@ -4,9 +4,13 @@
       <div
         class="airmore-cloud-item__image"
         [class.defaultFolder]="type === 'folder' && !item.cover_thumb_url"
+        [class.audio]="type === 'audio' && !item.audio_cover_thumb_url && !item.audio_cover_url"
+        [class.video]="type === 'video' && !item.video_cover_thumb_url && !item.video_cover_url"
       >
         <app-lazy-load-image [imgSrc]="item.cover_thumb_url || item.image_url" *ngIf="type === 'folder' && item.cover_thumb_url"></app-lazy-load-image>
         <app-lazy-load-image [imgSrc]="item.image_thumb_url || item.image_url" *ngIf="type === 'image'"></app-lazy-load-image>
+        <app-lazy-load-image [imgSrc]="item.audio_cover_thumb_url || item.audio_cover_url" *ngIf="type === 'audio' && item.audio_cover_thumb_url || item.audio_cover_url"></app-lazy-load-image>
+        <app-lazy-load-image [imgSrc]="item.video_cover_thumb_url || item.video_cover_url" *ngIf="type === 'video' && item.video_cover_thumb_url || item.video_cover_url"></app-lazy-load-image>
       </div>
       <ul class="airmore-cloud-item__toolbar">
         <li class="preview" [class.active]="supportOperation('preview')" (click)="preview(item)"></li>

@@ -20,7 +20,7 @@ export class CloudSidebarComponent implements OnInit {
     'others': 'Others',
   };
 
-  activeFunction: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
+  activeFunction: 'clouds' | 'pictures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
 
 
   constructor(
@@ -33,7 +33,7 @@ export class CloudSidebarComponent implements OnInit {
   ngOnInit() {
   }
 
-  setCloudActiveFunction(fun: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others'): void {
+  setCloudActiveFunction(fun: 'clouds' | 'pictures' | 'musics' | 'videos' | 'documents' | 'others'): void {
     this.activeFunction = fun;
     this.cloudStateService.setCloudActiveFunction(fun);
   }

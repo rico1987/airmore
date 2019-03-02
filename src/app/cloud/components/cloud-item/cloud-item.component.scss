@@ -41,6 +41,14 @@
                 &.defaultFolder {
                     background-image: url('../../../../assets/img/fun/blue/files-blue.svg');
                 }
+                &.audio {
+                    background: $primary-light-3 url('../../../../assets/img/fun/white/musics-white.svg') center no-repeat;
+                    background-size: 40%;
+                }
+                &.video {
+                    background: $primary-light-3 url('../../../../assets/img/fun/white/videos-white.svg') center no-repeat;
+                    background-size: 40%;
+                }
             }
         }
 

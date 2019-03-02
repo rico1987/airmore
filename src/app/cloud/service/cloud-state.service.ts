@@ -9,7 +9,7 @@ import { CommonResponse } from '../../shared/models/common-response.model';
 })
 export class CloudStateService {
 
-  activeFunction: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
+  activeFunction: 'clouds' | 'pictures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
 
   selectedItems: Array<any> = []; // 选中的item
 
@@ -30,6 +30,7 @@ export class CloudStateService {
     private nodeService: NodeService,
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
+    // todo 计算排列参数
   }
 
   /**
@@ -44,6 +45,7 @@ export class CloudStateService {
     per_page?: number | null,
     page?: number | null,
     parent_id?: string | null,
+    is_load_more?: boolean,
   ): void {
     this.loading = true;
     const activeFunction = this.activeFunction;
@@ -69,6 +71,36 @@ export class CloudStateService {
           this.loading = false;
         }
       );
+    } else if (
+      this.activeFunction === 'musics' ||
+      this.activeFunction === 'videos' ||
+      this.activeFunction === 'documents' ||
+      this.activeFunction === 'others'
+    ) {
+      if (parent_id) {
+
+      } else {
+        this.nodeService.getCategoryFiles(
+          this.activeFunction,
+          page ? page : this.currentPage,
+          per_page ? per_page : this.itemsPerPage,
+        )
+        .subscribe(
+          (data: CommonResponse) => {
+            if (data.data.list) {
+              this.itemList = data.data.list;
+              console.log(this.itemList);
+            }
+          },
+          (error) => {
+            if (error) {
+            }
+          },
+          () => {
+            this.loading = false;
+          }
+        );
+      }
     }
   }
 
@@ -77,6 +109,9 @@ export class CloudStateService {
     this.getItemList();
   }
 
+  /**
+   * cloud navigator 组件返回上级目录函数
+   */
   moveUp(): void {
     if (this.parentsStack.length > 0) {
       this.parentsStack.pop();
@@ -84,6 +119,10 @@ export class CloudStateService {
     }
   }
 
+  /**
+   * cloud navigator 组件切换上级目录函数
+   * @param parent 切换目标目录
+   */
   changeParent(parent: any): void {
     const index = this.parentsStack.findIndex((ele) => ele.library_id === parent.library_id);
     if (index > -1) {
@@ -93,8 +132,14 @@ export class CloudStateService {
     this.getItemList();
   }
 
-  setCloudActiveFunction(fun: 'clouds' | 'picrures' | 'musics' | 'videos' | 'documents' | 'others'): void {
-    this.activeFunction = fun;
+  setCloudActiveFunction(fun: 'clouds' | 'pictures' | 'musics' | 'videos' | 'documents' | 'others'): void {
+    if (fun !== this.activeFunction) {
+      this.resetPaging();
+      this.activeFunction = fun;
+      this.getItemList();
+    } else {
+      this.activeFunction = fun;
+    }
   }
 
   addItems(items: Array<any>): void {
