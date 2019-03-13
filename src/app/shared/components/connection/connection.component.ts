@@ -24,6 +24,9 @@ export class ConnectionComponent implements OnInit {
 
   changeConnectionType(connectionType: string): void {
     this.appStateService.changeConnectionType(connectionType);
+    if (connectionType === 'qrcode') {
+      this.getQrCode();
+    }
   }
 
   getQrCode(): void {

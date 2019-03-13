@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CloudStateService } from '../../../cloud/service/cloud-state.service';
+import { AppStateService } from '../../../shared/service/app-state.service';
 
 @Component({
   selector: 'app-subheader',
@@ -16,7 +17,7 @@ export class SubheaderComponent implements OnInit {
     { class: 'upload', action: 'import', text: 'Import Files' },
     { class: 'upload', action: 'upload', text: 'Upload' },
     { class: 'copy', action: 'copy-or-move', text: 'Copy or Move' },
-    { class: 'download', action: 'download', text: 'Export' },
+    { class: 'download', action: 'download', text: 'Download' },
     { class: 'install', action: 'install', text: 'Install' },
     { class: 'backup', action: 'backup', text: 'Backup' },
     { class: 'refresh', action: 'refresh', text: 'Refresh' },
@@ -28,12 +29,26 @@ export class SubheaderComponent implements OnInit {
 
   constructor(
     private cloudStateService: CloudStateService,
+    private appStateService: AppStateService,
   ) { }
 
   ngOnInit() {
   }
 
   doAction(action: string): void {
-    console.log(action);
+    switch (action) {
+      case 'refresh':
+        if (this.appStateService.currentModule === 'cloud') {
+          this.cloudStateService.refreshItemList();
+        }
+        break;
+      case 'new-folder':
+        this.cloudStateService.newFolder();
+        break;
+    }
+  }
+
+  hasAction(action: string): boolean {
+    return this.appStateService.hasAction(action);
   }
 }

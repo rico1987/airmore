@@ -3,6 +3,7 @@ import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../models';
 import { NodeService } from './node.service';
 import { CommonResponse } from '../../shared/models/common-response.model';
+import { downloadLink } from '../../utils/tools';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,13 @@ export class CloudStateService {
 
   activeFunction: 'clouds' | 'pictures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
 
+  activeImageCategory: 'labs' | 'places' | 'people' = 'labs';
+
   selectedItems: Array<any> = []; // 选中的item
 
   private functions: Array<string>;
 
-  itemList: [Audio | Document | Label | Location | Node | OtherResource | People | Video];
+  itemList: [Audio | Document | Label | Location | Node | OtherResource | People | Video] | [];
 
   currentPage = 1;
 
@@ -25,12 +28,22 @@ export class CloudStateService {
 
   loading = false;
 
+  interval = null;
+
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private nodeService: NodeService,
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
     // todo 计算排列参数
+  }
+
+  /**
+   * 预览图片
+   * @param item 
+   */
+  preview(item: any): void {
+      const itemList = this.itemList.filter((ele: any) => ele.type === 'image');
   }
 
   /**
@@ -47,6 +60,8 @@ export class CloudStateService {
     parent_id?: string | null,
     is_load_more?: boolean,
   ): void {
+    clearInterval(this.interval);
+    this.interval = null;
     this.loading = true;
     const activeFunction = this.activeFunction;
     if (activeFunction === 'clouds') {
@@ -57,14 +72,10 @@ export class CloudStateService {
       )
       .subscribe(
         (data: CommonResponse) => {
-          if (data.data.list) {
-            this.itemList = data.data.list;
-            console.log(this.itemList);
-          }
+          this.processDataList(data, is_load_more);
         },
         (error) => {
           if (error) {
-            debugger
           }
         },
         () => {
@@ -77,20 +88,33 @@ export class CloudStateService {
       this.activeFunction === 'documents' ||
       this.activeFunction === 'others'
     ) {
-      if (parent_id) {
-
-      } else {
-        this.nodeService.getCategoryFiles(
-          this.activeFunction,
+      this.nodeService.getCategoryFiles(
+        this.activeFunction,
+        page ? page : this.currentPage,
+        per_page ? per_page : this.itemsPerPage,
+      )
+      .subscribe(
+        (data: CommonResponse) => {
+          this.processDataList(data, is_load_more);
+        },
+        (error) => {
+          if (error) {
+          }
+        },
+        () => {
+          this.loading = false;
+        }
+      );
+    } else if (this.activeFunction === 'pictures') {
+      if (!this.currentParentId) {
+        this.nodeService.getCategoryImageList(
+          this.activeImageCategory,
           page ? page : this.currentPage,
           per_page ? per_page : this.itemsPerPage,
         )
         .subscribe(
           (data: CommonResponse) => {
-            if (data.data.list) {
-              this.itemList = data.data.list;
-              console.log(this.itemList);
-            }
+            this.processDataList(data, is_load_more);
           },
           (error) => {
             if (error) {
@@ -100,10 +124,116 @@ export class CloudStateService {
             this.loading = false;
           }
         );
+      } else {
+        if (this.activeImageCategory === 'labs') {
+          this.nodeService.getLabImageList(
+            this.currentParentId,
+            page ? page : this.currentPage,
+            per_page ? per_page : this.itemsPerPage,
+          )
+          .subscribe(
+            (data: CommonResponse) => {
+              this.processDataList(data, is_load_more);
+            },
+            (error) => {
+              if (error) {
+              }
+            },
+            () => {
+              this.loading = false;
+            }
+          );
+        } else if (this.activeImageCategory === 'places') {
+          this.nodeService.getPlaceImageList(
+            this.currentParentId,
+            page ? page : this.currentPage,
+            per_page ? per_page : this.itemsPerPage,
+          )
+          .subscribe(
+            (data: CommonResponse) => {
+              this.processDataList(data, is_load_more);
+            },
+            (error) => {
+              if (error) {
+              }
+            },
+            () => {
+              this.loading = false;
+            }
+          );
+        } else if (this.activeImageCategory === 'people') {
+          this.nodeService.getPeopleImageList(
+            this.currentParentId,
+            page ? page : this.currentPage,
+            per_page ? per_page : this.itemsPerPage,
+          )
+          .subscribe(
+            (data: CommonResponse) => {
+              this.processDataList(data, is_load_more);
+            },
+            (error) => {
+              if (error) {
+              }
+            },
+            () => {
+              this.loading = false;
+            }
+          );
+        }
       }
     }
   }
 
+  /**
+   * 处理请求列表返回的数据
+   * @param data 
+   * @param is_load_more 
+   */
+  processDataList(data: CommonResponse, is_load_more?: boolean): void {
+    if (data.data.list) {
+      console.log(data.data.list);
+      if (!is_load_more) {
+        this.itemList = [];
+      }
+      let index = 0;
+      this.interval = setInterval(() => {
+        if (index < data.data.list.length) {
+          this.itemList[index] = data.data.list[index];
+          index += 1;
+        }
+        if (index === data.data.list.length - 1) {
+          clearInterval(this.interval);
+          this.interval = null;
+        }
+      }, 50);
+    }
+  }
+
+  /**
+   * 下载item
+   * @param item 
+   */
+  download(item: any): void {
+    if (item.node_type === 'folder' || item.people_id || item.user_lab_id || item.place_id) {
+      // 暂不支持下载目录
+    } else {
+      const fileName = item.filename;
+      const url = item.image_url || item.video_url || item.audio_url || item.url;
+      if (url) {
+        downloadLink(url, fileName);
+      }
+    }
+  }
+
+  /**
+   * 创建新文件夹
+   */
+  newFolder(): void {
+  }
+
+  /**
+   * 刷新列表
+   */
   refreshItemList(): void {
     this.resetPaging();
     this.getItemList();
@@ -164,9 +294,18 @@ export class CloudStateService {
     this.itemsPerPage = 50;
   }
 
+  setActiveImageCategory(imageCategory: 'labs' | 'places' | 'people'): void {
+    this.activeImageCategory = imageCategory;
+    this.resetPaging();
+    this.getItemList();
+  }
+
   get currentParentId(): string {
     if (this.parentsStack && this.parentsStack.length > 0) {
-      return this.parentsStack[this.parentsStack.length - 1].node_id;
+      return this.parentsStack[this.parentsStack.length - 1].node_id ||
+            this.parentsStack[this.parentsStack.length - 1].user_lab_id ||
+            this.parentsStack[this.parentsStack.length - 1].people_id ||
+            this.parentsStack[this.parentsStack.length - 1].place_id;
     } else {
       return null;
     }

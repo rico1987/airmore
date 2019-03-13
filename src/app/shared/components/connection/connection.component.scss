@@ -55,5 +55,25 @@
 
     @include e(tabs){
         list-style: none;
+        height: calc(100% - 48px);
+        li{
+            height: 100%;
+            &.qrcode{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            p{
+                position: absolute;
+                bottom: 10px;
+                left: 0;
+                line-height: 20px;
+                color: $gray-400;
+                width: 100%;
+                text-align: center;
+                
+            }
+        }
+        
     }
 }

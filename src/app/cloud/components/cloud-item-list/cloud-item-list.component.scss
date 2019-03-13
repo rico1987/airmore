@@ -5,4 +5,18 @@
     width: 100%;
     height: 100%;
     overflow: auto;
+
+    @include e(no-item) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        p{
+            font-size: $font-size-base;
+            padding-top: 160px;
+            background: url('../../../../assets/img/cloud/no-file.svg') top center no-repeat;
+            text-align: center;
+        }
+    }
 }

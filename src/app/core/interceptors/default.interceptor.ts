@@ -20,22 +20,18 @@ export class DefaultInterceptor implements HttpInterceptor {
         const userInfo: UserInfo | any = this.browserStorageService.get(this.appConfig.app.accountStorageKey);
         const cloudUserInfo: CloudUserInfo | any = this.browserStorageService.get(this.appConfig.app.cloudStorageKey);
         let newReq;
-        if (url.startsWith(environment.accountApiBaseUrl)) {
-            if (userInfo && userInfo.api_token) {
-                newReq = req.clone({
-                    setHeaders: {
-                        'Authorization': `Bearer ${userInfo.api_token}`
-                    }
-                });
-            }
-        } else if (url.startsWith(environment.cloudApiBaseUrl)) {
-            if (cloudUserInfo && cloudUserInfo.api_token) {
-                newReq = req.clone({
-                    setHeaders: {
-                        'Authorization': `Bearer ${cloudUserInfo.api_token}`
-                    }
-                });
-            }
+        if (url.startsWith(environment.accountApiBaseUrl) && userInfo && userInfo.api_token) {
+            newReq = req.clone({
+                setHeaders: {
+                    'Authorization': `Bearer ${userInfo.api_token}`
+                }
+            });
+        } else if (url.startsWith(environment.cloudApiBaseUrl) && cloudUserInfo && cloudUserInfo.api_token) {
+            newReq = req.clone({
+                setHeaders: {
+                    'Authorization': `Bearer ${cloudUserInfo.api_token}`
+                }
+            });
         } else {
             newReq = req.clone({url});
         }

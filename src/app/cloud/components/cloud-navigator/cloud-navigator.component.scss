@@ -8,6 +8,7 @@
     line-height: 40px;
     border-bottom: $border-base;
     color: $gray-600;
+    position: relative;
 
     @include e(back) {
         cursor: pointer;
@@ -23,12 +24,28 @@
     }
 
     @include e(breadcrumb) {
-        float: left;
-        display: inline-block;
-        margin-left: 10px;
+        position: absolute;
+        left: 40px;
+        top: 0;
         span{
             cursor: pointer;
             display: inline-block;
+        }
+    }
+
+    @include e(image-category) {
+        width: calc(100% - 30px);
+        display: flex;
+        justify-content: center;
+        span{
+            display: inline-block;
+            width: 130px;
+            text-align: center;
+            cursor: pointer;
+            &.active{
+                border-bottom: 1px solid $primary;
+                color: $primary;
+            }
         }
     }
 }

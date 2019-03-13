@@ -1,6 +1,11 @@
 <div class="airmore-cloud-navigator">
     <span class="airmore-cloud-navigator__back" (click)="moveUp()" *ngIf="cloudStateService.parentsStack.length > 0"></span>
-    <span class="airmore-cloud-navigator__breadcrumb">
+    <span class="airmore-cloud-navigator__breadcrumb" *ngIf="cloudStateService.activeFunction !== 'pictures'">
         <span *ngFor="let parent of cloudStateService.parentsStack" (click)="changeParent(parent)">{{ parent.title || parent.filename }}/</span>
     </span>
+    <div *ngIf="cloudStateService.activeFunction === 'pictures'" class="airmore-cloud-navigator__image-category">
+        <span [class.active]="cloudStateService.activeImageCategory === 'labs'" (click)="cloudStateService.setActiveImageCategory('labs')">Tag</span>
+        <span [class.active]="cloudStateService.activeImageCategory === 'places'" (click)="cloudStateService.setActiveImageCategory('places')">Location</span>
+        <span [class.active]="cloudStateService.activeImageCategory === 'people'" (click)="cloudStateService.setActiveImageCategory('people')">People</span>
+    </div>
 </div>

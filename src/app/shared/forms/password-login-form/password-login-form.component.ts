@@ -37,6 +37,7 @@ export class PasswordLoginFormComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
+    private appStateService: AppStateService,
     private fb: FormBuilder
   ) { }
 
@@ -61,6 +62,7 @@ export class PasswordLoginFormComponent implements OnInit {
         .subscribe(
           (data: CommonResponse) => {
             this.userService.setUserInfo(data.data);
+            this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']
             );

@@ -3,6 +3,6 @@
       <app-cloud-item *ngFor="let item of cloudStateService.itemList" [item]="item"></app-cloud-item>
   </div>
   <div class="airmore-cloud-item-list__no-item" *ngIf="!cloudStateService.loading && (!cloudStateService.itemList || cloudStateService.itemList.length === 0)">
-      No item
+      <p>The folder is empty! Please upload files to ApowerCloud!</p>
   </div>
 </div>

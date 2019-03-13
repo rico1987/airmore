@@ -1,4 +1,7 @@
 export function getFileShortName(fileName: string, maxLength: number): string {
+    if (!fileName) {
+        return '';
+    }
     const index = fileName.lastIndexOf('.');
     const extension = fileName.substring(index);
     const name = fileName.substr(0, index);

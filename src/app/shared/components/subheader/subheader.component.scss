@@ -38,6 +38,10 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
             background-position: center 3px;
             background-repeat: no-repeat;
 
+            @include when(hidden) {
+                display: none;
+            }
+
             @each $action in $actions{
                 &.#{$action}{
                     background-image: url('../../../../assets/img/action/gray/#{$action}-gray.svg');

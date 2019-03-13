@@ -15,6 +15,7 @@
             height: 168px;
             position: relative;
             background-size: contain;
+            padding: 10px;
 
             @include e(check) {
                 width: 24px;
@@ -37,7 +38,7 @@
                 height: 100%;
                 background-size: contain;
                 background-repeat: no-repeat;
-                padding: 10px;
+
                 &.defaultFolder {
                     background-image: url('../../../../assets/img/fun/blue/files-blue.svg');
                 }
@@ -47,6 +48,14 @@
                 }
                 &.video {
                     background: $primary-light-3 url('../../../../assets/img/fun/white/videos-white.svg') center no-repeat;
+                    background-size: 40%;
+                }
+                &.application {
+                    background: $primary-light-3 url('../../../../assets/img/fun/white/apps-white.svg') center no-repeat;
+                    background-size: 40%;
+                }
+                &.document {
+                    background: $primary-light-3 url('../../../../assets/img/fun/white/documents-white.svg') center no-repeat;
                     background-size: 40%;
                 }
             }

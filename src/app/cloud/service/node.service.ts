@@ -102,4 +102,61 @@ export class NodeService {
       per_page,
     });
   }
+
+
+  /**
+   * 获取相应分类下的第一级列表
+   * @param category 
+   * @param page 
+   * @param per_page 
+   */
+  getCategoryImageList(category: 'labs' | 'places' | 'people', page: number, per_page: number): Observable < any > {
+    return this.myClientService.get('cloud', `/${category}`, {
+      page,
+      per_page,
+    });
+  }
+
+  /**
+   * 获取标签下图片列表
+   * @param lab_id 
+   * @param page 
+   * @param per_page 
+   */
+  getLabImageList(lab_id: string, page: number, per_page: number) {
+    return this.myClientService.get('cloud', `/labs/${lab_id}/files`, {
+      page,
+      per_page,
+    });
+  }
+
+  /**
+   * 获取地址下图片列表
+   * @param place_id 
+   * @param page 
+   * @param per_page 
+   */
+  getPlaceImageList(place_id: string, page: number, per_page: number) {
+    return this.myClientService.get('cloud', `/places/${place_id}/files`, {
+      page,
+      per_page,
+    });
+  }
+
+  /**
+   * 获取人物下图片列表
+   * @param people_id 
+   * @param page 
+   * @param per_page 
+   */
+  getPeopleImageList(people_id: string, page: number, per_page: number) {
+    return this.myClientService.get('cloud', `/people/${people_id}/files`, {
+      page,
+      per_page,
+    });
+  }
+
 }
+
+
+

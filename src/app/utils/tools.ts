@@ -1,6 +1,9 @@
-export function downloadLink(link: string): void {
+export function downloadLink(link: string, fileName: string): void {
     let anchor = document.createElement('a');
-    anchor.download = link;
+    anchor.href = link;
+    if (fileName) {
+        anchor.download = fileName;
+    }
     anchor.click();
     anchor = null;
 }
