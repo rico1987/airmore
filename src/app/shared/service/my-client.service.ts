@@ -5,13 +5,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { BrowserStorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MyClientService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private browserStorageService: BrowserStorageService
+  ) { }
 
   addInterceptor(): void {}
 
@@ -34,6 +38,7 @@ export class MyClientService {
   }
 
   post(module: string, url: string, data?: Object, options?: Object): Observable<any> {
+    // todo
     return this.http.post(this.processUrl(url, module), data, options);
   }
 
@@ -59,6 +64,9 @@ export class MyClientService {
         url = environment.cloudApiBaseUrl + url;
       } else if (module === 'account') {
         url = environment.accountApiBaseUrl + url;
+      } else if (module === 'device') {
+        const deviceInfo = this.browserStorageService.get('deviceInfo');
+        url = `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/`;
       }
     }
     return url;
