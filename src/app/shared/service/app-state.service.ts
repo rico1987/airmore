@@ -21,6 +21,8 @@ export class AppStateService {
 
   activeViewMode:  'list' | 'grid' = 'list';
 
+  deviceConnected = false;
+
   // todo
   currentModule: 'cloud' | 'device' = 'cloud';
 

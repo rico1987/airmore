@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStateService } from '../../service/app-state.service';
-import { QrcodeService } from '../../service/qrcode.service';
+import { ConnectionService } from '../../service/connection.service';
 
 @Component({
   selector: 'app-connection',
@@ -15,7 +15,7 @@ export class ConnectionComponent implements OnInit {
 
   constructor(
     private appStateService: AppStateService,
-    private qrcodeService: QrcodeService,
+    private connectionService: ConnectionService,
     ) {}
 
   ngOnInit() {
@@ -29,8 +29,12 @@ export class ConnectionComponent implements OnInit {
     }
   }
 
+  /**
+   * 获取二维码
+   */
   getQrCode(): void {
-    this.qrcodeService.getQrCodeUrl()
+    this.connectionService.init();
+    this.connectionService.getQrCodeUrl()
       .then((res) => {
         if (res.URL) {
           this.qrCodeUrl = res.URL;

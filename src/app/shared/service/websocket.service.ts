@@ -20,35 +20,46 @@ export class WebsocketService extends EventEmitter {
 
   private heartBeat = null;
 
-  constructor(private logger: Logger) {
+  protected host: string;
+
+  protected protocol: string;
+
+  protected path: string;
+
+  constructor(protected logger: Logger) {
     super();
-    const host = hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[0];
-    const protocol = 'wss:';
-    const path = '/wss';
+  }
 
-    this.client = new W3CWebSocket(`${protocol}//${host}${path}`);
+  init(): void {
+    const host = this.host || hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[0];
+    const protocol = this.protocol || 'wss:';
+    const path = this.path || '/wss';
 
-    this.client.onerror = () => {
-      logger.error('Connection Error');
-    };
+    if (!this.client) {
+      this.client = new W3CWebSocket(`${protocol}//${host}${path}`);
 
-    this.client.onopen = () => {
-      logger.log('WebSocket Client Connected');
-      this.initHeartBeat();
-      this.onOpen();
-    };
+      this.client.onerror = () => {
+        this.logger.error('Connection Error');
+      };
 
-    this.client.onclose = () => {
-      logger.warn('echo-protocol Client Closed');
-      this.onClose();
-    };
+      this.client.onopen = () => {
+        this.logger.log('WebSocket Client Connected');
+        this.initHeartBeat();
+        this.onOpen();
+      };
 
-    this.client.onmessage = (e) => {
-      if (typeof e.data === 'string') {
-        logger.info(`Received: ${e.data}`);
-      }
-      this.onMessage(e);
-    };
+      this.client.onclose = () => {
+        this.logger.warn('echo-protocol Client Closed');
+        this.onClose();
+      };
+
+      this.client.onmessage = (e) => {
+        if (typeof e.data === 'string') {
+          this.logger.info(`Received: ${e.data}`);
+        }
+        this.onMessage(e);
+      };
+    }
   }
 
   send(obj: any): void {
@@ -93,5 +104,22 @@ export class WebsocketService extends EventEmitter {
         this.send({Key: 'HeartBeat'});
       }
     }, this.heartBeatInterval);
+  }
+
+  clearHeartBeat(): void {
+    clearInterval(this.heartBeat);
+    this.heartBeat = null;
+  }
+
+  setHost(host: string): void {
+    this.host = host;
+  }
+
+  setProtocol(protocol: string): void {
+    this.protocol = protocol;
+  }
+
+  setPath(path: string): void {
+    this.path = path;
   }
 }
