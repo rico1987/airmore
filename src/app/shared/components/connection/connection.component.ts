@@ -44,8 +44,4 @@ export class ConnectionComponent implements OnInit {
         console.log(e);
       });
   }
-
-  accountLogin(): void {
-  }
-
 }

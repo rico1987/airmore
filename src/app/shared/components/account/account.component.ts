@@ -12,8 +12,4 @@ export class AccountComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  accountLogin() {
-    debugger;
-  }
 }

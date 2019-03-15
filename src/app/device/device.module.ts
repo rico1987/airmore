@@ -5,9 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { ItemListComponent } from './components/item-list/item-list.component';
 
 import { DeviceRoutingModule } from './device-routing.module';
+import { DeviceLayoutComponent } from './layout/device-layout/device-layout.component';
 
 @NgModule({
-  declarations: [ItemListComponent],
+  declarations: [ItemListComponent, DeviceLayoutComponent],
   imports: [
     CommonModule,
     // import HttpClientModule after BrowserModule.

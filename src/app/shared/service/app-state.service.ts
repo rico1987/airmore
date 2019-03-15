@@ -9,8 +9,6 @@ import { CloudStateService } from '../../cloud/service/cloud-state.service';
 })
 export class AppStateService {
 
-  // isDebug: boolean = CONFIG.app.isDebug; // 是否是调试模式
-
   isAccountLogined = false; // 账号是否已登陆
 
   accountRoute = 'passwordLogin'; // 'resetPassword', 'phonePasswordLess', 'emailPasswordLess'
@@ -25,6 +23,8 @@ export class AppStateService {
 
   // todo
   currentModule: 'cloud' | 'device' = 'cloud';
+
+  connectionStatus: 'connecting' | 'connected' | 'disconnected'; // 当前连接状态
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
@@ -46,6 +46,10 @@ export class AppStateService {
 
   setCurrentModule(module: 'cloud' | 'device'): void {
     this.currentModule = module;
+  }
+
+  setConnectionStatus(connectionStatus: 'connecting' | 'connected' | 'disconnected'): void {
+    this.connectionStatus = connectionStatus;
   }
 
   /**
@@ -83,6 +87,9 @@ export class AppStateService {
     return flag;
   }
 
+  /**
+   * 是否开启调试
+   */
   get isDebug() {
     return this.appConfig.app.isDebug;
   }

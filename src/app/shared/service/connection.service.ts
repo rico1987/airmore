@@ -23,6 +23,9 @@ export class ConnectionService extends WebsocketService{
     super(logger);
   }
 
+  /**
+   * 获取连接二维码
+   */
   getQrCodeUrl(): Promise<any> {
     const host = hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[0];
 
@@ -35,6 +38,7 @@ export class ConnectionService extends WebsocketService{
       });
       this.on('ResponseWebCreateQRImage', (data) => {
         resolve(data);
+        this.browserStorageService.set('hash', data.ID.substr(data.ID.lastIndexOf(':') + 1));
       });
       this.on('ResponseWebQueryOnlineDev', (data) => {
         this.clearHeartBeat();

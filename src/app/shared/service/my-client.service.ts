@@ -38,8 +38,18 @@ export class MyClientService {
   }
 
   post(module: string, url: string, data?: Object, options?: Object): Observable<any> {
-    // todo
     return this.http.post(this.processUrl(url, module), data, options);
+  }
+
+  /**
+   * 获取设备局域网ip后与设备之间的通信
+   * @param key 
+   * @param data 
+   * @param options 
+   */
+  devicePost(key: string, data?: Object, options?: Object): Observable<any> {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    return this.http.post(`http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/?Key=${key}`, data, options);
   }
 
   put(module: string, url: string, data?: Object, options?: Object): Observable<any> {
@@ -58,15 +68,12 @@ export class MyClientService {
     });
   }
 
-  processUrl(url: string, module: string): string {
+  processUrl(url?: string, module?: string): string {
     if (!url.startsWith('https://') && !url.startsWith('http://')) {
       if (module === 'cloud') {
         url = environment.cloudApiBaseUrl + url;
       } else if (module === 'account') {
         url = environment.accountApiBaseUrl + url;
-      } else if (module === 'device') {
-        const deviceInfo = this.browserStorageService.get('deviceInfo');
-        url = `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/`;
       }
     }
     return url;
