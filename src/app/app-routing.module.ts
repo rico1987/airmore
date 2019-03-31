@@ -11,6 +11,7 @@ import { LayoutDesktopComponent } from './layout/desktop/desktop.component';
 
 // connection pages
 import { ConnectionComponent } from './shared/components/connection/connection.component';
+import { DesktopComponent } from './shared/components/desktop/desktop.component';
 
 // cloud pages
 
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
     children: [
       { path: '', redirectTo: 'connect', pathMatch: 'full'},
       { path: 'connect', component: ConnectionComponent },
+      { path: 'desktop', component: DesktopComponent },
     ],
   },
   // cloud

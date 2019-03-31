@@ -15,6 +15,7 @@ import { EmailPasswordLessLoginFormComponent } from './forms/email-password-less
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SubheaderComponent } from './components/subheader/subheader.component';
+import { DesktopComponent } from './components/desktop/desktop.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -33,6 +34,7 @@ const DIRECTIVES = [];
   declarations: [
     ...COMPONENTS,
     ...DIRECTIVES,
+    DesktopComponent,
   ],
   imports: [
     CommonModule,

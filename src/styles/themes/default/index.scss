@@ -1,6 +1,13 @@
 @import "reset.scss";
 
+html{
+    width: 100%;
+    height: 100%
+}
 body {
     font-family: 'GothamRoundedBook', helvetica;
     color: #333;
+    user-select: none;
+    width: 100%;
+    height: 100%;
 }

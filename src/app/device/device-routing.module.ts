@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ItemListComponent } from './components/item-list/item-list.component';
-import { LayoutDesktopComponent } from '../layout/desktop/desktop.component';
+import { DeviceItemListComponent } from './components/device-item-list/device-item-list.component';
+import { DeviceLayoutComponent } from './layout/device-layout/device-layout.component';
 
 const deviceRoutes: Routes = [
   {
     path: '',
-    component: LayoutDesktopComponent,
+    component: DeviceLayoutComponent,
     children: [
+      { path: '', redirectTo: 'device', pathMatch: 'full'},
+      { path: 'device', component: DeviceItemListComponent },
     ],
   },
 ];

@@ -2,13 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { ItemListComponent } from './components/item-list/item-list.component';
-
 import { DeviceRoutingModule } from './device-routing.module';
 import { DeviceLayoutComponent } from './layout/device-layout/device-layout.component';
+import { DeviceItemListComponent } from './components/device-item-list/device-item-list.component';
 
 @NgModule({
-  declarations: [ItemListComponent, DeviceLayoutComponent],
+  declarations: [DeviceLayoutComponent, DeviceItemListComponent],
   imports: [
     CommonModule,
     // import HttpClientModule after BrowserModule.

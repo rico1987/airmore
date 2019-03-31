@@ -1,0 +1,8 @@
+@import '../../../styles/mixins/bem.scss';
+@import '../../../styles/themes/default/variables.scss';
+
+@include b(layout-desktop) {
+    display: block;
+    width: 100%;
+    height: 100%;
+}

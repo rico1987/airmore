@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { Logger } from './logger.service';
 import { WebsocketService } from './websocket.service';
 import { BrowserStorageService } from './storage.service';
@@ -15,6 +16,7 @@ export class DeviceService extends WebsocketService{
     private browserStorageService: BrowserStorageService,
     private appStateService: AppStateService,
     private myClientService: MyClientService,
+    private router: Router,
     protected logger: Logger,
   ) {
     super(logger);
@@ -34,10 +36,10 @@ export class DeviceService extends WebsocketService{
               .subscribe((res: any) => {
                 if (res) {
                   this.appStateService.setConnectionStatus('connected');
+                  this.router.navigate(['/desktop']);
                 }
               },
               (error) => {
-                debugger
               });
           } else if (status === '1') {
 

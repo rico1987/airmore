@@ -1,0 +1,16 @@
+<div class="airmore-desktop">
+  <div class="airmore-desktop__header">
+    <div class="airmore-desktop__logo">
+      Airmore
+    </div>
+    <div class="airmore-desktop__toolbar">
+
+    </div>
+  </div>
+  <div class="airmore-desktop__desktop">
+    <div *ngFor="let fun of functions" class="airmore-desktop__function-icon" (click)="setActiveFunction(fun)">
+      <div class="icon" [ngClass]=fun></div>
+      <p>{{fun}}</p>
+    </div>
+  </div>
+</div>
