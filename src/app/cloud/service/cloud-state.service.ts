@@ -267,8 +267,6 @@ export class CloudStateService {
       this.resetPaging();
       this.activeFunction = fun;
       this.getItemList();
-    } else {
-      this.activeFunction = fun;
     }
   }
 

@@ -6,20 +6,23 @@ import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 })
 export class DeviceStateService {
 
-    activeFunction: 'photo' | 'music' | 'video' | 'contact' | 'message' | 'apps' | 'doc' | 'file' |
-        'reflector' | 'tools' | 'cloud';
+    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools';
 
     functions: Array<any>;
 
     constructor(
         @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     ) {
-        this.functions = appConfig.app.deviceFunctions;
     }
 
-    setActiveFunction(fun: 'photo' | 'music' | 'video' | 'contact' | 'message' | 'apps' | 'doc' | 'file' | 'reflector'
-    | 'tools' | 'cloud' | any): void {
-        this.activeFunction = fun;
+    setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools'): void {
+        if (fun !== this.activeFunction) {
+            this.activeFunction = fun;
+            this.getItemList();
+        }
     }
+
+    getItemList():void {}
+
+    refreshItemList(): void {}
 }
-

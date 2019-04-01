@@ -2,6 +2,6 @@
   <div class="airmore-sidebar__fun-btn fun-home">
   </div>
   <div class="airmore-sidebar__fun-btn" *ngFor="let fun of functions">
-    <div class="airmore-sidebar__fun-icon" [ngClass]=fun (click)="setActiveFunction(fun)" [class.active]="deviceStateService.">{{fun}}</div>
+    <div class="airmore-sidebar__fun-icon" [ngClass]=fun (click)="setActiveFunction(fun)" [class.active]="appStateService.activeFunction">{{fun}}</div>
   </div>
 </div>

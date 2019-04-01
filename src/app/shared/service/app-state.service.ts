@@ -3,6 +3,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Logger } from './logger.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { CloudStateService } from '../../cloud/service/cloud-state.service';
+import { DeviceStateService } from '../../device/service/device-state.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,16 +25,26 @@ export class AppStateService {
   // todo
   currentModule: 'cloud' | 'device' = 'cloud';
 
+  activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'cloud' = 'pictures';
+
   connectionStatus: 'connecting' | 'connected' | 'disconnected'; // 当前连接状态
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private cloudStateService: CloudStateService,
+    private deviceStateService: DeviceStateService,
     private logger: Logger,
   ) { }
 
   setActiveViewMode(mode: 'list' | 'grid'): void {
     this.activeViewMode = mode;
+  }
+
+  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'cloud' ): void {
+    this.activeFunction = fun;
+    if (fun !== 'cloud') {
+      this.deviceStateService.setDeviceActiveFunction(fun);
+    }
   }
 
   changeConnectionType(connectionType: string): void {

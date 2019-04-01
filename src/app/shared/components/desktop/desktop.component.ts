@@ -19,17 +19,17 @@ export class DesktopComponent implements OnInit {
     private appStateService: AppStateService,
     private deviceStateService: DeviceStateService,
   ) {
-    this.functions = this.appConfig.app.functions;
+    this.functions = this.appConfig.app.appFunctions;
   }
 
   ngOnInit() {
   }
 
-  setActiveFunction(fun: 'photo' | 'music' | 'video' | 'contact' | 'message' | 'apps' | 'doc' | 'file' |
+  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' |
   'reflector' | 'tools' | 'cloud'): void {
     if (fun !== 'cloud') {
       this.appStateService.setCurrentModule('device');
-      this.deviceStateService.setActiveFunction(fun);
+      this.appStateService.setActiveFunction(fun);
       this.router.navigate(
         ['device']
       );
