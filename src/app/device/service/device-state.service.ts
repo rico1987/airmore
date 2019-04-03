@@ -8,7 +8,11 @@ export class DeviceStateService {
 
     activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools';
 
-    functions: Array<any>;
+    itemList: Array<any> = [];
+
+    selectedItems: Array<any> = []; // 选中的item
+
+    loading: false;
 
     constructor(
         @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
