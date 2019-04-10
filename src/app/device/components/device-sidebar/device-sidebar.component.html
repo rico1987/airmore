@@ -1,6 +1,14 @@
 <div class="airmore-device-sidebar">
   <div class="airmore-device-sidebar__pictures" *ngIf="appStateService.activeFunction === 'pictures'">
-    picture sidebr
+    <div *ngFor="let item of itemList" class="airmore-device-sidebar__item">
+      <div class="airmore-device-sidebar__item-icon">
+        <img [src]="getAddress(item.CoverPath)" *ngIf="item.CoverPath" />
+      </div>
+      <div class="airmore-device-sidebar__item-info">
+        <p class="airmore-device-sidebar__item-title">{{item.AlbumName}}</p>
+        <p class="airmore-device-sidebar__item-count">{{item.Count}}</p>
+      </div>
+    </div>
   </div>
   <div class="airmore-device-sidebar__musics" *ngIf="appStateService.activeFunction === 'musics'">
     musics sidebar

@@ -1,3 +1,5 @@
+import { validateConfig } from '@angular/router/src/config';
+
 const nativeToString = Object.prototype.toString;
 
 export function isUndef(val) {
@@ -47,6 +49,7 @@ export function isNumber(val) {
 
 export function isArray(val) {
     return nativeToString.call(val) === '[object Array]';
+    return val.toString() === '[object Array]'
 }
 
 export function isBlob(val) {
@@ -58,7 +61,7 @@ export function isArrayBuffer(val) {
 }
 
 export function isFormData(val) {
-    // eslint-disable-next-line
+    // eslint-disable-next-linef
   return (typeof FormData !== 'undefined') && (val instanceof FormData);
 }
 

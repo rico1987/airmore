@@ -1,3 +1,8 @@
-<p>
-  device-item-list works!
-</p>
+<div class="airmore-device-item-list">
+  <div class="airmore-device-item-list__container" *ngIf="!deviceStateService.loading">
+      <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
+  </div>
+  <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
+      <p>The folder is empty!</p>
+  </div>
+</div>

@@ -102,6 +102,4 @@ export class CloudItemComponent implements OnInit {
   get shortName(): string {
     return getFileShortName(this.item.title || this.item.filename, 15);
   }
-
-
 }

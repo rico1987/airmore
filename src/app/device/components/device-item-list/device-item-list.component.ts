@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DeviceStateService } from '../../service/device-state.service';
 
 @Component({
   selector: 'app-device-item-list',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceItemListComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private deviceStateService: DeviceStateService,
+  ) { }
 
   ngOnInit() {
   }

@@ -32,7 +32,6 @@ export class AppStateService {
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private cloudStateService: CloudStateService,
-    private deviceStateService: DeviceStateService,
     private logger: Logger,
   ) { }
 
@@ -42,9 +41,6 @@ export class AppStateService {
 
   setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'cloud' ): void {
     this.activeFunction = fun;
-    if (fun !== 'cloud') {
-      this.deviceStateService.setDeviceActiveFunction(fun);
-    }
   }
 
   changeConnectionType(connectionType: string): void {

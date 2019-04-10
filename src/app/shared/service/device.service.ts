@@ -42,7 +42,7 @@ export class DeviceService extends WebsocketService{
               (error) => {
               });
           } else if (status === '1') {
-
+            
           } else if (status === '2') {
 
           } else {
@@ -62,5 +62,13 @@ export class DeviceService extends WebsocketService{
    */
   getScreenImage(): Observable<any> {
     return this.myClientService.devicePost('PhoneRefreshScreen', {});
+  }
+
+  getPhotoAlbumList(): Observable<any> {
+    return this.myClientService.devicePost('PhotoGetAlbum', {});
+  }
+  
+  getPhotoList(): Observable<any> {
+    return this.myClientService.devicePost('PhotoGetList', {});
   }
 }

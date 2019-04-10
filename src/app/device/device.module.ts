@@ -6,9 +6,10 @@ import { DeviceRoutingModule } from './device-routing.module';
 import { DeviceLayoutComponent } from './layout/device-layout/device-layout.component';
 import { DeviceItemListComponent } from './components/device-item-list/device-item-list.component';
 import { DeviceSidebarComponent } from './components/device-sidebar/device-sidebar.component';
+import { DeviceItemComponent } from './components/device-item/device-item.component';
 
 @NgModule({
-  declarations: [DeviceLayoutComponent, DeviceItemListComponent, DeviceSidebarComponent],
+  declarations: [DeviceLayoutComponent, DeviceItemListComponent, DeviceSidebarComponent, DeviceItemComponent],
   imports: [
     CommonModule,
     // import HttpClientModule after BrowserModule.
