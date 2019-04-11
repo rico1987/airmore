@@ -22,4 +22,8 @@ export class DeviceSidebarComponent implements OnInit {
         this.itemList = data;
       });
   }
+
+  getAddress(path: string): string {
+    return ;
+  }
 }

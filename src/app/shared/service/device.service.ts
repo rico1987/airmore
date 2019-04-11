@@ -12,6 +12,8 @@ import { MyClientService } from './my-client.service';
 })
 export class DeviceService extends WebsocketService{
 
+
+
   constructor(
     private browserStorageService: BrowserStorageService,
     private appStateService: AppStateService,
@@ -70,5 +72,21 @@ export class DeviceService extends WebsocketService{
   
   getPhotoList(): Observable<any> {
     return this.myClientService.devicePost('PhotoGetList', {});
+  }
+
+  getMusicAlbumList(): Observable<any> {
+    return this.myClientService.devicePost('MusicGetAlbum', {});
+  }
+
+  getMusictList(): Observable<any> {
+    return this.myClientService.devicePost('MusicGetList', {});
+  }
+
+  getVideoAlbumList(): Observable<any> {
+    return this.myClientService.devicePost('VideoGetAlbum', {});
+  }
+
+  getVideoList(albumID: string, start: number, limit: number): Observable<any> {
+    return this.myClientService.devicePost('VideoGetList', {});
   }
 }

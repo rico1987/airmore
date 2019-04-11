@@ -9,7 +9,7 @@ import { AppStateService } from '../../shared/service/app-state.service';
 })
 export class DeviceStateService {
 
-    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools';
+    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' = 'pictures';
 
     sidebarItemList: Array<any> = [];
 
