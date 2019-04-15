@@ -70,8 +70,12 @@ export class DeviceService extends WebsocketService{
     return this.myClientService.devicePost('PhotoGetAlbum', {});
   }
   
-  getPhotoList(): Observable<any> {
-    return this.myClientService.devicePost('PhotoGetList', {});
+  getPhotoList(AlbumID: string, Start: number, Limit: number): Observable<any> {
+    return this.myClientService.devicePost('PhotoGetList', {
+      AlbumID,
+      Start,
+      Limit,
+    });
   }
 
   getMusicAlbumList(): Observable<any> {

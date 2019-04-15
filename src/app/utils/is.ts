@@ -47,8 +47,6 @@ export function isNumber(val) {
     return typeof val === 'number' && !isNaN(val);
 }
 
-const nativeToString = Object.prototype.toString;
-
 export function isArray(val) {
     return nativeToString.call(val) === '[object Array]';
 }

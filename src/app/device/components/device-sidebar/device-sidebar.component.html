@@ -1,6 +1,6 @@
 <div class="airmore-device-sidebar">
   <div class="airmore-device-sidebar__pictures" *ngIf="appStateService.activeFunction === 'pictures'">
-    <div *ngFor="let item of itemList" class="airmore-device-sidebar__item">
+    <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)">
       <div class="airmore-device-sidebar__item-icon">
         <img [src]="getAddress(item.CoverPath)" *ngIf="item.CoverPath" />
       </div>

@@ -1,6 +1,9 @@
 <div class="airmore-device-item-list">
   <div class="airmore-device-item-list__container" *ngIf="!deviceStateService.loading">
-      <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
+    <app-device-item-group *ngIf="deviceStateService.activeFunction === 'pictures'"></app-device-item-group>
+    <div class="airmore-device-item-list__container-pictures" *ngIf="deviceStateService.activeFunction === 'pictures'" >
+        <app-device-item-group *ngFor="let item of deviceStateService.itemGroupList"></app-device-item-group>
+    </div>
   </div>
   <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
       <p>The folder is empty!</p>
