@@ -50,9 +50,16 @@
             padding-right: 15px;
         }
 
+
         @each $fun in $funs{
             &.#{$fun}{
                 background-image: url('../../../../assets/img/fun/gray/#{$fun}-gray.svg');
+
+                @include when(active) {
+                    border: 2px solid $primary;
+                    background-color: $white;
+                    background-image: url('../../../../assets/img/fun/blue/#{$fun}-blue.svg');
+                }
             }
     
             &.#{$fun}:hover{

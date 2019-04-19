@@ -3,6 +3,7 @@ import { Logger } from './logger.service';
 import { WebsocketService } from './websocket.service';
 import { BrowserStorageService } from './storage.service';
 import { DeviceService } from './device.service';
+import { AppStateService } from './app-state.service';
 
 const hosts = [
   'airmore.com',
@@ -43,6 +44,11 @@ export class ConnectionService extends WebsocketService{
       this.on('ResponseWebQueryOnlineDev', (data) => {
         this.clearHeartBeat();
         this.browserStorageService.set('deviceInfo', data);
+        if (data.Platform === 1) {
+
+        } else if (data.Platform === 2) {
+
+        }
         this.send({
           Key: 'WebCloseSocket',
         });

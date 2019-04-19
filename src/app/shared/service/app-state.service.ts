@@ -14,7 +14,7 @@ export class AppStateService {
 
   accountRoute = 'passwordLogin'; // 'resetPassword', 'phonePasswordLess', 'emailPasswordLess'
 
-  activeConnectionType = 'account'; // 当前连接方式, 可选值 'qrcode', 'radar', 'account'
+  activeConnectionType = 'qrcode'; // 当前连接方式, 可选值 'qrcode', 'radar', 'account'
 
   currentLanguage: string; // 当前语言
 
@@ -22,7 +22,8 @@ export class AppStateService {
 
   deviceConnected = false;
 
-  // todo
+  platform: 'android' | 'iphone' = null; // 'android', 'iphone'
+
   currentModule: 'cloud' | 'device' = 'cloud';
 
   activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'cloud' = 'pictures';
@@ -57,6 +58,10 @@ export class AppStateService {
 
   setConnectionStatus(connectionStatus: 'connecting' | 'connected' | 'disconnected'): void {
     this.connectionStatus = connectionStatus;
+  }
+
+  setPlatform(platform: 'android' | 'iphone') {
+    this.platform = platform;
   }
 
   /**

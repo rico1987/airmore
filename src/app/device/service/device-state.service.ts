@@ -38,7 +38,7 @@ export class DeviceStateService {
         if (fun !== this.activeFunction) {
             this.appStateService.setActiveFunction(fun);
             this.activeFunction = fun;
-            this.getItemList(false);
+            this.getSidebarItemList();
         }
     }
 
@@ -46,6 +46,13 @@ export class DeviceStateService {
         if (this.activeAlbumId) {
             if (this.activeFunction === 'pictures') {
                 this.deviceService.getPhotoList(this.activeAlbumId, this.Start, this.Limit)
+                    .subscribe((data) => { 
+                        this.processData(data, isAddTo);
+                        console.log(this.itemList);
+                        console.log(this.itemGroupList);
+                    });
+            } else if (this.activeFunction === 'musics') {
+                this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.Limit)
                     .subscribe((data) => { 
                         this.processData(data, isAddTo);
                         console.log(this.itemList);
@@ -97,11 +104,33 @@ export class DeviceStateService {
     }
 
     getSidebarItemList(): void {
+        this.resetPaging();
         if (this.activeFunction === 'pictures') {
             this.deviceService.getPhotoAlbumList()
             .subscribe((data) => { 
                 this.sidebarItemList = data;
+                this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
               });
+        } else if (this.activeFunction === 'musics') {
+            this.deviceService.getMusicAlbumList()
+                .subscribe((data) => { 
+                    this.sidebarItemList = data;
+                    this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
+                    this.getItemList(false);
+                });
+        } else if (this.activeFunction === 'apps') {
+            this.activeAlbumId = 'apps';
+            this.deviceService.getAppList()
+                .subscribe((data) => {
+                    debugger;
+                });
+        } else if (this.activeFunction === 'documents') {
+            this.deviceService.getDocAlbumList()
+                .subscribe((data) => {
+                    this.sidebarItemList = data;
+                    this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
+                    this.getItemList(false);
+                })
         }
     }
 
@@ -120,5 +149,10 @@ export class DeviceStateService {
             this.activeAlbumId = id;
             this.getItemList(false);
         }
+    }
+
+    resetPaging(): void {
+        this.Start = 0;
+        this.Limit = 50;
     }
 }

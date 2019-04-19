@@ -82,15 +82,35 @@ export class DeviceService extends WebsocketService{
     return this.myClientService.devicePost('MusicGetAlbum', {});
   }
 
-  getMusictList(): Observable<any> {
-    return this.myClientService.devicePost('MusicGetList', {});
+  getMusictList(AlbumID: string, Start: number, Limit: number): Observable<any> {
+    return this.myClientService.devicePost('MusicGetList', {
+      AlbumID,
+      Start,
+      Limit,
+    });
   }
 
   getVideoAlbumList(): Observable<any> {
     return this.myClientService.devicePost('VideoGetAlbum', {});
   }
 
-  getVideoList(albumID: string, start: number, limit: number): Observable<any> {
+  getVideoList(AlbumID: string, Start: number, Limit: number): Observable<any> {
     return this.myClientService.devicePost('VideoGetList', {});
+  }
+
+  getAppList() {
+    return this.myClientService.devicePost('AppGetList&IsNeedDiskUsage=true', {
+      AlbumID: 'apps',
+    });
+  }
+
+  getDocAlbumList(): Observable<any> {
+    return this.myClientService.devicePost('DocGetAlbum', {});
+  }
+
+  getDocList(AlbumID: string): Observable<any> {
+    return this.myClientService.devicePost('DocGetList', {
+      AlbumID,
+    });
   }
 }
