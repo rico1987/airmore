@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppStateService } from '../../../shared/service/app-state.service';
 
 @Component({
   selector: 'app-device-layout',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceLayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private appStateService: AppStateService,
+  ) { }
 
   ngOnInit() {
   }

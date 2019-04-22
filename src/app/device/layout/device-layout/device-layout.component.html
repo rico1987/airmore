@@ -1,6 +1,6 @@
 <div class="airmore-device-layout">
   <app-device-sidebar></app-device-sidebar>
-  <div class="airmore-device-layout__content">
+  <div class="airmore-device-layout__content" [class.is-clipboard]="appStateService.activeFunction === 'clipboard'">
       <router-outlet></router-outlet>
   </div>
 </div>

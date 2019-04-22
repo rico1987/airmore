@@ -15,7 +15,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { SubheaderComponent } from './components/subheader/subheader.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
 import { LazyLoadImageComponent } from './components/lazy-load-image/lazy-load-image.component';
-import { GridListComponent } from './components/grid-list/grid-list.component';;
+import { GridListComponent } from './components/grid-list/grid-list.component';
+import { TableComponent } from './components/table/table.component';
+import { TableColumnComponent } from './components/table-column/table-column.component';;
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -37,6 +39,8 @@ const DIRECTIVES = [];
     ...DIRECTIVES,
     DesktopComponent,
     GridListComponent,
+    TableComponent,
+    TableColumnComponent,
   ],
   imports: [
     CommonModule,
