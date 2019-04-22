@@ -9,6 +9,7 @@
 
     @include when(loaded) {
         background-image: none;
+        background-color: transparent;
     }
 
     @include e(container) {

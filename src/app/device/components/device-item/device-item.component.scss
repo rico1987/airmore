@@ -1,0 +1,54 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(device-item){
+
+    @include when(app) {
+        width: 210px;
+        height: 110px;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        line-height: 26px;
+        background-color: #eee;
+        background-position: 17px center;
+        background-size: 72px auto;
+        float: left;
+        position: relative;
+
+        @include e(container) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
+
+        @include e(icon) {
+            float: left;
+            height: 72px;
+            width: 72px;
+            margin: 20px 10px 20px 20px;
+            background-color: #eee;
+            .airmore-lazy-load-image{
+                background-color: #eee!important;
+            }
+        }
+
+        @include e(name) {
+            margin-top: 30px;
+            font-size: 16px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        @include e(size) {
+            font-size: 14px;
+        }
+
+        @include e(toolbar) {
+            display: none;
+        }
+        
+    }
+}

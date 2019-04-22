@@ -4,6 +4,27 @@
     <div class="airmore-device-item-list__container-pictures" *ngIf="deviceStateService.activeFunction === 'pictures'" >
         <app-device-item-group *ngFor="let item of deviceStateService.itemGroupList"></app-device-item-group>
     </div>
+    <div class="airmore-device-item-list__container-apps" *ngIf="deviceStateService.activeFunction === 'apps'">
+      <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
+    </div>
+    <div class="airmore-device-item-list__container-docs" *ngIf="deviceStateService.activeFunction === 'documents'">
+      
+    </div>
+    <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">
+      <div class="airmore-device-item-list__clipboard-list">
+        <div class="airmore-device-item-list__clipboard-item" *ngFor="let item of deviceStateService.itemList">
+          <div class="checkBox"></div>
+          <div class="container">
+            <p class="date"></p>
+            <p class="content"></p>
+          </div>
+          <div class="copy-button"></div>
+        </div>
+      </div>
+      <div class="airmore-device-item-list__clipboard-info">
+        <p class="content"></p>
+      </div>
+    </div>
   </div>
   <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
       <p>The folder is empty!</p>

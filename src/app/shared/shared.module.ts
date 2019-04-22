@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { CloudModule } from '../cloud/cloud.module';
-
 import { ConnectionComponent } from './components/connection/connection.component';
 import { AccountComponent } from './components/account/account.component';
 import { PasswordLoginFormComponent } from './forms/password-login-form/password-login-form.component';
@@ -16,6 +14,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { SubheaderComponent } from './components/subheader/subheader.component';
 import { DesktopComponent } from './components/desktop/desktop.component';
+import { LazyLoadImageComponent } from './components/lazy-load-image/lazy-load-image.component';
+import { GridListComponent } from './components/grid-list/grid-list.component';;
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -27,6 +27,7 @@ const COMPONENTS = [
   SidebarComponent,
   HeaderComponent,
   SubheaderComponent,
+  LazyLoadImageComponent,
 ];
 const DIRECTIVES = [];
 
@@ -35,12 +36,12 @@ const DIRECTIVES = [];
     ...COMPONENTS,
     ...DIRECTIVES,
     DesktopComponent,
+    GridListComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    CloudModule,
     ReactiveFormsModule,
   ],
   providers: [

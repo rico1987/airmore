@@ -26,7 +26,7 @@ export class AppStateService {
 
   currentModule: 'cloud' | 'device' = 'cloud';
 
-  activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'cloud' = 'pictures';
+  activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'clipboard' | 'cloud' = 'pictures';
 
   connectionStatus: 'connecting' | 'connected' | 'disconnected'; // 当前连接状态
 
@@ -40,7 +40,7 @@ export class AppStateService {
     this.activeViewMode = mode;
   }
 
-  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'cloud' ): void {
+  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' |  'clipboard' | 'cloud' ): void {
     this.activeFunction = fun;
   }
 

@@ -1,7 +1,17 @@
-<div class="airmore-device-item" (click)="checkItem()" (dblclick)="openResource()">
-  <div class="airmore-device-item__container">
-    <div class="airmore-device-item__top"></div>
-    <div class="airmore-device-item__title"></div>
+<div class="airmore-device-item"
+  [class.is-app]="deviceStateService.activeFunction === 'apps'"  
+  (click)="checkItem()"
+  (dblclick)="openResource()">
+  <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'apps' && item">
+    <app-lazy-load-image class="airmore-device-item__icon" [imgSrc]="getAppIcon(item.PackageName)" *ngIf="item.PackageName"></app-lazy-load-image>
+    <p class="airmore-device-item__name">{{item.ShowName}}</p>
+    <p class="airmore-device-item__size">{{item.Size}}</p>
+    <ul class="airmore-device-item__toolbar">
+      <li class="preview" [class.active]="supportOperation('preview')" (click)="preview(item)"></li>
+      <li class="download" [class.active]="supportOperation('download')" (click)="download(item)"></li>
+      <li class="delete" [class.active]="supportOperation('delete')" (click)="delete(item)"></li>
+    </ul>
+    <div class="airmore-device-item__check" [class.selected]="isSelected">
+    </div>
   </div>
-  <p>device item</p>
 </div>

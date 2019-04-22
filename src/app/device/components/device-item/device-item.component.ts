@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DeviceStateService } from '../../service/device-state.service';
+import { BrowserStorageService } from '../../../shared/service/storage.service';
+
 
 @Component({
   selector: 'app-device-item',
@@ -11,6 +13,7 @@ export class DeviceItemComponent implements OnInit {
   @Input() item: any;
 
   constructor(
+    private browserStorageService: BrowserStorageService,
     private deviceStateService: DeviceStateService,
   ) { }
 
@@ -32,8 +35,12 @@ export class DeviceItemComponent implements OnInit {
   delete(): void {
   }
   
+  getAppIcon(packageName: string): string {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}?Key=AppGetIcon&Package=${packageName}`;
+  }
+
   supportOperation(operation: 'preview' | 'download' | 'delete'): boolean {
     return true;
   }
-
 }

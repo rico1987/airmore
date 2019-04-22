@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStateService } from '../../../shared/service/app-state.service';
 import { DeviceStateService } from '../../service/device-state.service';
+import { DeviceService } from '../../../shared/service/device.service';
 import { BrowserStorageService } from '../../../shared/service/storage.service';
 
 @Component({
@@ -12,6 +13,7 @@ export class DeviceSidebarComponent implements OnInit {
 
   constructor(
     private appStateService: AppStateService,
+    private deviceService: DeviceService,
     private deviceStateService: DeviceStateService,
     private browserStorageService: BrowserStorageService,
   ) { }
@@ -20,9 +22,9 @@ export class DeviceSidebarComponent implements OnInit {
     this.deviceStateService.getSidebarItemList();
   }
 
-  getAddress(path: string): string {
-    const deviceInfo = this.browserStorageService.get('deviceInfo');
-    return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}${path}`;
+  getThumbPath(path: string, size: number) :string {
+    let thumbSize = size || 168;
+    return `${this.deviceService.resolvePath(path)}?Shortcut=1&Width=${thumbSize}&Height=${thumbSize}`;
   }
 
   selectAlbum(item): void {

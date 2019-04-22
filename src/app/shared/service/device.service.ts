@@ -59,6 +59,11 @@ export class DeviceService extends WebsocketService{
       );
   }
 
+  resolvePath(path: string): string {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}${path}`;
+  }
+
   /**
    * 获取设备屏幕截图
    */
@@ -95,7 +100,11 @@ export class DeviceService extends WebsocketService{
   }
 
   getVideoList(AlbumID: string, Start: number, Limit: number): Observable<any> {
-    return this.myClientService.devicePost('VideoGetList', {});
+    return this.myClientService.devicePost('VideoGetList', {
+      AlbumID,
+      Start,
+      Limit,
+    });
   }
 
   getAppList() {
@@ -112,5 +121,11 @@ export class DeviceService extends WebsocketService{
     return this.myClientService.devicePost('DocGetList', {
       AlbumID,
     });
+  }
+
+  getClipboardList(AlbumID: string):  Observable<any> {
+    return this.myClientService.devicePost('ClipboardGetList', {
+      AlbumID,
+    })
   }
 }

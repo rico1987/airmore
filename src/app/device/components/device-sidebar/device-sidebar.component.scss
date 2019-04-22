@@ -1,8 +1,12 @@
 @import "../../../../styles/mixins/bem.scss";
 @import "../../../../styles/themes/default/variables.scss";
 
+$exts: doc, xls, ppt, epub, pdf, txt, zip;
+
 @include b(device-sidebar) {
     width: 230px;
+    height: 100%;
+    overflow: auto;
     @include e(item) {
         height: 68px;
         padding: 8px 0 0 0;
@@ -29,6 +33,13 @@
 
             @include when(app) {
                 background-image: url('../../../../assets/img/fun/white/apps-white.svg');
+            }
+
+            @each $ext in $exts {
+                @include when($ext) {
+                    background-size: contain;
+                    background-image: url('../../../../assets/img/doc/#{$ext}.svg');
+                }
             }
         }
 
@@ -59,4 +70,41 @@
         }
     }
     
+    @include e(clipboard) {
+        float: left;
+        width: calc(33.3333% + 160px);
+        height: 100%;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+
+        @include e(clipboard-item) {
+            display: flex;
+            height: 97px;
+            padding-right: 20px;
+            line-height: 37px;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            .checkBox{
+                height: 100%;
+                max-width: 100%;
+                overflow: hidden;
+                cursor: pointer;
+                background: url('../../../../assets/img/input/checkbox-bigger.svg');
+            }
+            .container{
+                .date{}
+                .content{}
+            }
+            .copy-button{
+
+            }
+
+            @include when(active) {
+                background: linear-gradient(#fee9ce,#ffe1ba);
+                .checkBox {
+                    background-image: url('../../../../assets/img/input/checkbox-bigger-checked.svg');
+                }
+            }
+        }
+    }
 }

@@ -9,7 +9,7 @@ import { AppStateService } from '../../shared/service/app-state.service';
 })
 export class DeviceStateService {
 
-    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' = 'pictures';
+    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'clipboard' | 'tools' = 'pictures';
 
     sidebarItemList: Array<any> = [];
 
@@ -34,7 +34,7 @@ export class DeviceStateService {
     ) {
     }
 
-    setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools'): void {
+    setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'clipboard' | 'tools'): void {
         if (fun !== this.activeFunction) {
             this.appStateService.setActiveFunction(fun);
             this.activeFunction = fun;
@@ -58,6 +58,12 @@ export class DeviceStateService {
                         console.log(this.itemList);
                         console.log(this.itemGroupList);
                     });
+            } else if (this.activeFunction === 'documents') {
+                this.deviceService.getDocList(this.activeAlbumId)
+                    .subscribe((data) => {
+                        this.itemList = data;
+                        console.log(this.itemList);
+                    })
             }
         }
     }
@@ -118,11 +124,18 @@ export class DeviceStateService {
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
                     this.getItemList(false);
                 });
+        } else if (this.activeFunction === 'videos') {
+            this.deviceService.getVideoAlbumList()
+                .subscribe((data) => {
+                    this.sidebarItemList = data;
+                    this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
+                    this.getItemList(false);
+                })
         } else if (this.activeFunction === 'apps') {
             this.activeAlbumId = 'apps';
             this.deviceService.getAppList()
                 .subscribe((data) => {
-                    debugger;
+                    this.itemList = data;
                 });
         } else if (this.activeFunction === 'documents') {
             this.deviceService.getDocAlbumList()
@@ -131,6 +144,12 @@ export class DeviceStateService {
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
                     this.getItemList(false);
                 })
+        } else if (this.activeFunction === 'clipboard') {
+            this.activeAlbumId = 'clipboard';
+            this.deviceService.getClipboardList(this.activeAlbumId)
+                .subscribe((data) => {
+                    this.itemList = data;
+                });
         }
     }
 

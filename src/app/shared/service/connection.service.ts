@@ -18,6 +18,7 @@ export class ConnectionService extends WebsocketService{
 
   constructor(
     private browserStorageService: BrowserStorageService,
+    private appStateService: AppStateService,
     private deviceService: DeviceService,
     protected logger: Logger,
   ) {
@@ -45,9 +46,9 @@ export class ConnectionService extends WebsocketService{
         this.clearHeartBeat();
         this.browserStorageService.set('deviceInfo', data);
         if (data.Platform === 1) {
-
+          this.appStateService.setPlatform('android');
         } else if (data.Platform === 2) {
-
+          this.appStateService.setPlatform('iphone');
         }
         this.send({
           Key: 'WebCloseSocket',
