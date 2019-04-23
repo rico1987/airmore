@@ -232,6 +232,19 @@ export class CloudStateService {
   }
 
   /**
+   * 
+   */
+  downloadItems(): void {
+      if (this.selectedItems.length === 0) {
+        return;
+      }
+      console.log(this.selectedItems);
+      for (let i = 0; i < this.selectedItems.length; i++) {
+        this.download(this.selectedItems[i]);
+      }
+  }
+
+  /**
    * 刷新列表
    */
   refreshItemList(): void {

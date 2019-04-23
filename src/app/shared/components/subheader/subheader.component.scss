@@ -52,7 +52,18 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
                         background-image: url('../../../../assets/img/action/white/#{$action}-white.svg');
                     }
                 }
+
+                @include when(inactive) {
+                    &.#{$action}{
+                        background-image: url('../../../../assets/img/action/gray/#{$action}-gray.svg');
+                        color: $gray-800;
+                        background-color: transparent;
+                        opacity: 0.4;
+                    }
+                }
             }
+
+            
             @include e(toolbar-icon) {
                 line-height: 27px;
             }

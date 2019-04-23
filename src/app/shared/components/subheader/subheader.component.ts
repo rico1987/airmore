@@ -45,10 +45,20 @@ export class SubheaderComponent implements OnInit {
       case 'new-folder':
         this.cloudStateService.newFolder();
         break;
+      case 'download':
+        if (this.appStateService.currentModule === 'cloud') {
+          this.cloudStateService.downloadItems();
+        }
+        break;
+
     }
   }
 
   hasAction(action: string): boolean {
     return this.appStateService.hasAction(action);
+  }
+
+  isInactive(action: string): boolean {
+    return this.appStateService.isInactive(action);
   }
 }

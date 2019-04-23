@@ -19,7 +19,8 @@ import { GridListComponent } from './components/grid-list/grid-list.component';
 import { TableComponent } from './components/table/table.component';
 import { TableColumnComponent } from './components/table-column/table-column.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
-import { TableBodyComponent } from './components/table-body/table-body.component';;
+import { TableBodyComponent } from './components/table-body/table-body.component';
+import { CommonAlertComponent } from './components/common-alert/common-alert.component';;
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -45,6 +46,7 @@ const DIRECTIVES = [];
     TableColumnComponent,
     TableHeaderComponent,
     TableBodyComponent,
+    CommonAlertComponent,
   ],
   imports: [
     CommonModule,

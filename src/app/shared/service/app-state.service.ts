@@ -33,6 +33,7 @@ export class AppStateService {
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private cloudStateService: CloudStateService,
+    private deviceStateService: DeviceStateService,
     private logger: Logger,
   ) { }
 
@@ -95,6 +96,20 @@ export class AppStateService {
       }
     } else {
 
+    }
+    return flag;
+  }
+
+  /**
+   * 判断某个按钮是否可用
+   * @param action 
+   */
+  isInactive(action: string): boolean {
+    let flag = false;
+    switch (action) {
+      case 'download':
+        flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length === 0) || (this.currentModule == 'device' && this.deviceStateService.selectedItems.length === 0)
+        break;
     }
     return flag;
   }

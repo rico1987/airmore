@@ -6,6 +6,7 @@
       <div 
         class="airmore-subheader__toolbar-btn"
         [class.is-hidden]="!hasAction(item.action)"
+        [class.is-inactive]="isInactive(item.action)"
         [ngClass]=item.class
         *ngFor="let item of toolbarItems"
         (click)="doAction(item.action)"

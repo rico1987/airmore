@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { NgbModalModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 // modules
@@ -40,6 +41,8 @@ const INTERCEPTOR_PROVIDES = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NgbModalModule,
+    NgbAlertModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

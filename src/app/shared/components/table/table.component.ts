@@ -14,7 +14,7 @@ export class TableComponent implements OnInit {
 
   @Input() private size: string;
 
-  @Input() private 
+  // @Input() private 
 
   @Input() private showHeader: boolean = true;
 

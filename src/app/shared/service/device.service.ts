@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Logger } from './logger.service';
 import { WebsocketService } from './websocket.service';
 import { BrowserStorageService } from './storage.service';
-import { AppStateService } from './app-state.service';
 import { MyClientService } from './my-client.service';
 
 @Injectable({
@@ -16,7 +15,6 @@ export class DeviceService extends WebsocketService{
 
   constructor(
     private browserStorageService: BrowserStorageService,
-    private appStateService: AppStateService,
     private myClientService: MyClientService,
     private router: Router,
     protected logger: Logger,
@@ -27,7 +25,6 @@ export class DeviceService extends WebsocketService{
   init() {
     super.init();
     // 开始连接设备
-    this.appStateService.setConnectionStatus('connecting');
     this.myClientService.devicePost('PhoneCheckAuthorization', {})
       .subscribe(
         (status: any) => {
@@ -37,7 +34,6 @@ export class DeviceService extends WebsocketService{
             })
               .subscribe((res: any) => {
                 if (res) {
-                  this.appStateService.setConnectionStatus('connected');
                   this.router.navigate(['/desktop']);
                 }
               },
