@@ -20,7 +20,7 @@ import { TableComponent } from './components/table/table.component';
 import { TableColumnComponent } from './components/table-column/table-column.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { TableBodyComponent } from './components/table-body/table-body.component';
-import { CommonAlertComponent } from './components/common-alert/common-alert.component';;
+import { CommonModalComponent } from './components/common-modal/common-modal.component';;
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -46,7 +46,7 @@ const DIRECTIVES = [];
     TableColumnComponent,
     TableHeaderComponent,
     TableBodyComponent,
-    CommonAlertComponent,
+    CommonModalComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +61,9 @@ const DIRECTIVES = [];
     TranslateModule,
     ...COMPONENTS,
     ...DIRECTIVES,
+  ],
+  entryComponents: [
+    CommonModalComponent,
   ],
 })
 export class SharedModule { }

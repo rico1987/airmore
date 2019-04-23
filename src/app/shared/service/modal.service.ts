@@ -1,6 +1,6 @@
 import {Injectable, TemplateRef} from '@angular/core';
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
-import { CommonAlertComponent } from '../components/common-alert/common-alert.component';
+import { CommonModalComponent } from '../components/common-modal/common-modal.component';
 
 @Injectable({
     providedIn: 'root'
@@ -9,8 +9,32 @@ export class ModalService {
 
     constructor(private modalService: NgbModal) {}
 
-    alert(content: string, title: string): void {
-        this.modalService.open(CommonAlertComponent);
+    success(content: string, title: string): void {
+        const modalRef = this.modalService.open(CommonModalComponent);
+        modalRef.componentInstance.type = 'success';
+        modalRef.componentInstance.content = content;
+        modalRef.componentInstance.title = title || 'Success';
+    }
+
+    info(content: string, title: string): void {
+        const modalRef = this.modalService.open(CommonModalComponent);
+        modalRef.componentInstance.type = 'info';
+        modalRef.componentInstance.content = content;
+        modalRef.componentInstance.title = title || 'Info';
+    }
+
+    warn(content: string, title: string): void {
+        const modalRef = this.modalService.open(CommonModalComponent);
+        modalRef.componentInstance.type = 'warn';
+        modalRef.componentInstance.content = content;
+        modalRef.componentInstance.title = title || 'Warning';
+    }
+
+    error(content: string, title: string): void {
+        const modalRef = this.modalService.open(CommonModalComponent);
+        modalRef.componentInstance.type = 'error';
+        modalRef.componentInstance.content = content;
+        modalRef.componentInstance.title = title || 'Error';
     }
 
     confirm(template: string | TemplateRef<any>, options ?: NgbModalOptions): Promise<any> {

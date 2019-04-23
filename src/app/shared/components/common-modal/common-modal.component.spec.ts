@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommonAlertComponent } from './common-alert.component';
+import { CommonModalComponent } from './common-modal.component';
 
-describe('CommonAlertComponent', () => {
-  let component: CommonAlertComponent;
-  let fixture: ComponentFixture<CommonAlertComponent>;
+describe('CommonModalComponent', () => {
+  let component: CommonModalComponent;
+  let fixture: ComponentFixture<CommonModalComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommonAlertComponent ]
+      declarations: [ CommonModalComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommonAlertComponent);
+    fixture = TestBed.createComponent(CommonModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

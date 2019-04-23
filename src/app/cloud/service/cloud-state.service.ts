@@ -4,6 +4,7 @@ import { Audio, Document, Label, Location, Node, OtherResource, People, Video } 
 import { NodeService } from './node.service';
 import { CommonResponse } from '../../shared/models/common-response.model';
 import { downloadLink } from '../../utils/tools';
+import { ModalService } from '../../shared/service/modal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,7 @@ export class CloudStateService {
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private nodeService: NodeService,
+    private modalService: ModalService,
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
     // todo 计算排列参数
@@ -229,6 +231,7 @@ export class CloudStateService {
    * 创建新文件夹
    */
   newFolder(): void {
+    this.modalService.warn('test', 'test');
   }
 
   /**

@@ -121,4 +121,13 @@ export class AppStateService {
     return this.appConfig.app.isDebug;
   }
 
+  get loading(): boolean {
+    if (this.currentModule === 'cloud') {
+      return this.cloudStateService.loading;
+    } else if (this.currentModule === 'device'){
+      return this.deviceStateService.loading;
+    }
+    return false;
+  }
+
 }
