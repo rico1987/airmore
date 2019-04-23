@@ -10,7 +10,10 @@ import { BrowserStorageService } from '../../../shared/service/storage.service';
 })
 export class DeviceItemComponent implements OnInit {
 
-  @Input() item: any;
+  @Input() 
+  get item(): any { return this._item; }
+  set item(item: any) { this._item = item; }
+  private _item: any;
 
   constructor(
     private browserStorageService: BrowserStorageService,

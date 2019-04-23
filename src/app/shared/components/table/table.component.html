@@ -1,8 +1,8 @@
 <div class="airmore-table">
-  <div class="airmore-table__header-wrapper">
-
+  <div class="airmore-table__header-wrapper" *ngIf="showHeader">
+    <app-table-header (sorted)="onSorted($event)"></app-table-header>
   </div>
   <div class="airmore-table__body-wrapper">
-    
+    <app-table-body></app-table-body>
   </div>
 </div>

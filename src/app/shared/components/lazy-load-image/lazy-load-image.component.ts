@@ -9,7 +9,10 @@ import { ANIMATIONS } from '../../../shared/animations';
 })
 export class LazyLoadImageComponent implements OnInit {
 
-  @Input() imgSrc: string;
+  @Input() 
+  get imgSrc(): string { return this._imgSrc; }
+  set imgSrc(imgSrc: string) { this._imgSrc = imgSrc; }
+  private _imgSrc: string;
 
   isLoaded = false;
 

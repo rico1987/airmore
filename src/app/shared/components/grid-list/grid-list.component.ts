@@ -7,7 +7,11 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class GridListComponent implements OnInit {
 
-  @Input() listItems: Array<any>;
+  @Input() 
+  get listItems(): any { return this._listItems; }
+  set listItems(AZ
+  }|"?  `134256-=-07=-098763524": any) { this._listItems = listItems; }
+  private _listItems: any;
 
   @Input() loading: boolean = false;
 

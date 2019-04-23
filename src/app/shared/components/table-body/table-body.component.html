@@ -1,0 +1,25 @@
+<div class="airmore-table-body">
+  <table
+    class="airmore-table-body__table"
+    cellspacing="0"
+    cellpadding="0"
+    border="0"
+  >
+    <tbody>
+      <tr
+        *ngFor="let row of rows"
+        (click)="handleClick(row)"
+        (dblclick)="handleDoubleClick(row)"
+        (mouseenter)="handleMouseEnter(row)"
+        (mouseleave)="handleMouseLeave(row)"
+      >
+        <td
+          (mouseenter)="handleCellMouseEnter($event, row)"
+          (mouseleave)="handleCellMouseLeave($event, row)"
+        >
+          
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

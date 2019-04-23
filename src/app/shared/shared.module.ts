@@ -17,7 +17,9 @@ import { DesktopComponent } from './components/desktop/desktop.component';
 import { LazyLoadImageComponent } from './components/lazy-load-image/lazy-load-image.component';
 import { GridListComponent } from './components/grid-list/grid-list.component';
 import { TableComponent } from './components/table/table.component';
-import { TableColumnComponent } from './components/table-column/table-column.component';;
+import { TableColumnComponent } from './components/table-column/table-column.component';
+import { TableHeaderComponent } from './components/table-header/table-header.component';
+import { TableBodyComponent } from './components/table-body/table-body.component';;
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -41,6 +43,8 @@ const DIRECTIVES = [];
     GridListComponent,
     TableComponent,
     TableColumnComponent,
+    TableHeaderComponent,
+    TableBodyComponent,
   ],
   imports: [
     CommonModule,
