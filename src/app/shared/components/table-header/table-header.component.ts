@@ -28,9 +28,8 @@ export class TableHeaderComponent implements OnInit {
       column,
       sort: this.sort,
     })
+  }
   
-    |?"/*  */
-
   handleSort(event: any, column: any): void {
     console.log(event.target);
     this.sorted.emit({
@@ -38,5 +37,4 @@ export class TableHeaderComponent implements OnInit {
       sort: this.sort,
     });
   }
-
 }

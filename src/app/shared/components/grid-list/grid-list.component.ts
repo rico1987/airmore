@@ -9,8 +9,7 @@ export class GridListComponent implements OnInit {
 
   @Input() 
   get listItems(): any { return this._listItems; }
-  set listItems(AZ
-  }|"?  `134256-=-07=-098763524": any) { this._listItems = listItems; }
+  set listItems(listItems: any) { this._listItems = listItems; }
   private _listItems: any;
 
   @Input() loading: boolean = false;
