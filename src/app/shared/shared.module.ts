@@ -33,6 +33,7 @@ const COMPONENTS = [
   HeaderComponent,
   SubheaderComponent,
   LazyLoadImageComponent,
+  TableComponent,
 ];
 const DIRECTIVES = [];
 

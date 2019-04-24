@@ -37,6 +37,7 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
             text-align: center;
             background-position: center 3px;
             background-repeat: no-repeat;
+            position: relative;
 
             @include when(hidden) {
                 display: none;
@@ -50,6 +51,29 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
                         background-color: $primary;
                         color: $white;
                         background-image: url('../../../../assets/img/action/white/#{$action}-white.svg');
+                    }
+                }
+                &.refresh{
+                    background-image: none;
+                    @include e(toolbar-loading) {
+                        position: absolute;
+                        background-image: url('../../../../assets/img/action/gray/refresh-gray.svg');
+                        display: inline-block;
+                        width: 24px;
+                        height: 24px;
+                        top: 3px;
+                        left: 50%;
+                        margin-left: -12px;
+                        transition: All 0.4s ease-in-out;
+                        animation-play-state: paused;
+                    }
+                    @include when(loading) {
+                        background-image: none;
+                        @include e(toolbar-loading) {
+                            display: inline-block;
+                            animation: rotate 3s linear infinite;
+                        }
+
                     }
                 }
 
@@ -100,4 +124,8 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
 
         }
     }
+}
+
+@keyframes rotate{from{transform: rotate(0deg)}
+    to{transform: rotate(359deg)}
 }

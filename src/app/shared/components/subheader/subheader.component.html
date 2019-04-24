@@ -12,7 +12,7 @@
         *ngFor="let item of toolbarItems"
         (click)="doAction(item.action)"
       >
-        <i class="airmore-subheader__toolbar-loading" *ngIf="false"></i>
+        <i class="airmore-subheader__toolbar-loading" *ngIf="item.action === 'refresh'"></i>
         <div class="airmore-subheader__toolbar-icon">{{item.text}}</div>
       </div>
   </div>

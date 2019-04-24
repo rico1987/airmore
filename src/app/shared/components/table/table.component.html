@@ -3,6 +3,14 @@
     <app-table-header (sorted)="onSorted($event)"></app-table-header>
   </div>
   <div class="airmore-table__body-wrapper">
-    <app-table-body></app-table-body>
+    <app-table-body
+      (rowDoubleClick)="onRowDoubleClick"
+      (rowMouseEnter)="onRowMouseEnter"
+      (rowMouseLeave)="onRowMouseLeave"
+      (cellMouseEnter)="onCellMouseEnter"
+      (cellMouseLeave)="onCellMouseLeave"
+      (cellClick)="onCellClick"
+      (cellDoubleClick)="onCellDoubleClick"
+    ></app-table-body>
   </div>
 </div>

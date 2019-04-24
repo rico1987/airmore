@@ -1,3 +1,31 @@
-<p>
-  image-viewer works!
-</p>
+<div class="airmore-image-viewer">
+  <div class="airmore-image-viewer__body">
+    <div class="airmore-image-viewer__body-img-wrapper"></div>
+  </div>
+  <div class="airmore-image-viewer__close"></div>
+  <div class="airmore-image-viewer__prev"></div>
+  <div class="airmore-image-viewer__next"></div>
+  <div class="airmore-image-viewer__thumbbar">
+    <div class="airmore-image-viewer__thumbbar-prev">
+
+    </div>
+    <div class="airmore-image-viewer__thumbbar-next">
+
+    </div>
+    <div class="airmore-image-viewer__thumbbar-body">
+      <div class="airmore-image-viewer__thumbbar-body-wrapper">
+        <ul>
+          <li *ngFor="let thumb of _thumbList"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="airmore-image-viewer__toolbar">
+    <div class="airmore-image-viewer">
+
+    </div>
+    <ul class="airmore-image-viewer__toolbar-actions">
+      <li *ngFor="let action of _actions" [ngClass]=action.class (click)="doAction(action.action)"></li>
+    </ul>
+  </div>
+</div>

@@ -57,9 +57,10 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                margin-bottom: 0;
             }
             @include e(item-count) {
-
+                margin-bottom: 0;
             }
         }
         @include when(active) {
@@ -126,6 +127,7 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
             .copy-button{
                 width: 30px;
                 background:  url('../../../../assets/img/clipboard/copy.png') center no-repeat;
+                cursor: pointer;
                 &:hover{
                     background-image: url('../../../../assets/img/clipboard/copy-hover.png');
                 }

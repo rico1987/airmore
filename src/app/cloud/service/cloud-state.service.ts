@@ -65,6 +65,7 @@ export class CloudStateService {
     clearInterval(this.interval);
     this.interval = null;
     this.loading = true;
+    this.selectedItems = [];
     const activeFunction = this.activeFunction;
     if (activeFunction === 'clouds') {
       this.nodeService.getNodeList(
@@ -225,6 +226,13 @@ export class CloudStateService {
         downloadLink(url, fileName);
       }
     }
+  }
+
+  /**
+   * 选择全部
+   */
+  selectAll(): void {
+    this.selectedItems = this.itemList.concat();
   }
 
   /**

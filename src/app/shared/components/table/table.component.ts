@@ -23,6 +23,28 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.processData();
+  }
+
+  onRowDoubleClick() {}
+
+  onRowMouseEnter() {}
+
+  onRowMouseLeave() {}
+
+  onCellMouseEnter() {}
+
+  onCellMouseLeave() {}
+
+  onCellClick() {}
+  
+  onCellDoubleClick() {}
+
+  /**
+   * 对传进来的数据进行一次处理
+   */
+  processData(): void {
+
   }
 
   onSorted(data) {

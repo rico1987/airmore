@@ -26,7 +26,7 @@ export class AppStateService {
 
   currentModule: 'cloud' | 'device' = 'cloud';
 
-  activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'clipboard' | 'cloud' = 'pictures';
+  private _activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'clipboard' | 'cloud' = 'pictures';
 
   connectionStatus: 'connecting' | 'connected' | 'disconnected'; // 当前连接状态
 
@@ -39,10 +39,6 @@ export class AppStateService {
 
   setActiveViewMode(mode: 'list' | 'grid'): void {
     this.activeViewMode = mode;
-  }
-
-  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' |  'clipboard' | 'cloud' ): void {
-    this.activeFunction = fun;
   }
 
   changeConnectionType(connectionType: string): void {
@@ -108,8 +104,12 @@ export class AppStateService {
     let flag = false;
     switch (action) {
       case 'download':
+      case 'delete':
+      case 'copy-or-move':
         flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length === 0) || (this.currentModule == 'device' && this.deviceStateService.selectedItems.length === 0)
         break;
+      case 'rename':
+      flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length !== 1) || (this.currentModule == 'device' && this.deviceStateService.selectedItems.length !== 1)
     }
     return flag;
   }
@@ -130,4 +130,11 @@ export class AppStateService {
     return false;
   }
 
+  get activeFunction(): any {
+    if (this.currentModule === 'cloud') {
+      return this.cloudStateService.activeFunction;
+    } else if (this.currentModule === 'device') {
+      return this.deviceStateService.activeFunction;
+    }
+  }
 }

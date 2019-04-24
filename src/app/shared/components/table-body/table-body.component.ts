@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-table-body',
@@ -7,21 +7,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableBodyComponent implements OnInit {
 
-  private _table;
+  @Input()
+  get rows(): Array<any> { return this._rows; };
+  set rows(rows: Array<any>) { this._rows = rows; };
+  private _rows: Array<any> = [];
+
+  @Output() rowDoubleClick = new EventEmitter<any>();
+
+  @Output() rowMouseEnter = new EventEmitter<any>();
+
+  @Output() rowMouseLeave = new EventEmitter<any>();
+
+  @Output() cellMouseEnter = new EventEmitter<any>();
+
+  @Output() cellMouseLeave = new EventEmitter<any>();
+
+  @Output() cellClick = new EventEmitter<any>();
+
+  @Output() cellDoubleClick = new EventEmitter<any>();
+
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  handleDoubleClick(): void {}
+  handleRowClick(): void {}
 
-  handleMouseEnter(): void {}
+  handleRowDoubleClick(): void {}
 
-  handleMouseLeave(): void {}
+  handleRowMouseEnter(): void {}
+
+  handleRowMouseLeave(): void {}
 
   handleCellMouseEnter(): void {}
 
-  handleCellMouseLeave(): void {
-  }
+  handleCellMouseLeave(): void {}
+
+  handleCellClick(): void {}
+
+  handleCellDoubleClick(): void {}
 }

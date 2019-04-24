@@ -8,16 +8,19 @@
     <tbody>
       <tr
         *ngFor="let row of rows"
-        (click)="handleClick(row)"
-        (dblclick)="handleDoubleClick(row)"
-        (mouseenter)="handleMouseEnter(row)"
-        (mouseleave)="handleMouseLeave(row)"
+        (click)="handleRowClick(row)"
+        (dblclick)="handleRowDoubleClick(row)"
+        (mouseenter)="handleRowMouseEnter(row)"
+        (mouseleave)="handleRowMouseLeave(row)"
       >
         <td
-          (mouseenter)="handleCellMouseEnter($event, row)"
-          (mouseleave)="handleCellMouseLeave($event, row)"
+          *ngFor="let item of row"
+          (mouseenter)="handleCellMouseEnter($event, item)"
+          (mouseleave)="handleCellMouseLeave($event, item)"
+          (click)="handleCellClick($event, item)"
+          (dblclick)="handleCellDoubleClick($event, item)"
         >
-          
+        {{item.content}}
         </td>
       </tr>
     </tbody>

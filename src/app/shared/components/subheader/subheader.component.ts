@@ -50,6 +50,13 @@ export class SubheaderComponent implements OnInit {
           this.cloudStateService.downloadItems();
         }
         break;
+      case 'select-all':
+        if (this.appStateService.currentModule === 'cloud') {
+          this.cloudStateService.selectAll();
+        } else (this.appStateService.currentModule === 'device') {
+
+        }
+        break;
 
     }
   }
