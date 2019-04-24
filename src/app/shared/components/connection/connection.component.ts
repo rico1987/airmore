@@ -11,7 +11,9 @@ export class ConnectionComponent implements OnInit {
 
   qrCodeUrl: string | null;
 
-  private loadingQrCode = false;
+  private isLoadingQrCode = false;
+
+  private _interval: any = null;
 
   constructor(
     private appStateService: AppStateService,
@@ -33,15 +35,23 @@ export class ConnectionComponent implements OnInit {
    * 获取二维码
    */
   getQrCode(): void {
+    this.isLoadingQrCode = true;
     this.connectionService.init();
-    this.connectionService.getQrCodeUrl()
-      .then((res) => {
-        if (res.URL) {
-          this.qrCodeUrl = res.URL;
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this._interval = window.setInterval(() => {
+      if (this.connectionService.connected) {
+        this.connectionService.getQrCodeUrl()
+          .then((res) => {
+            if (res.URL) {
+              this.isLoadingQrCode = false;
+              this.qrCodeUrl = res.URL;
+              clearInterval(this._interval);
+              this._interval = null;
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          })
+      }
+    }, 1000);
   }
 }

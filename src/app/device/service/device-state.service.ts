@@ -152,6 +152,10 @@ export class DeviceStateService {
 
     refreshItemList(): void {}
 
+    selectAll(): void {
+        this.selectedItems = this.itemList.concat();
+    }
+
     addItems(items: Array<any>): void {
         this.selectedItems.push(...items);
     }

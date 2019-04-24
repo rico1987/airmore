@@ -6,8 +6,11 @@
   </ul>
   <ul class="airmore-connection__tabs" [ngSwitch]="appStateService.activeConnectionType">
     <li *ngSwitchCase="'qrcode'" class="qrcode">
-      <div *ngIf="qrCodeUrl">
+      <div *ngIf="qrCodeUrl && !isLoadingQrCode">
         <img [src]="qrCodeUrl" />
+      </div>
+      <div *ngIf="isLoadingQrCode">
+        
       </div>
       <p>Scan QR code using AirMore</p>
     </li>

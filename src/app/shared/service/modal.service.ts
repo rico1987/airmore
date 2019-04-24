@@ -41,5 +41,7 @@ export class ModalService {
         return this.modalService.open(template, options).result;
     }
 
-    modal(): void {}
+    modal(template: string | TemplateRef<any>, options ?: NgbModalOptions): Promise<any> {
+        return this.modalService.open(template, options).result;
+    }
 }

@@ -1,0 +1,46 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(music-player) {
+
+    @include e(next) {
+
+    }
+
+    @include e(play) {
+
+    }
+
+    @include e(mode) {
+
+    }
+
+    @include e(cover) {
+
+    }
+
+    @include e(name) {
+
+    }
+
+    @include e(time) {
+
+    }
+
+    @include e(slider) {
+
+    }
+
+    @include e(duration) {
+
+    }
+
+    @include e(volume) {
+
+    }
+
+    @include e(volume-slider) {
+        
+    }
+
+}

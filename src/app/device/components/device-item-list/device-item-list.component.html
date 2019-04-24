@@ -8,7 +8,9 @@
       <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
     </div>
     <div class="airmore-device-item-list__container-docs" *ngIf="deviceStateService.activeFunction === 'documents'">
-      <app-table></app-table>
+      <app-table
+        [data]="deviceStateService.itemList"
+      ></app-table>
     </div>
     <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">
       <div class="airmore-device-item-list__clipboard-list">

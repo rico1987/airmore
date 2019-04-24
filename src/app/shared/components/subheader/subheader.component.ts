@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CloudStateService } from '../../../cloud/service/cloud-state.service';
+import { DeviceStateService } from '../../../device/service/device-state.service';
 import { AppStateService } from '../../../shared/service/app-state.service';
+
 
 @Component({
   selector: 'app-subheader',
@@ -29,6 +31,7 @@ export class SubheaderComponent implements OnInit {
 
   constructor(
     private cloudStateService: CloudStateService,
+    private deviceStateService: DeviceStateService,
     private appStateService: AppStateService,
   ) { }
 
@@ -53,11 +56,10 @@ export class SubheaderComponent implements OnInit {
       case 'select-all':
         if (this.appStateService.currentModule === 'cloud') {
           this.cloudStateService.selectAll();
-        } else (this.appStateService.currentModule === 'device') {
-
+        } else if (this.appStateService.currentModule === 'device') {
+          this.deviceStateService.selectAll();
         }
         break;
-
     }
   }
 

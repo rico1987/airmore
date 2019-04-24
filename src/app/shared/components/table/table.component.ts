@@ -14,7 +14,7 @@ export class TableComponent implements OnInit {
 
   @Input() private size: string;
 
-  // @Input() private 
+  @Input() private _columnKeys: Array<string> = [];
 
   @Input() private showHeader: boolean = true;
 
@@ -23,7 +23,15 @@ export class TableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.data);
     this.processData();
+  }
+
+  /**
+   * 对传进来的数据进行一次处理
+   */
+  processData(): void {
+    
   }
 
   onRowDoubleClick() {}
@@ -40,12 +48,7 @@ export class TableComponent implements OnInit {
   
   onCellDoubleClick() {}
 
-  /**
-   * 对传进来的数据进行一次处理
-   */
-  processData(): void {
-
-  }
+  
 
   onSorted(data) {
     console.log(data);

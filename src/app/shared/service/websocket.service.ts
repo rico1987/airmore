@@ -14,6 +14,8 @@ const hosts = [
 })
 export class WebsocketService extends EventEmitter {
 
+  public connected: boolean = false;
+
   private client = null;
 
   private heartBeatInterval = 10000;
@@ -44,11 +46,13 @@ export class WebsocketService extends EventEmitter {
 
       this.client.onopen = () => {
         this.logger.log('WebSocket Client Connected');
+        this.connected = true;
         this.initHeartBeat();
         this.onOpen();
       };
 
       this.client.onclose = () => {
+        this.connected = false;
         this.logger.warn('echo-protocol Client Closed');
         this.onClose();
       };
