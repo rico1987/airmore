@@ -26,7 +26,9 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
             defaultLang: 'en',
             fallbackLang: 'en',
             isDebug: true,
+            // tslint:disable-next-line
             appFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'reflector', 'tools', 'cloud'],
+            // tslint:disable-next-line
             androidSidebarFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'clipboard', 'cloud'],
             iosSidebarFunctions: ['pictures' , 'musics', 'videos', 'documents', 'files', 'clipboard', 'cloud'],
             cloudFunctions: ['clouds', 'pictures', 'musics', 'videos', 'documents', 'others'],
@@ -37,4 +39,4 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
         },
         brand: 'Apowersoft',
     }
-}
+};

@@ -15,10 +15,8 @@ export class NodeService {
 
   /**
    * 获取节点列表
-   * @param per_page 
    * @param parent_id 父节点ID
    * @param node_type 节点类型,文件或者文件夹
-   * @param page 
    */
   getNodeList(page: number, per_page: number, parent_id?: string,  node_type?: 'folder' | 'file'): Observable < any > {
     const params = {
@@ -70,8 +68,6 @@ export class NodeService {
   /**
    * 读取分类下的文件
    * @param category 分类
-   * @param per_page 
-   * @param page 
    */
   getCategoryFiles(category: 'pictures' | 'musics' | 'videos' | 'documents' | 'others',
   page: number, per_page: number): Observable < any > {
@@ -106,9 +102,6 @@ export class NodeService {
 
   /**
    * 获取相应分类下的第一级列表
-   * @param category 
-   * @param page 
-   * @param per_page 
    */
   getCategoryImageList(category: 'labs' | 'places' | 'people', page: number, per_page: number): Observable < any > {
     return this.myClientService.get('cloud', `/${category}`, {
@@ -119,9 +112,6 @@ export class NodeService {
 
   /**
    * 获取标签下图片列表
-   * @param lab_id 
-   * @param page 
-   * @param per_page 
    */
   getLabImageList(lab_id: string, page: number, per_page: number) {
     return this.myClientService.get('cloud', `/labs/${lab_id}/files`, {
@@ -132,9 +122,6 @@ export class NodeService {
 
   /**
    * 获取地址下图片列表
-   * @param place_id 
-   * @param page 
-   * @param per_page 
    */
   getPlaceImageList(place_id: string, page: number, per_page: number) {
     return this.myClientService.get('cloud', `/places/${place_id}/files`, {
@@ -145,9 +132,6 @@ export class NodeService {
 
   /**
    * 获取人物下图片列表
-   * @param people_id 
-   * @param page 
-   * @param per_page 
    */
   getPeopleImageList(people_id: string, page: number, per_page: number) {
     return this.myClientService.get('cloud', `/people/${people_id}/files`, {

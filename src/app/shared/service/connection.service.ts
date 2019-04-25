@@ -14,7 +14,7 @@ const hosts = [
 @Injectable({
   providedIn: 'root'
 })
-export class ConnectionService extends WebsocketService{
+export class ConnectionService extends WebsocketService {
 
   constructor(
     private browserStorageService: BrowserStorageService,

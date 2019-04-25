@@ -10,7 +10,7 @@ import { BrowserStorageService } from '../../../shared/service/storage.service';
 })
 export class DeviceItemComponent implements OnInit {
 
-  @Input() 
+  @Input()
   get item(): any { return this._item; }
   set item(item: any) { this._item = item; }
   private _item: any;
@@ -37,7 +37,7 @@ export class DeviceItemComponent implements OnInit {
 
   delete(): void {
   }
-  
+
   getAppIcon(packageName: string): string {
     const deviceInfo = this.browserStorageService.get('deviceInfo');
     return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}?Key=AppGetIcon&Package=${packageName}`;

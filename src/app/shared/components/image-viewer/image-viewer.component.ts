@@ -9,37 +9,37 @@ export class ImageViewerComponent implements OnInit {
 
   @Input() imageList: Array<any>;
 
-  @Input() srcKey: string = 'path';
+  @Input() srcKey = 'path';
 
-  @Input() thumbKey: string = 'thumbPath';
+  @Input() thumbKey = 'thumbPath';
 
-  @Input() widthKey: string = 'width';
+  @Input() widthKey = 'width';
 
-  @Input() heightKey: string = 'height';
+  @Input() heightKey = 'height';
 
-  @Input() scaleMin: number = 0.1;
+  @Input() scaleMin = 0.1;
 
-  @Input() scaleMax: number = 10;
+  @Input() scaleMax = 10;
 
-  @Input() thumbPreview: number = 1;
+  @Input() thumbPreview = 1;
 
-  @Input() thumbPreload: number = 3;
+  @Input() thumbPreload = 3;
 
-  @Input() playIntervalTime: number = 5000;
+  @Input() playIntervalTime = 5000;
 
-  @Input() minPlayIntervalTime: number = 3000;
+  @Input() minPlayIntervalTime = 3000;
 
-  @Input() deletable: boolean = true;
+  @Input() deletable = true;
 
-  @Input() thumbCount: number = 0;
+  @Input() thumbCount = 0;
 
-  @Input() thumbArrowWidth: number = 40;
+  @Input() thumbArrowWidth = 40;
 
-  @Input() thumbVisible: boolean = true;
+  @Input() thumbVisible = true;
 
-  @Input() thumbIndex: number = 0;
+  @Input() thumbIndex = 0;
 
-  @Input() isPlaying: boolean = false;
+  @Input() isPlaying = false;
 
   private _thumbList: Array<any> = [];
 
@@ -91,7 +91,7 @@ export class ImageViewerComponent implements OnInit {
         action: 'delete',
       }
   ];
-  
+
   constructor() { }
 
   ngOnInit() {

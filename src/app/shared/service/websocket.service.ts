@@ -14,7 +14,7 @@ const hosts = [
 })
 export class WebsocketService extends EventEmitter {
 
-  public connected: boolean = false;
+  public connected = false;
 
   private client = null;
 

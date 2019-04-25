@@ -24,7 +24,7 @@ import { CommonModalComponent } from './components/common-modal/common-modal.com
 import { RegisterFormComponent } from './forms/register-form/register-form.component';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
 import { RadarComponent } from './components/radar/radar.component';
-import { MessageComponent } from './components/message/message.component';;
+import { MessageComponent } from './components/message/message.component';
 
 const COMPONENTS = [
   ConnectionComponent,

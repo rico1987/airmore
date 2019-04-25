@@ -8,7 +8,8 @@ import { DeviceService } from '../../shared/service/device.service';
 })
 export class DeviceStateService {
 
-    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'clipboard' | 'tools' = 'pictures';
+    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
+    'clipboard' | 'tools' = 'pictures';
 
     sidebarItemList: Array<any> = [];
 
@@ -22,9 +23,9 @@ export class DeviceStateService {
 
     loading: false;
 
-    Start: number = 0;
+    Start = 0;
 
-    Limit: number = 200;
+    Limit = 200;
 
     constructor(
         private deviceService: DeviceService,
@@ -32,25 +33,26 @@ export class DeviceStateService {
     ) {
     }
 
-    setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'clipboard' | 'tools'): void {
+    setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
+     'clipboard' | 'tools'): void {
         if (fun !== this.activeFunction) {
             this.activeFunction = fun;
             this.getSidebarItemList();
         }
     }
 
-    getItemList(isAddTo: boolean):void {
+    getItemList(isAddTo: boolean): void {
         if (this.activeAlbumId) {
             if (this.activeFunction === 'pictures') {
                 this.deviceService.getPhotoList(this.activeAlbumId, this.Start, this.Limit)
-                    .subscribe((data) => { 
+                    .subscribe((data) => {
                         this.processData(data, isAddTo);
                         console.log(this.itemList);
                         console.log(this.itemGroupList);
                     });
             } else if (this.activeFunction === 'musics') {
                 this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.Limit)
-                    .subscribe((data) => { 
+                    .subscribe((data) => {
                         this.processData(data, isAddTo);
                         console.log(this.itemList);
                         console.log(this.itemGroupList);
@@ -60,14 +62,13 @@ export class DeviceStateService {
                     .subscribe((data) => {
                         this.itemList = data;
                         console.log(this.itemList);
-                    })
+                    });
             }
         }
     }
 
     /**
      * 处理返回的数据
-     * @param data 
      */
     processData(data: any, isAddTo: boolean): void {
         let processedGroupList: Array<any> = [];
@@ -85,21 +86,19 @@ export class DeviceStateService {
 
     /**
      * 对list进行分组
-     * @param itemList 
-     * @param key 
      */
     groupItems(itemList: Array<any>, key: string): Array<any> {
-        let groupList: Array<any> = [];
+        const groupList: Array<any> = [];
         for (let i = 0; i < itemList.length; i = i + 1) {
             if (key === 'CreateTime') {
-                let index = groupList.findIndex((ele) => ele['key'] === itemList[i][key].split(' ')[0]);
+                const index = groupList.findIndex((ele) => ele['key'] === itemList[i][key].split(' ')[0]);
                 if (index > -1) {
                     groupList[index].items.push(itemList[i]);
                 } else {
                     groupList.push({
                         key: itemList[i][key].split(' ')[0],
                         items: [itemList[i]],
-                    })
+                    });
                 }
             }
         }
@@ -110,13 +109,13 @@ export class DeviceStateService {
         this.resetPaging();
         if (this.activeFunction === 'pictures') {
             this.deviceService.getPhotoAlbumList()
-            .subscribe((data) => { 
+            .subscribe((data) => {
                 this.sidebarItemList = data;
                 this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
               });
         } else if (this.activeFunction === 'musics') {
             this.deviceService.getMusicAlbumList()
-                .subscribe((data) => { 
+                .subscribe((data) => {
                     this.sidebarItemList = data;
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
                     this.getItemList(false);
@@ -127,7 +126,7 @@ export class DeviceStateService {
                     this.sidebarItemList = data;
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
                     this.getItemList(false);
-                })
+                });
         } else if (this.activeFunction === 'apps') {
             this.activeAlbumId = 'apps';
             this.deviceService.getAppList()
@@ -140,7 +139,7 @@ export class DeviceStateService {
                     this.sidebarItemList = data;
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
                     this.getItemList(false);
-                })
+                });
         } else if (this.activeFunction === 'clipboard') {
             this.activeAlbumId = 'clipboard';
             this.deviceService.getClipboardList(this.activeAlbumId)
@@ -167,7 +166,7 @@ export class DeviceStateService {
         return this.selectedItems.indexOf(item) > -1;
     }
 
-    selectAlbum(id: string): void { 
+    selectAlbum(id: string): void {
         if (id !== this.activeAlbumId) {
             this.activeAlbumId = id;
             this.getItemList(false);

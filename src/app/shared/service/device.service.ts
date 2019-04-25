@@ -9,7 +9,7 @@ import { MyClientService } from './my-client.service';
 @Injectable({
   providedIn: 'root'
 })
-export class DeviceService extends WebsocketService{
+export class DeviceService extends WebsocketService {
 
 
 
@@ -40,7 +40,7 @@ export class DeviceService extends WebsocketService{
               (error) => {
               });
           } else if (status === '1') {
-            
+
           } else if (status === '2') {
 
           } else {
@@ -49,7 +49,6 @@ export class DeviceService extends WebsocketService{
         },
         (error) => {
           if (error) {
-            debugger
           }
         }
       );
@@ -70,7 +69,7 @@ export class DeviceService extends WebsocketService{
   getPhotoAlbumList(): Observable<any> {
     return this.myClientService.devicePost('PhotoGetAlbum', {});
   }
-  
+
   getPhotoList(AlbumID: string, Start: number, Limit: number): Observable<any> {
     return this.myClientService.devicePost('PhotoGetList', {
       AlbumID,
@@ -122,6 +121,6 @@ export class DeviceService extends WebsocketService{
   getClipboardList(AlbumID: string):  Observable<any> {
     return this.myClientService.devicePost('ClipboardGetList', {
       AlbumID,
-    })
+    });
   }
 }

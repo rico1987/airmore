@@ -69,7 +69,6 @@ export class PasswordLoginFormComponent implements OnInit {
           },
           (error) => {
             if (error) {
-              debugger
             }
           }
         );

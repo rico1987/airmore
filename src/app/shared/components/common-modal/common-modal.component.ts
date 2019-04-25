@@ -10,7 +10,7 @@ export class CommonModalComponent implements OnInit {
 
   @Input() type: 'modal' | 'confirm' | 'success' | 'info' | 'warning' | 'error' | '' = 'modal';
 
-  @Input() showTitle: boolean = false;
+  @Input() showTitle = false;
 
   constructor(public activeModal: NgbActiveModal) { }
 

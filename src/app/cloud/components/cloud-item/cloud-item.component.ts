@@ -10,7 +10,7 @@ import { getFileShortName } from '../../../utils';
 })
 export class CloudItemComponent implements OnInit {
 
-  @Input() 
+  @Input()
   get item(): any { return this._item; }
   set item(item: any) { this._item = item; }
   private _item: any;

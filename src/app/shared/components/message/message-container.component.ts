@@ -9,7 +9,7 @@ import {
 import { MessageConfig, MESSAGE_CONFIG, MESSAGE_DEFAULT_CONFIG } from './message-config';
 import { MessageDataOptions, MessageDataFilled } from './message.definitions';
 import { Subject } from 'rxjs';
- 
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -24,7 +24,7 @@ export class MessageContainerComponent {
   messages: MessageDataFilled[] = [];
   config: Required<MessageConfig>;
   top: string | number;
-  
+
   constructor(
     protected cdr: ChangeDetectorRef,
     @Optional() @Inject(MESSAGE_DEFAULT_CONFIG) defaultConfig: MessageConfig,
@@ -55,12 +55,14 @@ export class MessageContainerComponent {
           if (message.messageId === messageId) {
             this.messages.splice(index, 1);
             this.cdr.detectChanges();
+            // tslint:disable-next-line
             message.onClose!.next(userAction);
+            // tslint:disable-next-line
             message.onClose!.complete();
             return true;
           }
           return false;
-      })
+      });
   }
 
   removeMEssageAll(): void {

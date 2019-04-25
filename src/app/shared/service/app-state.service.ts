@@ -26,7 +26,8 @@ export class AppStateService {
 
   currentModule: 'cloud' | 'device' = 'cloud';
 
-  private _activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'clipboard' | 'cloud' = 'pictures';
+  private _activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
+   'tools' | 'clipboard' | 'cloud' = 'pictures';
 
   connectionStatus: 'connecting' | 'connected' | 'disconnected'; // 当前连接状态
 
@@ -63,7 +64,6 @@ export class AppStateService {
 
   /**
    * 判断是否显示某个操作按钮
-   * @param action 
    */
   hasAction(action: string): boolean {
     let flag = false;
@@ -98,7 +98,6 @@ export class AppStateService {
 
   /**
    * 判断某个按钮是否可用
-   * @param action 
    */
   isInactive(action: string): boolean {
     let flag = false;
@@ -106,10 +105,13 @@ export class AppStateService {
       case 'download':
       case 'delete':
       case 'copy-or-move':
-        flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length === 0) || (this.currentModule == 'device' && this.deviceStateService.selectedItems.length === 0)
+        flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length === 0) ||
+        (this.currentModule === 'device' && this.deviceStateService.selectedItems.length === 0);
         break;
       case 'rename':
-      flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length !== 1) || (this.currentModule == 'device' && this.deviceStateService.selectedItems.length !== 1)
+        flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length !== 1) ||
+        (this.currentModule === 'device' && this.deviceStateService.selectedItems.length !== 1);
+        break;
     }
     return flag;
   }
@@ -124,7 +126,7 @@ export class AppStateService {
   get loading(): boolean {
     if (this.currentModule === 'cloud') {
       return this.cloudStateService.loading;
-    } else if (this.currentModule === 'device'){
+    } else if (this.currentModule === 'device') {
       return this.deviceStateService.loading;
     }
     return false;

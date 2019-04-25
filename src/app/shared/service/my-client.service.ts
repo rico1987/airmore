@@ -21,9 +21,6 @@ export class MyClientService {
 
   /**
    * 注意：HttpParams.set()方法会返回一个新的HttpParams对象
-   * @param module 
-   * @param url 
-   * @param params 
    */
   get(module: string, url: string, params?: Object): Observable<any> {
     let httpParams = new HttpParams();
@@ -43,9 +40,6 @@ export class MyClientService {
 
   /**
    * 获取设备局域网ip后与设备之间的通信
-   * @param key 
-   * @param data 
-   * @param options 
    */
   devicePost(key: string, data?: Object, options?: Object): Observable<any> {
     const deviceInfo = this.browserStorageService.get('deviceInfo');

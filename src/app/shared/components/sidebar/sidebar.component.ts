@@ -27,7 +27,8 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
   }
 
-  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' | 'tools' | 'clipboard' | 'cloud'): void {
+  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
+   'tools' | 'clipboard' | 'cloud'): void {
     if (fun !== 'cloud') {
       this.deviceStateService.setDeviceActiveFunction(fun);
     }

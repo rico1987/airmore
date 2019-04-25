@@ -1,4 +1,4 @@
-import { Component, OnInit,Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-table-header',
@@ -7,7 +7,7 @@ import { Component, OnInit,Input, Output, EventEmitter } from '@angular/core';
 })
 export class TableHeaderComponent implements OnInit {
 
-  @Input() 
+  @Input()
   get columns(): any { return this._columns; }
   set columns(columns: any) { this._columns = columns; }
   private _columns: any;
@@ -27,9 +27,9 @@ export class TableHeaderComponent implements OnInit {
     this.sorted.emit({
       column,
       sort: this.sort,
-    })
+    });
   }
-  
+
   handleSort(event: any, column: any): void {
     console.log(event.target);
     this.sorted.emit({

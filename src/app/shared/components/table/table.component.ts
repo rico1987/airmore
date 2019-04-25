@@ -8,15 +8,15 @@ import { Component, OnInit, Input } from '@angular/core';
 export class TableComponent implements OnInit {
 
   @Input()
-  get data(): Array<any> { return this._data; };
-  set data(data: Array<any>) { this._data = data; };
+  get data(): Array<any> { return this._data; }
+  set data(data: Array<any>) { this._data = data; }
   private _data: Array<any> = [];
 
   @Input() private size: string;
 
   @Input() private _columnKeys: Array<string> = [];
 
-  @Input() private showHeader: boolean = true;
+  @Input() private showHeader = true;
 
   @Input() private defaultSort: string;
 
@@ -31,7 +31,7 @@ export class TableComponent implements OnInit {
    * 对传进来的数据进行一次处理
    */
   processData(): void {
-    
+
   }
 
   onRowDoubleClick() {}
@@ -45,10 +45,10 @@ export class TableComponent implements OnInit {
   onCellMouseLeave() {}
 
   onCellClick() {}
-  
+
   onCellDoubleClick() {}
 
-  
+
 
   onSorted(data) {
     console.log(data);

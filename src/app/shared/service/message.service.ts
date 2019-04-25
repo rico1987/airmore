@@ -3,7 +3,7 @@ import { Message } from '../models/message.model';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 
 export class MessageBaseService<> {
-    
+
 }
 
 @Injectable()
@@ -15,7 +15,7 @@ export class MessageService {
 
     private _type: string;
 
-    private _currentZIndex: number = 2000;
+    private _currentZIndex = 2000;
 
     constructor(
         @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,

@@ -7,12 +7,12 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class GridListComponent implements OnInit {
 
-  @Input() 
+  @Input()
   get listItems(): any { return this._listItems; }
   set listItems(listItems: any) { this._listItems = listItems; }
   private _listItems: any;
 
-  @Input() loading: boolean = false;
+  @Input() loading = false;
 
   @Input() headerTemplate: Array<any>;
 

@@ -8,8 +8,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 export class TableBodyComponent implements OnInit {
 
   @Input()
-  get rows(): Array<any> { return this._rows; };
-  set rows(rows: Array<any>) { this._rows = rows; };
+  get rows(): Array<any> { return this._rows; }
+  set rows(rows: Array<any>) { this._rows = rows; }
   private _rows: Array<any> = [];
 
   @Output() rowDoubleClick = new EventEmitter<any>();

@@ -42,7 +42,6 @@ export class CloudStateService {
 
   /**
    * 预览图片
-   * @param item 
    */
   preview(item: any): void {
       const itemList = this.itemList.filter((ele: any) => ele.type === 'image');
@@ -50,10 +49,6 @@ export class CloudStateService {
 
   /**
    * 获取item列表
-   * @param category 
-   * @param per_page 
-   * @param page 
-   * @param parent_id 
    */
   getItemList(
     category?: 'image' | 'document' | 'video' | 'audio' | null,
@@ -189,8 +184,6 @@ export class CloudStateService {
 
   /**
    * 处理请求列表返回的数据
-   * @param data 
-   * @param is_load_more 
    */
   processDataList(data: CommonResponse, is_load_more?: boolean): void {
     if (data.data.list) {
@@ -214,7 +207,6 @@ export class CloudStateService {
 
   /**
    * 下载item
-   * @param item 
    */
   download(item: any): void {
     if (item.node_type === 'folder' || item.people_id || item.user_lab_id || item.place_id) {
@@ -243,7 +235,7 @@ export class CloudStateService {
   }
 
   /**
-   * 
+   *
    */
   downloadItems(): void {
       if (this.selectedItems.length === 0) {
@@ -275,7 +267,6 @@ export class CloudStateService {
 
   /**
    * cloud navigator 组件切换上级目录函数
-   * @param parent 切换目标目录
    */
   changeParent(parent: any): void {
     const index = this.parentsStack.findIndex((ele) => ele.library_id === parent.library_id);
@@ -300,7 +291,7 @@ export class CloudStateService {
 
   removeItems(items: Array<any>): void {
     for (let i = 0, length = items.length; i < length; i++) {
-      const index = this.selectedItems.indexOf(items[i])
+      const index = this.selectedItems.indexOf(items[i]);
       if (index > -1) {
         this.selectedItems.splice(index, 1);
       }

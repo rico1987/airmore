@@ -50,7 +50,7 @@ export class ConnectionComponent implements OnInit {
           })
           .catch((e) => {
             console.log(e);
-          })
+          });
       }
     }, 1000);
   }

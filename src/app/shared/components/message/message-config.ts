@@ -7,7 +7,7 @@ export interface MessageConfig {
     pauseOnHover?: boolean;
     top?: number | string;
 
-    [index: string]: any; 
+    [index: string]: any;
 }
 
 export const MESSAGE_DEFAULT_CONFIG = new InjectionToken<MessageConfig>('MESSAGE_DEFAULT_CONFIG');

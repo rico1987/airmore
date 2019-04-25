@@ -22,8 +22,8 @@ export class DeviceSidebarComponent implements OnInit {
     this.deviceStateService.getSidebarItemList();
   }
 
-  getThumbPath(path: string, size: number) :string {
-    let thumbSize = size || 168;
+  getThumbPath(path: string, size: number): string {
+    const thumbSize = size || 168;
     return `${this.deviceService.resolvePath(path)}?Shortcut=1&Width=${thumbSize}&Height=${thumbSize}`;
   }
 
