@@ -1,0 +1,3 @@
+<div class="airmore-message-container" [style.top]="top">
+    <app-message *ngFor="let message of messages; let i = index" [message]="message" [index]="i"></app-message>
+</div>

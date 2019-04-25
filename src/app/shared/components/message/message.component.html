@@ -1,5 +1,8 @@
-<div class="airmore-message">
+<div class="airmore-message"
+  (mouseenter)="onEnter()"
+  (mouseleave)="onLeave()"
+>
   <div class="airmore-message__content" [ngClass]="'is-' + type">
-    {{message}}
+    <span>{{message}}</span>
   </div>
 </div>

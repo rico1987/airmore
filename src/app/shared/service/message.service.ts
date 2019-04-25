@@ -2,12 +2,12 @@ import { Injectable, TemplateRef, Inject } from '@angular/core';
 import { Message } from '../models/message.model';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class MessageService {
-
+export class MessageBaseService<> {
     
+}
+
+@Injectable()
+export class MessageService {
 
     private _interval: any = null;
 
