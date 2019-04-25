@@ -76,7 +76,7 @@
       <div class="airmore-device-sidebar__clipboard-item" *ngFor="let item of deviceStateService.itemList">
         <div class="checkBox"></div>
         <div class="container">
-          <p class="date">{{item.Time}}</p>
+          <p class="date">{{item.Time | date}}</p>
           <p class="content">{{item.Content}}</p>
         </div>
         <div class="copy-button"></div>

@@ -150,7 +150,10 @@ export class DeviceStateService {
         }
     }
 
-    refreshItemList(): void {}
+    refreshItemList(): void {
+        this.resetPaging();
+        // todo
+    }
 
     selectAll(): void {
         this.selectedItems = this.itemList.concat();

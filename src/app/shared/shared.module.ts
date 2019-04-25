@@ -23,7 +23,8 @@ import { TableBodyComponent } from './components/table-body/table-body.component
 import { CommonModalComponent } from './components/common-modal/common-modal.component';
 import { RegisterFormComponent } from './forms/register-form/register-form.component';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
-import { RadarComponent } from './components/radar/radar.component';;
+import { RadarComponent } from './components/radar/radar.component';
+import { MessageComponent } from './components/message/message.component';;
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -54,6 +55,7 @@ const DIRECTIVES = [];
     RegisterFormComponent,
     MusicPlayerComponent,
     RadarComponent,
+    MessageComponent,
   ],
   imports: [
     CommonModule,
@@ -71,6 +73,7 @@ const DIRECTIVES = [];
   ],
   entryComponents: [
     CommonModalComponent,
+    MessageComponent,
   ],
 })
 export class SharedModule { }
