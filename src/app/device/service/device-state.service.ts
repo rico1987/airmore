@@ -155,7 +155,11 @@ export class DeviceStateService {
     }
 
     selectAll(): void {
-        this.selectedItems = this.itemList.concat();
+        if (this.selectedItems.length < this.itemList.length) {
+            this.selectedItems = this.itemList.concat();
+        } else {
+            this.selectedItems = [];
+        }
     }
 
     addItems(items: Array<any>): void {

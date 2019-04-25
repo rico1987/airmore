@@ -224,7 +224,12 @@ export class CloudStateService {
    * 选择全部
    */
   selectAll(): void {
-    this.selectedItems = this.itemList.concat();
+    if (this.selectedItems.length < this.itemList.length) {
+      this.selectedItems = this.itemList.concat();
+    } else {
+      this.selectedItems = [];
+    }
+    
   }
 
   /**

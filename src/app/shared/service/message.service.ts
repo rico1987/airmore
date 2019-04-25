@@ -1,68 +1,121 @@
-import { Injectable, TemplateRef, Inject } from '@angular/core';
+import { Overlay } from '@angular/cdk/overlay';
+import {
+    ApplicationRef,
+    ComponentFactoryResolver,
+    EmbeddedViewRef,
+    Injectable,
+    Injector,
+    TemplateRef,
+    Type
+} from '@angular/core';
 import { Message } from '../models/message.model';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
+import { MessageConfig } from '../components/message/message-config';
+import { MessageContainerComponent } from '../components/message/message-container.component';
+import { MessageDataOptions, MessageDataFilled, MessageData } from '../components/message/message.definitions';
 
-export class MessageBaseService<> {
 
-}
+let globalCounter = 0;
 
-@Injectable()
-export class MessageService {
-
-    private _interval: any = null;
-
-    private _instances: Array<any>;
-
-    private _type: string;
-
-    private _currentZIndex = 2000;
+export class MessageBaseService<
+    ContainerClass extends MessageContainerComponent,
+    MessageData,
+    Config extends MessageConfig
+> {
+    protected _container: ContainerClass;
 
     constructor(
-        @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
-    ) { }
-
-    private _push(message: Message): void {
-        this._instances.push(message);
+        private overlay: Overlay,
+        private containerClass: Type<ContainerClass>,
+        private injector: Injector,
+        private cfr: ComponentFactoryResolver,
+        private appRef: ApplicationRef,
+        private _idPrefix: string = ''
+    ) {
+        this._container = this.createContainer();
     }
 
-    private _pop(): void {
-        if (!this._interval) {
-            this._interval = setInterval(() => {
-                if (this._instances.length === 0) {
-                    clearInterval(this._interval);
-                }
-            }, this.appConfig.app.messageInterval);
+    remove(messageId?: string): void {
+        if (messageId) {
+            this._container.removeMessage(messageId);
+        } else {
+            this._container.removeMEssageAll();
         }
     }
 
-    success(msg: string): void {
-        this._push({
-            message: msg,
-            type: 'success',
-        });
-        this._pop();
+    createMessage(message: MessageData, options?: MessageDataOptions): MessageDataFilled {
+        const resultMessage: MessageDataFilled = {
+            ...(message as MessageData),
+            ...{
+                createAt: new Date(),
+                messageId: this._generateMessageId(),
+                options
+            }
+        };
+        this._container.createMessage(resultMessage);
+
+        return resultMessage;
     }
 
-    warning(msg: string): void {
-        this._push({
-            message: msg,
-            type: 'warning',
-        });
-        this._pop();
+    config(config: Config): void {
+        this._container.setConfig(config);
     }
 
-    error(msg: string): void {
-        this._push({
-            message: msg,
-            type: 'error',
-        });
-        this._pop();
+    protected _generateMessageId(): string {
+        return this._idPrefix + globalCounter++;
     }
 
-    closeAll(): void {}
+    private createContainer(): ContainerClass {
+        const factory = this.cfr.resolveComponentFactory(this.containerClass);
+        const componentRef = factory.create(this.injector);
+        componentRef.changeDetectorRef.detectChanges();
+        this.appRef.attachView(componentRef.hostView);
+        const overlayPane = this.overlay.create().overlayElement;
+        overlayPane.style.zIndex = '1010';
+        overlayPane.appendChild((componentRef.hostView as EmbeddedViewRef<{}>).rootNodes[0] as HTMLElement);
 
-    private _nextZIndex(): number {
-        return this._currentZIndex ++;
+        return componentRef.instance;
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class MessageService extends MessageBaseService<
+    MessageContainerComponent,
+    MessageData,
+    MessageConfig
+> {
+    constructor(overlay: Overlay, injector: Injector, cfr: ComponentFactoryResolver, appRef: ApplicationRef) {
+        super(overlay, MessageContainerComponent, injector, cfr, appRef, 'message-');
+    }
+
+    success(content: string | TemplateRef<void>, options?: MessageDataOptions): MessageDataFilled {
+        return this.createMessage({ type: 'success', content }, options);
+    }
+
+    error(content: string | TemplateRef<void>, options?: MessageDataOptions): MessageDataFilled {
+        return this.createMessage({ type: 'error', content }, options);
+    }
+
+    info(content: string | TemplateRef<void>, options?: MessageDataOptions): MessageDataFilled {
+        return this.createMessage({ type: 'info', content }, options);
+    }
+
+    warning(content: string | TemplateRef<void>, options?: MessageDataOptions): MessageDataFilled {
+        return this.createMessage({ type: 'warning', content }, options);
+    }
+
+    loading(content: string | TemplateRef<void>, options?: MessageDataOptions): MessageDataFilled {
+        return this.createMessage({ type: 'loading', content }, options);
+    }
+
+    create(
+        type: 'success' | 'info' | 'warning' | 'error' | 'loading' | string,
+        content: string | TemplateRef<void>,
+        options?: MessageDataOptions
+    ): MessageDataFilled {
+    return this.createMessage({ type, content }, options);
     }
 
 }

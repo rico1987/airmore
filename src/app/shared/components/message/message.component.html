@@ -1,8 +1,10 @@
 <div class="airmore-message"
+  [@moveUpMotion]="message.state"
   (mouseenter)="onEnter()"
   (mouseleave)="onLeave()"
 >
-  <div class="airmore-message__content" [ngClass]="'is-' + type">
-    <span>{{message}}</span>
+  <div class="airmore-message__content" [ngClass]="'is-' + message.type">
+    <span class="airmore-message__content-text" >{{message.content}}</span>
+    <span class="airmore-message__content-close" (click)="close"></span>
   </div>
 </div>

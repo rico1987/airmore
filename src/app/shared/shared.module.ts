@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 import { ConnectionComponent } from './components/connection/connection.component';
 import { AccountComponent } from './components/account/account.component';
@@ -25,6 +26,9 @@ import { RegisterFormComponent } from './forms/register-form/register-form.compo
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
 import { RadarComponent } from './components/radar/radar.component';
 import { MessageComponent } from './components/message/message.component';
+import { MessageContainerComponent } from './components/message/message-container.component';
+
+import { MESSAGE_DEFAULT_CONFIG_PROVIDER } from './components/message/message-config';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -56,14 +60,17 @@ const DIRECTIVES = [];
     MusicPlayerComponent,
     RadarComponent,
     MessageComponent,
+    MessageContainerComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
+    OverlayModule,
   ],
   providers: [
+    MESSAGE_DEFAULT_CONFIG_PROVIDER,
   ],
   exports: [
     RouterModule,
@@ -74,6 +81,7 @@ const DIRECTIVES = [];
   entryComponents: [
     CommonModalComponent,
     MessageComponent,
+    MessageContainerComponent,
   ],
 })
 export class SharedModule { }

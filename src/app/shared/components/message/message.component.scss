@@ -2,5 +2,53 @@
 @import "../../../../styles/themes/default/variables.scss";
 
 @include b(message) {
-    
+    padding: 8px;
+    text-align: center;
+
+    @include e(content) {
+        position: relative;
+        display: inline-block;
+        pointer-events: all;
+        width: 460px;
+        margin-top: 10px;
+		padding: 13px 40px 13px 68px;
+		background-repeat: no-repeat;
+		background-position: 15px 9px;
+		background-color: $white;
+        box-shadow: 0 2px 4px 0 rgba(#000, 0.3);
+        &:hover{
+            @include e(content-close) {
+                background-image: url('../../../../assets/img/common/win/close-blue.svg');
+            }
+        }
+
+        $messageTypes: warning, error, info, success;
+        $colors: #f15a22, #ec212b, #208ecd, #0b9748;
+        @for $i from 1 through 4{
+            $type: nth($messageTypes, $i);
+            $color: nth($colors, $i);
+            @include when($type) {
+                background-image: url('../../../../assets/img/common/msg/#{$type}.svg');
+                border-top: 4px solid $color;
+            }
+        }
+    }
+
+    @include e(content-text) {
+        font-size: $font-size-base;
+    }
+
+    @include e(content-close) {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: 8px;
+        right: 0;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-image: url('../../../../assets/img/common/win/close.svg');
+
+        
+
+    }
 }

@@ -3,6 +3,7 @@ import { AppStateService } from '../../../shared/service/app-state.service';
 import { DeviceStateService } from '../../service/device-state.service';
 import { DeviceService } from '../../../shared/service/device.service';
 import { BrowserStorageService } from '../../../shared/service/storage.service';
+import { MessageService } from '../../../shared/service/message.service';
 
 @Component({
   selector: 'app-device-sidebar',
@@ -16,6 +17,7 @@ export class DeviceSidebarComponent implements OnInit {
     private deviceService: DeviceService,
     private deviceStateService: DeviceStateService,
     private browserStorageService: BrowserStorageService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -29,5 +31,9 @@ export class DeviceSidebarComponent implements OnInit {
 
   selectAlbum(item): void {
     this.deviceStateService.selectAlbum(item.AlbumID);
+  }
+
+  copy(item): void {
+    this.messageService.error('error');
   }
 }

@@ -45,8 +45,8 @@
         background-position: left top;
         background-repeat: no-repeat;
 
-        @include when(warn) {
-            background-image: url('../../../../assets/img/common/msg/warn.svg');
+        @include when(warning) {
+            background-image: url('../../../../assets/img/common/msg/warning.svg');
         }
         p{
             padding-top: 7px;

@@ -2,7 +2,9 @@ import {Injectable, TemplateRef} from '@angular/core';
 import {NgbModal, NgbModalOptions} from '@ng-bootstrap/ng-bootstrap';
 import { CommonModalComponent } from '../components/common-modal/common-modal.component';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ModalService {
 
     constructor(private modalService: NgbModal) {}

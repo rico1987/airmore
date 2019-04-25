@@ -1,7 +1,7 @@
 import { TemplateRef } from '@angular/core';
 import { Subject } from 'rxjs';
 
-export type MessageType = 'success' | 'info' | 'warning' | 'error' | 'loading';
+export type MessageType = 'success' | 'info' | 'warning' | 'error';
 
 export interface MessageDataOptions {
     duration?: number;

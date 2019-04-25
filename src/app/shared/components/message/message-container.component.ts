@@ -30,8 +30,8 @@ export class MessageContainerComponent {
     @Optional() @Inject(MESSAGE_DEFAULT_CONFIG) defaultConfig: MessageConfig,
     @Optional() @Inject(MESSAGE_CONFIG) config: MessageConfig,
   ) {
+    console.log({ ...defaultConfig, ...config });
     this.setConfig({ ...defaultConfig, ...config });
-
   }
 
   setConfig(config: MessageConfig): void {
