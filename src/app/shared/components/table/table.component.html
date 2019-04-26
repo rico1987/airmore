@@ -1,6 +1,13 @@
 <div class="airmore-table">
   <div class="airmore-table__header-wrapper" *ngIf="showHeader">
-    <app-table-header (sorted)="onSorted($event)"></app-table-header>
+    <app-table-header
+      *ngIf="showHeader"
+      [headerTitles]="headerTitles"
+      [selectable]="selectable"
+      [defaultSort]="defaultSort"
+      [columnKeys]="columnKeys"
+      (sorted)="onSorted($event)"
+    ></app-table-header>
   </div>
   <div class="airmore-table__body-wrapper">
     <app-table-body

@@ -21,6 +21,8 @@ export class DeviceStateService {
 
     selectedItems: Array<any> = []; // 选中的item
 
+    activeViewMode:  'list' | 'grid' = 'list';
+
     loading: false;
 
     Start = 0;
@@ -162,6 +164,8 @@ export class DeviceStateService {
         }
     }
 
+    deleteItems(): void {}
+
     addItems(items: Array<any>): void {
         this.selectedItems.push(...items);
     }
@@ -180,5 +184,9 @@ export class DeviceStateService {
     resetPaging(): void {
         this.Start = 0;
         this.Limit = 50;
+    }
+
+    setActiveViewMode(activeViewMode:  'list' | 'grid'): void {
+        this.activeViewMode = activeViewMode;
     }
 }

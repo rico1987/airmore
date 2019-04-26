@@ -28,7 +28,8 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/ng-zorro-antd/table/style/index.min.css",
+              "node_modules/ng-zorro-antd/modal/style/index.min.css"
             ],
             "scripts": []
           },

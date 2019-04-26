@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { CloudRoutingModule } from './cloud-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -25,6 +27,8 @@ import { CloudNavigatorComponent } from './components/cloud-navigator/cloud-navi
     SharedModule,
     CommonModule,
     CloudRoutingModule,
+    NzTableModule,
+    NzModalModule,
   ],
   providers: [
   ]

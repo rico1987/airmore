@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { NgbModalModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NZ_MODAL_CONFIG } from 'ng-zorro-antd';
 
 // modules
 import { SharedModule } from './shared/shared.module';
@@ -24,7 +24,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
-
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultInterceptor } from './core/interceptors/default.interceptor';
@@ -41,8 +40,7 @@ const INTERCEPTOR_PROVIDES = [
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    NgbModalModule,
-    NgbAlertModule,
+    NzModalModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -59,6 +57,7 @@ const INTERCEPTOR_PROVIDES = [
   providers: [
     ...INTERCEPTOR_PROVIDES,
     APP_DEFAULT_CONFIG_PROVIDER,
+    { provide: NZ_MODAL_CONFIG, useValue: { nzMask: true }},
   ],
   bootstrap: [AppComponent]
 })

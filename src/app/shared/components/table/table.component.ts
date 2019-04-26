@@ -7,23 +7,26 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
-  @Input()
-  get data(): Array<any> { return this._data; }
-  set data(data: Array<any>) { this._data = data; }
-  private _data: Array<any> = [];
+  @Input() tableData: Array<any>;
 
-  @Input() private size: string;
+  @Input() size: string;
 
-  @Input() private _columnKeys: Array<string> = [];
+  @Input() headerTitles: Array<string>;
 
-  @Input() private showHeader = true;
+  @Input() widthArray: Array<string>;
 
-  @Input() private defaultSort: string;
+  @Input() columnKeys: Array<string> = [];
 
-  constructor() { }
+  @Input() selectable: boolean;
+
+  @Input() showHeader = true;
+
+  @Input() defaultSort: string;
+
+  constructor() {
+  }
 
   ngOnInit() {
-    console.log(this.data);
     this.processData();
   }
 

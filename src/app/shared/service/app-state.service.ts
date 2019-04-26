@@ -18,8 +18,6 @@ export class AppStateService {
 
   currentLanguage: string; // 当前语言
 
-  activeViewMode:  'list' | 'grid' = 'list';
-
   deviceConnected = false;
 
   platform: 'android' | 'iphone' = null; // 'android', 'iphone'
@@ -39,7 +37,11 @@ export class AppStateService {
   ) { }
 
   setActiveViewMode(mode: 'list' | 'grid'): void {
-    this.activeViewMode = mode;
+    if (this.currentModule === 'cloud') {
+      this.cloudStateService.setActiveViewMode(mode);
+    } else if (this.currentModule === 'device') {
+      this.deviceStateService.setActiveViewMode(mode);
+    }
   }
 
   changeConnectionType(connectionType: string): void {
@@ -134,9 +136,17 @@ export class AppStateService {
 
   get activeFunction(): any {
     if (this.currentModule === 'cloud') {
-      return this.cloudStateService.activeFunction;
+      return 'cloud';
     } else if (this.currentModule === 'device') {
       return this.deviceStateService.activeFunction;
+    }
+  }
+
+  get activeViewMode(): string {
+    if (this.currentModule === 'cloud') {
+      return this.cloudStateService.activeViewMode;
+    } else if (this.currentModule === 'device') {
+      return this.deviceStateService.activeViewMode;
     }
   }
 }

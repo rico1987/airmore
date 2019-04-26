@@ -63,7 +63,11 @@ export class SubheaderComponent implements OnInit {
         }
         break;
       case 'delete':
-        this.messageService.error('wwwwajjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+        if (this.appStateService.currentModule === 'cloud') {
+          this.cloudStateService.deleteItems();
+        } else if (this.appStateService.currentModule === 'device') {
+          this.deviceStateService.deleteItems();
+        }
         break;
     }
   }

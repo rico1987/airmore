@@ -21,7 +21,6 @@ import { TableComponent } from './components/table/table.component';
 import { TableColumnComponent } from './components/table-column/table-column.component';
 import { TableHeaderComponent } from './components/table-header/table-header.component';
 import { TableBodyComponent } from './components/table-body/table-body.component';
-import { CommonModalComponent } from './components/common-modal/common-modal.component';
 import { RegisterFormComponent } from './forms/register-form/register-form.component';
 import { MusicPlayerComponent } from './components/music-player/music-player.component';
 import { RadarComponent } from './components/radar/radar.component';
@@ -55,7 +54,6 @@ const DIRECTIVES = [];
     TableColumnComponent,
     TableHeaderComponent,
     TableBodyComponent,
-    CommonModalComponent,
     RegisterFormComponent,
     MusicPlayerComponent,
     RadarComponent,
@@ -79,7 +77,6 @@ const DIRECTIVES = [];
     ...DIRECTIVES,
   ],
   entryComponents: [
-    CommonModalComponent,
     MessageComponent,
     MessageContainerComponent,
   ],

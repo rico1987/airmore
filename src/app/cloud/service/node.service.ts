@@ -37,7 +37,7 @@ export class NodeService {
    * 批量删除节点
    * @param id_list 节点ID列表
    */
-  deleteNodes(id_list: [string]): Observable < any > {
+  deleteNodes(id_list: any[]): Observable < any > {
     return this.myClientService.delete('cloud', '/nodes', {
       id_list: JSON.stringify(id_list),
     });

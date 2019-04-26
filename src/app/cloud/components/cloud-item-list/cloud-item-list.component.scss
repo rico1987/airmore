@@ -19,4 +19,25 @@
             text-align: center;
         }
     }
+
+    @include e(td) {
+        position: relative;
+        @include e(preview-btn) {
+            display: none;
+            width: 36px;
+            height: 36px;
+            background: url('../../../../assets/img/action/gray/preview-gray.svg') center no-repeat;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            margin-top: -18px;
+            cursor: pointer;
+        }
+        &:hover {
+            @include e(preview-btn) {
+                display: inline-block;
+            }
+        }
+    }
 }
+

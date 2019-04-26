@@ -7,18 +7,34 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class TableHeaderComponent implements OnInit {
 
-  @Input()
-  get columns(): any { return this._columns; }
-  set columns(columns: any) { this._columns = columns; }
-  private _columns: any;
+  @Input() headerTitles: Array<string>;
+
+  @Input() selectable: boolean;
+
+  @Input() defaultSort: string;
+
+  @Input() columnKeys: Array<string>;
 
   @Output() sorted = new EventEmitter<any>();
+
+  columns: Array<any> = [];
 
   sort: 'ascending' | 'descending' = 'ascending';
 
   constructor() { }
 
   ngOnInit() {
+    this._generateColumnsData();
+  }
+
+  private _generateColumnsData() {
+    for (let i = 0, l = this.headerTitles.length; i < l; i++) {
+      this.columns.push({
+        id: this.columnKeys[i],
+        label: this.headerTitles[i],
+        sortable: true,
+      })
+    }
   }
 
   handleHeaderClick(event: any, column: any): void {

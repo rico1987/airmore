@@ -100,6 +100,7 @@ export class CloudItemComponent implements OnInit {
     } else if (this.item && this.item.people_id) {
       return 'people';
     }
+    return null;
   }
 
   get shortName(): string {

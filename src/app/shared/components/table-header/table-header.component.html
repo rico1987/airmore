@@ -1,23 +1,25 @@
-<div class="airmore-table-header">
-  <table class="airmore-table-header__table" cellspacing="0" cellpadding="0" border="0">
-    <thead>
-      <th
-        *ngFor="let column of columns"
-        (click)="handleHeaderClick($event, column)"
-        key={column.id}
-      >
-        <div class="cell">
-          <span>{{column.label}}</span>
-          <span
-            *ngIf="column.sortable"
-            class="caret"
-            (click)="handleSort($event, column)"
+<ng-container>
+    <div class="airmore-table-header">
+      <table class="airmore-table-header__table" cellspacing="0" cellpadding="0" border="0">
+        <thead>
+          <th
+            *ngFor="let column of columns"
+            (click)="handleHeaderClick($event, column)"
+            key={column.id}
           >
-            <i class="sort-caret ascending"></i>
-            <i class="sort-caret descending"></i>
-          </span>
-        </div>
-      </th>
-    </thead>
-  </table>
-</div>
+            <div class="cell">
+              <span>{{column.label}}</span>
+              <span
+                *ngIf="column.sortable"
+                class="caret"
+                (click)="handleSort($event, column)"
+              >
+                <i class="sort-caret ascending"></i>
+                <i class="sort-caret descending"></i>
+              </span>
+            </div>
+          </th>
+        </thead>
+      </table>
+    </div>
+</ng-container>

@@ -1,10 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
+import { NzModalService } from 'ng-zorro-antd/modal';
+
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../models';
 import { NodeService } from './node.service';
 import { CommonResponse } from '../../shared/models/common-response.model';
 import { downloadLink } from '../../utils/tools';
-import { ModalService } from '../../shared/service/modal.service';
+import { MessageService } from '../../shared/service/message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,8 @@ export class CloudStateService {
   activeImageCategory: 'labs' | 'places' | 'people' = 'labs';
 
   selectedItems: Array<any> = []; // 选中的item
+
+  activeViewMode:  'list' | 'grid' = 'list';
 
   private functions: Array<string>;
 
@@ -34,7 +38,8 @@ export class CloudStateService {
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private nodeService: NodeService,
-    private modalService: ModalService,
+    private modalService: NzModalService,
+    private messageService: MessageService,
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
     // todo 计算排列参数
@@ -191,17 +196,21 @@ export class CloudStateService {
       if (!is_load_more) {
         this.itemList = [];
       }
-      let index = 0;
-      this.interval = setInterval(() => {
-        if (index < data.data.list.length) {
-          this.itemList[index] = data.data.list[index];
-          index += 1;
-        }
-        if (index === data.data.list.length - 1) {
-          clearInterval(this.interval);
-          this.interval = null;
-        }
-      }, 50);
+      if (this.activeViewMode === 'list') {
+        this.itemList = data.data.list.concat();
+      } else if (this.activeViewMode === 'grid') {
+        let index = 0;
+        this.interval = setInterval(() => {
+          if (index < data.data.list.length) {
+            this.itemList[index] = data.data.list[index];
+            index += 1;
+          }
+          if (index === data.data.list.length - 1) {
+            clearInterval(this.interval);
+            this.interval = null;
+          }
+        }, 50);
+      }
     }
   }
 
@@ -229,14 +238,57 @@ export class CloudStateService {
     } else {
       this.selectedItems = [];
     }
-    
+  }
+
+  deleteItems(): void {
+    if (this.selectedItems.length === 0) {
+      this.messageService.error('请至少选择一个项目');
+    }
+    this.modalService.confirm({
+      nzTitle: '<i>Warning</i>',
+      nzContent: '<b>Do you Want to delete these items?</b>',
+      nzOnOk: () => {
+        this.loading = true;
+        let node_list  = [];
+        for (let i = 0, l = this.selectedItems.length; i < l; i++) {
+          if (this.selectedItems[i].library_id) {
+            node_list.push(this.selectedItems[i].library_id)
+          } else if (this.selectedItems[i].resource_id) {
+            node_list.push(this.selectedItems[i].resource_id)
+          }
+        }
+        console.log(node_list);
+        this.nodeService.deleteNodes(node_list)
+          .subscribe(
+            (data: CommonResponse) => {
+              if(data.status === '1') {
+                this.messageService.success('删除成功');
+                this.refreshItemList();
+              }
+            },
+            (error) => {
+              if (error) {
+                this.messageService.error('删除失败');
+              }
+            },
+            () => {
+              this.loading = false;
+            }
+          );
+      }
+    });
   }
 
   /**
    * 创建新文件夹
    */
   newFolder(): void {
-    this.modalService.warn('test', 'test');
+
+    this.modalService.confirm({
+      nzTitle: '<i>Do you Want to delete these items?</i>',
+      nzContent: '<b>Some descriptions</b>',
+      nzOnOk: () => console.log('OK')
+    });
   }
 
   /**
@@ -290,10 +342,16 @@ export class CloudStateService {
     }
   }
 
+  /**
+   * 将items数组添加到已选择数组中
+   */
   addItems(items: Array<any>): void {
     this.selectedItems.push(...items);
   }
 
+  /**
+   * 将items数组里的对象从已选择数组里移除
+   */
   removeItems(items: Array<any>): void {
     for (let i = 0, length = items.length; i < length; i++) {
       const index = this.selectedItems.indexOf(items[i]);
@@ -316,6 +374,10 @@ export class CloudStateService {
     this.activeImageCategory = imageCategory;
     this.resetPaging();
     this.getItemList();
+  }
+
+  setActiveViewMode(activeViewMode:  'list' | 'grid'): void {
+    this.activeViewMode = activeViewMode;
   }
 
   get currentParentId(): string {
