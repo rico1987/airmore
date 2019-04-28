@@ -32,6 +32,7 @@ import { MESSAGE_DEFAULT_CONFIG_PROVIDER } from './components/message/message-co
 import { SizePipe } from './pipes/size.pipe';
 import { RenameModalComponent } from './components/rename-modal/rename-modal.component';
 import { NewFolderModalComponent } from './components/new-folder-modal/new-folder-modal.component';
+import { DynamicInputComponent } from './components/dynamic-input/dynamic-input.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -70,6 +71,7 @@ const PIPES = [
     SizePipe,
     RenameModalComponent,
     NewFolderModalComponent,
+    DynamicInputComponent,
   ],
   imports: [
     CommonModule,
@@ -94,6 +96,7 @@ const PIPES = [
     MessageContainerComponent,
     RenameModalComponent,
     NewFolderModalComponent,
+    DynamicInputComponent,
   ],
 })
 export class SharedModule { }

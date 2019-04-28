@@ -20,7 +20,7 @@ export class BrowserStorageService {
     try {
       result = JSON.parse(this.storage.getItem(key));
     } catch (e) {
-      result = {};
+      result = null;
     }
     return result;
   }

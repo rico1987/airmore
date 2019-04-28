@@ -1,5 +1,14 @@
-import { Injectable, Inject } from '@angular/core';
+import {
+  Injectable,
+  Inject,
+  Injector,
+  ApplicationRef,
+  ComponentFactoryResolver,
+  EmbeddedViewRef,
+} from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
+
+import { Observable, Observer } from 'rxjs';
 
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../models';
@@ -7,9 +16,13 @@ import { NodeService } from './node.service';
 import { CommonResponse } from '../../shared/models/common-response.model';
 import { downloadLink } from '../../utils/tools';
 import { MessageService } from '../../shared/service/message.service';
+import { CloudBaseService } from './cloud-base.service';
 
 import { RenameModalComponent } from '../../shared/components/rename-modal/rename-modal.component';
 import { NewFolderModalComponent } from '../../shared/components/new-folder-modal/new-folder-modal.component';
+import { DynamicInputComponent } from '../../shared/components/dynamic-input/dynamic-input.component';
+
+import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -36,15 +49,24 @@ export class CloudStateService {
 
   parentsStack: Array<any> = [];
 
+  uploadQueue: Array<UploadFile> = [];
+
+  uploadedCount: number = 0;
+
   loading = false;
 
   interval = null;
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private injector: Injector,
+    private cfr: ComponentFactoryResolver,
+    private appRef: ApplicationRef,
     private nodeService: NodeService,
     private modalService: NzModalService,
     private messageService: MessageService,
+    private cloudBaseService: CloudBaseService,
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
     // todo 计算排列参数
@@ -355,7 +377,69 @@ export class CloudStateService {
    * 上传文件
    */
   upload(): void {
+    if (this.parentsStack.length === 0) {
+      this.messageService.warning('Can\'t upload file in the root folder!');
+      return;
+    }
+    const componentRef = this.componentFactoryResolver
+      .resolveComponentFactory(DynamicInputComponent)
+      .create(this.injector);
+
+    componentRef.instance.options = {
+      multiple: true,
+    };
     
+    this.appRef.attachView(componentRef.hostView);
+
+    const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
+      .rootNodes[0] as HTMLElement;
+    
+    document.body.appendChild(domElem);
+
+    componentRef.instance.onFileChange = (fileList: UploadFile[]) => {
+      this.uploadQueue = [];
+      for(let i = 0, l = fileList.length; i < l; i++) {
+        const uploadFile: UploadFile = (fileList[i] as UploadFile);
+        uploadFile.progress = 0;
+        uploadFile.status = 'uploading';
+        this.uploadQueue.push(uploadFile);
+      }
+      console.log(this.uploadQueue);
+      const library_id = this.parentsStack[this.parentsStack.length - 1].library_id;
+      fileList.forEach((file: UploadFile) => {
+        this.cloudBaseService
+          .upload(file, library_id, this.onUploadProgress.bind(this))
+          .then((res) => {
+            if (res.data.status === '1') {
+              this.uploadedCount ++ ;
+              if (res.name) {
+                const key = res.name;
+                const index = this.uploadQueue.findIndex((ele) => ele.key === key);
+                this.uploadQueue[index].progress = 1;
+                this.uploadQueue[index].status = 'done';
+              }
+              if (this.uploadedCount === this.uploadQueue.length) {
+                this.refreshItemList();
+              }
+            } else if (res.data.status === -203) {
+              this.messageService.error('The storage space is full!');
+            }
+          });
+      });
+    };
+
+    componentRef.instance.onClick();
+  }
+
+  onUploadProgress(progress: number, checkpoint: any, res?: any): void {
+    if (checkpoint) {
+      const key = checkpoint.key;
+      console.log(progress);
+      const index = this.uploadQueue.findIndex((ele) => ele.key === key);
+      if (this.uploadQueue[index]) {
+        this.uploadQueue[index].progress = progress;
+      }
+    }
   }
 
   /**
