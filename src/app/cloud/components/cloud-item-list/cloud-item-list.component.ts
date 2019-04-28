@@ -148,7 +148,7 @@ export class CloudItemListComponent implements OnInit {
   }
 
   get isAllDisplayDataChecked(): boolean {
-    return this.cloudStateService.selectedItems.length === this.cloudStateService.itemList.length;
+    return this.cloudStateService.selectedItems.length > 0 && this.cloudStateService.selectedItems.length === this.cloudStateService.itemList.length;
   }
 
   get paginationTotal(): number {

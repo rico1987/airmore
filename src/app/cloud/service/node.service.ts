@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CloudModule } from '../cloud.module';
-
 import { MyClientService } from '../../shared/service/my-client.service';
 
 @Injectable({
@@ -43,6 +41,10 @@ export class NodeService {
     });
   }
 
+  addFolder(data: any): Observable <any> {
+    return this.myClientService.post('cloud', '/libraries', data);
+  }
+
   /**
    * 获取节点信息
    * @param id 节点ID
@@ -55,7 +57,6 @@ export class NodeService {
    * 修改节点
    */
   changeNode(isFile: boolean, node_id: string, data: any): Observable <any> {
-    debugger
     if (isFile) {
       return this.myClientService.put('cloud', `/files/${node_id}`, data);
     } 

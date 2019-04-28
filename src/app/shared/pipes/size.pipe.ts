@@ -12,6 +12,8 @@ export class SizePipe implements PipeTransform {
       return (value / 1024 /1024).toFixed(2) + 'MB'
     } else if (value > 1024) {
       return (value / 1024).toFixed(2) + 'KB'
+    } else if (value > 0) {
+      return value + 'B'
     }
     return '-';
   }

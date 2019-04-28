@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
-import { CloudModule } from '../cloud.module';
+import { Observable } from 'rxjs';
 import { MyClientService } from '../../shared/service/my-client.service';
+import { CommonResponse } from '../../shared/models/common-response.model';
 import { UserInfo } from '../../shared/models/user-info.model';
 import { CloudUserInfo } from '../models/cloud-user-info.model';
 import { BrowserStorageService } from '../../shared/service/storage.service';
@@ -20,6 +21,36 @@ export class CloudBaseService {
     private myClientService: MyClientService,
     private storage: BrowserStorageService,
   ) {}
+
+
+  /**
+   * 获取上传auth
+   */
+  getAuthentications(): Promise<any> {
+    return new Promise((resolve) => {
+      const authStorageKey = this.storage.get(this.appConfig.app.authStorageKey)
+      if (authStorageKey) {
+        resolve(authStorageKey)
+      } else {
+        this.myClientService.get('cloud', '/upload/authentications')
+          .subscribe(
+            (res: CommonResponse) => {
+              if (res.data && res.data.status === '1') {
+                resolve(res.data.data);
+                this.storage.set(this.appConfig.app.authStorageKey, res.data.data);
+              }
+            },
+            (error) => {
+              if (error) {
+                resolve();
+              }
+            },
+            () => {
+            }
+          )
+      }
+    });
+  }
 
   setCloudUserInfo(v: CloudUserInfo): void {
     this.storage.set(this.appConfig.app.cloudStorageKey, v);

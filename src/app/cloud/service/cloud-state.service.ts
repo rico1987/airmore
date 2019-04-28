@@ -9,6 +9,7 @@ import { downloadLink } from '../../utils/tools';
 import { MessageService } from '../../shared/service/message.service';
 
 import { RenameModalComponent } from '../../shared/components/rename-modal/rename-modal.component';
+import { NewFolderModalComponent } from '../../shared/components/new-folder-modal/new-folder-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -293,6 +294,9 @@ export class CloudStateService {
     });
   }
 
+  /**
+   * 重命名文件或文件夹
+   */
   rename(): void {
     const renameModal = this.modalService.create({
       nzTitle: '<i>Rename</i>',
@@ -329,7 +333,7 @@ export class CloudStateService {
                 },
                 (error) => {
                   if (error) {
-                    this.messageService.error('修改成功');
+                    this.messageService.error('修改失败');
                   }
                 },
                 () => {
@@ -348,14 +352,63 @@ export class CloudStateService {
   }
 
   /**
+   * 上传文件
+   */
+  upload(): void {
+    
+  }
+
+  /**
    * 创建新文件夹
    */
   newFolder(): void {
+    const renameModal = this.modalService.create({
+      nzTitle: '<i>New Folder</i>',
+      nzContent: NewFolderModalComponent,
+      nzFooter: [
+        {
+          label: 'OK',
+          onClick: componentInstance => {
+            renameModal.close();
+            const name = componentInstance.name;
+            if (!name) {
+              return;
+            }
+            const postData = {
+              title: name
+            };
 
-    this.modalService.confirm({
-      nzTitle: '<i>Do you Want to delete these items?</i>',
-      nzContent: '<b>Some descriptions</b>',
-      nzOnOk: () => console.log('OK')
+            const parentLength = this.parentsStack.length;
+            const library_id = parentLength > 0 ? this.parentsStack[parentLength - 1].library_id : null;
+
+            if (library_id) {
+              postData['parent_id'] = library_id;
+            }
+            this.nodeService.addFolder(postData)
+              .subscribe(
+                (data: CommonResponse) => {
+                  if(data.status === '1') {
+                    this.messageService.success('添加成功');
+                    this.refreshItemList();
+                  }
+                },
+                (error) => {
+                  if (error) {
+                    this.messageService.error('添加失败');
+                  }
+                },
+                () => {
+                  this.loading = false;
+                }
+              )
+          }
+        }
+      ],
+      nzMaskClosable: false,
+      nzClosable: false,
+      nzOnOk: () => {
+
+      }
     });
   }
 

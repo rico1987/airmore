@@ -78,6 +78,14 @@ export class SubheaderComponent implements OnInit {
         } else if (this.appStateService.currentModule === 'device') {
           this.deviceStateService.rename();
         }
+        break;
+      case 'upload':
+        if (this.appStateService.currentModule === 'cloud') {
+          this.cloudStateService.upload();
+        } else if (this.appStateService.currentModule === 'device') {
+          // this.deviceStateService.upload();
+        }
+      
     }
   }
 
