@@ -164,6 +164,10 @@ export class DeviceStateService {
         }
     }
 
+    rename(): void {
+        
+    }
+
     deleteItems(): void {}
 
     addItems(items: Array<any>): void {

@@ -74,10 +74,10 @@ export class AppStateService {
         case 'new-folder':
         case 'upload':
         case 'copy-or-move':
-        case 'delete':
-        case 'rename':
         flag =  this.cloudStateService.activeFunction === 'clouds';
         break;
+        case 'delete':
+        case 'rename':
         case 'download':
         case 'refresh':
         case 'select-all':

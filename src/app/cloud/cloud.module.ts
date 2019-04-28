@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
 
 import { CloudRoutingModule } from './cloud-routing.module';
 import { SharedModule } from '../shared/shared.module';
@@ -12,7 +13,6 @@ import { CloudLayoutComponent } from './layout/cloud-layout/cloud-layout.compone
 import { CloudItemListComponent } from './components/cloud-item-list/cloud-item-list.component';
 import { CloudNoItemComponent } from './components/cloud-no-item/cloud-no-item.component';
 import { CloudNavigatorComponent } from './components/cloud-navigator/cloud-navigator.component';
-
 
 @NgModule({
   declarations: [
@@ -29,6 +29,7 @@ import { CloudNavigatorComponent } from './components/cloud-navigator/cloud-navi
     CloudRoutingModule,
     NzTableModule,
     NzModalModule,
+    NzPaginationModule,
   ],
   providers: [
   ]

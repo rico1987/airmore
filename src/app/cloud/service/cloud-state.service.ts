@@ -8,6 +8,8 @@ import { CommonResponse } from '../../shared/models/common-response.model';
 import { downloadLink } from '../../utils/tools';
 import { MessageService } from '../../shared/service/message.service';
 
+import { RenameModalComponent } from '../../shared/components/rename-modal/rename-modal.component';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,11 +25,13 @@ export class CloudStateService {
 
   private functions: Array<string>;
 
-  itemList: [Audio | Document | Label | Location | Node | OtherResource | People | Video] | [];
+  itemList: Array<Audio | Document | Label | Location | Node | OtherResource | People | Video> = [];
 
   currentPage = 1;
 
   itemsPerPage: number = this.appConfig.app.cloudItemsPerPage;
+
+  total: number = 0;
 
   parentsStack: Array<any> = [];
 
@@ -60,58 +64,45 @@ export class CloudStateService {
     per_page?: number | null,
     page?: number | null,
     parent_id?: string | null,
-    is_load_more?: boolean,
-  ): void {
-    clearInterval(this.interval);
-    this.interval = null;
-    this.loading = true;
-    this.selectedItems = [];
-    const activeFunction = this.activeFunction;
-    if (activeFunction === 'clouds') {
-      this.nodeService.getNodeList(
-        page ? page : this.currentPage,
-        per_page ? per_page : this.itemsPerPage,
-        parent_id ? parent_id : this.currentParentId,
-      )
-      .subscribe(
-        (data: CommonResponse) => {
-          this.processDataList(data, is_load_more);
-        },
-        (error) => {
-          if (error) {
+    is_load_more: boolean = false,
+  ): Promise<any> {
+
+    return new Promise((resolve) => {
+      if (!is_load_more) {
+        this.itemList = [];
+      }
+      clearInterval(this.interval);
+      this.interval = null;
+      this.loading = true;
+      this.selectedItems = [];
+      const activeFunction = this.activeFunction;
+      if (activeFunction === 'clouds') {
+        this.nodeService.getNodeList(
+          page ? page : this.currentPage,
+          per_page ? per_page : this.itemsPerPage,
+          parent_id ? parent_id : this.currentParentId,
+        )
+        .subscribe(
+          (data: CommonResponse) => {
+            this.processDataList(data, is_load_more);
+          },
+          (error) => {
+            if (error) {
+            }
+          },
+          () => {
+            this.loading = false;
+            resolve();
           }
-        },
-        () => {
-          this.loading = false;
-        }
-      );
-    } else if (
-      this.activeFunction === 'musics' ||
-      this.activeFunction === 'videos' ||
-      this.activeFunction === 'documents' ||
-      this.activeFunction === 'others'
-    ) {
-      this.nodeService.getCategoryFiles(
-        this.activeFunction,
-        page ? page : this.currentPage,
-        per_page ? per_page : this.itemsPerPage,
-      )
-      .subscribe(
-        (data: CommonResponse) => {
-          this.processDataList(data, is_load_more);
-        },
-        (error) => {
-          if (error) {
-          }
-        },
-        () => {
-          this.loading = false;
-        }
-      );
-    } else if (this.activeFunction === 'pictures') {
-      if (!this.currentParentId) {
-        this.nodeService.getCategoryImageList(
-          this.activeImageCategory,
+        );
+      } else if (
+        this.activeFunction === 'musics' ||
+        this.activeFunction === 'videos' ||
+        this.activeFunction === 'documents' ||
+        this.activeFunction === 'others'
+      ) {
+        this.nodeService.getCategoryFiles(
+          this.activeFunction,
           page ? page : this.currentPage,
           per_page ? per_page : this.itemsPerPage,
         )
@@ -125,12 +116,13 @@ export class CloudStateService {
           },
           () => {
             this.loading = false;
+            resolve();
           }
         );
-      } else {
-        if (this.activeImageCategory === 'labs') {
-          this.nodeService.getLabImageList(
-            this.currentParentId,
+      } else if (this.activeFunction === 'pictures') {
+        if (!this.currentParentId) {
+          this.nodeService.getCategoryImageList(
+            this.activeImageCategory,
             page ? page : this.currentPage,
             per_page ? per_page : this.itemsPerPage,
           )
@@ -144,47 +136,71 @@ export class CloudStateService {
             },
             () => {
               this.loading = false;
+              resolve();
             }
           );
-        } else if (this.activeImageCategory === 'places') {
-          this.nodeService.getPlaceImageList(
-            this.currentParentId,
-            page ? page : this.currentPage,
-            per_page ? per_page : this.itemsPerPage,
-          )
-          .subscribe(
-            (data: CommonResponse) => {
-              this.processDataList(data, is_load_more);
-            },
-            (error) => {
-              if (error) {
+        } else {
+          if (this.activeImageCategory === 'labs') {
+            this.nodeService.getLabImageList(
+              this.currentParentId,
+              page ? page : this.currentPage,
+              per_page ? per_page : this.itemsPerPage,
+            )
+            .subscribe(
+              (data: CommonResponse) => {
+                this.processDataList(data, is_load_more);
+              },
+              (error) => {
+                if (error) {
+                }
+              },
+              () => {
+                this.loading = false;
+                resolve();
               }
-            },
-            () => {
-              this.loading = false;
-            }
-          );
-        } else if (this.activeImageCategory === 'people') {
-          this.nodeService.getPeopleImageList(
-            this.currentParentId,
-            page ? page : this.currentPage,
-            per_page ? per_page : this.itemsPerPage,
-          )
-          .subscribe(
-            (data: CommonResponse) => {
-              this.processDataList(data, is_load_more);
-            },
-            (error) => {
-              if (error) {
+            );
+          } else if (this.activeImageCategory === 'places') {
+            this.nodeService.getPlaceImageList(
+              this.currentParentId,
+              page ? page : this.currentPage,
+              per_page ? per_page : this.itemsPerPage,
+            )
+            .subscribe(
+              (data: CommonResponse) => {
+                this.processDataList(data, is_load_more);
+              },
+              (error) => {
+                if (error) {
+                }
+              },
+              () => {
+                this.loading = false;
+                resolve();
               }
-            },
-            () => {
-              this.loading = false;
-            }
-          );
+            );
+          } else if (this.activeImageCategory === 'people') {
+            this.nodeService.getPeopleImageList(
+              this.currentParentId,
+              page ? page : this.currentPage,
+              per_page ? per_page : this.itemsPerPage,
+            )
+            .subscribe(
+              (data: CommonResponse) => {
+                this.processDataList(data, is_load_more);
+              },
+              (error) => {
+                if (error) {
+                }
+              },
+              () => {
+                this.loading = false;
+                resolve();
+              }
+            );
+          }
         }
       }
-    }
+    });
   }
 
   /**
@@ -192,17 +208,13 @@ export class CloudStateService {
    */
   processDataList(data: CommonResponse, is_load_more?: boolean): void {
     if (data.data.list) {
-      console.log(data.data.list);
-      if (!is_load_more) {
-        this.itemList = [];
-      }
       if (this.activeViewMode === 'list') {
-        this.itemList = data.data.list.concat();
+        this.itemList = this.itemList.concat(data.data.list);
       } else if (this.activeViewMode === 'grid') {
         let index = 0;
         this.interval = setInterval(() => {
           if (index < data.data.list.length) {
-            this.itemList[index] = data.data.list[index];
+            this.itemList.push(data.data.list[index]);
             index += 1;
           }
           if (index === data.data.list.length - 1) {
@@ -211,6 +223,9 @@ export class CloudStateService {
           }
         }, 50);
       }
+    }
+    if (data.data.total) {
+      this.total = data.data.total;
     }
   }
 
@@ -257,7 +272,6 @@ export class CloudStateService {
             node_list.push(this.selectedItems[i].resource_id)
           }
         }
-        console.log(node_list);
         this.nodeService.deleteNodes(node_list)
           .subscribe(
             (data: CommonResponse) => {
@@ -275,6 +289,60 @@ export class CloudStateService {
               this.loading = false;
             }
           );
+      }
+    });
+  }
+
+  rename(): void {
+    const renameModal = this.modalService.create({
+      nzTitle: '<i>Rename</i>',
+      nzContent: RenameModalComponent,
+      nzFooter: [
+        {
+          label: 'OK',
+          onClick: componentInstance => {
+            renameModal.close();
+            const name = componentInstance.name;
+            const item = this.selectedItems[0];
+            if (!name) {
+              return;
+            }
+            let postData;
+            if (item.node_type === 'folder') {
+              postData = {
+								title: name,
+							}
+            } else {
+              const filename = name + item.filename.substring(item.filename.lastIndexOf('.')).toLowerCase();
+              postData = {
+								filename: filename,
+							}
+            }
+            const id = item.resource_id || item.node_id;
+            this.nodeService.changeNode(item.node_type !== 'folder', id, postData)
+              .subscribe(
+                (data: CommonResponse) => {
+                  if(data.status === '1') {
+                    this.messageService.success('修改成功');
+                    this.refreshItemList();
+                  }
+                },
+                (error) => {
+                  if (error) {
+                    this.messageService.error('修改成功');
+                  }
+                },
+                () => {
+                  this.loading = false;
+                }
+              )
+          }
+        }
+      ],
+      nzMaskClosable: false,
+      nzClosable: false,
+      nzOnOk: () => {
+
       }
     });
   }

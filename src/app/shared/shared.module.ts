@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NzInputModule } from 'ng-zorro-antd';
 
 import { ConnectionComponent } from './components/connection/connection.component';
 import { AccountComponent } from './components/account/account.component';
@@ -28,6 +29,8 @@ import { MessageComponent } from './components/message/message.component';
 import { MessageContainerComponent } from './components/message/message-container.component';
 
 import { MESSAGE_DEFAULT_CONFIG_PROVIDER } from './components/message/message-config';
+import { SizePipe } from './pipes/size.pipe';
+import { RenameModalComponent } from './components/rename-modal/rename-modal.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -44,6 +47,10 @@ const COMPONENTS = [
 ];
 const DIRECTIVES = [];
 
+const PIPES = [
+  SizePipe,
+];
+
 @NgModule({
   declarations: [
     ...COMPONENTS,
@@ -59,6 +66,8 @@ const DIRECTIVES = [];
     RadarComponent,
     MessageComponent,
     MessageContainerComponent,
+    SizePipe,
+    RenameModalComponent,
   ],
   imports: [
     CommonModule,
@@ -66,6 +75,7 @@ const DIRECTIVES = [];
     FormsModule,
     ReactiveFormsModule,
     OverlayModule,
+    NzInputModule,
   ],
   providers: [
     MESSAGE_DEFAULT_CONFIG_PROVIDER,
@@ -75,10 +85,12 @@ const DIRECTIVES = [];
     TranslateModule,
     ...COMPONENTS,
     ...DIRECTIVES,
+    ...PIPES,
   ],
   entryComponents: [
     MessageComponent,
     MessageContainerComponent,
+    RenameModalComponent,
   ],
 })
 export class SharedModule { }

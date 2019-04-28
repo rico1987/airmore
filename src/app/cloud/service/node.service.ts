@@ -52,6 +52,17 @@ export class NodeService {
   }
 
   /**
+   * 修改节点
+   */
+  changeNode(isFile: boolean, node_id: string, data: any): Observable <any> {
+    debugger
+    if (isFile) {
+      return this.myClientService.put('cloud', `/files/${node_id}`, data);
+    } 
+    return this.myClientService.put('cloud', `/libraries/${node_id}`, data);
+  }
+
+  /**
    * 拷贝节点
    * @param id_list 要移动的节点id列表
    * @param target_id 目标节点id

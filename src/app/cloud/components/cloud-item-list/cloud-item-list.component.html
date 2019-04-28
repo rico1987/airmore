@@ -8,7 +8,9 @@
       #rowSelectionTable
       #headerTable
       nzBordered
+      [nzShowPagination]=false
       [nzPageSize]="50"
+      [nzScroll]="{ y: scrollHeight }"
       [nzData]="listOfDisplayData"
       (nzCurrentPageDataChange)="currentPageDataChange($event)"
     >
@@ -53,7 +55,7 @@
             <span class="airmore-cloud-item-list__preview-btn" (click)="preview(item)"></span>
           </td>
           <td>{{ item.type }}</td>
-          <td>{{ item.size ? item.size : '-'}}</td>
+          <td>{{ item.size | size }}</td>
           <td>{{ item.updated_at * 1000 | date }}</td>
         </tr>
       </tbody>
@@ -69,7 +71,70 @@
     ></nz-table>
     <nz-table
       *ngIf="cloudStateService.itemList && cloudStateService.activeFunction === 'others'"
-    ></nz-table>
+      #rowSelectionTable
+      #headerTable
+      nzBordered
+      [nzShowPagination]=false
+      [nzPageSize]="50"
+      [nzScroll]="{ y: '440px' }"
+      [nzData]="listOfDisplayData"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+          <th
+            nzShowCheckbox
+            nzWidth="60px"
+            [(nzChecked)]="isAllDisplayDataChecked"
+            (nzCheckedChange)="checkAll($event)"
+          ></th>
+          <th
+            nzWidth="350px"
+            nzShowSort
+            nzSortKey="type"
+          >Name</th>
+          <th
+            nzWidth="150px"
+            nzShowSort
+            nzSortKey="type"
+          >Type</th>
+          <th
+            nzWidth="150px"
+            nzShowSort
+            nzSortKey="size"
+          >Size</th>
+          <th
+            nzShowSort
+            nzSortKey="updated_at"
+          >Modify time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cloudStateService.itemList">
+          <td
+            nzShowCheckbox
+            [nzChecked]="cloudStateService.hasItem(item)"
+            (nzCheckedChange)="onTdCheckedChange($event, item)"
+          ></td>
+          <td class="airmore-cloud-item-list__td">
+            {{ item.title || item.filename}}
+            <span class="airmore-cloud-item-list__preview-btn" (click)="preview(item)"></span>
+          </td>
+          <td>{{ item.type }}</td>
+          <td>{{ item.size | size }}</td>
+          <td>{{ item.updated_at * 1000 | date }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <div class="airmore-cloud-item-list__pagination">
+      <nz-pagination
+        [nzSize]="'small'"
+        (nzPageIndexChange)="onPageIndexChange($event)"
+        [nzPageIndex]="paginationIndex"
+        [nzTotal]="paginationTotal"
+        [nzPageSize]="paginationSize"
+      ></nz-pagination>
+    </div>
   </div>
   <div class="airmore-cloud-item-list__no-item" *ngIf="!cloudStateService.loading && (!cloudStateService.itemList || cloudStateService.itemList.length === 0)">
       <p>The folder is empty! Please upload files to ApowerCloud!</p>

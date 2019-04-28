@@ -3,7 +3,7 @@
 
 @include b(cloud-item-list) {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 40px);
     overflow: auto;
 
     @include e(no-item) {
@@ -38,6 +38,12 @@
                 display: inline-block;
             }
         }
+    }
+
+    @include e(pagination) {
+        height: 50px;
+        display: flex;
+        align-items: center;
     }
 }
 

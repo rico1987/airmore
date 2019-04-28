@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
+import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
 import { CloudStateService, NodeService } from '../../service';
 import { CommonResponse } from '../../../shared/models/common-response.model';
@@ -24,13 +25,27 @@ export class CloudItemListComponent implements OnInit {
 
   listOfDisplayData: Array<any>;
 
+  loading: boolean = false;
+
+  scrollHeight: string = '440px'
+
   constructor(
+    @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private cloudStateService: CloudStateService,
   ) { }
 
   ngOnInit() {
-    this.cloudStateService.getItemList();
-    this.listOfDisplayData = this.cloudStateService.itemList ? this.cloudStateService.itemList.concat() : [];
+    this.cloudStateService.getItemList()
+      .then(() => {
+        this.listOfDisplayData = this.cloudStateService.itemList ? this.cloudStateService.itemList.concat() : [];
+        console.log(this.listOfDisplayData);
+      });
+  }
+
+  ngAfterContentInit() {
+    // tslint:disable-next-line
+    // const containerHeight = document.getElementsByClassName('airmore-cloud-layout__content')[0].offsetHeight;
+    // this.scrollHeight = `${containerHeight - 150}px`;
   }
 
   refresh(): void {
@@ -68,6 +83,11 @@ export class CloudItemListComponent implements OnInit {
     } else {
       this.listOfDisplayData = this.cloudStateService.itemList;
     }
+  }
+
+  onPageIndexChange(number): void {
+    this.cloudStateService.currentPage = number;
+    this.cloudStateService.getItemList();
   }
 
   currentPageDataChange(): void {
@@ -129,5 +149,17 @@ export class CloudItemListComponent implements OnInit {
 
   get isAllDisplayDataChecked(): boolean {
     return this.cloudStateService.selectedItems.length === this.cloudStateService.itemList.length;
+  }
+
+  get paginationTotal(): number {
+    return this.cloudStateService.total;
+  }
+
+  get paginationIndex(): number {
+    return this.cloudStateService.currentPage;
+  }
+
+  get paginationSize(): number {
+    return this.appConfig.app.cloudItemsPerPage;
   }
 }

@@ -29,7 +29,9 @@
             "styles": [
               "src/styles.scss",
               "node_modules/ng-zorro-antd/table/style/index.min.css",
-              "node_modules/ng-zorro-antd/modal/style/index.min.css"
+              "node_modules/ng-zorro-antd/modal/style/index.min.css",
+              "node_modules/ng-zorro-antd/pagination/style/index.min.css",
+              "node_modules/ng-zorro-antd/input/style/index.min.css"
             ],
             "scripts": []
           },

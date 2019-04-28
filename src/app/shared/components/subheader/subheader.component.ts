@@ -40,7 +40,10 @@ export class SubheaderComponent implements OnInit {
   ngOnInit() {
   }
 
-  doAction(action: string): void {
+  doAction(action: string, isInactive: boolean): void {
+    if (isInactive) {
+      return;
+    }
     switch (action) {
       case 'refresh':
         if (this.appStateService.currentModule === 'cloud') {
@@ -69,6 +72,12 @@ export class SubheaderComponent implements OnInit {
           this.deviceStateService.deleteItems();
         }
         break;
+      case 'rename':
+        if (this.appStateService.currentModule === 'cloud') {
+          this.cloudStateService.rename();
+        } else if (this.appStateService.currentModule === 'device') {
+          this.deviceStateService.rename();
+        }
     }
   }
 

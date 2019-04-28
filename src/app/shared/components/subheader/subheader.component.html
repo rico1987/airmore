@@ -10,7 +10,7 @@
         [class.is-loading]="appStateService.loading"
         [ngClass]=item.class
         *ngFor="let item of toolbarItems"
-        (click)="doAction(item.action)"
+        (click)="doAction(item.action, isInactive(item.action))"
       >
         <i class="airmore-subheader__toolbar-loading" *ngIf="item.action === 'refresh'"></i>
         <div class="airmore-subheader__toolbar-icon">{{item.text}}</div>
