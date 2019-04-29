@@ -78,6 +78,8 @@ export class AppStateService {
         break;
         case 'delete':
         case 'rename':
+        flag = this.cloudStateService.activeFunction !== 'pictures';
+        break;
         case 'download':
         case 'refresh':
         case 'select-all':

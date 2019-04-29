@@ -1,28 +1,49 @@
 <div class="airmore-image-viewer">
-  <div class="airmore-image-viewer__body">
-    <div class="airmore-image-viewer__body-img-wrapper"></div>
+  <div class="airmore-image-viewer__body" #body>
+    <div
+      #imageWrapper
+      class="airmore-image-viewer__body-img-wrapper"
+      [style.width]="_imageWrapperWidth + 'px'"
+      [style.height]="_imageWrapperHeight + 'px'"
+      [style.top]="_imageWrapperTop + 'px'"
+      [style.left]="_imageWrapperLeft + 'px'"
+      [style.transform]="'scale(' + _imageScale + ')'"
+    >
+      <app-lazy-load-image *ngIf="_currentDisplayItem" [imgSrc]="_currentDisplayItem[srcKey]"></app-lazy-load-image>
+    </div>
   </div>
-  <div class="airmore-image-viewer__close"></div>
-  <div class="airmore-image-viewer__prev"></div>
-  <div class="airmore-image-viewer__next"></div>
-  <div class="airmore-image-viewer__thumbbar">
-    <div class="airmore-image-viewer__thumbbar-prev">
-
+  <div class="airmore-image-viewer__close" (click)="close()"></div>
+  <div class="airmore-image-viewer__prev" *ngIf="imageList.length > 1" (click)="prev()"></div>
+  <div class="airmore-image-viewer__next" *ngIf="imageList.length > 1" (click)="next()"></div>
+  <div
+    class="airmore-image-viewer__thumbbar"
+    *ngIf="thumbVisible"
+  >
+    <div class="airmore-image-viewer__thumbbar-prev" *ngIf="imageList.length > thumbCount" (click)="prev(true)">
     </div>
-    <div class="airmore-image-viewer__thumbbar-next">
-
+    <div class="airmore-image-viewer__thumbbar-body" [style.width]="_thumbbarBodyWidth + 'px'">
+      <ul
+        class="airmore-image-viewer__thumbbar-body-wrapper"
+        [style.width]="_thumbbarBodyWrapperWidth + 'px'"
+        [style.height]="thumbWidth + 'px'"
+        [style.left]="_thumbbarBodyWrapperLeft + 'px'"
+      >
+        <li
+        [style.width]="thumbWidth + 'px'"
+        [style.height]="thumbWidth + 'px'"
+        *ngFor="let thumb of _thumbList"
+        (click)="setActive(thumb)"
+        [class.active]="thumb.unique_id === _currentDisplayItem[uniqueKey]"
+        >
+          <app-lazy-load-image [imgSrc]="thumb.thumb_url" ></app-lazy-load-image>
+        </li>
+      </ul>
     </div>
-    <div class="airmore-image-viewer__thumbbar-body">
-      <div class="airmore-image-viewer__thumbbar-body-wrapper">
-        <ul>
-          <li *ngFor="let thumb of _thumbList"></li>
-        </ul>
-      </div>
+    <div class="airmore-image-viewer__thumbbar-next" *ngIf="imageList.length > thumbCount" (click)="next(true)">
     </div>
   </div>
   <div class="airmore-image-viewer__toolbar">
     <div class="airmore-image-viewer">
-
     </div>
     <ul class="airmore-image-viewer__toolbar-actions">
       <li *ngFor="let action of _actions" [ngClass]=action.class (click)="doAction(action.action)"></li>

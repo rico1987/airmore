@@ -23,6 +23,7 @@ import { NewFolderModalComponent } from '../../shared/components/new-folder-moda
 import { DynamicInputComponent } from '../../shared/components/dynamic-input/dynamic-input.component';
 
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
+import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +78,25 @@ export class CloudStateService {
    */
   preview(item: any): void {
       const itemList = this.itemList.filter((ele: any) => ele.type === 'image');
+      console.log(itemList);
+      const componentRef = this.componentFactoryResolver
+      .resolveComponentFactory(ImageViewerComponent)
+      .create(this.injector);
+
+      this.appRef.attachView(componentRef.hostView);
+
+      const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
+        .rootNodes[0] as HTMLElement;
+
+      componentRef.instance.imageList = itemList.concat();
+      componentRef.instance.thumbKey = 'image_thumb_url';
+      componentRef.instance.srcKey = 'image_url';
+      componentRef.instance.onClose = () => {
+        componentRef.destroy();
+        document.body.removeChild(domElem);
+      };
+      
+      document.body.appendChild(domElem);
   }
 
   /**

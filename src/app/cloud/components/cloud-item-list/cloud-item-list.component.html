@@ -1,4 +1,4 @@
-<div class="airmore-cloud-item-list">
+<div class="airmore-cloud-item-list" #itemListContainer>
   <div class="airmore-cloud-item-list__container" *ngIf="!cloudStateService.loading && cloudStateService.activeViewMode === 'grid'">
       <app-cloud-item *ngFor="let item of cloudStateService.itemList" [item]="item"></app-cloud-item>
   </div>
@@ -10,7 +10,7 @@
       nzBordered
       [nzShowPagination]=false
       [nzPageSize]="50"
-      [nzScroll]="{ y: '440px' }"
+      [nzScroll]="{ y: scrollHeight + 'px' }"
       [nzData]="listOfDisplayData"
       (nzCurrentPageDataChange)="currentPageDataChange($event)"
     >
@@ -55,6 +55,63 @@
             <span class="airmore-cloud-item-list__preview-btn" (click)="preview(item)"></span>
           </td>
           <td>{{ item.type }}</td>
+          <td>{{ item.size | size }}</td>
+          <td>{{ item.updated_at * 1000 | date }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-table
+      *ngIf="cloudStateService.itemList && cloudStateService.activeFunction === 'pictures'"
+      #rowSelectionTable
+      #headerTable
+      nzBordered
+      [nzShowPagination]=false
+      [nzPageSize]="50"
+      [nzScroll]="{ y: scrollHeight + 'px' }"
+      [nzData]="listOfDisplayData"
+      (nzCurrentPageDataChange)="currentPageDataChange($event)"
+    >
+      <thead (nzSortChange)="sort($event)" nzSingleSort>
+        <tr>
+          <th
+            nzShowCheckbox
+            nzWidth="60px"
+            [(nzChecked)]="isAllDisplayDataChecked"
+            (nzCheckedChange)="checkAll($event)"
+          ></th>
+          <th
+            nzWidth="350px"
+            nzShowSort
+            nzSortKey="type"
+          >Name</th>
+          <th
+            nzWidth="150px"
+            nzShowSort
+            nzSortKey="type"
+          >Type</th>
+          <th
+            nzWidth="150px"
+            nzShowSort
+            nzSortKey="size"
+          >Size</th>
+          <th
+            nzShowSort
+            nzSortKey="updated_at"
+          >Modify time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of cloudStateService.itemList" (dblclick)="preview(item)">
+          <td
+            nzShowCheckbox
+            [nzChecked]="cloudStateService.hasItem(item)"
+            (nzCheckedChange)="onTdCheckedChange($event, item)"
+          ></td>
+          <td class="airmore-cloud-item-list__td">
+            {{ item.title || item.filename}}
+            <span class="airmore-cloud-item-list__preview-btn" (click)="preview(item)"></span>
+          </td>
+          <td>{{ item.type || '-' }}</td>
           <td>{{ item.size | size }}</td>
           <td>{{ item.updated_at * 1000 | date }}</td>
         </tr>

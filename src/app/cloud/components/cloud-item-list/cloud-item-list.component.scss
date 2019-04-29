@@ -2,9 +2,13 @@
 @import "../../../../styles/themes/default/variables.scss";
 
 @include b(cloud-item-list) {
-    width: 100%;
-    height: calc(100% - 40px);
-    overflow: auto;
+    overflow: hidden;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: auto;
 
     @include e(no-item) {
         display: flex;

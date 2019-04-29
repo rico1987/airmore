@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, ViewChild, ElementRef } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
 import { CloudStateService, NodeService } from '../../service';
@@ -10,6 +10,8 @@ import { CommonResponse } from '../../../shared/models/common-response.model';
   styleUrls: ['./cloud-item-list.component.scss']
 })
 export class CloudItemListComponent implements OnInit {
+
+  @ViewChild('itemListContainer') itemListContainer: ElementRef;
 
   sortName: string | null = null;
   sortValue: string | null = null;
@@ -27,7 +29,7 @@ export class CloudItemListComponent implements OnInit {
 
   loading: boolean = false;
 
-  scrollHeight: string = '440px'
+  scrollHeight: number = 0;
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
@@ -43,9 +45,8 @@ export class CloudItemListComponent implements OnInit {
   }
 
   ngAfterContentInit() {
-    // tslint:disable-next-line
-    // const containerHeight = document.getElementsByClassName('airmore-cloud-layout__content')[0].offsetHeight;
-    // this.scrollHeight = `${containerHeight - 150}px`;
+    const containerHeight = this.itemListContainer.nativeElement.offsetHeight;
+    this.scrollHeight = containerHeight - 150;
   }
 
   refresh(): void {

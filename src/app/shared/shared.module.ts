@@ -33,6 +33,7 @@ import { SizePipe } from './pipes/size.pipe';
 import { RenameModalComponent } from './components/rename-modal/rename-modal.component';
 import { NewFolderModalComponent } from './components/new-folder-modal/new-folder-modal.component';
 import { DynamicInputComponent } from './components/dynamic-input/dynamic-input.component';
+import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -72,6 +73,7 @@ const PIPES = [
     RenameModalComponent,
     NewFolderModalComponent,
     DynamicInputComponent,
+    ImageViewerComponent,
   ],
   imports: [
     CommonModule,
@@ -97,6 +99,7 @@ const PIPES = [
     RenameModalComponent,
     NewFolderModalComponent,
     DynamicInputComponent,
+    ImageViewerComponent,
   ],
 })
 export class SharedModule { }

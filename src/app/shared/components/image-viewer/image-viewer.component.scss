@@ -17,6 +17,11 @@
         right: 0;
         bottom: 136px;
         left: 0;
+
+        @include e(body-img-wrapper) {
+            z-index: 9999;
+            position: relative;
+        }
     }
 
     @include e(close) {
@@ -28,7 +33,14 @@
         height: 50px;
         cursor: pointer;
         opacity: .5;
-        background: url('../../../../assets/img/common/viewer/close.svg');
+        background: url('../../../../assets/img/common/viewer/close.svg') center no-repeat;
+        background-size: contain;
+        z-index: 9999;
+        &:hover {
+            background-color: rgba(170, 170, 170, .3);
+            opacity: 1;
+        }
+
     }
 
     @include e(prev) {
@@ -37,7 +49,8 @@
         height: 72px;
         cursor: pointer;
         border-radius: 50%;
-        background: rgba(255, 255, 255, .1) url('../../../../assets/img/common/viewer/next.svg');
+        background: rgba(255, 255, 255, .1) url('../../../../assets/img/common/viewer/next.svg') 50% no-repeat;
+        background-size: 40%;
         transition: opacity .1s ease;
         opacity: .5;
         position: absolute;
@@ -45,6 +58,7 @@
         bottom: 68px;
         left: 25px;
         transform: rotate(180deg);
+        z-index: 9999;
         &:hover{
             opacity: 1;
             background-color: rgba(170, 170, 170, .3);
@@ -57,14 +71,15 @@
         height: 72px;
         cursor: pointer;
         border-radius: 50%;
-        background: rgba(255, 255, 255, .1) url('../../../../assets/img/common/viewer/next.svg');
+        background: rgba(255, 255, 255, .1) url('../../../../assets/img/common/viewer/next.svg') 50% no-repeat;
+        background-size: 40%;
         transition: opacity .1s ease;
         opacity: .5;
         position: absolute;
         top: 0;
         right: 25px;
         bottom: 68px;
-
+        z-index: 9999;
         &:hover{
             opacity: 1;
             background-color: rgba(170, 170, 170, .3);
@@ -83,7 +98,63 @@
         white-space: nowrap;
         background: rgba(31, 31, 31, .8);
         text-align: center;
+        z-index: 9999;
+
+        @include e(thumbbar-prev) {
+            display: inline-block;
+            vertical-align: top;
+            width: 40px;
+            height: 60px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, .1) url('../../../../assets/img/common/viewer/next.svg') center no-repeat;
+            transform: rotate(180deg);
+            opacity: 0.5;
+            transition: opacity .1s ease;
+        }
+
+        @include e(thumbbar-next) {
+            display: inline-block;
+            vertical-align: top;
+            width: 40px;
+            height: 60px;
+            margin-top: 4px;
+            margin-bottom: 4px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, .1) url('../../../../assets/img/common/viewer/next.svg') center no-repeat;
+            opacity: 0.5;
+            transition: opacity .1s ease;
+        }
+        
+        @include e(thumbbar-body) {
+            display: inline-block;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @include e(thumbbar-body-wrapper) {
+            position: relative;
+            transition: left .1s ease;
+            li{
+                float: left;
+                cursor: pointer;
+                background-position: top center;
+                background-size: cover;
+                background-repeat: no-repeat;
+                opacity: .5;
+                transition: opacity .3s ease;
+                &.active{
+                    border-bottom: 2px solid #fff;
+                    opacity: 1;
+                }
+
+            }
+        }
+
     }
+    
 
     @include e(toolbar) {
         position: absolute;
