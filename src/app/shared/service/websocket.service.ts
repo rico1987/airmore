@@ -33,7 +33,7 @@ export class WebsocketService extends EventEmitter {
   }
 
   init(): void {
-    const host = this.host || hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[0];
+    const host = this.host || hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[1];
     const protocol = this.protocol || 'wss:';
     const path = this.path || '/wss';
 

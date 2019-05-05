@@ -1,4 +1,4 @@
-<div class="airmore-device-item-list">
+<div class="airmore-device-item-list" #itemListContainer>
   <div class="airmore-device-item-list__container" *ngIf="!deviceStateService.loading">
     <app-device-item-group *ngIf="deviceStateService.activeFunction === 'pictures'"></app-device-item-group>
     
@@ -11,6 +11,69 @@
     </div>
 
     <div class="airmore-device-item-list__container-docs" *ngIf="deviceStateService.activeFunction === 'documents'">
+    </div>
+    <div class="airmore-device-item-list__container-musics" *ngIf="!deviceStateService.loading && deviceStateService.activeFunction === 'musics'">
+        <nz-table
+        *ngIf="deviceStateService.itemList && deviceStateService.activeFunction === 'musics'"
+        #rowSelectionTable
+        #headerTable
+        [nzShowPagination]=false
+        [nzPageSize]="50"
+        [nzScroll]="{ y: scrollHeight + 'px' }"
+        [nzData]="listOfDisplayData"
+        (nzCurrentPageDataChange)="currentPageDataChange($event)"
+      >
+        <thead (nzSortChange)="sort($event)" nzSingleSort>
+          <tr>
+            <th
+              nzShowCheckbox
+              nzWidth="60px"
+              [(nzChecked)]="isAllDisplayDataChecked"
+              (nzCheckedChange)="checkAll($event)"
+            ></th>
+            <th
+              nzWidth="350px"
+              nzShowSort
+              nzSortKey="ShowName"
+            >Name</th>
+            <th
+              nzWidth="150px"
+              nzShowSort
+              nzSortKey="Artist"
+            >Artist</th>
+            <th
+              nzWidth="150px"
+              nzShowSort
+              nzSortKey="Album"
+            >Album</th>
+            <th
+              nzShowSort
+              nzSortKey="Duration"
+            >Duration</th>
+            <th
+              nzShowSort
+              nzSortKey="Size"
+            >Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of deviceStateService.itemList" (dblclick)="play(item)">
+            <td
+              nzShowCheckbox
+              [nzChecked]="deviceStateService.hasItem(item)"
+              (nzCheckedChange)="onTdCheckedChange($event, item)"
+            ></td>
+            <td class="airmore-cloud-item-list__td">
+              {{ item.ShowName }}
+            </td>
+            <td>{{ item.Artist || '-' }}</td>
+            <td>{{ item.Album || '-' }}</td>
+            <td>{{ item.Duration | duration }}</td>
+            <td>{{ item.Size | size }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <app-music-player></app-music-player>
     </div>
 
     <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">

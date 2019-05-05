@@ -23,11 +23,13 @@ export class DeviceStateService {
 
     activeViewMode:  'list' | 'grid' = 'list';
 
-    loading: false;
+    loading: boolean;
 
     Start = 0;
 
     Limit = 200;
+
+    totalCount: number;
 
     constructor(
         private deviceService: DeviceService,
@@ -53,11 +55,12 @@ export class DeviceStateService {
                         console.log(this.itemGroupList);
                     });
             } else if (this.activeFunction === 'musics') {
-                this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.Limit)
+                this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.totalCount)
                     .subscribe((data) => {
                         this.processData(data, isAddTo);
                         console.log(this.itemList);
                         console.log(this.itemGroupList);
+                        this.loading = false;
                     });
             } else if (this.activeFunction === 'documents') {
                 this.deviceService.getDocList(this.activeAlbumId)
@@ -115,6 +118,7 @@ export class DeviceStateService {
 
     getSidebarItemList(): void {
         this.resetPaging();
+        this.loading = true;
         if (this.activeFunction === 'pictures') {
             this.deviceService.getPhotoAlbumList()
             .subscribe((data) => {
@@ -126,6 +130,7 @@ export class DeviceStateService {
                 .subscribe((data) => {
                     this.sidebarItemList = data;
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
+                    this.totalCount = this.sidebarItemList[0]['Count'];
                     this.getItemList(false);
                 });
         } else if (this.activeFunction === 'videos') {
@@ -133,6 +138,7 @@ export class DeviceStateService {
                 .subscribe((data) => {
                     this.sidebarItemList = data;
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
+                    this.totalCount = this.sidebarItemList[0]['Count'];
                     this.getItemList(false);
                 });
         } else if (this.activeFunction === 'apps') {
@@ -147,6 +153,7 @@ export class DeviceStateService {
                 .subscribe((data) => {
                     this.sidebarItemList = data;
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
+                    this.totalCount = this.sidebarItemList[0]['Count'];
                     this.getItemList(false);
                 });
         } else if (this.activeFunction === 'clipboard') {
@@ -154,6 +161,7 @@ export class DeviceStateService {
             this.deviceService.getClipboardList(this.activeAlbumId)
                 .subscribe((data) => {
                     this.itemList = data;
+                    this.loading = false;
                 });
         }
     }
@@ -185,9 +193,10 @@ export class DeviceStateService {
         return this.selectedItems.indexOf(item) > -1;
     }
 
-    selectAlbum(id: string): void {
-        if (id !== this.activeAlbumId) {
-            this.activeAlbumId = id;
+    selectAlbum(item): void {
+        if (item['AlbumID'] !== this.activeAlbumId) {
+            this.activeAlbumId = item['AlbumID'];
+            this.totalCount = item['Count'];
             this.getItemList(false);
         }
     }

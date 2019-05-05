@@ -7,9 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MusicPlayerComponent implements OnInit {
 
+  currentPlayingItem: any = null;
+
+  playList: Array<any>;
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  play(): void {}
+
+  pause(): void {}
+
+  next(): void {}
+
+  prev(): void {}
 
 }

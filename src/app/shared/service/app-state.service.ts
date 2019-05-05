@@ -187,11 +187,14 @@ export class AppStateService {
     } else {
       const deviceInfo = this.storage.get('deviceInfo');
       let platform;
-      if (deviceInfo['Platform'] === 1) {
-        platform = 'android';
-      } else if (deviceInfo['Platform'] === 2) {
-        platform = 'iphone';
-      }
+      if (deviceInfo) {
+        if (deviceInfo['Platform'] === 1) {
+          platform = 'android';
+        } else if (deviceInfo['Platform'] === 2) {
+          platform = 'iphone';
+        }
+      } 
+      
       return platform;
     }
   }

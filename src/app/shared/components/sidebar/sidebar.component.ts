@@ -34,6 +34,8 @@ export class SidebarComponent implements OnInit {
     if (fun !== 'cloud') {
       this.appStateService.setCurrentModule('device');
       this.deviceStateService.setDeviceActiveFunction(fun);
+    } else {
+      
     }
   }
 

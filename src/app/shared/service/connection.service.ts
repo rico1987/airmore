@@ -29,7 +29,7 @@ export class ConnectionService extends WebsocketService {
    * 获取连接二维码
    */
   getQrCodeUrl(): Promise<any> {
-    const host = hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[0];
+    const host = hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[1];
 
     return new Promise((resolve) => {
       this.send({

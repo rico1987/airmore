@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { NzTableModule } from 'ng-zorro-antd/table';
+
 
 import { SharedModule } from '../shared/shared.module';
 import { DeviceRoutingModule } from './device-routing.module';
@@ -18,6 +20,7 @@ import { DeviceItemGroupComponent } from './components/device-item-group/device-
     // import HttpClientModule after BrowserModule.
     HttpClientModule,
     DeviceRoutingModule,
+    NzTableModule,
   ],
   providers: []
 })

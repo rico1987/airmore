@@ -31,7 +31,7 @@ export class DeviceSidebarComponent implements OnInit {
   }
 
   selectAlbum(item): void {
-    this.deviceStateService.selectAlbum(item.AlbumID);
+    this.deviceStateService.selectAlbum(item);
   }
 
   copyToClipboard(item): void {

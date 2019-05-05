@@ -29,7 +29,6 @@ import { MessageComponent } from './components/message/message.component';
 import { MessageContainerComponent } from './components/message/message-container.component';
 
 import { MESSAGE_DEFAULT_CONFIG_PROVIDER } from './components/message/message-config';
-import { SizePipe } from './pipes/size.pipe';
 import { RenameModalComponent } from './components/rename-modal/rename-modal.component';
 import { NewFolderModalComponent } from './components/new-folder-modal/new-folder-modal.component';
 import { DynamicInputComponent } from './components/dynamic-input/dynamic-input.component';
@@ -38,6 +37,9 @@ import { CopyModalComponent } from './components/copy-modal/copy-modal.component
 
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+
+import { SizePipe } from './pipes/size.pipe';
+import { DurationPipe } from './pipes/duration.pipe';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -51,11 +53,13 @@ const COMPONENTS = [
   SubheaderComponent,
   LazyLoadImageComponent,
   TableComponent,
+  MusicPlayerComponent,
 ];
 const DIRECTIVES = [];
 
 const PIPES = [
   SizePipe,
+  DurationPipe,
 ];
 
 @NgModule({
@@ -74,11 +78,13 @@ const PIPES = [
     MessageComponent,
     MessageContainerComponent,
     SizePipe,
+    DurationPipe,
     RenameModalComponent,
     NewFolderModalComponent,
     DynamicInputComponent,
     ImageViewerComponent,
     CopyModalComponent,
+    DurationPipe,
   ],
   imports: [
     CommonModule,
