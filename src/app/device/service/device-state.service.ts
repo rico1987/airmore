@@ -65,6 +65,12 @@ export class DeviceStateService {
                         this.itemList = data;
                         console.log(this.itemList);
                     });
+            } else if (this.activeFunction === 'videos') {
+                this.deviceService.getVideoList(this.activeAlbumId, this.Start, this.Limit)
+                    .subscribe((data) => {
+                        this.itemList = data;
+                        console.log(this.itemList);
+                    });
             }
         }
     }
@@ -134,6 +140,7 @@ export class DeviceStateService {
             this.deviceService.getAppList()
                 .subscribe((data) => {
                     this.itemList = data;
+                    console.log(this.itemList)
                 });
         } else if (this.activeFunction === 'documents') {
             this.deviceService.getDocAlbumList()

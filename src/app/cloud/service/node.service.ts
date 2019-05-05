@@ -69,7 +69,7 @@ export class NodeService {
    * @param target_id 目标节点id
    * @param is_copy 是否复制，0 否 1 是
    */
-  moveNodes(id_list: [string], target_id: string, is_copy: 0 | 1): Observable < any > {
+  moveNodes(id_list: Array<string>, target_id: string, is_copy: 0 | 1): Observable < any > {
     return this.myClientService.put('cloud', '/nodes', {
       id_list: JSON.stringify(id_list),
       target_id,

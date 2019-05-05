@@ -7,6 +7,9 @@ import { CloudBaseService } from '../../cloud/service/cloud-base.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { UserInfo } from '../models/user-info.model';
 import { PasswordLoginInfo } from '../models/password-login-info.model';
+import { ResetPasswordInfo } from '../models/reset-password-info.model';
+import { EmailPasswordLessLoginInfo } from '../models/email-password-login-info.model';
+import { RegisterInfo } from '../models/register-info.model';
 import { BrowserStorageService } from './storage.service';
 
 @Injectable({
@@ -49,7 +52,58 @@ export class UserService {
     return this.myClientService.post('account', '/sessions', data);
   }
 
-  // loginByToken(): Promise<any> {
+  resetPassword(resetPasswordInfo: ResetPasswordInfo): Observable < any > {
+    const data = {
+      captcha: resetPasswordInfo.captcha,
+      email: resetPasswordInfo.email,
+      language: this.appStateService.currentLanguage,
+      password: resetPasswordInfo.password,
+      brand: 'Apowersoft',
+    };
+    return this.myClientService.put('account', '/passwords', data);
+  }
 
-  // }
+  getCaptchaByEmail(scene: string, email: string): Observable < any > {
+    const data = {
+      brand: this.appConfig.brand,
+      email,
+      scene,
+      language: this.appStateService.currentLanguage,
+    };
+    return this.myClientService.post('account', '/captchas', data);
+  }
+
+  getCaptchaByPhone(scene: string, telephone: string, country_code: string): Observable < any > {
+    const data = {
+      brand: this.appConfig.brand,
+      telephone,
+      country_code,
+      scene,
+      language: this.appStateService.currentLanguage,
+    };
+    return this.myClientService.post('account', '/captchas', data);
+  }
+
+  register(registerInfo: RegisterInfo): Observable <any> {
+    const data = {
+      captcha: registerInfo.captcha,
+      email: registerInfo.email,
+      password: registerInfo.email,
+      language: this.appStateService.currentLanguage,
+      brand: 'Apowersoft',
+      registed_app: 'web.airmore.com',
+    }
+    return this.myClientService.post('account', '/users', data);
+  }
+
+  emailPasswordLessLogin(emailPasswordLessLoginInfo: EmailPasswordLessLoginInfo): Observable <any> {
+    const data = {
+      captcha: emailPasswordLessLoginInfo.captcha,
+      email: emailPasswordLessLoginInfo.email,
+      language: this.appStateService.currentLanguage,
+      brand: 'Apowersoft',
+      registed_app: 'web.airmore.com',
+    }
+    return this.myClientService.post('account', '/users', data);
+  }
 }

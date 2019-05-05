@@ -1,0 +1,28 @@
+<div class="airmore-copy-modal">
+  <nz-tree
+    [nzData]="nodes"
+    [nzShowExpand]="false"
+    [nzBlockNode]
+    (nzClick)="activeNode($event)"
+    (nzDblClick)="openFolder($event)"
+  >
+    <ng-template #contextTemplate>
+      <ul nz-menu nzInDropDown>
+        <li nz-menu-item (click)="selectDropdown()">Action 1</li>
+        <li nz-menu-item (click)="selectDropdown()">Action 2</li>
+      </ul>
+    </ng-template>
+    <ng-template #nzTreeTemplate let-node>
+      <span class="custom-node" style="display: block;padding-left: 5px;" [class.selected]="activedNode?.key === node.key">
+        <span *ngIf="!node.isLeaf" (contextmenu)="contextMenu($event, contextTemplate)">
+          <i nz-icon [type]="node.isExpanded ? 'folder-open' : 'folder'" (click)="openFolder(node)"></i>
+          <span style="margin-left: 5px;" class="folder-name">{{ node.title }}</span>
+        </span>
+        <span *ngIf="node.isLeaf" (contextmenu)="contextMenu($event, contextTemplate)">
+          <i nz-icon type="file"></i>
+          <span style="margin-left: 5px;" class="file-name">{{ node.title }}</span>
+        </span>
+      </span>
+    </ng-template>
+  </nz-tree>
+</div>

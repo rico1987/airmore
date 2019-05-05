@@ -1,17 +1,18 @@
 <div class="airmore-device-item-list">
   <div class="airmore-device-item-list__container" *ngIf="!deviceStateService.loading">
     <app-device-item-group *ngIf="deviceStateService.activeFunction === 'pictures'"></app-device-item-group>
+    
     <div class="airmore-device-item-list__container-pictures" *ngIf="deviceStateService.activeFunction === 'pictures'" >
         <app-device-item-group *ngFor="let item of deviceStateService.itemGroupList"></app-device-item-group>
     </div>
+
     <div class="airmore-device-item-list__container-apps" *ngIf="deviceStateService.activeFunction === 'apps'">
       <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
     </div>
+
     <div class="airmore-device-item-list__container-docs" *ngIf="deviceStateService.activeFunction === 'documents'">
-      <app-table
-        [data]="deviceStateService.itemList"
-      ></app-table>
     </div>
+
     <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">
       <div class="airmore-device-item-list__clipboard-list">
         <div class="airmore-device-item-list__clipboard-item" *ngFor="let item of deviceStateService.itemList">

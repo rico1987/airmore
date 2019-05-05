@@ -1,0 +1,11 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(copy-modal) {
+    max-height: 400px;
+    overflow-y: auto;
+    span.selected{
+        background: $primary;
+        color: $white;
+    }
+}

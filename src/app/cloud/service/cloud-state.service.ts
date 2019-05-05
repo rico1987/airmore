@@ -21,6 +21,7 @@ import { CloudBaseService } from './cloud-base.service';
 import { RenameModalComponent } from '../../shared/components/rename-modal/rename-modal.component';
 import { NewFolderModalComponent } from '../../shared/components/new-folder-modal/new-folder-modal.component';
 import { DynamicInputComponent } from '../../shared/components/dynamic-input/dynamic-input.component';
+import { CopyModalComponent } from '../../shared/components/copy-modal/copy-modal.component';
 
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
@@ -36,7 +37,7 @@ export class CloudStateService {
 
   selectedItems: Array<any> = []; // 选中的item
 
-  activeViewMode:  'list' | 'grid' = 'list';
+  activeViewMode:  'list' | 'grid' = 'grid';
 
   private functions: Array<string>;
 
@@ -387,6 +388,75 @@ export class CloudStateService {
       ],
       nzMaskClosable: false,
       nzClosable: false,
+      nzOnOk: () => {
+
+      }
+    });
+  }
+
+  /**
+   * 拷贝或复制
+   */
+  copy(): void {
+    const copyModal = this.modalService.create({
+      nzTitle: '<i>Copy or Move</i>',
+      nzContent: CopyModalComponent,
+      nzFooter: [
+        {
+          label: 'Copy',
+          onClick: componentInstance => {
+            const id_list: Array<string> = [];
+            const target_id = componentInstance.activedNode.key;
+            for (let i = 0, l = this.selectedItems.length; i < l; i++) {
+              id_list.push(this.selectedItems[i]['library_id'] || this.selectedItems[i]['resource_id']);
+            }
+            this.nodeService.moveNodes(id_list, target_id, 1)
+              .subscribe(
+                (data: CommonResponse) => {
+                  console.log(data);
+                  this.messageService.success('操作成功');
+                },
+                (error) => {
+                  if (error) {
+                    this.messageService.error('操作失败');
+                  }
+                },
+                () => {
+                  this.loading = false;
+                }
+              )
+            copyModal.close();
+          }
+        },
+        {
+          label: 'Move',
+          onClick: componentInstance => {
+            const id_list: Array<string> = [];
+            const target_id = componentInstance.activedNode.key;
+            for (let i = 0, l = this.selectedItems.length; i < l; i++) {
+              id_list.push(this.selectedItems[i]['library_id'] || this.selectedItems[i]['resource_id']);
+            }
+            this.nodeService.moveNodes(id_list, target_id, 0)
+              .subscribe(
+                (data: CommonResponse) => {
+                  console.log(data);
+                  this.messageService.success('操作成功');
+                },
+                (error) => {
+                  if (error) {
+                    this.messageService.error('操作失败');
+                  }
+                },
+                () => {
+                  this.loading = false;
+                }
+              )
+            copyModal.close();
+          }
+        }
+      ],
+      nzMaskClosable: false,
+      nzClosable: true,
       nzOnOk: () => {
 
       }

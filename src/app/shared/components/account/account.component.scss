@@ -1,0 +1,20 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(account) {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    @include e(links) {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: right;
+        p{
+            span{
+                cursor: pointer;
+                color: $primary;
+            }
+        }
+    }
+}

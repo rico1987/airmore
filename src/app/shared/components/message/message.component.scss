@@ -16,6 +16,7 @@
 		background-position: 15px 9px;
 		background-color: $white;
         box-shadow: 0 2px 4px 0 rgba(#000, 0.3);
+        background-size: auto 50%;
         &:hover{
             @include e(content-close) {
                 background-image: url('../../../../assets/img/common/win/close-blue.svg');
@@ -42,7 +43,7 @@
         width: 40px;
         height: 40px;
         position: absolute;
-        top: 8px;
+        top: 0;
         right: 0;
         background-repeat: no-repeat;
         background-position: center;

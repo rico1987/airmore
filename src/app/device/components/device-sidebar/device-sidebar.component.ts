@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+const copy = require('clipboard-copy')
 import { AppStateService } from '../../../shared/service/app-state.service';
 import { DeviceStateService } from '../../service/device-state.service';
 import { DeviceService } from '../../../shared/service/device.service';
@@ -33,7 +34,9 @@ export class DeviceSidebarComponent implements OnInit {
     this.deviceStateService.selectAlbum(item.AlbumID);
   }
 
-  copy(item): void {
-    this.messageService.error('error');
+  copyToClipboard(item): void {
+    console.log(item.Content);
+    copy(item.Content);
+    this.messageService.success('Copied to clipboard!');
   }
 }

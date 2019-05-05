@@ -19,6 +19,7 @@ export class SubheaderComponent implements OnInit {
     { class: 'add', action: 'copy-to-clipboard', text: 'Add' },
     { class: 'upload', action: 'import', text: 'Import Files' },
     { class: 'upload', action: 'upload', text: 'Upload' },
+    { class: 'download', action: 'export', text: 'Export' },
     { class: 'copy', action: 'copy-or-move', text: 'Copy or Move' },
     { class: 'download', action: 'download', text: 'Download' },
     { class: 'install', action: 'install', text: 'Install' },
@@ -84,6 +85,13 @@ export class SubheaderComponent implements OnInit {
           this.cloudStateService.upload();
         } else if (this.appStateService.currentModule === 'device') {
           // this.deviceStateService.upload();
+        }
+        break
+      case 'copy-or-move':
+        if (this.appStateService.currentModule === 'cloud') {
+          this.cloudStateService.copy();
+        } else if (this.appStateService.currentModule === 'device') {
+
         }
       
     }

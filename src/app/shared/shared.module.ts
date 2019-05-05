@@ -34,6 +34,10 @@ import { RenameModalComponent } from './components/rename-modal/rename-modal.com
 import { NewFolderModalComponent } from './components/new-folder-modal/new-folder-modal.component';
 import { DynamicInputComponent } from './components/dynamic-input/dynamic-input.component';
 import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
+import { CopyModalComponent } from './components/copy-modal/copy-modal.component';
+
+import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -74,6 +78,7 @@ const PIPES = [
     NewFolderModalComponent,
     DynamicInputComponent,
     ImageViewerComponent,
+    CopyModalComponent,
   ],
   imports: [
     CommonModule,
@@ -82,6 +87,8 @@ const PIPES = [
     ReactiveFormsModule,
     OverlayModule,
     NzInputModule,
+    NzTreeModule,
+    NzIconModule,
   ],
   providers: [
     MESSAGE_DEFAULT_CONFIG_PROVIDER,
@@ -100,6 +107,7 @@ const PIPES = [
     NewFolderModalComponent,
     DynamicInputComponent,
     ImageViewerComponent,
+    CopyModalComponent,
   ],
 })
 export class SharedModule { }

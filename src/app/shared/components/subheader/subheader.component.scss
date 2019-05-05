@@ -121,7 +121,17 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
         }
 
         @include e(search-clear) {
-
+            position: absolute;
+            cursor: pointer;
+            top: 14px;
+            right: 10px;
+            width: 24px;
+            height: 32px;
+            border: none;
+            background: url('../../../../assets/img/action/gray/quit-gray.svg') center no-repeat;
+            &:hover {
+                background-image: url('../../../../assets/img/action/blue/quit-blue.svg');
+            }
         }
     }
 }

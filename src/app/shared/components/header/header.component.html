@@ -1,6 +1,6 @@
 <div class="airmore-header">
   <div class="airmore-header__title">ApowerCloud</div>
-  <ul class="airmore-header__viewmodes">
+  <ul class="airmore-header__viewmodes" *ngIf="appStateService.currentModule === 'cloud'">
     <li class="airmore-header__viewmode-list" [class.active]="appStateService.activeViewMode==='list'" (click)="setActiveViewMode('list')"></li>
     <li class="airmore-header__viewmode-grid" [class.active]="appStateService.activeViewMode==='grid'" (click)="setActiveViewMode('grid')"></li>
   </ul>

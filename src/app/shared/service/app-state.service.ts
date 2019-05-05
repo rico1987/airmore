@@ -4,6 +4,7 @@ import { Logger } from './logger.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { CloudStateService } from '../../cloud/service/cloud-state.service';
 import { DeviceStateService } from '../../device/service/device-state.service';
+import { BrowserStorageService } from './storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AppStateService {
 
   deviceConnected = false;
 
-  platform: 'android' | 'iphone' = null; // 'android', 'iphone'
+  _platform: 'android' | 'iphone' = null; // 'android', 'iphone'
 
   currentModule: 'cloud' | 'device' = 'cloud';
 
@@ -33,8 +34,11 @@ export class AppStateService {
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private cloudStateService: CloudStateService,
     private deviceStateService: DeviceStateService,
+    private storage: BrowserStorageService,
     private logger: Logger,
-  ) { }
+  ) {
+    this.currentLanguage = this.appConfig.app.defaultLang;
+  }
 
   setActiveViewMode(mode: 'list' | 'grid'): void {
     if (this.currentModule === 'cloud') {
@@ -61,13 +65,14 @@ export class AppStateService {
   }
 
   setPlatform(platform: 'android' | 'iphone') {
-    this.platform = platform;
+    this._platform = platform;
   }
 
   /**
    * 判断是否显示某个操作按钮
    */
   hasAction(action: string): boolean {
+    // todo
     let flag = false;
     if (this.currentModule === 'cloud') {
       switch (action) {
@@ -94,8 +99,32 @@ export class AppStateService {
         case 'set-as-wallpaper':
         break;
       }
-    } else {
-
+    } else if (this.currentModule === 'device') {
+      switch (action) {
+        case 'new-folder':
+        flag = this.deviceStateService.activeFunction === 'files';
+        break;
+        case 'refresh':
+        case 'delete':
+        case 'select-all':
+        flag = true;
+        break;
+        case  'import':
+        flag = this.deviceStateService.activeFunction === 'pictures' ||
+               this.deviceStateService.activeFunction === 'videos' ||
+               this.deviceStateService.activeFunction === 'musics' ||
+               this.deviceStateService.activeFunction === 'documents' ||
+               this.deviceStateService.activeFunction === 'apps';
+        break;
+        case 'export':
+        flag = this.deviceStateService.activeFunction === 'pictures' ||
+               this.deviceStateService.activeFunction === 'videos' ||
+               this.deviceStateService.activeFunction === 'musics' ||
+               this.deviceStateService.activeFunction === 'documents' ||
+               this.deviceStateService.activeFunction === 'apps' ||
+               this.deviceStateService.activeFunction === 'clipboard';
+        break;
+      }
     }
     return flag;
   }
@@ -149,6 +178,21 @@ export class AppStateService {
       return this.cloudStateService.activeViewMode;
     } else if (this.currentModule === 'device') {
       return this.deviceStateService.activeViewMode;
+    }
+  }
+
+  get platform(): 'android' | 'iphone' {
+    if (this._platform) {
+      return this._platform;
+    } else {
+      const deviceInfo = this.storage.get('deviceInfo');
+      let platform;
+      if (deviceInfo['Platform'] === 1) {
+        platform = 'android';
+      } else if (deviceInfo['Platform'] === 2) {
+        platform = 'iphone';
+      }
+      return platform;
     }
   }
 }

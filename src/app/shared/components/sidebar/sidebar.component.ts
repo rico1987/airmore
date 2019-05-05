@@ -18,10 +18,12 @@ export class SidebarComponent implements OnInit {
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
   ) {
     // android and ios have different functions
+    console.log(this.appStateService.platform);
     if (this.appStateService.platform === 'iphone') {
-      this.functions = appConfig.app.iphoneSidebarFunctions;
+      this.functions = appConfig.app.iosSidebarFunctions;
+    } else if (this.appStateService.platform === 'android') {
+      this.functions = appConfig.app.androidSidebarFunctions;
     }
-    this.functions = appConfig.app.androidSidebarFunctions;
   }
 
   ngOnInit() {
@@ -30,6 +32,7 @@ export class SidebarComponent implements OnInit {
   setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
    'tools' | 'clipboard' | 'cloud'): void {
     if (fun !== 'cloud') {
+      this.appStateService.setCurrentModule('device');
       this.deviceStateService.setDeviceActiveFunction(fun);
     }
   }

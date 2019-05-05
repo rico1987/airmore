@@ -7,7 +7,7 @@ export interface AppConfig {
         isDebug: boolean,
         appFunctions: [string],
         androidSidebarFunctions: [string],
-        iphoneSidebarFunctions: [string],
+        iosSidebarFunctions: [string],
         cloudFunctions: [string],
         accountStorageKey: string,
         authStorageKey: string,

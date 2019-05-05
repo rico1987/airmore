@@ -123,4 +123,8 @@ export class CloudBaseService {
       });
   }
 
+  getCloudSpaceInfo(): Observable<any> {
+    return this.myClientService.get('cloud', '/my/info')
+  }
+
 }

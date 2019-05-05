@@ -4,4 +4,7 @@
   <app-email-password-less-login-form *ngSwitchCase="'emailPasswordLess'"></app-email-password-less-login-form>
   <app-phone-password-less-login-form *ngSwitchCase="'phonePasswordLess'"></app-phone-password-less-login-form>
   <app-register-form *ngSwitchCase="'register'"></app-register-form>
+  <div class="airmore-account__links" *ngSwitchCase="'passwordLogin'">
+    <p>No account? <span (click)="appStateService.accountRoute='register'">Register now</span></p>
+  </div>
 </div>
