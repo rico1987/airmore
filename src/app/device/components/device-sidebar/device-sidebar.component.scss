@@ -98,6 +98,10 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
                 background: url('../../../../assets/img/input/checkbox-bigger.svg') center no-repeat;
                 background-size: contain;
                 cursor: pointer;
+
+                &.selected {
+                    background-image: url('../../../../assets/img/input//checkbox-bigger-checked.svg');
+                }
             }
             .container{
                 position: relative;

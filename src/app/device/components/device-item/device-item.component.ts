@@ -24,7 +24,11 @@ export class DeviceItemComponent implements OnInit {
   }
 
   checkItem(): void {
-
+    if (this.isSelected) {
+      this.deviceStateService.removeItems([this.item]);
+    } else {
+      this.deviceStateService.addItems([this.item]);
+    }
   }
 
   openResource(): void {
@@ -35,7 +39,14 @@ export class DeviceItemComponent implements OnInit {
 
   download(): void {}
 
-  delete(): void {
+  delete(event: Event): void {
+    this.deviceStateService.uninstall(this.item);
+    event.stopPropagation();
+  }
+
+  backup(event: Event): void {
+    this.deviceStateService.backupSingleApp(this.item);
+    event.stopPropagation();
   }
 
   getAppIcon(packageName: string): string {
@@ -45,5 +56,9 @@ export class DeviceItemComponent implements OnInit {
 
   supportOperation(operation: 'preview' | 'download' | 'delete'): boolean {
     return true;
+  }
+
+  get isSelected(): boolean {
+    return this.deviceStateService.hasItem(this.item);
   }
 }

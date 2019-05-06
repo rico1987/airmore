@@ -70,7 +70,9 @@ export class SubheaderComponent implements OnInit {
         if (this.appStateService.currentModule === 'cloud') {
           this.cloudStateService.deleteItems();
         } else if (this.appStateService.currentModule === 'device') {
-          this.deviceStateService.deleteItems();
+          if (this.deviceStateService.activeFunction === 'apps') {
+            this.deviceStateService.uninstall()
+          }
         }
         break;
       case 'rename':
@@ -86,13 +88,22 @@ export class SubheaderComponent implements OnInit {
         } else if (this.appStateService.currentModule === 'device') {
           // this.deviceStateService.upload();
         }
-        break
+        break;
       case 'copy-or-move':
         if (this.appStateService.currentModule === 'cloud') {
           this.cloudStateService.copy();
         } else if (this.appStateService.currentModule === 'device') {
 
         }
+        break;
+      case 'backup':
+        if (this.appStateService.currentModule === 'device') {
+          this.deviceStateService.backupApps();
+        }
+        break;
+      case 'install':
+        this.deviceStateService.install();
+        break;
       
     }
   }
@@ -103,5 +114,13 @@ export class SubheaderComponent implements OnInit {
 
   isInactive(action: string): boolean {
     return this.appStateService.isInactive(action);
+  }
+
+  get selectedCount(): number {
+    if (this.appStateService.currentModule === 'device') {
+      return this.deviceStateService.selectedItems.length;
+    } else if (this.appStateService.currentModule === 'cloud') {
+      return this.cloudStateService.selectedItems.length;
+    }
   }
 }

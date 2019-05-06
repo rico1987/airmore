@@ -7,9 +7,8 @@
     <p class="airmore-device-item__name">{{item.ShowName}}</p>
     <p class="airmore-device-item__size">{{item.Size}}</p>
     <ul class="airmore-device-item__toolbar">
-      <li class="preview" [class.active]="supportOperation('preview')" (click)="preview(item)"></li>
-      <li class="download" [class.active]="supportOperation('download')" (click)="download(item)"></li>
-      <li class="delete" [class.active]="supportOperation('delete')" (click)="delete(item)"></li>
+      <li class="backup" [class.active]="supportOperation('backup')" (click)="backup($event)"></li>
+      <li class="delete" [class.active]="supportOperation('delete')" (click)="delete($event)"></li>
     </ul>
     <div class="airmore-device-item__check" [class.selected]="isSelected">
     </div>

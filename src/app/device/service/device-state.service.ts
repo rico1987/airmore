@@ -1,7 +1,24 @@
-import { Injectable, Inject } from '@angular/core';
+import {
+    Injectable,
+    Inject,
+    Injector,
+    ApplicationRef,
+    ComponentFactoryResolver,
+    EmbeddedViewRef,
+  } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { MessageService } from '../../shared/service/message.service';
+import { CommonResponse } from '../../shared/models/common-response.model';
+
+import { downloadLink } from '../../utils/tools';
 import { DeviceService } from '../../shared/service/device.service';
+import { MyClientService } from '../../shared/service/my-client.service';
+import { BrowserStorageService } from '../../shared/service/storage.service';
+import { DynamicInputComponent } from '../../shared/components/dynamic-input/dynamic-input.component';
+import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
+
 
 @Injectable({
     providedIn: 'root'
@@ -33,6 +50,13 @@ export class DeviceStateService {
 
     constructor(
         private deviceService: DeviceService,
+        private injector: Injector,
+        private appRef: ApplicationRef,
+        private componentFactoryResolver: ComponentFactoryResolver,
+        private modalService: NzModalService,
+        private messageService: MessageService,
+        private myClientService: MyClientService,
+        private browserStorageService: BrowserStorageService,
         @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     ) {
     }
@@ -67,6 +91,7 @@ export class DeviceStateService {
                     .subscribe((data) => {
                         this.itemList = data;
                         console.log(this.itemList);
+                        this.loading = false;
                     });
             } else if (this.activeFunction === 'videos') {
                 this.deviceService.getVideoList(this.activeAlbumId, this.Start, this.Limit)
@@ -147,6 +172,7 @@ export class DeviceStateService {
                 .subscribe((data) => {
                     this.itemList = data;
                     console.log(this.itemList)
+                    this.loading = false;
                 });
         } else if (this.activeFunction === 'documents') {
             this.deviceService.getDocAlbumList()
@@ -183,10 +209,108 @@ export class DeviceStateService {
         
     }
 
-    deleteItems(): void {}
+    backupApps(): void {
+        if (this.selectedItems.length === 0) {
+            return;
+        }
+        for (let i = 0; i < this.selectedItems.length; i++) {
+            this.backupSingleApp(this.selectedItems[i]);
+        }
+    }
+
+    backupSingleApp(item: any): void {
+        downloadLink(this.deviceService.getAppLink(item));
+    }
+
+    /**
+     * 下载item
+     */
+    download(item: any): void {
+    }
+
+    uninstall(item?: any): void {
+        this.modalService.confirm({
+            nzTitle: '<i>Warning</i>',
+            nzContent: '<b>Do you Want to uninstall the app?</b>',
+            nzOnOk: () => {
+              let arr;
+              if (item) {
+                  arr = [item];
+              } else {
+                  arr = this.selectedItems;
+              }
+              this.deviceService.uninstall(arr)
+                .subscribe(
+                  (data: CommonResponse) => {
+                    if (data) {
+                        this.messageService.info('请在手机上确认卸载!');
+                    }
+                  },
+                  (error) => {
+                    if (error) {
+                      this.messageService.error('Uninstall failed!');
+                    }
+                  },
+                  () => {
+                  }
+                );
+            }
+          });
+    }
+
+    install(): void {
+        const componentRef = this.componentFactoryResolver
+            .resolveComponentFactory(DynamicInputComponent)
+            .create(this.injector);
+    
+        componentRef.instance.options = {
+            multiple: false,
+        };
+        
+        this.appRef.attachView(componentRef.hostView);
+    
+        const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
+            .rootNodes[0] as HTMLElement;
+        
+        document.body.appendChild(domElem);
+    
+        componentRef.instance.onFileChange = (fileList: UploadFile[]) => {
+            const apkFile = fileList[0];
+            this.deviceService.install(apkFile)
+            .subscribe(
+                (data: CommonResponse) => {
+                    if (data) {
+                        this.messageService.info('请在手机上确认安装!');
+                    }
+                },
+                  (error) => {
+                    if (error) {
+                    }
+                  },
+                  () => {
+                    this.loading = false;
+                  }
+            )
+        };
+    
+        componentRef.instance.onClick();
+    }
 
     addItems(items: Array<any>): void {
         this.selectedItems.push(...items);
+    }
+
+    
+    /**
+     * 将items数组里的对象从已选择数组里移除
+     */
+    removeItems(items: Array<any>): void {
+        for (let i = 0, length = items.length; i < length; i++) {
+            const index = this.selectedItems.indexOf(items[i]);
+            if (index > -1) {
+                this.selectedItems.splice(index, 1);
+            }
+        }
     }
 
     hasItem(item: any): boolean {

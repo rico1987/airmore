@@ -1,4 +1,4 @@
-export function downloadLink(link: string, fileName: string): void {
+export function downloadLink(link: string, fileName?: string): void {
     let anchor = document.createElement('a');
     anchor.href = link;
     if (fileName) {

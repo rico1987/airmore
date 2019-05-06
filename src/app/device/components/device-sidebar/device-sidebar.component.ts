@@ -34,8 +34,20 @@ export class DeviceSidebarComponent implements OnInit {
     this.deviceStateService.selectAlbum(item);
   }
 
-  copyToClipboard(item): void {
-    console.log(item.Content);
+  checkItem(item): void {
+    if (this.deviceStateService.hasItem(item)) {
+      this.deviceStateService.removeItems([item]);
+    } else {
+      this.deviceStateService.addItems([item]);
+    }
+  }
+
+  isSelected(item): boolean {
+    return this.deviceStateService.hasItem(item);
+  }
+
+  copyToClipboard(item, event: Event): void {
+    event.stopPropagation();
     copy(item.Content);
     this.messageService.success('Copied to clipboard!');
   }

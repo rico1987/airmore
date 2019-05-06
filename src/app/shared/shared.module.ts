@@ -40,6 +40,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 
 import { SizePipe } from './pipes/size.pipe';
 import { DurationPipe } from './pipes/duration.pipe';
+import { FileTypePipe } from './pipes/file-type.pipe';
+import { TimePipe } from './pipes/time.pipe';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -60,6 +62,8 @@ const DIRECTIVES = [];
 const PIPES = [
   SizePipe,
   DurationPipe,
+  FileTypePipe,
+  TimePipe,
 ];
 
 @NgModule({
@@ -85,6 +89,8 @@ const PIPES = [
     ImageViewerComponent,
     CopyModalComponent,
     DurationPipe,
+    FileTypePipe,
+    TimePipe,
   ],
   imports: [
     CommonModule,

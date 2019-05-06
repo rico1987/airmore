@@ -382,3 +382,14 @@ template {
 [hidden] {
     display: none;
 }
+
+
+table {
+   tr {
+      th, td {
+         white-space: nowrap;
+         text-overflow: ellipsis;
+         overflow: hidden;
+      }
+   }
+}

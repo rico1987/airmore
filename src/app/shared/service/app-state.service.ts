@@ -113,16 +113,20 @@ export class AppStateService {
         flag = this.deviceStateService.activeFunction === 'pictures' ||
                this.deviceStateService.activeFunction === 'videos' ||
                this.deviceStateService.activeFunction === 'musics' ||
-               this.deviceStateService.activeFunction === 'documents' ||
-               this.deviceStateService.activeFunction === 'apps';
+               this.deviceStateService.activeFunction === 'documents';
         break;
         case 'export':
         flag = this.deviceStateService.activeFunction === 'pictures' ||
                this.deviceStateService.activeFunction === 'videos' ||
                this.deviceStateService.activeFunction === 'musics' ||
                this.deviceStateService.activeFunction === 'documents' ||
-               this.deviceStateService.activeFunction === 'apps' ||
                this.deviceStateService.activeFunction === 'clipboard';
+        break;
+        case 'install':
+        flag = this.deviceStateService.activeFunction === 'apps';
+        break;
+        case 'backup':
+        flag = this.deviceStateService.activeFunction === 'apps';
         break;
       }
     }
@@ -136,7 +140,6 @@ export class AppStateService {
     let flag = false;
     switch (action) {
       case 'download':
-      case 'delete':
       case 'copy-or-move':
         flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length === 0) ||
         (this.currentModule === 'device' && this.deviceStateService.selectedItems.length === 0);
@@ -145,6 +148,15 @@ export class AppStateService {
         flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length !== 1) ||
         (this.currentModule === 'device' && this.deviceStateService.selectedItems.length !== 1);
         break;
+      case 'backup':
+        flag = this.currentModule === 'device' && this.deviceStateService.selectedItems.length === 0;
+        break;
+      case 'delete':
+        flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length === 0) ||
+               (this.currentModule === 'device' && this.deviceStateService.activeFunction === 'apps' && this.deviceStateService.selectedItems.length !== 1) ||
+               (this.currentModule === 'device' && this.deviceStateService.activeFunction !== 'apps' && this.deviceStateService.selectedItems.length === 0)
+        break;
+
     }
     return flag;
   }

@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DurationPipe implements PipeTransform {
 
-  transform(value: any, args?: any): any {
+  transform(value: string, args?: any): any {
     return 'aaaa';
   }
 

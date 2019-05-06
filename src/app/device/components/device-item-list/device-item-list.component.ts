@@ -1,14 +1,26 @@
-import { Component, OnInit, Input, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Inject, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { DeviceStateService } from '../../service/device-state.service';
+import { NzTableComponent } from 'ng-zorro-antd';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-device-item-list',
   templateUrl: './device-item-list.component.html',
   styleUrls: ['./device-item-list.component.scss']
 })
-export class DeviceItemListComponent implements OnInit {
+export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy {
+  
 
   @ViewChild('itemListContainer') itemListContainer: ElementRef;
+
+  @ViewChild('virtualTable') nzTableComponent: NzTableComponent;
+
+  listOfData: any[] = [];
+
+
+  private destroy$ = new Subject();
+
 
   sortName: string | null = null;
   sortValue: string | null = null;
@@ -21,33 +33,42 @@ export class DeviceItemListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.listOfData = this.deviceStateService.itemList;
   }
 
   ngAfterContentInit() {
     const containerHeight = this.itemListContainer.nativeElement.offsetHeight;
-    this.scrollHeight = containerHeight - 111;
+    if (this.deviceStateService.activeFunction === 'musics') {
+      this.scrollHeight = containerHeight - 111;
+    } else {
+      // todo
+      this.scrollHeight = containerHeight - 80;
+    }
   }
 
+  checkAll(): void {
+    this.deviceStateService.selectAll();
+  }
+
+  scrollToIndex(index: number): void {
+    this.nzTableComponent.cdkVirtualScrollViewport.scrollToIndex(index);
+  }
+
+
   sort(sort: { key: string; value: string }): void {
-    // this.sortName = sort.key;
-    // this.sortValue = sort.value;
-    // if (this.sortName && this.sortValue) {
-    //   this.listOfDisplayData = this.deviceStateService.itemList.sort((a, b) =>
-    //     this.sortValue === 'ascend'
-    //       ? a[this.sortName!] > b[this.sortName!]
-    //         ? 1
-    //         : -1
-    //       : b[this.sortName!] > a[this.sortName!]
-    //       ? 1
-    //       : -1
-    //   );
-    // } else {
-    //   this.listOfDisplayData = this.deviceStateService.itemList;
-    // }
   }
 
   play(item): void {
 
+  }
+
+
+  onTdCheckedChange(event: any, item: any): void {
+    if (event) {
+      this.deviceStateService.addItems([item]);
+    } else {
+      this.deviceStateService.removeItems([item]);
+    }
   }
 
   onPageIndexChange(number): void {
@@ -66,18 +87,15 @@ export class DeviceItemListComponent implements OnInit {
     return this.deviceStateService.selectedItems.length > 0 && this.deviceStateService.selectedItems.length === this.deviceStateService.itemList.length;
   }
 
-  get paginationTotal(): number {
-    return 1;
-    // return this.deviceStateService.total;
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-
-  get paginationIndex(): number {
-    return 1;
-    // return this.deviceStateService.currentPage;
-  }
-
-  get paginationSize(): number {
-    return 1;
-    // return this.appConfig.app.cloudItemsPerPage;
+  ngAfterViewInit(): void {
+    // this.nzTableComponent.cdkVirtualScrollViewport.scrolledIndexChange
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe(data => {
+    //     console.log('scroll index to', data);
+    //   });
   }
 }

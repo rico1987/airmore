@@ -41,9 +41,18 @@ export class MyClientService {
   /**
    * 获取设备局域网ip后与设备之间的通信
    */
-  devicePost(key: string, data?: Object, options?: Object): Observable<any> {
+  devicePost(key: string, data?: Object | string | FormData, options?: Object): Observable<any> {
     const deviceInfo = this.browserStorageService.get('deviceInfo');
     return this.http.post(`http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/?Key=${key}`, data, options);
+  }
+
+  deviceGet (key: string, params?: Object, options?: Object): Observable<any> {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    let requestUrl = `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/?Key=${key}`;
+    for (let i = 0, l = Object.keys(params).length; i < l; i++) {
+      requestUrl += `&${Object.keys(params)[i]}=${params[Object.keys(params)[i]]}`;
+    }
+    return this.http.get(requestUrl, options);
   }
 
   put(module: string, url: string, data?: Object, options?: Object): Observable<any> {

@@ -102,10 +102,28 @@ export class DeviceService extends WebsocketService {
     });
   }
 
-  getAppList() {
+  getAppList(): Observable<any> {
     return this.myClientService.devicePost('AppGetList&IsNeedDiskUsage=true', {
       AlbumID: 'apps',
     });
+  }
+
+  getAppLink(item: any): string {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/?Key=AppBackup&Package=${item['PackageName']}`;
+  }
+
+  uninstall(apps: Array<any>): Observable<any> {
+    return this.myClientService.devicePost('AppUninstall', JSON.stringify(apps));
+  }
+
+  install(file: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('Post', JSON.stringify({
+      AlbumID: 'apps',
+    }));
+    formData.append('File', file);
+    return this.myClientService.devicePost('AppInstall', formData);
   }
 
   getDocAlbumList(): Observable<any> {

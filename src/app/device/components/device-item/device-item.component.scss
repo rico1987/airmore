@@ -21,6 +21,16 @@
             left: 0;
             bottom: 0;
             right: 0;
+
+            &:hover {
+                @include e(toolbar) {
+                    display: block;
+                }
+
+                @include e(check) {
+                    display: block;
+                }
+            }
         }
 
         @include e(icon) {
@@ -46,8 +56,51 @@
             font-size: 14px;
         }
 
+        @include e(check) {
+            width: 24px;
+            height: 24px;
+            display: block;
+            opacity: .8;
+            position: absolute;
+            background-position: center;
+            margin-right: 0;
+            right: 7px;
+            top: 7px;
+            background: url('../../../../assets/img/input/checkbox-bigger.svg');
+            display: none;
+            
+            &.selected {
+                display: block;
+                background-image: url('../../../../assets/img/input/checkbox-bigger-checked.svg');
+            }
+        }
+
         @include e(toolbar) {
             display: none;
+            list-style: none;
+            height: 36px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            >li{
+                width: 50%;
+                height: 100%;
+                cursor: pointer;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-color: black;
+                opacity: .6;
+                float: left;
+                &:hover {
+                    opacity: 1;
+                }
+                &.backup {
+                    background-image: url('../../../../assets/img/action/white/backup-white.svg');
+                }
+                &.delete {
+                    background-image: url('../../../../assets/img/action/white//delete-white.svg');
+                }
+            }
         }
         
     }
