@@ -19,5 +19,13 @@
         @include when(clipboard) {
             left: calc(33.3333% + 160px);
         }
+
+        @include when(messages) {
+            left: calc(33.3333% + 160px);
+        }
+
+        @include when(files) {
+            left: 240px;
+        }
     }
 }

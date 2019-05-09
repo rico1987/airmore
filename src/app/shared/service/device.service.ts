@@ -24,6 +24,10 @@ export class DeviceService extends WebsocketService {
 
   init() {
     super.init();
+    this.checkAuthorization();
+  }
+
+  checkAuthorization(): void {
     // 开始连接设备
     this.myClientService.devicePost('PhoneCheckAuthorization', {})
       .subscribe(
@@ -95,11 +99,11 @@ export class DeviceService extends WebsocketService {
   }
 
   getVideoList(AlbumID: string, Start: number, Limit: number): Observable<any> {
-    return this.myClientService.devicePost('VideoGetList', {
+    return this.myClientService.devicePost('VideoGetList', JSON.stringify({
       AlbumID,
       Start,
       Limit,
-    });
+    }));
   }
 
   getAppList(): Observable<any> {
@@ -126,6 +130,26 @@ export class DeviceService extends WebsocketService {
     return this.myClientService.devicePost('AppInstall', formData);
   }
 
+  importFile(key: string, AlbumID: string, file: any): Observable<any> {
+    const formData = new FormData();
+    formData.append('Post', JSON.stringify({
+      AlbumID,
+    }));
+    formData.append('File', file);
+    return this.myClientService.devicePost(key, formData);
+  }
+
+  saveClipboard(text: string): Observable<any> {
+    return this.myClientService.devicePost('ClipboardAdd', [
+      {
+        ID: '',
+        Content: text,
+        OriginName: 'web',
+        Time: new Date().getTime(),
+      }
+    ])
+  }
+
   getDocAlbumList(): Observable<any> {
     return this.myClientService.devicePost('DocGetAlbum', {});
   }
@@ -140,5 +164,37 @@ export class DeviceService extends WebsocketService {
     return this.myClientService.devicePost('ClipboardGetList', {
       AlbumID,
     });
+  }
+
+  deleteItems(key: string, items: Array<any>): Observable<any> {
+    return this.myClientService.devicePost(key, JSON.stringify(items));
+  }
+
+  getMessageLatestList(): Observable<any> {
+    return this.myClientService.devicePost('MessageGetLatest', {});
+  }
+
+  getMessageList(ID: string, Start: number, Limit: number): Observable<any> {
+    return this.myClientService.devicePost('MessageGetList', {
+      ID,
+      Limit,
+      Start,
+    });
+  }
+
+  getRootFileList(): Observable<any> {
+    return this.myClientService.devicePost('FileGetList&IsRecursion=false', {
+      FileSystem: "FileSystem",
+    });
+  }
+
+  getDirectoryFiles(Directory: string): Observable<any> {
+    return this.myClientService.devicePost('FileGetList&IsRecursion=false', {
+      Directory,
+    });
+  }
+
+  createDirectory(folders: Array<any>): Observable<any> {
+    return this.myClientService.devicePost('FileCreateDirectory', JSON.stringify(folders));
   }
 }

@@ -42,70 +42,7 @@ export class SubheaderComponent implements OnInit {
   }
 
   doAction(action: string, isInactive: boolean): void {
-    if (isInactive) {
-      return;
-    }
-    switch (action) {
-      case 'refresh':
-        if (this.appStateService.currentModule === 'cloud') {
-          this.cloudStateService.refreshItemList();
-        }
-        break;
-      case 'new-folder':
-        this.cloudStateService.newFolder();
-        break;
-      case 'download':
-        if (this.appStateService.currentModule === 'cloud') {
-          this.cloudStateService.downloadItems();
-        }
-        break;
-      case 'select-all':
-        if (this.appStateService.currentModule === 'cloud') {
-          this.cloudStateService.selectAll();
-        } else if (this.appStateService.currentModule === 'device') {
-          this.deviceStateService.selectAll();
-        }
-        break;
-      case 'delete':
-        if (this.appStateService.currentModule === 'cloud') {
-          this.cloudStateService.deleteItems();
-        } else if (this.appStateService.currentModule === 'device') {
-          if (this.deviceStateService.activeFunction === 'apps') {
-            this.deviceStateService.uninstall()
-          }
-        }
-        break;
-      case 'rename':
-        if (this.appStateService.currentModule === 'cloud') {
-          this.cloudStateService.rename();
-        } else if (this.appStateService.currentModule === 'device') {
-          this.deviceStateService.rename();
-        }
-        break;
-      case 'upload':
-        if (this.appStateService.currentModule === 'cloud') {
-          this.cloudStateService.upload();
-        } else if (this.appStateService.currentModule === 'device') {
-          // this.deviceStateService.upload();
-        }
-        break;
-      case 'copy-or-move':
-        if (this.appStateService.currentModule === 'cloud') {
-          this.cloudStateService.copy();
-        } else if (this.appStateService.currentModule === 'device') {
-
-        }
-        break;
-      case 'backup':
-        if (this.appStateService.currentModule === 'device') {
-          this.deviceStateService.backupApps();
-        }
-        break;
-      case 'install':
-        this.deviceStateService.install();
-        break;
-      
-    }
+    this.appStateService.doAction(action, isInactive);
   }
 
   hasAction(action: string): boolean {

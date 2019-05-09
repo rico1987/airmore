@@ -1,5 +1,6 @@
 <div class="airmore-device-item"
-  [class.is-app]="deviceStateService.activeFunction === 'apps'"  
+  [class.is-app]="deviceStateService.activeFunction === 'apps'"
+  [class.is-video]="deviceStateService.activeFunction === 'videos'"
   (click)="checkItem()"
   (dblclick)="openResource()">
   <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'apps' && item">
@@ -12,5 +13,21 @@
     </ul>
     <div class="airmore-device-item__check" [class.selected]="isSelected">
     </div>
+  </div>
+  <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'videos'">
+    <div
+      *ngIf="item"
+      class="airmore-device-item__image"
+    >
+      <app-lazy-load-image [imgSrc]="resolveVideoCoverPath(item.Path)" *ngIf="item.Path"></app-lazy-load-image>
+    </div>
+    <ul class="airmore-device-item__toolbar">
+      <li class="play" (click)="playVideo($event)"></li>
+      <li class="download" (click)="download($event)"></li>
+      <li class="delete" (click)="delete($event)"></li>
+    </ul>
+    <div class="airmore-device-item__check" [class.selected]="isSelected">
+    </div>
+    <div class="airmore-device-item__play-btn" (click)="playVideo($event)"></div>
   </div>
 </div>

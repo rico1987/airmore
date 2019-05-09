@@ -21,6 +21,10 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
 
   private destroy$ = new Subject();
 
+  // todo
+  clipboardTextareaPlaceholder: string = 'Ctrl + Enter 保存到手机';
+  clipboardValue: string = '';
+
 
   sortName: string | null = null;
   sortValue: string | null = null;
@@ -62,6 +66,14 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
+  export(data): void {
+    this.deviceStateService.download(data);
+  }
+
+  delete(data): void {
+    this.deviceStateService.deleteItem(data);
+  }
+
 
   onTdCheckedChange(event: any, item: any): void {
     if (event) {
@@ -79,12 +91,24 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
   currentPageDataChange(): void {
   }
 
+  cancelClipboardEdit(): void {
+    this.deviceStateService.isClipboardEditing = false;
+  }
+
+  saveToClipboard(): void {
+    this.deviceStateService.saveClipboard(this.clipboardValue);
+  }
+
   get listOfDisplayData(): Array<any> {
     return this.deviceStateService.itemList;
   }
 
   get isAllDisplayDataChecked(): boolean {
     return this.deviceStateService.selectedItems.length > 0 && this.deviceStateService.selectedItems.length === this.deviceStateService.itemList.length;
+  }
+
+  get isClipboardEditing(): boolean {
+    return this.deviceStateService.isClipboardEditing;
   }
 
   ngOnDestroy(): void {

@@ -15,7 +15,7 @@ export class TimePipe implements PipeTransform {
   transform(value: any, args?: any): any {
     const time = new Date(value);
     return time.getFullYear() + '-' + this._addZero(time.getMonth()) + '-' + this._addZero(time.getDate()) +
-           ' ' + time.getHours() + ':' + time.getMinutes();
+           ' ' + this._addZero(time.getHours()) + ':' + this._addZero(time.getMinutes());
   }
 
 }

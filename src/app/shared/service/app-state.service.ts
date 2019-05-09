@@ -68,6 +68,96 @@ export class AppStateService {
     this._platform = platform;
   }
 
+  doAction(action: string, isInactive: boolean): void {
+    if (isInactive) {
+      return;
+    }
+    switch (action) {
+      case 'refresh':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.refreshItemList();
+        } else if (this.currentModule === 'device') {
+          this.deviceStateService.refreshItemList();
+        }
+        break;
+      case 'new-folder':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.newFolder()
+        } else if (this.currentModule === 'device') {
+          this.deviceStateService.newFolder();
+        }
+        break;
+      case 'download':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.downloadItems();
+        }
+        break;
+      case 'select-all':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.selectAll();
+        } else if (this.currentModule === 'device') {
+          this.deviceStateService.selectAll();
+        }
+        break;
+      case 'delete':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.deleteItems();
+        } else if (this.currentModule === 'device') {
+          if (this.deviceStateService.activeFunction === 'apps') {
+            this.deviceStateService.uninstall()
+          } else if (this.deviceStateService.activeFunction === 'clipboard' || this.deviceStateService.activeFunction === 'documents' || this.deviceStateService.activeFunction === 'videos' || this.deviceStateService.activeFunction === 'files') {
+            this.deviceStateService.deleteItems();
+          }
+        }
+        break;
+      case 'rename':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.rename();
+        }
+        break;
+      case 'upload':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.upload();
+        } else if (this.currentModule === 'device') {
+          // this.deviceStateService.upload();
+        }
+        break;
+      case 'copy-or-move':
+        if (this.currentModule === 'cloud') {
+          this.cloudStateService.copy();
+        } else if (this.currentModule === 'device') {
+
+        }
+        break;
+      case 'backup':
+        if (this.currentModule === 'device') {
+          this.deviceStateService.backupApps();
+        }
+        break;
+      case 'install':
+        this.deviceStateService.install();
+        break;
+      case 'export':
+        if (this.currentModule === 'device') {
+          this.deviceStateService.export();
+        }
+        break;
+      case 'copy-to-clipboard':
+        if (this.currentModule === 'device') {
+          this.deviceStateService.copyToClipboard();
+        }
+        break;
+      case 'import':
+        if (this.currentModule === 'device') {
+          this.deviceStateService.import();
+        }
+        break;
+      case 'new-message':
+        this.deviceStateService.newMessage();
+      
+    }
+  }
+
   /**
    * 判断是否显示某个操作按钮
    */
@@ -105,28 +195,40 @@ export class AppStateService {
         flag = this.deviceStateService.activeFunction === 'files';
         break;
         case 'refresh':
-        case 'delete':
-        case 'select-all':
         flag = true;
+        break;
+        case 'select-all':
+        flag = this.deviceStateService.activeFunction !== 'messages';
+        break;
+        case 'delete':
+        flag = this.deviceStateService.activeFunction !== 'messages';
         break;
         case  'import':
         flag = this.deviceStateService.activeFunction === 'pictures' ||
                this.deviceStateService.activeFunction === 'videos' ||
                this.deviceStateService.activeFunction === 'musics' ||
-               this.deviceStateService.activeFunction === 'documents';
+               this.deviceStateService.activeFunction === 'documents' ||
+               this.deviceStateService.activeFunction === 'files';
         break;
         case 'export':
         flag = this.deviceStateService.activeFunction === 'pictures' ||
                this.deviceStateService.activeFunction === 'videos' ||
                this.deviceStateService.activeFunction === 'musics' ||
                this.deviceStateService.activeFunction === 'documents' ||
-               this.deviceStateService.activeFunction === 'clipboard';
+               this.deviceStateService.activeFunction === 'clipboard' ||
+               this.deviceStateService.activeFunction === 'files';
         break;
         case 'install':
         flag = this.deviceStateService.activeFunction === 'apps';
         break;
         case 'backup':
         flag = this.deviceStateService.activeFunction === 'apps';
+        break;
+        case 'copy-to-clipboard':
+        flag = this.deviceStateService.activeFunction === 'clipboard';
+        break;
+        case 'new-message':
+        flag = this.deviceStateService.activeFunction === 'messages';
         break;
       }
     }
@@ -156,7 +258,10 @@ export class AppStateService {
                (this.currentModule === 'device' && this.deviceStateService.activeFunction === 'apps' && this.deviceStateService.selectedItems.length !== 1) ||
                (this.currentModule === 'device' && this.deviceStateService.activeFunction !== 'apps' && this.deviceStateService.selectedItems.length === 0)
         break;
-
+      case 'export':
+        flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length !== 1) ||
+        (this.currentModule === 'device' && this.deviceStateService.selectedItems.length === 0);
+        break;
     }
     return flag;
   }

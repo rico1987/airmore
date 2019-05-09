@@ -2,6 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NzTableModule } from 'ng-zorro-antd/table';
+import { FormsModule } from '@angular/forms';
+import { NzTreeModule } from 'ng-zorro-antd/tree';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+
 
 
 import { SharedModule } from '../shared/shared.module';
@@ -21,6 +25,9 @@ import { DeviceItemGroupComponent } from './components/device-item-group/device-
     HttpClientModule,
     DeviceRoutingModule,
     NzTableModule,
+    FormsModule,
+    NzTreeModule,
+    NzIconModule,
   ],
   providers: []
 })

@@ -7,6 +7,12 @@
     </div>
     <!-- pictures end -->
 
+    <!-- videos start -->
+    <div class="airmore-device-item-list__container-videos" *ngIf="deviceStateService.activeFunction === 'videos'" >
+      <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
+    </div>
+    <!-- videos end -->
+
     <!-- apps start -->
     <div class="airmore-device-item-list__container-apps" *ngIf="deviceStateService.activeFunction === 'apps'">
       <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
@@ -62,7 +68,13 @@
                 [nzChecked]="deviceStateService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
-              <td style="width: 350px;" class="airmore-cloud-item-list__td">{{ data.ShowName }}</td>
+              <td style="width: 350px;" class="airmore-cloud-item-list__td">
+                {{ data.ShowName }}
+                <div class="td-operations">
+                  <span class="export" (click)="export(data)"></span>
+                  <span class="delete" (click)="delete(data)"></span>
+                </div>
+              </td>
               <td style="width: 150px;">{{ data.Path | fileType }}</td>
               <td style="width: 150px;">{{ data.Size | size }}</td>
               <td>{{ data.ModifyTime * 1000 | time }}</td>
@@ -144,21 +156,88 @@
 
     <!-- clipboard start -->
     <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">
-      <div class="airmore-device-item-list__clipboard-list">
-        <div class="airmore-device-item-list__clipboard-item" *ngFor="let item of deviceStateService.itemList">
-          <div class="checkBox"></div>
-          <div class="container">
-            <p class="date"></p>
-            <p class="content"></p>
-          </div>
-          <div class="copy-button"></div>
-        </div>
+      <div class="toolbar">
+        <span (click)="cancelClipboardEdit()" *ngIf="isClipboardEditing">Cancel</span>
+        <span class="primary" (click)="saveToClipboard()" *ngIf="isClipboardEditing" [class.active]="clipboardValue">Save to clipboard</span>
       </div>
-      <div class="airmore-device-item-list__clipboard-info">
-        <p class="content"></p>
-      </div>
+      <textarea *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
+      <p *ngIf="!isClipboardEditing && deviceStateService.activeItem && deviceStateService.activeItem['Content']">{{deviceStateService.activeItem['Content']}}</p>
     </div>
     <!-- clipboard end -->
+
+    <!-- messages start -->
+    <div class="airmore-device-item-list__container-message" *ngIf="deviceStateService.activeFunction === 'messages'">
+      
+    </div>
+    <!-- messages end -->
+
+    <!-- files start -->
+    <nz-table
+      *ngIf="deviceStateService.itemList && deviceStateService.activeFunction === 'files'"
+      #virtualTable
+      #rowSelectionTable
+      nzVirtualScroll
+      [nzVirtualItemSize]="50"
+      [nzData]="listOfDisplayData"
+      [nzFrontPagination]="false"
+      [nzShowPagination]="false"
+      [nzScroll]="{ y: scrollHeight + 'px' }"
+    >
+      <thead>
+        <tr>
+          <th
+            nzShowCheckbox
+            nzWidth="60px"
+            [(nzChecked)]="isAllDisplayDataChecked"
+            (nzCheckedChange)="checkAll($event)"
+          ></th>
+          <th
+            nzWidth="350px"
+            nzShowSort
+            nzSortKey="ShowName"
+          >Name</th>
+          <th
+            nzWidth="150px"
+            nzShowSort
+            nzSortKey="FileType"
+          >FileType</th>
+          <th
+            nzWidth="150px"
+            nzShowSort
+            nzSortKey="Size"
+          >Size</th>
+          <th
+            nzWidth="150px"
+            nzShowSort
+            nzSortKey="ModifyTime"
+          >ModifyTime</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-template nz-virtual-scroll let-data let-index="index">
+          <tr>
+            <td
+              nzShowCheckbox
+              [nzChecked]="deviceStateService.hasItem(data)"
+              (nzCheckedChange)="onTdCheckedChange($event, data)"
+            ></td>
+            <td class="airmore-cloud-item-list__td">
+              <i nz-icon [type]="'folder'" *ngIf="data.FileType === 2"></i>
+              <i nz-icon [type]="'file'" *ngIf="data.FileType === 1"></i>
+              {{ data.ShowName }}
+              <div class="td-operations">
+                <span class="export" (click)="export(data)"></span>
+                <span class="delete" (click)="delete(data)"></span>
+              </div>
+            </td>
+            <td>{{ data.FileType | isFolder }}</td>
+            <td>{{ data.Size | size }}</td>
+            <td>{{ data.ModifyTime | time }}</td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </nz-table> 
+    <!-- files end -->
   </div>
   <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
       <p>The folder is empty!</p>

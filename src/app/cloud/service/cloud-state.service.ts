@@ -536,14 +536,14 @@ export class CloudStateService {
    * 创建新文件夹
    */
   newFolder(): void {
-    const renameModal = this.modalService.create({
+    const newFolderModal = this.modalService.create({
       nzTitle: '<i>New Folder</i>',
       nzContent: NewFolderModalComponent,
       nzFooter: [
         {
           label: 'OK',
           onClick: componentInstance => {
-            renameModal.close();
+            newFolderModal.close();
             const name = componentInstance.name;
             if (!name) {
               return;

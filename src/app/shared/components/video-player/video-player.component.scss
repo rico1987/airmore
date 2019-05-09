@@ -1,0 +1,49 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(video-player) {
+    position: fixed;
+    z-index: 100;
+    box-shadow: 0 0 30px rgba(0,0,0,.35);
+    width: 30%;
+    height: 40%;
+    top: 30%;
+    left: 35%;
+    background: white;
+    &:hover {
+        @include e(header) {
+            display: block;
+        }
+    }
+    @include e(header) {
+        position: absolute;
+        top: 0;
+        height: 40px;
+        width: 100%;
+        color: white;
+        display: none;
+        .title {
+            padding: 0 40px 0 10px;
+            line-height: 40px;
+        }
+        .close {
+            width: 40px;
+            height: 40px;
+            background: url('../../../../assets/img/common/win/close.svg') center no-repeat;
+            display: block;
+            position: absolute;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            &:hover {
+                background-image: url('../../../../assets/img/common/win/close-hover.svg');
+            }
+        }
+    }
+    video {
+        display: block;
+        background: black;
+        width: 100%;
+        height: 100%;
+    }
+}

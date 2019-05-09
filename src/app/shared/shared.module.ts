@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NzInputModule } from 'ng-zorro-antd';
+import { NzDropDownModule } from 'ng-zorro-antd';
 
 import { ConnectionComponent } from './components/connection/connection.component';
 import { AccountComponent } from './components/account/account.component';
@@ -42,6 +43,8 @@ import { SizePipe } from './pipes/size.pipe';
 import { DurationPipe } from './pipes/duration.pipe';
 import { FileTypePipe } from './pipes/file-type.pipe';
 import { TimePipe } from './pipes/time.pipe';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import { IsFolderPipe } from './pipes/is-folder.pipe';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -64,6 +67,7 @@ const PIPES = [
   DurationPipe,
   FileTypePipe,
   TimePipe,
+  IsFolderPipe,
 ];
 
 @NgModule({
@@ -91,6 +95,8 @@ const PIPES = [
     DurationPipe,
     FileTypePipe,
     TimePipe,
+    VideoPlayerComponent,
+    IsFolderPipe,
   ],
   imports: [
     CommonModule,
@@ -101,6 +107,7 @@ const PIPES = [
     NzInputModule,
     NzTreeModule,
     NzIconModule,
+    NzDropDownModule,
   ],
   providers: [
     MESSAGE_DEFAULT_CONFIG_PROVIDER,
@@ -120,6 +127,7 @@ const PIPES = [
     DynamicInputComponent,
     ImageViewerComponent,
     CopyModalComponent,
+    VideoPlayerComponent,
   ],
 })
 export class SharedModule { }

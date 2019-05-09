@@ -1,0 +1,7 @@
+<div class="airmore-video-player">
+  <div class="airmore-video-player__header">
+    <p class="title">{{ title }}</p>
+    <span class="close" (click)="close()"></span>
+  </div>
+  <video [src]="videoSrc" autoplay controls controlslist="nodownload" width="auto" height="auto"></video>
+</div>

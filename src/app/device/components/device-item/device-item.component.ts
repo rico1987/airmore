@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DeviceStateService } from '../../service/device-state.service';
 import { BrowserStorageService } from '../../../shared/service/storage.service';
+import { DeviceService } from '../../../shared/service/device.service';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class DeviceItemComponent implements OnInit {
   constructor(
     private browserStorageService: BrowserStorageService,
     private deviceStateService: DeviceStateService,
+    private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {
@@ -35,12 +37,22 @@ export class DeviceItemComponent implements OnInit {
 
   }
 
-  preview(): void {}
+  playVideo(event: Event): void {
+    this.deviceStateService.playVideo(this.item);
+    event.stopPropagation();
+  }
 
-  download(): void {}
+  download(event: Event): void {
+    this.deviceStateService.download(this.item);
+    event.stopPropagation();
+  }
 
   delete(event: Event): void {
-    this.deviceStateService.uninstall(this.item);
+    if (this.deviceStateService.activeFunction === 'apps') {
+      this.deviceStateService.uninstall(this.item);
+    } else {
+      this.deviceStateService.deleteItem(this.item);
+    }
     event.stopPropagation();
   }
 
@@ -52,6 +64,11 @@ export class DeviceItemComponent implements OnInit {
   getAppIcon(packageName: string): string {
     const deviceInfo = this.browserStorageService.get('deviceInfo');
     return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}?Key=AppGetIcon&Package=${packageName}`;
+  }
+
+  resolveVideoCoverPath(path: string): string {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}${path}?Shortcut=1&Width=168&Height=168`;
   }
 
   supportOperation(operation: 'preview' | 'download' | 'delete'): boolean {

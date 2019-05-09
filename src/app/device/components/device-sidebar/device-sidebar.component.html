@@ -1,4 +1,9 @@
-<div class="airmore-device-sidebar" [class.is-clipboard]="appStateService.activeFunction === 'clipboard'">
+<div
+  class="airmore-device-sidebar"
+  [class.is-clipboard]="appStateService.activeFunction === 'clipboard'"
+  [class.is-message]="appStateService.activeFunction === 'messages'"
+  [class.is-files]="appStateService.activeFunction === 'files'"
+>
   <div class="airmore-device-sidebar__pictures" *ngIf="appStateService.activeFunction === 'pictures'">
     <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
       <div class="airmore-device-sidebar__item-icon">
@@ -32,10 +37,19 @@
     </div>
   </div>
   <div class="airmore-device-sidebar__contacts" *ngIf="appStateService.activeFunction === 'contacts'">
-    contacts sidebar
+    <div class="airmore-device-sidebar__contacts-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.itemList" (click)="setActive(item)">
+
+    </div>
   </div>
   <div class="airmore-device-sidebar__messages" *ngIf="appStateService.activeFunction === 'messages'">
-    messages sidebar
+    <div class="airmore-device-sidebar__messages-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.sidebarItemList" (click)="setActive(item)">
+      <div class="avatar"></div>
+      <div class="info">
+        <div class="name">{{ item.ShowName }}<span class="count">{{ item.Count }}</span></div>
+        <div class="date">{{ removeSecondes(item.Date) }}</div>
+        <div class="content">{{ item.Content }}</div>
+      </div>
+    </div>
   </div>
   <div class="airmore-device-sidebar__apps" *ngIf="appStateService.activeFunction === 'apps'">
     <div class="airmore-device-sidebar__item active" (click)="selectAlbum(item)">
@@ -66,15 +80,37 @@
       </div>
     </div>
   </div>
-  <div class="airmore-device-sidebar__contacts" *ngIf="appStateService.activeFunction === 'contacts'">
-    contacts sidebar
-  </div>
+  <!-- files start -->
   <div class="airmore-device-sidebar__files" *ngIf="appStateService.activeFunction === 'files'">
-    files sidebar
+    <nz-tree
+      *ngIf="!deviceStateService.loading"
+      [nzData]="deviceStateService.rootNodes"
+      [nzShowExpand]="false"
+      [nzBlockNode]
+      (nzDblClick)="openFolder($event)"
+    >
+      <ng-template #contextTemplate>
+        <ul nz-menu nzInDropDown>
+          <li nz-menu-item (click)="selectDropdown()">Action 1</li>
+          <li nz-menu-item (click)="selectDropdown()">Action 2</li>
+        </ul>
+      </ng-template>
+      <ng-template #nzTreeTemplate let-node>
+        <span class="custom-node" style="display: block;padding-left: 5px;" [class.selected]="activedNode?.key === node.key" (click)="selectNode(node)">
+          <span *ngIf="!node.isLeaf" (contextmenu)="contextMenu($event, contextTemplate)">
+            <i nz-icon *ngIf="!node.touched || node.children.length !== 0" [type]="node.isExpanded ? 'down' : 'right'" (click)="openFolder(node, $event)"></i>
+            <i nz-icon *ngIf="node.touched && node.children.length === 0" [type]="'down'" style="opacity: 0;"></i>
+            <i nz-icon [type]="'folder'"></i>
+            <span style="margin-left: 5px;" class="folder-name">{{ node.origin.ShowName }}</span>
+          </span>
+        </span>
+      </ng-template>
+    </nz-tree>
   </div>
+  <!-- files end -->
   <div class="airmore-device-sidebar__clipboard" *ngIf="appStateService.activeFunction === 'clipboard'">
-      <div class="airmore-device-sidebar__clipboard-item" *ngFor="let item of deviceStateService.itemList" (click)="checkItem(item)">
-        <div class="checkBox" [class.selected]="isSelected(item)"></div>
+      <div class="airmore-device-sidebar__clipboard-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.itemList" (click)="setActive(item)">
+        <div class="checkBox" [class.selected]="isSelected(item)" (click)="checkItem(item)"></div>
         <div class="container">
           <p class="date">{{item.Time | date}}</p>
           <p class="content">{{item.Content}}</p>

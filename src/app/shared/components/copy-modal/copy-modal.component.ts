@@ -78,7 +78,6 @@ export class CopyModalComponent implements OnInit {
       arr[i]['title'] = arr[i]['title'] || arr[i]['filename'];
       arr[i]['isLeaf'] = arr[i]['node_type'] !== 'folder';
     }
-    console.log(arr);
     return arr;
   }
 
