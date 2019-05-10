@@ -30,6 +30,9 @@ export class AppStateService {
 
   connectionStatus: 'connecting' | 'connected' | 'disconnected'; // 当前连接状态
 
+  // todo
+  isSupportZipDownload: boolean = false;
+
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private cloudStateService: CloudStateService,
@@ -105,7 +108,7 @@ export class AppStateService {
         } else if (this.currentModule === 'device') {
           if (this.deviceStateService.activeFunction === 'apps') {
             this.deviceStateService.uninstall()
-          } else if (this.deviceStateService.activeFunction === 'clipboard' || this.deviceStateService.activeFunction === 'documents' || this.deviceStateService.activeFunction === 'videos' || this.deviceStateService.activeFunction === 'files') {
+          } else if (this.deviceStateService.activeFunction === 'clipboard' || this.deviceStateService.activeFunction === 'documents' || this.deviceStateService.activeFunction === 'videos' || this.deviceStateService.activeFunction === 'files' || this.deviceStateService.activeFunction === 'pictures') {
             this.deviceStateService.deleteItems();
           }
         }
@@ -140,6 +143,8 @@ export class AppStateService {
       case 'export':
         if (this.currentModule === 'device') {
           this.deviceStateService.export();
+        } else if (this.currentModule === 'cloud') {
+          this.cloudStateService.export();
         }
         break;
       case 'copy-to-clipboard':
@@ -154,7 +159,10 @@ export class AppStateService {
         break;
       case 'new-message':
         this.deviceStateService.newMessage();
-      
+        break;
+      case 'set-as-wallpaper':
+        this.deviceStateService.setAsWallpaper();
+        break;
     }
   }
 
@@ -230,6 +238,9 @@ export class AppStateService {
         case 'new-message':
         flag = this.deviceStateService.activeFunction === 'messages';
         break;
+        case 'set-as-wallpaper':
+        flag = this.deviceStateService.activeFunction === 'pictures';
+        break;
       }
     }
     return flag;
@@ -261,6 +272,9 @@ export class AppStateService {
       case 'export':
         flag = (this.currentModule === 'cloud' && this.cloudStateService.selectedItems.length !== 1) ||
         (this.currentModule === 'device' && this.deviceStateService.selectedItems.length === 0);
+        break;
+      case 'set-as-wallpaper':
+        flag = (this.currentModule === 'device' && this.deviceStateService.selectedItems.length !== 1)
         break;
     }
     return flag;

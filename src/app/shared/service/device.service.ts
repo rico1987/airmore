@@ -11,8 +11,6 @@ import { MyClientService } from './my-client.service';
 })
 export class DeviceService extends WebsocketService {
 
-
-
   constructor(
     private browserStorageService: BrowserStorageService,
     private myClientService: MyClientService,
@@ -61,6 +59,11 @@ export class DeviceService extends WebsocketService {
   resolvePath(path: string): string {
     const deviceInfo = this.browserStorageService.get('deviceInfo');
     return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}${path}`;
+  }
+
+  resolveThumbPath(path: string, width: number, height: number): string {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}${path}?Shortcut=1&Width=${width}&Height=${height}`;
   }
 
   /**
@@ -196,5 +199,21 @@ export class DeviceService extends WebsocketService {
 
   createDirectory(folders: Array<any>): Observable<any> {
     return this.myClientService.devicePost('FileCreateDirectory', JSON.stringify(folders));
+  }
+
+  exportZip(): Observable<any> {
+    return this.myClientService.devicePost('FileZipExport', )
+  }
+
+  /**
+   * 设为壁纸
+   * @param path 路径
+   * @param rotation 旋转
+   */
+  setAsWallpaper(path: string, rotation?: number): Observable<any> {
+    return this.myClientService.devicePost('PhoneSetWallpaper', {
+      Path: path,
+      Rotation: rotation ? rotation : 0,
+    });
   }
 }

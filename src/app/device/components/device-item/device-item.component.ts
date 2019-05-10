@@ -33,6 +33,11 @@ export class DeviceItemComponent implements OnInit {
     }
   }
 
+  playImage(event): void {
+    this.deviceStateService.preview(this.item);
+    event.stopPropagation();
+  }
+
   openResource(): void {
 
   }

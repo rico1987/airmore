@@ -65,51 +65,183 @@
            padding: 12px 0 12px 20px
         }
     }
-    .ant-table-tbody>tr>td, .ant-table-thead>tr>th{
-        padding: 8px;
-    }
-    .ant-table-tbody {
-        background: red;
-    }
-}
-.ant-table-tbody, .ant-table-thead {
-    >tr{
-        td, th {
-            padding: 8px;
-            position: relative;
-            .td-operations{
-                float: right;
-                position: absolute;
-                top: 0;
-                right: 0;
-                height: 100%;
+
+    @include e(td) {
+        position: relative;
+        @include e(td-operations) {
+            float: right;
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            display: none;
+            >span{
+               width: 40px;
+               height: 100%;
+               float: left;
+               cursor: pointer;
+               background-repeat: no-repeat;
+               background-position: center;
+               &.delete{
+                  background-image: url('../../../../assets/img/action/gray/delete-gray.svg');
+                  &:hover{
+                      background-image: url('../../../../assets/img/action/blue/delete-blue.svg');
+                  }
+               }
+               &.export {
+                  background-image: url('../../../../assets/img/action/gray/download-gray.svg');
+                  &:hover {
+                      background-image: url('../../../../assets/img/action/blue/download-blue.svg');
+                  }
+               }
+            }
+        }
+        &:hover {
+            @include e(td-operations) {
                 display: block;
-                >span{
-                   width: 40px;
-                   height: 100%;
-                   float: left;
-                   cursor: pointer;
-                   background-repeat: no-repeat;
-                   background-position: center;
-                   &.delete{
-                      background-image: url('../../../../assets/img/action/gray/delete-gray.svg');
-                      &:hover{
-                          background-image: url('../../../../assets/img/action/blue/delete-blue.svg');
-                      }
-                   }
-                   &.export {
-                      background-image: url('../../../../assets/img/action/gray/download-gray.svg');
-                      &:hover {
-                          background-image: url('../../../../assets/img/action/blue/download-blue.svg');
-                      }
-                   }
+            }
+        }
+    }
+
+    @include e(container-message) {
+        position: relative;
+        height: 100%;
+        .toolbar {
+            height: 45px;
+            margin: 0 0 0 20px;
+            padding: 10px 0;
+            border-bottom: 1px solid #ebebeb;
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            .to{
+                float: left;
+            }
+            .btn{
+                float: right;
+                height: 24px;
+                line-height: 22px;
+                border-radius: 12px;
+                font-size: 12px;
+                margin-left: 10px;
+                border: 1px solid #aaa;
+                padding: 0 10px;
+                background: #fff;
+                font-weight: 700;
+                color: #888;
+                cursor: default;
+                &:hover{
+                    box-shadow: 0 0 0 1px #bbb;
+                    border-color: #bbb;
                 }
-             }
-             &:hover {
-                 .td-operations{
-                     display: block;
-                 }
-             }
+            }
+        }
+        .content {
+            overflow-y: auto;
+            margin-left: 20px;
+            position: absolute;
+            top: 45px;
+            right: 0;
+            bottom: 90px;
+            left: 0;
+            .message{
+                margin-top: 20px;
+                max-width: 61.8%;
+                line-height: 20px;
+                position: relative;
+                margin-left: 3px;
+                margin-right: 13px;
+                clear: both;
+                
+                .date{
+                    font-size: 12px;
+                    color: #aaa;
+                    float: left;
+                }
+                .copy-btn{
+                    font-size: 12px;
+                    color: #aaa;
+                    cursor: pointer;
+                    display: none;
+                    float: right;
+                }
+                .text{
+                    position: relative;
+                    font-size: 12px;
+                    padding: 10px 15px;
+                    border-radius: 20px;
+                    max-width: 100%;
+                    word-break: break-word;
+                    clear: both;
+                    user-select: auto;
+                    background: #ebebeb;
+                }
+                &.is-from-me{
+                    float: right;
+                    .text{
+                        background: #0bb521;
+                        color: #fff;
+                        margin-left: 30px;
+                        float: right;
+                    }
+                    .copy-btn{
+                        float: left;
+                        margin-right: 12px;
+                    }
+                    .date{
+                        float: right;
+                    }
+                }
+                &:hover {
+                    .copy-btn{
+                        display: block;
+                    }
+                }
+            }
+        }
+        .message-sender{
+            height: 90px;
+            padding: 20px 0;
+            margin-left: 20px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            textarea{
+                float: left;
+                width: -webkit-calc(100% - 50px);
+                width: calc(100% - 50px);
+                height: 100%;
+                resize: none;
+                border: 1px solid #ddd;
+                border-right: none;
+                padding: 0 5px;
+                line-height: 24px;
+                font-size: 12px;
+            }
+            .send-message{
+                float: left;
+                width: 50px;
+                height: 100%;
+                border: 1px solid #ddd;
+                border-left: none;
+                background: url('../../../../assets/img/message/send.svg') center no-repeat;
+
+                &.active{
+                    :hover {
+                        background-image: url('../../../../assets/img/message/send-active.svg');
+                    }
+                }
+            }
+        }
+    }
+
+    @include e(container-pictures) {
+        width: 100%;
+        height: 100%;
+        .virtual-scroll-viewport{
+            height: 100%;
         }
     }
 }

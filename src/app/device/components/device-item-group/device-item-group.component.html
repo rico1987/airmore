@@ -1,3 +1,10 @@
 <div class="airmore-device-item-group">
-  
+  <div class="airmore-device-item-group__date">
+    <div class="airmore-device-item-group__check" (click)="select()" [class.is-checked]="isChecked"></div>
+    <span>{{ group['key'] }}</span>
+  </div>
+  <div class="airmore-device-item-group__items-container">
+    <app-device-item *ngFor="let item of group.items" [item]="item"></app-device-item>
+    <div class="clear" style="clear:both;"></div>
+  </div>
 </div>

@@ -27,7 +27,7 @@ export class SubheaderComponent implements OnInit {
     { class: 'refresh', action: 'refresh', text: 'Refresh' },
     { class: 'delete', action: 'delete', text: 'Delete' },
     { class: 'rename', action: 'rename', text: 'Rename' },
-    { class: 'wallpaper', action: 'set-as-wallpaper', text: 'Set as Phone Wallpaper' },
+    { class: 'wallpaper', action: 'set-as-wallpaper', text: 'Set as Wallpaper' },
     { class: 'select', action: 'select-all', text: 'Select All' },
   ];
 

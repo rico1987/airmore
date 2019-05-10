@@ -185,6 +185,10 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
                     text-overflow: ellipsis;
                     width: -webkit-calc(100% - 100px);
                     width: calc(100% - 100px);
+                    .count{
+                        font-size: 12px;
+                        font-weight: 400;
+                    }
                 }
                 .date {
                     float: right;

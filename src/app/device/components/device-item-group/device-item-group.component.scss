@@ -1,0 +1,33 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(device-item-group) {
+    @include e(date) {
+        margin-top: 10px;
+        padding: 0 10px 0 0;
+        font-size: 14px;
+        color: #000;
+        display: flex;
+        align-items: center;
+        height: 36px;
+        span{
+            margin-left: 10px;
+        }
+    }
+
+    @include e(check) {
+        width: 24px;
+        height: 24px;
+        background: url('../../../../assets/img/input/checkbox-bigger.svg') center no-repeat;
+        background-size: contain;
+        cursor: pointer;
+        display: inline-block;
+        
+        @include when(checked) {
+            background-image: url('../../../../assets/img/input/checkbox-bigger-checked.svg');
+        }
+    }
+    @include e(items-container) {
+
+    }
+}

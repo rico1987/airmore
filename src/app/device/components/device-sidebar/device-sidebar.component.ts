@@ -47,6 +47,7 @@ export class DeviceSidebarComponent implements OnInit {
   }
 
   setActive(item): void {
+    console.log(item);
     this.deviceStateService.setActiveItem(item);
   }
 

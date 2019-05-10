@@ -5,7 +5,9 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { FormsModule } from '@angular/forms';
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 
 import { SharedModule } from '../shared/shared.module';
@@ -28,6 +30,9 @@ import { DeviceItemGroupComponent } from './components/device-item-group/device-
     FormsModule,
     NzTreeModule,
     NzIconModule,
+    NzSkeletonModule,
+    NzListModule,
+    ScrollDispatchModule,
   ],
   providers: []
 })

@@ -1,8 +1,10 @@
 <div class="airmore-device-item"
   [class.is-app]="deviceStateService.activeFunction === 'apps'"
   [class.is-video]="deviceStateService.activeFunction === 'videos'"
+  [class.is-picture]="deviceStateService.activeFunction === 'pictures'"
   (click)="checkItem()"
   (dblclick)="openResource()">
+  <!-- apps start -->
   <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'apps' && item">
     <app-lazy-load-image class="airmore-device-item__icon" [imgSrc]="getAppIcon(item.PackageName)" *ngIf="item.PackageName"></app-lazy-load-image>
     <p class="airmore-device-item__name">{{item.ShowName}}</p>
@@ -14,6 +16,8 @@
     <div class="airmore-device-item__check" [class.selected]="isSelected">
     </div>
   </div>
+  <!-- apps end -->
+  <!-- videos start -->
   <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'videos'">
     <div
       *ngIf="item"
@@ -30,4 +34,22 @@
     </div>
     <div class="airmore-device-item__play-btn" (click)="playVideo($event)"></div>
   </div>
+  <!-- videos end -->
+  <!-- pictures start -->
+  <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'pictures'">
+      <div
+        *ngIf="item"
+        class="airmore-device-item__image"
+      >
+        <app-lazy-load-image [imgSrc]="resolveVideoCoverPath(item.Path)" *ngIf="item.Path"></app-lazy-load-image>
+      </div>
+      <ul class="airmore-device-item__toolbar">
+        <li class="play" (click)="playImage($event)"></li>
+        <li class="download" (click)="download($event)"></li>
+        <li class="delete" (click)="delete($event)"></li>
+      </ul>
+      <div class="airmore-device-item__check" [class.selected]="isSelected">
+      </div>
+  </div>
+  <!-- pictures end -->
 </div>

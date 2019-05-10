@@ -22,6 +22,7 @@ import { BrowserStorageService } from '../../shared/service/storage.service';
 import { DynamicInputComponent } from '../../shared/components/dynamic-input/dynamic-input.component';
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { VideoPlayerComponent } from '../../shared/components/video-player/video-player.component';
+import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
 
 import { downloadText } from '../../utils/tools';
 
@@ -79,6 +80,8 @@ export class DeviceStateService {
     setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
      'clipboard' | 'tools'): void {
         if (fun !== this.activeFunction) {
+            this.activeItem = null;
+            this.activeNode = null;
             this.activeFunction = fun;
             this.getSidebarItemList();
         }
@@ -103,11 +106,11 @@ export class DeviceStateService {
                 })
         } else if (this.activeAlbumId) {
             if (this.activeFunction === 'pictures') {
-                this.deviceService.getPhotoList(this.activeAlbumId, this.Start, this.Limit)
+                this.deviceService.getPhotoList(this.activeAlbumId, this.Start, this.totalCount)
                     .subscribe((data) => {
                         this.processData(data, isAddTo);
-                        console.log(this.itemList);
                         console.log(this.itemGroupList);
+                        this.loading = false;
                     });
             } else if (this.activeFunction === 'musics') {
                 this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.totalCount)
@@ -145,6 +148,23 @@ export class DeviceStateService {
     }
 
     /**
+     * 设为壁纸
+     * @param rotation 旋转
+     */
+    setAsWallpaper(rotation?: number): void {
+        if (this.selectedItems[0] && this.selectedItems[0]['Path']) {
+            this.deviceService.setAsWallpaper(this.selectedItems[0]['Path'], rotation)
+                .subscribe((data) => {
+                    if (data) {
+                        this.messageService.success('设置壁纸成功')
+                    } else {
+                        this.messageService.error('设置壁纸失败');
+                    }
+                })
+        }
+    }
+
+    /**
      * 处理返回的数据
      */
     processData(data: any, isAddTo: boolean): void {
@@ -159,6 +179,7 @@ export class DeviceStateService {
             this.itemList = data;
             this.itemGroupList = processedGroupList;
         }
+        console.log(this.itemGroupList);
     }
 
     /**
@@ -191,6 +212,8 @@ export class DeviceStateService {
             .subscribe((data) => {
                 this.sidebarItemList = data;
                 this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
+                this.totalCount = this.sidebarItemList[0]['Count'];
+                this.getItemList(false);
               });
         } else if (this.activeFunction === 'musics') {
             this.deviceService.getMusicAlbumList()
@@ -204,7 +227,6 @@ export class DeviceStateService {
             this.deviceService.getVideoAlbumList()
                 .subscribe((data) => {
                     this.sidebarItemList = data;
-                    console.log(data);
                     this.activeAlbumId = this.sidebarItemList[0]['AlbumID'];
                     this.totalCount = this.sidebarItemList[0]['Count'];
                     this.getItemList(false);
@@ -239,6 +261,7 @@ export class DeviceStateService {
                     this.sidebarItemList = data;
                     this.activeAlbumId = this.sidebarItemList[0]['ID'];
                     this.totalCount = this.sidebarItemList[0]['Count'];
+                    this.activeItem = this.sidebarItemList[0];
                     this.getItemList(false);
                 })
         } else if (this.activeFunction === 'files') {
@@ -252,7 +275,6 @@ export class DeviceStateService {
                     }
                 });
         }
-
     }
 
     transferToNodes(arr): Array<any> {
@@ -435,6 +457,12 @@ export class DeviceStateService {
         } else if (this.activeFunction === 'files') {
             key = 'FileDelete';
             postData = this.selectedItems;
+        } else if (this.activeFunction === 'pictures') {
+            key = 'PhotoDeleteMul';
+            postData = {
+                AlbumID: this.activeAlbumId,
+                Data: this.selectedItems,
+            };
         }
         if (this.activeFunction === 'videos') {
             this.messageService.info('请在手机上确认删除');
@@ -500,6 +528,12 @@ export class DeviceStateService {
         } else if (this.activeFunction === 'files') {
             key = 'FileDelete';
             postData = [item];
+        } else if (this.activeFunction === 'pictures') {
+            key = 'PhotoDeleteMul';
+            postData = {
+                AlbumID: this.activeAlbumId,
+                Data: [item],
+            };
         }
         if (this.activeFunction === 'videos') {
             this.messageService.info('请在手机上确认删除');
@@ -565,7 +599,12 @@ export class DeviceStateService {
      */
     download(item: any): void {
         if (item && item.Path) {
-            downloadLink(this.deviceService.resolvePath(item.Path) + '?Export=1');
+            if (item.FileType && item.FileType === 2) {
+                downloadLink(this.deviceService.resolvePath(item.Path) + '?Export=1');
+            } else {
+                downloadLink(this.deviceService.resolvePath(item.Path) + '?Export=1');
+            }
+            
         }
     }
 
@@ -654,13 +693,13 @@ export class DeviceStateService {
                         this.messageService.info('请在手机上确认安装!');
                     }
                 },
-                  (error) => {
+                (error) => {
                     if (error) {
                     }
-                  },
-                  () => {
+                },
+                () => {
                     this.loading = false;
-                  }
+                }
             )
         };
     
@@ -668,7 +707,11 @@ export class DeviceStateService {
     }
 
     addItems(items: Array<any>): void {
-        this.selectedItems.push(...items);
+        for (let i = 0, length = items.length; i < length; i++) {
+            if (!this.hasItem(items[i])) {
+                this.selectedItems.push(items[i]);
+            }
+        }
     }
 
     export() {
@@ -677,11 +720,46 @@ export class DeviceStateService {
                 const fileName = `Clipboard_airmore_${fecha.format(new Date(), 'YY_MM_DD_h_m')}`;
                 downloadText(this.selectedItems[i]['Content'], 'text/plain', fileName);
             }
-        } else if (this.activeFunction === 'documents' || this.activeFunction === 'videos') {
+        } else if (this.activeFunction === 'documents' || this.activeFunction === 'videos' || this.activeFunction === 'pictures') {
             for (let i = 0, l = this.selectedItems.length; i < l; i++) {
                 this.download(this.selectedItems[i]);
             }
         }
+    }
+
+    /**
+     * 预览图片
+     */
+    preview(item: any): void {
+        const itemGroupList = this.itemGroupList, itemList = [];
+        itemGroupList.forEach((ele) => {
+            itemList.push(...ele.items);
+        });
+        itemList.forEach((ele) => {
+            ele['image_thumb_url'] = this.deviceService.resolveThumbPath(ele.Path, 168, 168);
+            ele['image_url'] = this.deviceService.resolvePath(ele.Path);
+        });
+        console.log(itemList);
+
+        const componentRef = this.componentFactoryResolver
+        .resolveComponentFactory(ImageViewerComponent)
+        .create(this.injector);
+
+        this.appRef.attachView(componentRef.hostView);
+
+        const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
+        .rootNodes[0] as HTMLElement;
+
+        componentRef.instance.uniqueKey = 'ID';
+        componentRef.instance.imageList = itemList.concat();
+        componentRef.instance.thumbKey = 'image_thumb_url';
+        componentRef.instance.srcKey = 'image_url';
+        componentRef.instance.onClose = () => {
+        componentRef.destroy();
+        document.body.removeChild(domElem);
+        };
+        
+        document.body.appendChild(domElem);
     }
     
     /**
@@ -723,5 +801,22 @@ export class DeviceStateService {
 
     setActiveItem(item: any): void {
         this.activeItem = item;
+        if (this.activeFunction === 'messages') {
+            this.deviceService.getMessageList(item.ID, 0, item.Count)
+                .subscribe(
+                    (data) => {
+                        if (data) {
+                            this.itemList = data;
+                        }
+                    },
+                    (error) => {
+                        if (error) {
+                        }
+                    },
+                    () => {
+                        this.loading = false;
+                    }
+                )
+        }
     }
 }

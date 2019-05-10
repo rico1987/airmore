@@ -101,11 +101,9 @@ export class ResetPasswordFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.resetPasswordForm.valid) {
-      debugger
       this.userService.resetPassword(this.resetPasswordInfo)
         .subscribe(
           (data: CommonResponse) => {
-            debugger
             this.userService.setUserInfo(data.data);
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
@@ -113,9 +111,7 @@ export class ResetPasswordFormComponent implements OnInit {
             );
           },
           (error) => {
-            debugger
             if (error) {
-              debugger
             }
           }
         );

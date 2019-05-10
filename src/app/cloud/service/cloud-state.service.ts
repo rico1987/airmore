@@ -278,7 +278,7 @@ export class CloudStateService {
    */
   download(item: any): void {
     if (item.node_type === 'folder' || item.people_id || item.user_lab_id || item.place_id) {
-      // 暂不支持下载目录
+      this.messageService.error('不支持下载目录');
     } else {
       const fileName = item.filename;
       const url = item.image_url || item.video_url || item.audio_url || item.url;
@@ -521,6 +521,12 @@ export class CloudStateService {
     componentRef.instance.onClick();
   }
 
+  export(): void {
+    for (let i = 0, l = this.selectedItems.length; i < l; i++) {
+      this.download(this.selectedItems[i]);
+    }
+  }
+
   onUploadProgress(progress: number, checkpoint: any, res?: any): void {
     if (checkpoint) {
       const key = checkpoint.key;
@@ -593,7 +599,6 @@ export class CloudStateService {
       if (this.selectedItems.length === 0) {
         return;
       }
-      console.log(this.selectedItems);
       for (let i = 0; i < this.selectedItems.length; i++) {
         this.download(this.selectedItems[i]);
       }

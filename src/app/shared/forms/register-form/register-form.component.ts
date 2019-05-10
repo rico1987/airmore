@@ -101,7 +101,6 @@ export class RegisterFormComponent implements OnInit {
       this.userService.register(this.registerInfo)
         .subscribe(
           (data: CommonResponse) => {
-            debugger
             this.userService.setUserInfo(data.data);
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(

@@ -1,9 +1,14 @@
 <div class="airmore-device-item-list" #itemListContainer>
   <div class="airmore-device-item-list__container" *ngIf="!deviceStateService.loading">
-    <app-device-item-group *ngIf="deviceStateService.activeFunction === 'pictures'"></app-device-item-group>
+
     <!-- pictures start -->
     <div class="airmore-device-item-list__container-pictures" *ngIf="deviceStateService.activeFunction === 'pictures'" >
-        <app-device-item-group *ngFor="let item of deviceStateService.itemGroupList"></app-device-item-group>
+      <!-- cdk-virtual-scroll start -->
+      <!-- documents: https://material.angular.io/cdk/scrolling/overview -->
+      <cdk-virtual-scroll-viewport itemSize="5" class="virtual-scroll-viewport">
+        <app-device-item-group *cdkVirtualFor="let group of deviceStateService.itemGroupList" [group]="group"></app-device-item-group>
+      </cdk-virtual-scroll-viewport>
+      <!-- cdk-virtual-scroll end -->
     </div>
     <!-- pictures end -->
 
@@ -68,9 +73,9 @@
                 [nzChecked]="deviceStateService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
-              <td style="width: 350px;" class="airmore-cloud-item-list__td">
+              <td style="width: 350px;" class="airmore-device-item-list__td">
                 {{ data.ShowName }}
-                <div class="td-operations">
+                <div class="airmore-device-item-list__td-operations">
                   <span class="export" (click)="export(data)"></span>
                   <span class="delete" (click)="delete(data)"></span>
                 </div>
@@ -141,7 +146,7 @@
                 [nzChecked]="deviceStateService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
-              <td class="airmore-cloud-item-list__td">{{ data.ShowName }}</td>
+              <td class="airmore-device-item-list__td">{{ data.ShowName }}</td>
               <td>{{ data.Artist || '-' }}</td>
               <td>{{ data.Album || '-' }}</td>
               <td>{{ data.Duration | duration }}</td>
@@ -167,7 +172,25 @@
 
     <!-- messages start -->
     <div class="airmore-device-item-list__container-message" *ngIf="deviceStateService.activeFunction === 'messages'">
-      
+      <div class="toolbar">
+        <span class="to">To: {{deviceStateService.activeItem.ShowName}}
+          <span *ngIf="deviceStateService.activeItem.Phone && deviceStateService.activeItem.Phone !== deviceStateService.activeItem.ShowName">({{deviceStateService.activeItem.Phone}})</span>
+        </span>
+        <span class="btn">添加为联系人</span>
+        <span class="btn">查看联系人</span>
+        <span class="btn">拨打电话</span>
+      </div>
+      <div class="content">
+        <div class="message" *ngFor="let item of deviceStateService.itemList" [class.is-from-me]="item.MsgType === 2">
+          <div class="date">{{item.Date}}</div>
+          <div class="copy-btn" (click)="copyToClipboard(item, $event)">复制</div>
+          <div class="text">{{item.Content}}</div>
+        </div>
+      </div>
+      <div class="message-sender">
+        <textarea placeholder="Ctrl + Enter 发送"></textarea>
+        <div class="send-message"></div>
+      </div>
     </div>
     <!-- messages end -->
 
@@ -221,11 +244,11 @@
               [nzChecked]="deviceStateService.hasItem(data)"
               (nzCheckedChange)="onTdCheckedChange($event, data)"
             ></td>
-            <td class="airmore-cloud-item-list__td">
+            <td class="airmore-device-item-list__td" style="position: relative;">
               <i nz-icon [type]="'folder'" *ngIf="data.FileType === 2"></i>
               <i nz-icon [type]="'file'" *ngIf="data.FileType === 1"></i>
               {{ data.ShowName }}
-              <div class="td-operations">
+              <div class="airmore-device-item-list__td-operations">
                 <span class="export" (click)="export(data)"></span>
                 <span class="delete" (click)="delete(data)"></span>
               </div>

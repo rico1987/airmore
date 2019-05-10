@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Inject, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { DeviceStateService } from '../../service/device-state.service';
 import { NzTableComponent } from 'ng-zorro-antd';
+const copy = require('clipboard-copy')
+import { MessageService } from '../../../shared/service/message.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -33,6 +35,7 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
   scrollHeight: number = 0;
 
   constructor(
+    private messageService: MessageService,
     private deviceStateService: DeviceStateService,
   ) { }
 
@@ -81,6 +84,12 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
     } else {
       this.deviceStateService.removeItems([item]);
     }
+  }
+
+  copyToClipboard(item, event: Event): void {
+    event.stopPropagation();
+    copy(item.Content);
+    this.messageService.success('Copied to clipboard!');
   }
 
   onPageIndexChange(number): void {

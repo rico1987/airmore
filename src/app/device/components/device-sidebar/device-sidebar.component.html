@@ -4,6 +4,7 @@
   [class.is-message]="appStateService.activeFunction === 'messages'"
   [class.is-files]="appStateService.activeFunction === 'files'"
 >
+  <!-- pictures start -->
   <div class="airmore-device-sidebar__pictures" *ngIf="appStateService.activeFunction === 'pictures'">
     <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
       <div class="airmore-device-sidebar__item-icon">
@@ -15,6 +16,8 @@
       </div>
     </div>
   </div>
+  <!-- pictures end -->
+  <!-- musics start -->
   <div class="airmore-device-sidebar__musics" *ngIf="appStateService.activeFunction === 'musics'">
     <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
       <div class="airmore-device-sidebar__item-icon is-music">
@@ -25,6 +28,8 @@
       </div>
     </div>
   </div>
+  <!-- musics end -->
+  <!-- videos start -->
   <div class="airmore-device-sidebar__videos" *ngIf="appStateService.activeFunction === 'videos'">
     <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
       <div class="airmore-device-sidebar__item-icon">
@@ -36,21 +41,32 @@
       </div>
     </div>
   </div>
+  <!-- videos end -->
+  <!-- contacts start -->
   <div class="airmore-device-sidebar__contacts" *ngIf="appStateService.activeFunction === 'contacts'">
     <div class="airmore-device-sidebar__contacts-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.itemList" (click)="setActive(item)">
 
     </div>
   </div>
+  <!-- contacts end -->
+  <!-- messages start -->
   <div class="airmore-device-sidebar__messages" *ngIf="appStateService.activeFunction === 'messages'">
-    <div class="airmore-device-sidebar__messages-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.sidebarItemList" (click)="setActive(item)">
+    <div
+      class="airmore-device-sidebar__messages-item"
+      [class.is-active]="isActive(item)" 
+      *ngFor="let item of deviceStateService.sidebarItemList"
+      (click)="setActive(item)"
+    >
       <div class="avatar"></div>
       <div class="info">
-        <div class="name">{{ item.ShowName }}<span class="count">{{ item.Count }}</span></div>
+        <div class="name">{{ item.ShowName }}<span class="count">({{ item.Count }})</span></div>
         <div class="date">{{ removeSecondes(item.Date) }}</div>
         <div class="content">{{ item.Content }}</div>
       </div>
     </div>
   </div>
+  <!-- messages end -->
+  <!-- apps start -->
   <div class="airmore-device-sidebar__apps" *ngIf="appStateService.activeFunction === 'apps'">
     <div class="airmore-device-sidebar__item active" (click)="selectAlbum(item)">
       <div class="airmore-device-sidebar__item-icon is-app">
@@ -61,6 +77,8 @@
       </div>
     </div>
   </div>
+  <!-- apps end -->
+  <!-- documents start -->
   <div class="airmore-device-sidebar__documents" *ngIf="appStateService.activeFunction === 'documents'">
     <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
       <div 
@@ -80,6 +98,7 @@
       </div>
     </div>
   </div>
+  <!-- documents end -->
   <!-- files start -->
   <div class="airmore-device-sidebar__files" *ngIf="appStateService.activeFunction === 'files'">
     <nz-tree
@@ -108,6 +127,7 @@
     </nz-tree>
   </div>
   <!-- files end -->
+  <!-- clipboard start -->
   <div class="airmore-device-sidebar__clipboard" *ngIf="appStateService.activeFunction === 'clipboard'">
       <div class="airmore-device-sidebar__clipboard-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.itemList" (click)="setActive(item)">
         <div class="checkBox" [class.selected]="isSelected(item)" (click)="checkItem(item)"></div>
@@ -118,4 +138,5 @@
         <div class="copy-button" (click)="copyToClipboard(item, $event)"></div>
       </div>
   </div>
+  <!-- clipboard end -->
 </div>

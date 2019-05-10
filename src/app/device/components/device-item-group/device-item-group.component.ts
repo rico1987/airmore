@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { DeviceStateService } from '../../service/device-state.service';
+import { ImageGroup } from '../../models';
 
 @Component({
   selector: 'app-device-item-group',
@@ -7,9 +9,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceItemGroupComponent implements OnInit {
 
-  constructor() { }
+  @Input() group: ImageGroup;
+
+  constructor(
+    private deviceStateService: DeviceStateService,
+  ) { }
 
   ngOnInit() {
+  }
+
+  select() {
+    if (this.isChecked) {
+      this.group.items.forEach((ele) => {
+        this.deviceStateService.removeItems([ele]);
+      })
+    } else {
+      this.group.items.forEach((ele) => {
+        this.deviceStateService.addItems([ele]);
+      })
+    }
+  }
+
+  get isChecked(): boolean {
+    let flag = true;
+    if (this.group.items && this.group.items.some((ele) => !this.deviceStateService.hasItem(ele))) {
+      flag = false;
+    }
+    return flag;
   }
 
 }

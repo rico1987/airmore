@@ -89,11 +89,9 @@ export class EmailPasswordLessLoginFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.emailPasswordLessLoginForm.valid) {
-      debugger
       this.userService.emailPasswordLessLogin(this.emailPasswordLessLoginInfo)
         .subscribe(
           (data: CommonResponse) => {
-            debugger
             this.userService.setUserInfo(data.data);
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
@@ -101,9 +99,7 @@ export class EmailPasswordLessLoginFormComponent implements OnInit {
             );
           },
           (error) => {
-            debugger
             if (error) {
-              debugger
             }
           }
         );
