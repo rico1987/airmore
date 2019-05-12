@@ -45,6 +45,8 @@ import { FileTypePipe } from './pipes/file-type.pipe';
 import { TimePipe } from './pipes/time.pipe';
 import { VideoPlayerComponent } from './components/video-player/video-player.component';
 import { IsFolderPipe } from './pipes/is-folder.pipe';
+import { InvitationModalComponent } from './components/invitation-modal/invitation-modal.component';
+import { DeviceHeaderComponent } from './components/device-header/device-header.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -59,6 +61,8 @@ const COMPONENTS = [
   LazyLoadImageComponent,
   TableComponent,
   MusicPlayerComponent,
+  InvitationModalComponent,
+  DeviceHeaderComponent,
 ];
 const DIRECTIVES = [];
 
@@ -97,6 +101,8 @@ const PIPES = [
     TimePipe,
     VideoPlayerComponent,
     IsFolderPipe,
+    InvitationModalComponent,
+    DeviceHeaderComponent,
   ],
   imports: [
     CommonModule,
@@ -128,6 +134,7 @@ const PIPES = [
     ImageViewerComponent,
     CopyModalComponent,
     VideoPlayerComponent,
+    InvitationModalComponent,
   ],
 })
 export class SharedModule { }

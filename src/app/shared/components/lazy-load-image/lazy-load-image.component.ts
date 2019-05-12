@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter,ElementRef } from '@angular/core';
 import { ANIMATIONS } from '../../../shared/animations';
 
 @Component({
@@ -19,7 +19,9 @@ export class LazyLoadImageComponent implements OnInit {
 
   isLoaded = false;
 
-  constructor() { }
+  constructor(
+    private elementRef: ElementRef,
+  ) { }
 
   ngOnInit() {
     const image = document.createElement('img');
@@ -31,6 +33,11 @@ export class LazyLoadImageComponent implements OnInit {
         clearInterval(timer);
       }
     }, 50);
+  }
+
+  get isInsideView(): boolean {
+    const ClientRect = this.elementRef.nativeElement.getBoundingClientRect();
+    return true;
   }
 
 }

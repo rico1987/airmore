@@ -21,7 +21,7 @@ import { CloudNavigatorComponent } from './components/cloud-navigator/cloud-navi
     CloudLayoutComponent,
     CloudItemListComponent,
     CloudNoItemComponent,
-    CloudNavigatorComponent
+    CloudNavigatorComponent,
   ],
   imports: [
     SharedModule,

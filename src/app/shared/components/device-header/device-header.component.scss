@@ -1,0 +1,26 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(device-header) {
+    position: fixed;
+    height: 50px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: transparent;
+
+    @include e(logo){
+        width: 200px;
+        height: 30px;
+        float: left;
+        margin: 10px 0 0 25px;
+        line-height: 36px;
+        font-size: 20px;
+        color: #fff;
+        text-decoration: none;
+        text-align: left;
+        padding-left: 55px;
+        cursor: pointer;
+        background: url('../../../../assets/img/logo.svg') left center/auto 28px no-repeat; 
+    }
+}

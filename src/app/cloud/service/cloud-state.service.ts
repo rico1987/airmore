@@ -22,6 +22,7 @@ import { RenameModalComponent } from '../../shared/components/rename-modal/renam
 import { NewFolderModalComponent } from '../../shared/components/new-folder-modal/new-folder-modal.component';
 import { DynamicInputComponent } from '../../shared/components/dynamic-input/dynamic-input.component';
 import { CopyModalComponent } from '../../shared/components/copy-modal/copy-modal.component';
+import { InvitationModalComponent } from '../../shared/components/invitation-modal/invitation-modal.component';
 
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
@@ -586,6 +587,19 @@ export class CloudStateService {
       ],
       nzMaskClosable: false,
       nzClosable: false,
+      nzOnOk: () => {
+
+      }
+    });
+  }
+
+  showInvitationModal(): void {
+    const invitationModal = this.modalService.create({
+      nzTitle: '<i>获取更大云空间</i>',
+      nzContent: InvitationModalComponent,
+      nzMaskClosable: false,
+      nzFooter: null,
+      nzClosable: true,
       nzOnOk: () => {
 
       }

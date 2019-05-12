@@ -65,4 +65,8 @@ export class CloudSidebarComponent implements OnInit {
     this.activeFunction = fun;
     this.cloudStateService.setCloudActiveFunction(fun);
   }
+
+  showInvitation(): void {
+    this.cloudStateService.showInvitationModal();
+  }
 }
