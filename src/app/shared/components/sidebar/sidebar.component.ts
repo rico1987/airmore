@@ -34,9 +34,15 @@ export class SidebarComponent implements OnInit {
   setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard' | 'cloud'): void {
     if (fun !== 'cloud') {
       this.appStateService.setCurrentModule('device');
+      this.router.navigate(
+        ['device']
+      );
       this.deviceStateService.setDeviceActiveFunction(fun);
     } else {
-      
+      this.appStateService.setCurrentModule('cloud');
+      this.router.navigate(
+        ['cloud']
+      );
     }
   }
 

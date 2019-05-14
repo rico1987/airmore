@@ -1,0 +1,90 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(contact-detail) {
+    .contact-input {
+        border: none;
+        width: 66.6666%;
+        height: 30px;
+    }
+
+    @include when(edit) {
+        @include e(top) {
+            height: 147px;
+            .contact-name {
+                font-size: inherit;
+                padding-top: 61px;
+                padding-bottom: 5px;
+            }
+        }
+    }
+    @include e(top) {
+        height: 117px;
+        overflow: hidden;
+        .contact-portrait {
+            float: left;
+            width: 96px;
+            margin: 20px 0 0 20px;
+            cursor: pointer;
+            &-img{
+                background: url('../../../../assets/img/contact/single.svg') center no-repeat;
+                background-size: 100% auto;
+                height: 96px;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+            &-toolbar{
+                text-align: center;
+                >div{
+                    width: 30px;
+                    height: 30px;
+                    display: inline-block;
+                }
+                .contact-portrait-update{
+                    background: url('../../../../assets/img/album/edit.svg') center no-repeat;
+                    &:hover {
+                        background-image: url('../../../../assets/img/album/edit-hover.svg');
+                    }
+                }
+                .contact-portrait-delete{
+                    background: url('../../../../assets/img/album/delete.svg') center no-repeat;
+                    &:hover {
+                        background-image: url('../../../../assets/img/album/delete-hover.svg');
+                    }
+                }
+            }
+        }
+        .contact-toolbar {
+            position: absolute;
+            top: 10px;
+            right: 0;
+            height: 24px;
+            span{
+                border: 1px solid #aaa;
+                background: #fff;
+                font-weight: 700;
+                color: #888;
+                float: right;
+                height: 24px;
+                line-height: 22px;
+                border-radius: 12px;
+                padding: 0 10px;
+                cursor: pointer;
+                margin-left: 10px;
+                font-size: 12px;
+            }
+        }
+        .contact-name {
+            margin-left: 136px;
+            margin-top: 20px;
+            padding: 33px 0 33px 0;
+            font-size: 24px;
+            border-bottom: 1px solid #ebebeb;
+            font-weight: 700;
+        }
+    }
+
+    @include e(bottom) {
+
+    }
+}

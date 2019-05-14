@@ -71,6 +71,7 @@ const COMPONENTS = [
   DeviceHeaderComponent,
   ToolModalComponent,
   ReflectorModalComponent,
+  LoadingComponent,
 ];
 const DIRECTIVES = [
   LoadingDirective,

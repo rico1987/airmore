@@ -30,4 +30,8 @@ export class ContactLetterGroupComponent implements OnInit {
     return this.deviceStateService.hasItem(contact);
   }
 
+  setActive(contact): void {
+    this.deviceStateService.activeContact = contact;
+  }
+
 }

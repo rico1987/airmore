@@ -21,7 +21,7 @@
                 background-color: #fdfaf5;
             }
             &.active{
-                background-color: linear-gradient(#fee9ce,#ffe1ba);
+                background: linear-gradient(#fee9ce,#ffe1ba);
                 .avatar {
                     background: url('../../../../assets/img/contact/single-active.svg');
                 }

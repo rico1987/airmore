@@ -7,6 +7,11 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
     width: 230px;
     height: 100%;
     overflow: auto;
+    position: relative;
+
+    @include when(loading) {
+        overflow: hidden;
+    }
 
     @include when(clipboard) {
         width: calc(33.3333% + 160px);

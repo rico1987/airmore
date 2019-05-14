@@ -45,6 +45,8 @@ export class DeviceStateService {
 
     activeNode: any = null;
 
+    activeContact: any = null;
+
     selectedItems: Array<any> = []; // 选中的item
 
     activeViewMode:  'list' | 'grid' = 'list';
@@ -302,6 +304,7 @@ export class DeviceStateService {
         });
         this.sidebarItemList.push(...this.tempContactsGroupList);
         this.activeItem = this.sidebarItemList[0];
+        this.activeContact = this.contactLetterGroupList[0]['contacts'][0];
         this.loading = false;                                                                            
     }
 

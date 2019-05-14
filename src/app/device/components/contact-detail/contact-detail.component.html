@@ -1,0 +1,43 @@
+<div class="airmore-contact-detail" [class.is-edit]="isEdit">
+  <div class="airmore-contact-detail__top" *ngIf="!isEdit">
+    <div class="contact-portrait">
+      <div class="contact-portrait-img">
+          <img src="" />
+      </div>
+    </div>
+    <div class="contact-toolbar">
+      <span (click)="edit()">Edit</span>
+    </div>
+    <div class="contact-name">Arraon</div>
+  </div>
+  <div class="airmore-contact-defail__bottom" *ngIf="!isEdit">
+
+  </div>
+
+
+  <div class="airmore-contact-detail__top" *ngIf="isEdit">
+      <div class="contact-portrait">
+        <div class="contact-portrait-img">
+            <img src="" />
+        </div>
+        <div class="contact-portrait-toolbar">
+          <div class="contact-portrait-update" (click) = "updatePortrait()"></div>
+          <div class="contact-portrait-delete" (click) = "deletePortrait()"></div>
+        </div>
+      </div>
+      <div class="contact-toolbar">
+        <span (click)="edit()">Save</span>
+      </div>
+      <div class="contact-name">
+        <input class="contact-input" type="text" placeholder="名称" />
+      </div>
+    </div>
+    <div class="airmore-contact-defail__bottom" *ngIf="isEdit">
+      <div class="form-group">
+        <div class="label"></div>
+        <div class="input">
+          
+        </div>
+      </div>
+    </div>
+</div>

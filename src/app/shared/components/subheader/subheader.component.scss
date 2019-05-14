@@ -65,13 +65,14 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
                         left: 50%;
                         margin-left: -12px;
                         transition: All 0.4s ease-in-out;
+                        animation: rotate 3s linear infinite;
                         animation-play-state: paused;
                     }
                     @include when(loading) {
                         background-image: none;
                         @include e(toolbar-loading) {
                             display: inline-block;
-                            animation: rotate 3s linear infinite;
+                            animation-play-state: running;
                         }
 
                     }

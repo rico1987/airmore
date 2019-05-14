@@ -290,6 +290,13 @@
             border-right: 1px solid #ccc;
             overflow-y: scroll;
         }
+
+        @include e(contact-detail) {
+            width: 66.6666%;
+            height: calc(100% - 36px);
+            float: left;
+            position: relative;
+        }
     }
 
     @include e(container-musics) {

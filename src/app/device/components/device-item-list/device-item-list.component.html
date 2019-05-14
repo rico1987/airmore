@@ -286,10 +286,13 @@
         </div>
         <div class="contact-letters"></div>
       </div>
+      <div class="airmore-device-item-list__contact-detail">
+        <app-contact-detail></app-contact-detail>
+      </div>
     </div>
     <!-- contacts end -->
   </div>
-  <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
+  <!-- <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
       <p>The folder is empty!</p>
-  </div>
+  </div> -->
 </div>

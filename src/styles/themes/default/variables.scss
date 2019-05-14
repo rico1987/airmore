@@ -329,3 +329,18 @@ $main-padding: 20px !default;
     transform: rotate(360deg);
   }
 }
+
+
+@keyframes loading-rotate {
+  25% {
+    -moz-transform: perspective(100px) rotateX(180deg) rotateY(0deg);
+    transform: perspective(100px) rotateX(180deg) rotateY(0deg); }
+  50% {
+    -moz-transform: perspective(100px) rotateX(180deg) rotateY(180deg);
+    transform: perspective(100px) rotateX(180deg) rotateY(180deg); }
+  75% {
+    -moz-transform: perspective(100px) rotateX(0deg) rotateY(180deg);
+    transform: perspective(100px) rotateX(0deg) rotateY(180deg); }
+  100% {
+    -moz-transform: perspective(100px) rotateX(0deg) rotateY(0deg);
+    transform: perspective(100px) rotateX(0deg) rotateY(0deg); } }

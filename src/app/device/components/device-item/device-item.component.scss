@@ -191,6 +191,7 @@
         background-size: 72px auto;
         float: left;
         position: relative;
+        cursor: pointer;
 
         @include e(container) {
             position: absolute;

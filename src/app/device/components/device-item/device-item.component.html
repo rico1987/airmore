@@ -8,7 +8,7 @@
   <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'apps' && item">
     <app-lazy-load-image class="airmore-device-item__icon" [imgSrc]="getAppIcon(item.PackageName)" *ngIf="item.PackageName"></app-lazy-load-image>
     <p class="airmore-device-item__name">{{item.ShowName}}</p>
-    <p class="airmore-device-item__size">{{item.Size}}</p>
+    <p class="airmore-device-item__size">{{item.Size | size}}</p>
     <ul class="airmore-device-item__toolbar">
       <li class="backup" [class.active]="supportOperation('backup')" (click)="backup($event)"></li>
       <li class="delete" [class.active]="supportOperation('delete')" (click)="delete($event)"></li>

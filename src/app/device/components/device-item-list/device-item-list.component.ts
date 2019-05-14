@@ -67,6 +67,10 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
     this.nzTableComponent.cdkVirtualScrollViewport.scrollToIndex(index);
   }
 
+  setActive(item: any): void {
+    this.deviceStateService.activeItem = item;
+  }
+
 
   sort(sort: { key: string; value: string }): void {
   }

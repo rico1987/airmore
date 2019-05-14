@@ -18,9 +18,10 @@ import { DeviceSidebarComponent } from './components/device-sidebar/device-sideb
 import { DeviceItemComponent } from './components/device-item/device-item.component';
 import { DeviceItemGroupComponent } from './components/device-item-group/device-item-group.component';
 import { ContactLetterGroupComponent } from './components/contact-letter-group/contact-letter-group.component';
+import { ContactDetailComponent } from './components/contact-detail/contact-detail.component';
 
 @NgModule({
-  declarations: [DeviceLayoutComponent, DeviceItemListComponent, DeviceSidebarComponent, DeviceItemComponent, DeviceItemGroupComponent, ContactLetterGroupComponent],
+  declarations: [DeviceLayoutComponent, DeviceItemListComponent, DeviceSidebarComponent, DeviceItemComponent, DeviceItemGroupComponent, ContactLetterGroupComponent, ContactDetailComponent],
   imports: [
     CommonModule,
     SharedModule,
