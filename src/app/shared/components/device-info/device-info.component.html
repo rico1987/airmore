@@ -1,0 +1,101 @@
+<div class="airmore-device-info" [class.is-android]="appStateService.platform === 'android'">
+    <div class="airmore-device-info__screenshot">
+      <img *ngIf="screenshot" [src]="screenshot | safeUrl" />
+      <div class="refresh" [class.loading]="loading" (click)="refreshScreenshot()"></div>
+    </div>
+    <div class="airmore-device-info__info" [class.show]="!loading">
+      <div class="welcome">
+        <span>Welcom</span>, <span *ngIf="deviceInfo">{{ deviceInfo['DeviceName'] }}</span>
+      </div>
+      <dl class="device-info-list">
+        <dt>设备型号</dt>
+        <dd *ngIf="deviceInfo">{{ deviceInfo['Model'] }}</dd>
+        <dt>电池电量</dt>
+        <dd *ngIf="deviceInfo">{{ deviceInfo['Power'] }} %</dd>
+        <dt>分辨率</dt>
+        <dd *ngIf="deviceInfo">{{ deviceInfo['Resolution'] }}</dd>
+        <dt *ngIf="platform === 'android'">固件版本</dt>
+        <dd *ngIf="platform === 'android' && deviceInfo">{{ deviceInfo['SDKVersionName'] }}</dd>
+        <dt *ngIf="platform === 'android'">序列号</dt>
+        <dd *ngIf="platform === 'android' && deviceInfo">{{ deviceInfo['SerialNum'] }}</dd>
+        <dt *ngIf="platform === 'iphone'">Pictures</dt><dd *ngIf="platform === 'iphone'">{{ deviceInfo['PicCount'] || '-' }}</dd>
+			  <dt *ngIf="platform === 'iphone' && deviceInfo">Videos</dt><dd *ngIf="platform === 'iphone'">{{ deviceInfo['VideoCount'] || '-' }}</dd>
+        <dt>是否 root</dt>
+        <dd *ngIf="deviceInfo">{{ deviceInfo['Root'] }}</dd>
+        <div class="detail">详细信息</div>
+      </dl>
+      <div class="memory-list">
+          <div class="memory-sum">
+            <span class="phone-memory">Phone Memory</span>
+            <span *ngIf="platform !== 'iphone' && deviceInfo">
+              {{deviceInfo['MemorySize'] - deviceInfo['MemoryAvaSize'] | size}} / {{deviceInfo['MemorySize'] | size}}, 
+              {{deviceInfo['MemoryAvaSize'] | size}} <span>Left</span>
+            </span>
+          </div>
+          
+          <div class="bar" *ngIf="platform === 'iphone'">
+            <div class="per">
+              <div class="all" [style.width]="iphoneUsedStorageWidth"></div>
+            </div>
+          </div>
+    
+          <div class="memory-stat used-state" *ngIf="platform === 'iphone'">
+            <div>
+              <i class="used"></i>
+              <span>used</span>
+              <span class="size" *ngIf="deviceInfo">{{deviceInfo['MemorySize'] - deviceInfo['MemoryAvaSize'] | size}}</span>
+            </div>
+            <div>
+              <i class="free"></i>
+              <span>free</span>
+              <span class="size" *ngIf="deviceInfo">{{deviceInfo['MemoryAvaSize'] | size}}</span>
+            </div>
+          </div>
+          
+          <div class="bar" *ngIf="platform !== 'iphone'">
+            <div class="per">
+              <div class="photo" [style.width]="photoUsedStorageWidth"></div>
+              <div class="music" [style.width]="musicUsedStorageWidth"></div>
+              <div class="video" [style.width]="videoUsedStorageWidth"></div>
+              <div class="apps" [style.width]="appsUsedStorageWidth"></div>
+              <div class="others" [style.width]="othersUsedStorageWidth"></div>
+            </div>
+          </div>
+          
+          <div class="memory-stat" *ngIf="platform !== 'iphone'">
+            <div>
+              <i class="photo"></i>
+              <span>Pictures</span>
+              <span class="size" *ngIf="deviceInfo">{{deviceInfo['PicSize'] | size}}</span>
+            </div>
+            <div>
+              <i class="music"></i>
+              <span>Music</span>
+              <span class="size" *ngIf="deviceInfo">{{deviceInfo['MusicSize'] | size}}</span>
+            </div>
+            <div>
+              <i class="video"></i>
+              <span>Videos</span>
+              <span class="size" *ngIf="deviceInfo">{{deviceInfo['VideoSize'] | size}}</span>
+            </div>
+            <div>
+              <i class="apps"></i>
+              <span>Apps</span>
+              <span class="size" *ngIf="deviceInfo">{{deviceInfo['APKSize'] | size}}</span>
+            </div>
+            <div>
+              <i class="others"></i>
+              <span>Others</span>
+              <span class="size" *ngIf="deviceInfo">{{deviceInfo['OtherSize'] | size}}</span>
+            </div>
+          </div>
+      </div>
+      <div class="pc-version" *ngIf="showAdd">
+        <a [href]="softwareDownloadLink" target="_blank">
+          <div class="title">专业，便捷，安全的桌面端手机资料管理软件</div>
+          <div class="close" (click)="closeAdd($event)"></div>
+        </a>
+      </div>
+    </div>
+    <div class="airmore-device-info__btns"></div>
+</div>

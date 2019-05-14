@@ -33,9 +33,6 @@ export class DesktopComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.deviceService.getScreenImage()
-      .subscribe((res) => {
-      });
   }
 
   setActiveFunction(fun): void {

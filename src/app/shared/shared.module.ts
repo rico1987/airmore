@@ -51,6 +51,8 @@ import { ToolModalComponent } from './components/tool-modal/tool-modal.component
 import { ReflectorModalComponent } from './components/reflector-modal/reflector-modal.component';
 import { LoadingDirective } from './directives/loading.directive';
 import { LoadingComponent } from './components/loading/loading.component';
+import { DeviceInfoComponent } from './components/device-info/device-info.component';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -80,6 +82,7 @@ const PIPES = [
   FileTypePipe,
   TimePipe,
   IsFolderPipe,
+  SafeUrlPipe,
 ];
 
 @NgModule({
@@ -115,6 +118,9 @@ const PIPES = [
     ReflectorModalComponent,
     LoadingDirective,
     LoadingComponent,
+    DeviceInfoComponent,
+    SafeUrlPipe,
+    SafeUrlPipe,
   ],
   imports: [
     CommonModule,

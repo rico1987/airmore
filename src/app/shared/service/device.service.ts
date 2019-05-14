@@ -66,11 +66,21 @@ export class DeviceService extends WebsocketService {
     return `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}${path}?Shortcut=1&Width=${width}&Height=${height}`;
   }
 
+  getDeviceInfo(): any {
+    return this.browserStorageService.get('deviceInfo');
+  }
+
+  getDeviceDetails(): Observable<any> {
+    return this.myClientService.devicePost('PhoneGetDeviceInfo&IsDetail=true', {})
+  }
+
   /**
    * 获取设备屏幕截图
    */
   getScreenImage(): Observable<any> {
-    return this.myClientService.devicePost('PhoneRefreshScreen', {});
+    return this.myClientService.devicePost('PhoneRefreshScreen', {}, {
+      responseType: 'text/plain',
+    });
   }
 
   getPhotoAlbumList(): Observable<any> {

@@ -29,6 +29,7 @@ export class AppComponent {
 
     translate.onTranslationChange.subscribe((event: TranslationChangeEvent) => {
       appStateService.setCurrentLang(event.lang);
+      
     });
 
     const deviceInfo = browserStorageService.get('deviceInfo');

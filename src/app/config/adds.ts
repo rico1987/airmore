@@ -171,7 +171,7 @@ export const adds = {
     getProducts: function () {
         var lang = this.language
         var domain = this.getDomain()
-
+        
     },
 
 

@@ -1,0 +1,313 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(device-info) {
+    width: 790px;
+    height: 514px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    border-radius: 40px 4px 4px 40px;
+    background: rgba(255,255,255,.3);
+    transition: filter .5s ease;
+
+    @include when(android) {
+        height: 554px;
+
+        @include e(screenshot) {
+            width: 281px;
+            height: 554px;
+            >img {
+                left: 3px;
+                top: 54px;
+                width: 275px;
+                height: 444px;
+            }
+        }
+    }
+    @include e(screenshot) {
+        width: 261px;
+        height: 514px;
+        float: left;
+        background: url('../../../../assets/img/desktop/android.svg') no-repeat center;
+        background-size: 100% 100%;
+        position: relative;
+
+        &:hover {
+            .refresh{
+                display: block;
+            }
+        }
+        >img {
+            position: absolute;
+            left: 3px;
+            top: 50px;
+            width: 255px;
+            height: 412px;
+        }
+        .refresh{
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 0, 0, .5) url('../../../../assets/img/action/white/refresh-white.svg') no-repeat center;
+            background-size: 60% auto;
+            border-radius: 50%;
+            opacity: .7;
+            cursor: pointer;
+            display: none;
+            animation: rotate 1s linear infinite;
+            animation-play-state: paused;
+
+            &:hover{
+                opacity: 1;
+            }
+
+            &.loading{
+                display: block;
+                animation-play-state: running;
+            }
+        }
+    }
+
+    @include e(info) {
+        width: 420px;
+        margin-right: 50px;
+        margin-top: 26px;
+        float: right;
+        .welcome{
+            font-size: 30px;
+            line-height: 50px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .device-info-list{
+            padding-top: 8px;
+            padding-bottom: 24px;
+            line-height: 24px;
+            overflow: hidden;
+            border-top: 1px solid rgba(#fff, 0.5);
+        
+            dt{
+                clear: left;
+                float: left;
+                width: 190px;
+                padding-left: 2px;
+            }
+        
+            dd{
+                float: left;
+                width: 190px;
+                color: #003333;
+                user-select: auto;
+            }
+        
+            .detail{
+                margin-top: 12px;
+                margin-bottom: -12px;
+                float: right;
+                font-size: 12px;
+                cursor: pointer;
+        
+                &:hover{
+                    text-decoration: underline;
+                }
+            }
+        }
+        
+        
+        .memory-list{
+            border-top: 1px solid rgba(#fff, 0.5);
+        
+            .memory-sum{
+                line-height: 20px;
+                padding: 6px 0;
+                font-size: 13px;
+                text-align: right;
+                overflow: hidden;
+            }
+        
+            .phone-memory{
+                font-size: 18px;
+                padding-left: 2px;
+                padding-right: 14px;
+                float: left;
+            }
+        
+            .bar{
+                height: 28px;
+                line-height: 28px;
+                border: 1px solid rgba(#fff, 0.5);
+                border-radius: 4px;
+                margin: 16px 0 10px;
+                background: rgba(#fff, 0.2);
+                position: relative;
+                overflow: hidden;
+        
+                .per{
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    left: 0;
+                    top: 0;
+                    font-size: 0;
+                    text-align: left;
+                    white-space: nowrap;
+        
+                    > div{
+                        display: inline-block;
+                        width: 0;
+                        height: 100%;
+                        min-width: 5px;
+                        transition: width .5s ease;
+                    }
+        
+                    .all{
+                        background: #00acd3;
+                    }
+                }
+            }
+        
+        
+            .music{
+                background: #ed6d7a;
+            }
+        
+            .photo{
+                background: #84bc6b;
+            }
+        
+            .video{
+                background: #ed9a24;
+            }
+        
+            .apps{
+                background: #cf77c1;
+            }
+        
+            .others{
+                background: #656abf;
+            }
+        
+            .memory-stat{
+                line-height: 20px;
+                overflow: hidden;
+        
+                > div{
+                    width: 20%;
+                    float: left;
+                    padding-left: 19px;
+                    position: relative;
+                }
+        
+                i{
+                    width: 7px;
+                    height: 7px;
+                    position: absolute;
+                    left: 8px;
+                    top: 8px;
+                }
+        
+                span{
+                    display: block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+        
+                .size{
+                    font-size: 12px;
+                }
+            }
+        
+        
+            .used{
+                background: #00acd3;
+            }
+        
+            .free{
+                background: rgba(#fff, 0.5);
+            }
+        
+            .used-state{
+                > div{
+                    width: 33.3333%;
+                }
+        
+                i{
+                    width: 14px;
+                    height: 14px;
+                    position: absolute;
+                    left: 0px;
+                    top: 2px;
+                }
+        
+                span{
+                    float: left;
+                }
+        
+                .size{
+                    margin-left: 6px;
+                    margin-top: 1px;
+                }
+            }
+        }
+        .pc-version{
+            position: relative;
+            display: block;
+            width: 419px;
+            height: 116px;
+            margin-top: 15px;
+            background: url('../../../../assets/img/pc/phone-manager.png');
+            font-family: Helvetica;
+            line-height: 18px;
+            >a {
+                display: block;
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+                color: #333;
+                position: relative;
+            }
+        
+            &:hover{
+                text-decoration: none;
+            }
+        
+            .close{
+                position: absolute;
+                background-color: #fff;
+                border-radius: 50%;
+                right: -12px;
+                top: -12px;
+                width: 24px;
+                height: 24px;
+                background-size: 24px;
+                background-image: url('../../../../assets/img/common/win/close.svg');
+
+                &:hover {
+                    background-image: url('../../../../assets/img/common/win/close-hover.svg');
+                }
+            }
+        
+            .title{
+                width: 240px;
+                padding-left: 14px;
+                padding-top: 50px;
+                font-size: 15px;
+            }
+        }
+    }
+
+    @include e(btns) {
+
+    }
+}
