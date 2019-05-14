@@ -108,7 +108,12 @@ export class AppStateService {
         } else if (this.currentModule === 'device') {
           if (this.deviceStateService.activeFunction === 'apps') {
             this.deviceStateService.uninstall()
-          } else if (this.deviceStateService.activeFunction === 'clipboard' || this.deviceStateService.activeFunction === 'documents' || this.deviceStateService.activeFunction === 'videos' || this.deviceStateService.activeFunction === 'files' || this.deviceStateService.activeFunction === 'pictures') {
+          } else if (this.deviceStateService.activeFunction === 'clipboard' ||
+                    this.deviceStateService.activeFunction === 'documents' ||
+                    this.deviceStateService.activeFunction === 'videos' ||
+                    this.deviceStateService.activeFunction === 'files' ||
+                    this.deviceStateService.activeFunction === 'pictures' ||
+                    this.deviceStateService.activeFunction === 'musics') {
             this.deviceStateService.deleteItems();
           }
         }
@@ -163,6 +168,9 @@ export class AppStateService {
       case 'set-as-wallpaper':
         this.deviceStateService.setAsWallpaper();
         break;
+      case 'new-contact':
+        this.deviceStateService.newContact();
+
     }
   }
 
@@ -216,7 +224,8 @@ export class AppStateService {
                this.deviceStateService.activeFunction === 'videos' ||
                this.deviceStateService.activeFunction === 'musics' ||
                this.deviceStateService.activeFunction === 'documents' ||
-               this.deviceStateService.activeFunction === 'files';
+               this.deviceStateService.activeFunction === 'files' ||
+               this.deviceStateService.activeFunction === 'contacts';
         break;
         case 'export':
         flag = this.deviceStateService.activeFunction === 'pictures' ||
@@ -224,7 +233,8 @@ export class AppStateService {
                this.deviceStateService.activeFunction === 'musics' ||
                this.deviceStateService.activeFunction === 'documents' ||
                this.deviceStateService.activeFunction === 'clipboard' ||
-               this.deviceStateService.activeFunction === 'files';
+               this.deviceStateService.activeFunction === 'files'||
+               this.deviceStateService.activeFunction === 'contacts';
         break;
         case 'install':
         flag = this.deviceStateService.activeFunction === 'apps';
@@ -240,6 +250,9 @@ export class AppStateService {
         break;
         case 'set-as-wallpaper':
         flag = this.deviceStateService.activeFunction === 'pictures';
+        break;
+        case 'new-contact':
+        flag = this.deviceStateService.activeFunction === 'contacts';
         break;
       }
     }

@@ -72,6 +72,11 @@
                         background-color: $color1;
                     }
                 }
+                &.reflector{
+                    background: url('../../../../assets/img/reflector/reflector.svg') center center no-repeat, linear-gradient(#1a68c2, #2398d7);
+                    background-color: #1a68c2;
+                    background-position: center 60%;
+                }
             }
         }
     }

@@ -79,7 +79,7 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
 
             @include e(item-info) {
                 border-bottom-color: $primary;
-                // background: url('../../../../assets/img/album/arrow-active.svg') 95% center no-repeat;
+                background: url('../../../../assets/img/album/arrow-active.svg') 95% center no-repeat;
             }
         }
     }
@@ -217,6 +217,67 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
             }
         }
 
+    }
+
+    @include e(contacts) {
+        .toolbar{
+            margin-top: 5px;
+            border-bottom: 1px solid #ebebeb;
+            p{
+                padding-left: 25px;
+                font-size: 12px;
+                cursor: pointer;
+                background: url('../../../../assets/img/action/gray/add-gray.svg') left center no-repeat;
+                line-height: 25px;
+                &:hover {
+                    color: $primary;
+                    background-image: url('../../../../assets/img/action//blue//add-blue.svg');
+                }
+            }
+        }
+
+        @include e(container) {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            @include e(contacts-item) {
+                height: 68px;
+                padding: 8px 0 0 0;
+                line-height: 24px;
+                cursor: pointer;
+                position: relative;
+                .group-avatar{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background: url('../../../../assets/img/contact/group.svg') center no-repeat;
+                    float: left;
+                    margin-right: 12px;
+                }
+                .contact-info {
+                    font-size: 14px;
+                    line-height: 24px;
+                    border-bottom: 1px solid #ebebeb;
+                    margin-left: 62px;
+                    .name{
+                        padding-right: 20px;
+                    }
+                    .count{
+                        font-size: 11px;
+                        color: #666;
+                    }
+                    &:hover{
+                        border-bottom-color: $primary;
+                        font-weight: 700;
+                    }
+                }
+
+                @include when(active) {
+                    border-bottom-color: $primary;
+                    background: url('../../../../assets/img/album/arrow-active.svg') 95% center no-repeat;
+                }
+            }
+        }
     }
 }
 .custom-node {

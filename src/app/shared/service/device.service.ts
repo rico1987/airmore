@@ -197,6 +197,16 @@ export class DeviceService extends WebsocketService {
     });
   }
 
+  getContactGroupList(): Observable<any> {
+    return this.myClientService.devicePost('ContactGroupGetList', {});
+  }
+
+  getAllContacts(): Observable<any> {
+    return this.myClientService.devicePost('ContactGetList', {
+      ID: '"all_contacts"',
+    })
+  }
+
   createDirectory(folders: Array<any>): Observable<any> {
     return this.myClientService.devicePost('FileCreateDirectory', JSON.stringify(folders));
   }

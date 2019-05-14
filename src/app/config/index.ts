@@ -6,6 +6,8 @@ export interface AppConfig {
         fallbackLang: string,
         isDebug: boolean,
         appFunctions: [string],
+        androidDesktopFunctions: [string],
+        iosDesktopFunctions: [string],
         androidSidebarFunctions: [string],
         iosSidebarFunctions: [string],
         cloudFunctions: [string],
@@ -28,7 +30,9 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
             fallbackLang: 'en',
             isDebug: true,
             // tslint:disable-next-line
-            appFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'reflector', 'tools', 'cloud'],
+            appFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'reflector', 'tool', 'clipboard', 'cloud'],
+            androidDesktopFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'reflector', 'tool', 'clipboard', 'cloud'],
+            iosDesktopFunctions: ['pictures' , 'musics', 'videos', 'apps', 'documents', 'files', 'reflector', 'tools', 'clipboard', 'cloud'],
             // tslint:disable-next-line
             androidSidebarFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'clipboard', 'cloud'],
             iosSidebarFunctions: ['pictures' , 'musics', 'videos', 'documents', 'files', 'clipboard', 'cloud'],

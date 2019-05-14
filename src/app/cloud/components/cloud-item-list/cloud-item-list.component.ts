@@ -124,6 +124,10 @@ export class CloudItemListComponent implements OnInit {
     }
   }
 
+  onScroll(event): void {
+    console.log(event);
+  }
+
 
   get type(): string {
     if (this.selectedItem && this.selectedItem.node_id && this.selectedItem.node_type === 'folder') {

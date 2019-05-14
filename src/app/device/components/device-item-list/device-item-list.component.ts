@@ -5,6 +5,7 @@ const copy = require('clipboard-copy')
 import { MessageService } from '../../../shared/service/message.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { MusicPlayerComponent } from '../../../shared/components/music-player/music-player.component';
 
 @Component({
   selector: 'app-device-item-list',
@@ -18,7 +19,11 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
 
   @ViewChild('virtualTable') nzTableComponent: NzTableComponent;
 
+  @ViewChild('musicPlayer') musicPlayer: MusicPlayerComponent;
+
   listOfData: any[] = [];
+
+  allLetters: Array<string> = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 
   private destroy$ = new Subject();
@@ -46,7 +51,8 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
   ngAfterContentInit() {
     const containerHeight = this.itemListContainer.nativeElement.offsetHeight;
     if (this.deviceStateService.activeFunction === 'musics') {
-      this.scrollHeight = containerHeight - 111;
+      this.scrollHeight = containerHeight - 150;
+      console.log(this.scrollHeight);
     } else {
       // todo
       this.scrollHeight = containerHeight - 80;
@@ -67,6 +73,12 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
 
   play(item): void {
 
+  }
+
+  playMusic(item): void {
+    this.musicPlayer.setPlayList(this.deviceStateService.itemList);
+    this.musicPlayer.setCurrentPlayingItem(item);
+    this.musicPlayer.play();
   }
 
   export(data): void {

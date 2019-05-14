@@ -2,45 +2,190 @@
 @import "../../../../styles/themes/default/variables.scss";
 
 @include b(music-player) {
+    audio{
+        display: none;
+    }
+    >*{
+        float: right;
+    }
+
+    width: 100%;
+    height: 75px;
+    border-radius: 37px;
+    font-size: 12px;
+    color: #fff;
+    line-height: 20px;
+    padding-right: 10px;
+    background: #99adba url('../../../../assets/img/common/music/music-bg.jpg') no-repeat center center;
+    background-size: 100% auto;
 
     @include e(next) {
-
+        float: right;
+        width: 46px;
+        height: 40px;
+        margin: 20px 10px;
+        cursor: pointer;
+        background: url('../../../../assets/img/common/music/next.svg') no-repeat center center;
+        opacity: .5;
+        &:hover {
+            opacity: 1;
+        }
     }
 
     @include e(play) {
+        float: right;
+        width: 60px;
+        height: 60px;
+        margin-top: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        background: url('../../../../assets/img/common/music/pause.svg') no-repeat center;
+        background-color: rgba(255,255,255,.3);
+        &:hover {
+            background-color: rgba(255,255,255,.4);
+        }
 
+        &.paused{
+            background-image: url('../../../../assets/img/common/music/play.svg');
+            &:hover {
+                background-color: rgba(255,255,255,.4);
+            }
+        }
+    }
+
+    @include e(prev) {
+        float: right;
+        width: 46px;
+        height: 40px;
+        margin: 20px 10px;
+        cursor: pointer;
+        background: url('../../../../assets/img/common/music/previous.svg') no-repeat center;
+        opacity: .5;
+        &:hover {
+            opacity: 1;
+        }
     }
 
     @include e(mode) {
-
+        float: right;
+        width: 32px;
+        height: 32px;
+        margin: 25px 10px 0;
+        background: url('../../../../assets/img/common/music/play-modes.svg') no-repeat center;
+        opacity: .5;
+        cursor: pointer;
+        position: relative;
+        &:hover{
+            opacity: 1;
+        }
+        &.only{
+            background-position: center -14px;
+        }
+        &.order{
+            background-position: center 10px;
+        }
+        &.random{
+            background-position: center -38px;
+        }
     }
 
     @include e(cover) {
-
+        width: 85px;
+        height: 85px;
+        background: url('../../../../assets/img/common/music/disc.svg') center no-repeat;
+        background-size: 87px;
+        overflow: hidden;
+        animation: circle 10s linear infinite both;
+        animation-play-state: paused;
+        margin-left: -5px;
+        margin-top: -5px;
+        float: left!important;
     }
 
     @include e(name) {
-
+        margin-top: 10px;
+        margin-left: 15px;
+        height: 20px;
+        float: left;
+        width: calc(100% - 340px);
     }
 
     @include e(time) {
-
+        margin-left: 20px;
+        font-size: 10px;
+        color: rgba(255,255,255,.5);
+        width: 50px;
+        float: left!important;
     }
 
     @include e(slider) {
-
+        height: 10px;
+        margin: 5px 0;
+        padding: 3.5px 0;
+        width: calc(100% - 650px);
+        float: left!important;
+        .slider-inner{
+            height: 3px;
+            background: rgba(255,255,255,.5);
+            .slider-per{
+                height: 100%;
+                width: 100%;
+                background: #fff;
+                .slider-ball{
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: #fff;
+                    float: right;
+                    margin: -3.5px -5px;
+                }
+            }
+        }
     }
 
     @include e(duration) {
-
+        font-size: 10px;
+        color: rgba(255,255,255,.5);
+        width: 50px;
+        margin-left: 10px;
+        float: left!important;
     }
 
     @include e(volume) {
-
+        width: 20px;
+        height: 20px;
+        margin-left: 30px;
+        cursor: pointer;
+        background: url('../../../../assets/img/common/music/volume.svg') no-repeat center center;
+        position: relative;
+        opacity: .5; 
+        &:hover{
+            opacity: 1;
+        }
     }
 
     @include e(volume-slider) {
-        
+        height: 10px;
+        padding: 3.5px 0;
+        width: 109px;
+        margin: 5px 0 5px 10px;
+        .slider-inner{
+            height: 3px;
+            background: rgba(255,255,255,.5);
+            .slider-per{
+                height: 100%;
+                width: 100%;
+                background: #fff;
+                .slider-ball{
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background: #fff;
+                    float: right;
+                    margin: -3.5px -5px;
+                }
+            }
+        }
     }
 
 }

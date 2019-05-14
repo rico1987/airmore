@@ -1,0 +1,10 @@
+<div class="airmore-contact-letter-group" *ngIf="item">
+  <div class="airmore-contact-letter-group__letter">{{ item['key'] }}</div>
+  <div class="airmore-contact-letter-group__contact-list">
+    <div class="airmore-contact-letter-group__contact-item" *ngFor="let contact of item['contacts']">
+        <div class="checkbox" (click)="checkItem(contact)" [class.selected]="isSelected(contact)"></div>
+        <div class="avatar"></div>
+        {{ contact['Name']['DisplayName'] }}
+    </div>
+  </div>
+</div>

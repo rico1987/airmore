@@ -4,6 +4,9 @@ import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { AppStateService } from '../../service/app-state.service';
 import { DeviceStateService } from '../../../device/service/device-state.service';
 import { DeviceService } from '../../service/device.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { ToolModalComponent } from '../tool-modal/tool-modal.component';
+import { ReflectorModalComponent } from '../reflector-modal/reflector-modal.component';
 
 @Component({
   selector: 'app-desktop',
@@ -20,8 +23,13 @@ export class DesktopComponent implements OnInit {
     private appStateService: AppStateService,
     private deviceStateService: DeviceStateService,
     private deviceService: DeviceService,
+    private modalService: NzModalService,
   ) {
-    this.functions = this.appConfig.app.appFunctions;
+    if (this.appStateService.platform === 'iphone') {
+      this.functions = this.appConfig.app.iosDesktopFunctions;
+    } else {
+      this.functions = this.appConfig.app.androidDesktopFunctions;
+    }
   }
 
   ngOnInit() {
@@ -30,14 +38,37 @@ export class DesktopComponent implements OnInit {
       });
   }
 
-  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' |
-  'reflector' | 'tools' | 'cloud'): void {
+  setActiveFunction(fun): void {
     if (fun !== 'cloud') {
-      this.appStateService.setCurrentModule('device');
-      this.deviceStateService.setDeviceActiveFunction(fun);
-      this.router.navigate(
-        ['device']
-      );
+      if (fun === 'reflector') {
+        const reflectorModal = this.modalService.create({
+          nzTitle: '<i>Reflector</i>',
+          nzContent: ReflectorModalComponent,
+          nzFooter: null,
+          nzMaskClosable: false,
+          nzClosable: true,
+          nzOnOk: () => {
+    
+          }
+        });
+      } else if (fun === 'tool') {
+        const toolModal = this.modalService.create({
+          nzTitle: '<i>Tools</i>',
+          nzContent: ToolModalComponent,
+          nzFooter: null,
+          nzMaskClosable: false,
+          nzClosable: true,
+          nzOnOk: () => {
+            
+          }
+        });
+      } else {
+        this.appStateService.setCurrentModule('device');
+        this.deviceStateService.setDeviceActiveFunction(fun);
+        this.router.navigate(
+          ['device']
+        );
+      }
     } else {
       this.appStateService.setCurrentModule('cloud');
       this.router.navigate(

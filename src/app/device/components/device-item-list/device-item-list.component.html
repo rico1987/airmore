@@ -117,22 +117,21 @@
               nzSortKey="ShowName"
             >Name</th>
             <th
-              nzWidth="150px"
+              nzWidth="250px"
               nzShowSort
               nzSortKey="Artist"
             >Artist</th>
             <th
-              nzWidth="150px"
+              nzWidth="250px"
               nzShowSort
               nzSortKey="Album"
             >Album</th>
             <th
-              nzWidth="150px"
+              nzWidth="100px"
               nzShowSort
               nzSortKey="Duration"
             >Duration</th>
             <th
-              nzWidth="150px"
               nzShowSort
               nzSortKey="Size"
             >Size</th>
@@ -142,20 +141,28 @@
           <ng-template nz-virtual-scroll let-data let-index="index">
             <tr>
               <td
+                style="width: 60px;"
                 nzShowCheckbox
                 [nzChecked]="deviceStateService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
-              <td class="airmore-device-item-list__td">{{ data.ShowName }}</td>
-              <td>{{ data.Artist || '-' }}</td>
-              <td>{{ data.Album || '-' }}</td>
-              <td>{{ data.Duration | duration }}</td>
+              <td style="width: 350px;" class="airmore-device-item-list__td">
+                <span>{{ data.ShowName }}</span>
+                <div class="airmore-device-item-list__td-operations">
+                    <span class="play" (click)="playMusic(data)"></span>
+                    <span class="export" (click)="export(data)"></span>
+                    <span class="delete" (click)="delete(data)"></span>
+                </div>
+              </td>
+              <td style="width: 250px;" class="airmore-device-item-list__td"><span>{{ data.Artist || '-' }}</span></td>
+              <td style="width: 250px;" class="airmore-device-item-list__td"><span>{{ data.Album || '-' }}</span></td>
+              <td style="width: 100px;">{{ data.Duration / 1000 | duration }}</td>
               <td>{{ data.Size | size }}</td>
             </tr>
           </ng-template>
         </tbody>
       </nz-table> 
-      <app-music-player></app-music-player>
+      <app-music-player #musicPlayer [playList]="deviceStateService.itemList" class="airmore-device-item-list__music-player"></app-music-player>
     </div>
     <!-- musics end -->
 
@@ -247,7 +254,7 @@
             <td class="airmore-device-item-list__td" style="position: relative;">
               <i nz-icon [type]="'folder'" *ngIf="data.FileType === 2"></i>
               <i nz-icon [type]="'file'" *ngIf="data.FileType === 1"></i>
-              {{ data.ShowName }}
+              <span>{{ data.ShowName }}</span>
               <div class="airmore-device-item-list__td-operations">
                 <span class="export" (click)="export(data)"></span>
                 <span class="delete" (click)="delete(data)"></span>
@@ -261,6 +268,26 @@
       </tbody>
     </nz-table> 
     <!-- files end -->
+
+    <!-- contacts start -->
+    <div class="airmore-device-item-list__container-contact" *ngIf="deviceStateService.activeFunction === 'contacts' && !deviceStateService.loading">
+      <div class="airmore-device-item-list__container-header">
+        <div class="checkbox"></div>
+        <span>名称 0 / 136</span>
+      </div>
+      <div class="airmore-device-item-list__contact-list" *ngIf="deviceStateService.contactLetterGroupList">
+        <div class="container"
+         *ngFor="let item of deviceStateService.contactLetterGroupList"
+        >
+            <app-contact-letter-group
+            *ngIf="item['contacts'].length > 0"
+            [item]="item"
+          ></app-contact-letter-group>
+        </div>
+        <div class="contact-letters"></div>
+      </div>
+    </div>
+    <!-- contacts end -->
   </div>
   <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
       <p>The folder is empty!</p>

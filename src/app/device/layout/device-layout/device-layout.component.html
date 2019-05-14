@@ -5,6 +5,7 @@
     [class.is-clipboard]="appStateService.activeFunction === 'clipboard'"
     [class.is-messages]="appStateService.activeFunction === 'messages'"
     [class.is-files]="appStateService.activeFunction === 'files'"
+    [class.is-contacts]="appStateService.activeFunction === 'contacts'"
   >
       <router-outlet></router-outlet>
   </div>

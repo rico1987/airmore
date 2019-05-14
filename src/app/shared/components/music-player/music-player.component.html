@@ -1,12 +1,26 @@
 <div class="airmore-music-player">
-  <div class="airmore-music-player__next"></div>
-  <div class="airmore-music-player__play"></div>
-  <div class="airmore-music-player__mode"></div>
+  <div class="airmore-music-player__next" (click)="next()"></div>
+  <div class="airmore-music-player__play" [class.paused]="!isPlaying" (click)="playMusic()"></div>
+  <div class="airmore-music-player__prev" (click)="prev()"></div>
+  <div class="airmore-music-player__mode" (click)="switchMode()" [ngClass]="playMode"></div>
   <div class="airmore-music-player__cover"></div>
-  <div class="airmore-music-player__name"></div>
-  <div class="airmore-music-player__time"></div>
-  <div class="airmore-music-player__slider"></div>
-  <div class="airmore-music-player__duration"></div>
+  <div class="airmore-music-player__name">{{ currentPlayingItem ? currentPlayingItem[displayTitleKey] : '' }}</div>
+  <div class="airmore-music-player__time">{{ playedTime | duration }}</div>
+  <div class="airmore-music-player__slider">
+      <div class="slider-inner" (click)="setTime($event)">
+        <div class="slider-per" [style.width]="_playSliderWidth">
+        <div class="slider-ball"></div>
+        </div>
+      </div>
+  </div>
+  <div class="airmore-music-player__duration"><span *ngIf="currentPlayingItem">{{ currentPlayingItem[durationKey] / 1000 | duration }}</span></div>
+  <div class="airmore-music-player__volume-slider">
+      <div class="slider-inner">
+        <div class="slider-per" style="width: 100%;">
+        <div class="slider-ball"></div>
+        </div>
+      </div>
+  </div>
   <div class="airmore-music-player__volume"></div>
-  <div class="airmore-music-player__volume-slider"></div>
+  <audio #audioElement></audio>
 </div>

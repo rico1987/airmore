@@ -44,9 +44,23 @@
   <!-- videos end -->
   <!-- contacts start -->
   <div class="airmore-device-sidebar__contacts" *ngIf="appStateService.activeFunction === 'contacts'">
-    <div class="airmore-device-sidebar__contacts-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.itemList" (click)="setActive(item)">
-
-    </div>
+      <div class="toolbar">
+          <p class="add-group">新建分组</p>
+      </div>
+      <div class="airmore-device-sidebar__container">
+          <div
+            class="airmore-device-sidebar__contacts-item"
+            [class.is-active]="isActive(item)"
+            *ngFor="let item of deviceStateService.sidebarItemList"
+            (click)="setActive(item)"
+          >
+            <div class="group-avatar"></div>
+            <div class="contact-info">
+              <div class="name">{{ item['GroupName']}}</div>
+              <div class="count">{{ item['contacts'] ? item['contacts'].length : '-'}}</div>
+            </div>
+          </div>
+      </div>
   </div>
   <!-- contacts end -->
   <!-- messages start -->

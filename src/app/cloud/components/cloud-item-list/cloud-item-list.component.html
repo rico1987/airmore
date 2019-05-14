@@ -1,4 +1,4 @@
-<div class="airmore-cloud-item-list" #itemListContainer>
+<div class="airmore-cloud-item-list" #itemListContainer (scroll)="onScroll($event)">
   <div class="airmore-cloud-item-list__container" *ngIf="!cloudStateService.loading && cloudStateService.activeViewMode === 'grid'">
       <app-cloud-item *ngFor="let item of cloudStateService.itemList" [item]="item"></app-cloud-item>
   </div>

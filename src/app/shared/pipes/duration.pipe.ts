@@ -5,8 +5,23 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DurationPipe implements PipeTransform {
 
-  transform(value: string, args?: any): any {
-    return 'aaaa';
+  _addZero(num: number): string {
+    if (num < 10) {
+      return '0' + num;
+    }
+    return num + '';
+  }
+
+  transform(value: number, args?: any): any {
+    let hours, minutes, seconds;
+    seconds = Math.floor(value) % 60;
+    minutes = Math.floor(value / 60) % 60;
+    hours = Math.floor(value / 60 / 60);
+    if (hours > 0) {
+      return `${hours}:${this._addZero(minutes)}:${this._addZero(seconds)}`;
+    } else {
+      return `${this._addZero(minutes)}:${this._addZero(seconds)}`; 
+    }
   }
 
 }

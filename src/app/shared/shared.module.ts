@@ -47,6 +47,10 @@ import { VideoPlayerComponent } from './components/video-player/video-player.com
 import { IsFolderPipe } from './pipes/is-folder.pipe';
 import { InvitationModalComponent } from './components/invitation-modal/invitation-modal.component';
 import { DeviceHeaderComponent } from './components/device-header/device-header.component';
+import { ToolModalComponent } from './components/tool-modal/tool-modal.component';
+import { ReflectorModalComponent } from './components/reflector-modal/reflector-modal.component';
+import { LoadingDirective } from './directives/loading.directive';
+import { LoadingComponent } from './components/loading/loading.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -63,8 +67,12 @@ const COMPONENTS = [
   MusicPlayerComponent,
   InvitationModalComponent,
   DeviceHeaderComponent,
+  ToolModalComponent,
+  ReflectorModalComponent,
 ];
-const DIRECTIVES = [];
+const DIRECTIVES = [
+  LoadingDirective,
+];
 
 const PIPES = [
   SizePipe,
@@ -103,6 +111,10 @@ const PIPES = [
     IsFolderPipe,
     InvitationModalComponent,
     DeviceHeaderComponent,
+    ToolModalComponent,
+    ReflectorModalComponent,
+    LoadingDirective,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -135,6 +147,9 @@ const PIPES = [
     CopyModalComponent,
     VideoPlayerComponent,
     InvitationModalComponent,
+    ToolModalComponent,
+    ReflectorModalComponent,
+    LoadingComponent,
   ],
 })
 export class SharedModule { }

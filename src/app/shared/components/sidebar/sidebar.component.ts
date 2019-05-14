@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { AppStateService } from '../../../shared/service/app-state.service';
 import { DeviceStateService } from '../../../device/service/device-state.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -16,9 +18,9 @@ export class SidebarComponent implements OnInit {
     private deviceStateService: DeviceStateService,
     private appStateService: AppStateService,
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
+    private router: Router,
   ) {
     // android and ios have different functions
-    console.log(this.appStateService.platform);
     if (this.appStateService.platform === 'iphone') {
       this.functions = appConfig.app.iosSidebarFunctions;
     } else if (this.appStateService.platform === 'android') {
@@ -29,14 +31,19 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
   }
 
-  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
-   'tools' | 'clipboard' | 'cloud'): void {
+  setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard' | 'cloud'): void {
     if (fun !== 'cloud') {
       this.appStateService.setCurrentModule('device');
       this.deviceStateService.setDeviceActiveFunction(fun);
     } else {
       
     }
+  }
+
+  gotoDesktop(): void {
+    this.router.navigate(
+      ['desktop']
+    );
   }
 
 }

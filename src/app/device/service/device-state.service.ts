@@ -6,7 +6,6 @@ import {
     ComponentFactoryResolver,
     EmbeddedViewRef,
   } from '@angular/core';
-import { Observable } from 'rxjs';
 import fecha from 'fecha';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -23,6 +22,7 @@ import { DynamicInputComponent } from '../../shared/components/dynamic-input/dyn
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { VideoPlayerComponent } from '../../shared/components/video-player/video-player.component';
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
+import { getFirstLetters } from '../../utils/index';
 
 import { downloadText } from '../../utils/tools';
 
@@ -31,8 +31,7 @@ import { downloadText } from '../../utils/tools';
 })
 export class DeviceStateService {
 
-    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
-    'clipboard' | 'tools' = 'pictures';
+    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard'  = 'pictures';
 
     sidebarItemList: Array<any> = [];
 
@@ -64,6 +63,12 @@ export class DeviceStateService {
 
     totalCount: number;
 
+    tempContactsGroupList: Array<any>;
+
+    contactLetterGroupList: Array<any>;
+
+    allLetters: Array<string> = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
     constructor(
         private deviceService: DeviceService,
         private injector: Injector,
@@ -77,8 +82,7 @@ export class DeviceStateService {
     ) {
     }
 
-    setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
-     'clipboard' | 'tools'): void {
+    setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard'): void {
         if (fun !== this.activeFunction) {
             this.activeItem = null;
             this.activeNode = null;
@@ -91,117 +95,6 @@ export class DeviceStateService {
         this.itemList = itemList.concat();
     }
 
-    getItemList(isAddTo: boolean): void {
-        this.resetSelected();
-        if (this.activeFunction === 'files') {
-            let path;
-            if (this.activeNode.origin) {
-                path = this.activeNode.origin.Path;
-            } else {
-                path = this.activeNode.Path;
-            }
-            this.deviceService.getDirectoryFiles(path)
-                .subscribe((data) => {
-                    this.itemList = data;
-                })
-        } else if (this.activeAlbumId) {
-            if (this.activeFunction === 'pictures') {
-                this.deviceService.getPhotoList(this.activeAlbumId, this.Start, this.totalCount)
-                    .subscribe((data) => {
-                        this.processData(data, isAddTo);
-                        console.log(this.itemGroupList);
-                        this.loading = false;
-                    });
-            } else if (this.activeFunction === 'musics') {
-                this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.totalCount)
-                    .subscribe((data) => {
-                        this.processData(data, isAddTo);
-                        console.log(this.itemList);
-                        console.log(this.itemGroupList);
-                        this.loading = false;
-                    });
-            } else if (this.activeFunction === 'documents') {
-                this.deviceService.getDocList(this.activeAlbumId)
-                    .subscribe((data) => {
-                        this.itemList = data;
-                        console.log(this.itemList);
-                        this.loading = false;
-                    });
-            } else if (this.activeFunction === 'videos') {
-                this.deviceService.getVideoList(this.activeAlbumId, this.Start, this.totalCount)
-                    .subscribe((data) => {
-                        this.processData(data, isAddTo);
-                        console.log(this.itemList);
-                        console.log(this.itemGroupList);
-                        this.loading = false;
-                    });
-            } else if (this.activeFunction === 'messages') {
-                this.deviceService.getMessageList(this.activeAlbumId, this.Start, this.totalCount)
-                    .subscribe((data) => {
-                        this.processData(data, isAddTo);
-                        console.log(this.itemList);
-                        console.log(this.itemGroupList);
-                        this.loading = false;
-                    });
-            }
-        }
-    }
-
-    /**
-     * 设为壁纸
-     * @param rotation 旋转
-     */
-    setAsWallpaper(rotation?: number): void {
-        if (this.selectedItems[0] && this.selectedItems[0]['Path']) {
-            this.deviceService.setAsWallpaper(this.selectedItems[0]['Path'], rotation)
-                .subscribe((data) => {
-                    if (data) {
-                        this.messageService.success('设置壁纸成功')
-                    } else {
-                        this.messageService.error('设置壁纸失败');
-                    }
-                })
-        }
-    }
-
-    /**
-     * 处理返回的数据
-     */
-    processData(data: any, isAddTo: boolean): void {
-        let processedGroupList: Array<any> = [];
-        if (this.activeFunction === 'pictures') {
-            processedGroupList = this.groupItems(data, 'CreateTime');
-        }
-        if (isAddTo) {
-            this.itemList = this.itemList.concat(data);
-            this.itemGroupList = this.itemGroupList.concat(processedGroupList);
-        } else {
-            this.itemList = data;
-            this.itemGroupList = processedGroupList;
-        }
-        console.log(this.itemGroupList);
-    }
-
-    /**
-     * 对list进行分组
-     */
-    groupItems(itemList: Array<any>, key: string): Array<any> {
-        const groupList: Array<any> = [];
-        for (let i = 0; i < itemList.length; i = i + 1) {
-            if (key === 'CreateTime') {
-                const index = groupList.findIndex((ele) => ele['key'] === itemList[i][key].split(' ')[0]);
-                if (index > -1) {
-                    groupList[index].items.push(itemList[i]);
-                } else {
-                    groupList.push({
-                        key: itemList[i][key].split(' ')[0],
-                        items: [itemList[i]],
-                    });
-                }
-            }
-        }
-        return groupList;
-    }
 
     getSidebarItemList(): void {
         this.resetPaging();
@@ -259,10 +152,15 @@ export class DeviceStateService {
             this.deviceService.getMessageLatestList()
                 .subscribe((data) => {
                     this.sidebarItemList = data;
-                    this.activeAlbumId = this.sidebarItemList[0]['ID'];
-                    this.totalCount = this.sidebarItemList[0]['Count'];
-                    this.activeItem = this.sidebarItemList[0];
-                    this.getItemList(false);
+                    if (this.sidebarItemList.length > 0) {
+                        this.activeAlbumId = this.sidebarItemList[0]['ID'];
+                        this.totalCount = this.sidebarItemList[0]['Count'];
+                        this.activeItem = this.sidebarItemList[0];
+                        this.getItemList(false);
+                    } else {
+                        this.loading = false;
+                    }
+                    
                 })
         } else if (this.activeFunction === 'files') {
             this.deviceService.getRootFileList()
@@ -274,7 +172,197 @@ export class DeviceStateService {
                         this.getRootSubFolders();
                     }
                 });
+        } else if (this.activeFunction === 'contacts') {
+            this.deviceService.getContactGroupList()
+                .subscribe((data) => {
+                    this.tempContactsGroupList = data;
+                    this.getItemList(false);
+                });
         }
+    }
+
+
+    getItemList(isAddTo: boolean): void {
+        this.resetSelected();
+        if (this.activeFunction === 'files') {
+            let path;
+            if (this.activeNode.origin) {
+                path = this.activeNode.origin.Path;
+            } else {
+                path = this.activeNode.Path;
+            }
+            this.deviceService.getDirectoryFiles(path)
+                .subscribe((data) => {
+                    this.itemList = data;
+                })
+        } else if (this.activeFunction === 'contacts') {
+            this.deviceService.getAllContacts()
+                .subscribe((data) => {
+                    console.log(data);
+                    this.generateContactsData(data);
+                });
+        } else if (this.activeAlbumId) {
+            if (this.activeFunction === 'pictures') {
+                this.deviceService.getPhotoList(this.activeAlbumId, this.Start, this.totalCount)
+                    .subscribe((data) => {
+                        this.processData(data, isAddTo);
+                        console.log(this.itemGroupList);
+                        this.loading = false;
+                    });
+            } else if (this.activeFunction === 'musics') {
+                this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.totalCount)
+                    .subscribe((data) => {
+                        this.processData(data, isAddTo);
+                        console.log(this.itemList);
+                        console.log(this.itemGroupList);
+                        this.loading = false;
+                    });
+            } else if (this.activeFunction === 'documents') {
+                this.deviceService.getDocList(this.activeAlbumId)
+                    .subscribe((data) => {
+                        this.itemList = data;
+                        console.log(this.itemList);
+                        this.loading = false;
+                    });
+            } else if (this.activeFunction === 'videos') {
+                this.deviceService.getVideoList(this.activeAlbumId, this.Start, this.totalCount)
+                    .subscribe((data) => {
+                        this.processData(data, isAddTo);
+                        console.log(this.itemList);
+                        console.log(this.itemGroupList);
+                        this.loading = false;
+                    });
+            } else if (this.activeFunction === 'messages') {
+                this.deviceService.getMessageList(this.activeAlbumId, this.Start, this.totalCount)
+                    .subscribe((data) => {
+                        this.processData(data, isAddTo);
+                        console.log(this.itemList);
+                        console.log(this.itemGroupList);
+                        this.loading = false;
+                    });
+            }
+        }
+    }
+
+    generateContactsData(data): void {
+        this.sidebarItemList = [];
+        const ungroupedContacts = [];
+        const hasNumberContacts = [];
+        this.contactLetterGroupList = [];
+        for (let i = 0; i < this.allLetters.length; i++) {
+            this.contactLetterGroupList.push({
+                key: this.allLetters[i].toUpperCase(),
+                contacts: []
+            });
+        }
+
+        for (let i = 0, l = data.length; i < l; i++) {
+            data[i]['letters'] = getFirstLetters(data[i]['Name']['DisplayName']);
+            const firstLetter = data[i]['letters'][0][0].toUpperCase();
+            
+            const index = this.contactLetterGroupList.findIndex(ele => ele['key'] === firstLetter);
+
+            if (index > -1) {
+                this.contactLetterGroupList[index]['contacts'].push(data[i]);
+            }
+
+            if (data[i]['Phone'] && data[i]['Phone'].length > 0) {
+                hasNumberContacts.push(data[i]);
+            }
+            if (!data[i]['Groups'] || data[i]['Groups'].length === 0) {
+                ungroupedContacts.push(data[i]);
+            }
+            for (let j = 0, l = this.tempContactsGroupList.length; j < l; j++) {
+                if (data[i]['Groups'] && data[i]['Groups'].length > 0) {
+                    const index = this.tempContactsGroupList.findIndex(ele => data[i]['Groups'].some(group => group['GroupRowId'] === ele['ID']));
+                    if (index > -1) {
+                        if (this.tempContactsGroupList[index]['contacts']) {
+                            this.tempContactsGroupList[index]['contacts'].push(data[i]);
+                        } else {
+                            this.tempContactsGroupList[index]['contacts'] = [data[i]];
+                        }
+                    }
+                }
+            }
+        }
+        this.sidebarItemList.push({
+            ID: '0',
+            GroupName: 'All Contacts',
+            contacts: data,
+        });
+        this.sidebarItemList.push({
+            ID: '-1',
+            GroupName: 'Contacts with number',
+            contacts: hasNumberContacts,
+        });                                                                                    
+        this.sidebarItemList.push({
+            ID: '-2',
+            GroupName: 'UngroupedContacts',
+            contacts: ungroupedContacts,
+        });
+        this.sidebarItemList.push(...this.tempContactsGroupList);
+        this.activeItem = this.sidebarItemList[0];
+        this.loading = false;                                                                            
+    }
+
+    /**
+     * 设为壁纸
+     * @param rotation 旋转
+     */
+    setAsWallpaper(rotation?: number): void {
+        if (this.selectedItems[0] && this.selectedItems[0]['Path']) {
+            this.deviceService.setAsWallpaper(this.selectedItems[0]['Path'], rotation)
+                .subscribe((data) => {
+                    if (data) {
+                        this.messageService.success('设置壁纸成功')
+                    } else {
+                        this.messageService.error('设置壁纸失败');
+                    }
+                })
+        }
+    }
+
+    /**
+     * 处理返回的数据
+     */
+    processData(data: any, isAddTo: boolean): void {
+        let processedGroupList: Array<any> = [];
+        if (this.activeFunction === 'pictures') {
+            processedGroupList = this.groupItems(data, 'CreateTime');
+        }
+        if (isAddTo) {
+            this.itemList = this.itemList.concat(data);
+            this.itemGroupList = this.itemGroupList.concat(processedGroupList);
+        } else {
+            this.itemList = data;
+            this.itemGroupList = processedGroupList;
+        }
+        console.log(this.itemGroupList);
+    }
+
+    newContact(): void {
+
+    }
+
+    /**
+     * 对list进行分组
+     */
+    groupItems(itemList: Array<any>, key: string): Array<any> {
+        const groupList: Array<any> = [];
+        for (let i = 0; i < itemList.length; i = i + 1) {
+            if (key === 'CreateTime') {
+                const index = groupList.findIndex((ele) => ele['key'] === itemList[i][key].split(' ')[0]);
+                if (index > -1) {
+                    groupList[index].items.push(itemList[i]);
+                } else {
+                    groupList.push({
+                        key: itemList[i][key].split(' ')[0],
+                        items: [itemList[i]],
+                    });
+                }
+            }
+        }
+        return groupList;
     }
 
     transferToNodes(arr): Array<any> {
@@ -463,6 +551,12 @@ export class DeviceStateService {
                 AlbumID: this.activeAlbumId,
                 Data: this.selectedItems,
             };
+        } else if (this.activeFunction === 'musics') {
+            key = 'MusicDeleteMul';
+            postData = {
+                AlbumID: this.activeAlbumId,
+                Data: this.selectedItems,
+            }
         }
         if (this.activeFunction === 'videos') {
             this.messageService.info('请在手机上确认删除');
@@ -534,6 +628,12 @@ export class DeviceStateService {
                 AlbumID: this.activeAlbumId,
                 Data: [item],
             };
+        } else if (this.activeFunction === 'musics') {
+            key = 'MusicDeleteMul';
+            postData = {
+                AlbumID: this.activeAlbumId,
+                Data: [item],
+            }
         }
         if (this.activeFunction === 'videos') {
             this.messageService.info('请在手机上确认删除');
@@ -720,7 +820,7 @@ export class DeviceStateService {
                 const fileName = `Clipboard_airmore_${fecha.format(new Date(), 'YY_MM_DD_h_m')}`;
                 downloadText(this.selectedItems[i]['Content'], 'text/plain', fileName);
             }
-        } else if (this.activeFunction === 'documents' || this.activeFunction === 'videos' || this.activeFunction === 'pictures') {
+        } else if (this.activeFunction === 'documents' || this.activeFunction === 'videos' || this.activeFunction === 'pictures' || this.activeFunction === 'musics') {
             for (let i = 0, l = this.selectedItems.length; i < l; i++) {
                 this.download(this.selectedItems[i]);
             }
@@ -817,6 +917,8 @@ export class DeviceStateService {
                         this.loading = false;
                     }
                 )
+        } else if (this.activeFunction === 'contacts') {
+            this.generateContactsData(this.activeItem['contacts']);
         }
     }
 }

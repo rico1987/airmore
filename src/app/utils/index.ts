@@ -1,3 +1,5 @@
+const pinyin = require('pinyin');
+
 export const PictureFileExtensions = ['.bmp', '.jpg', '.jpeg', '.png', '.gif', '.pic', '.tif'];
 
 export const AudioFileExtensions = ['.wav', '.aif', '.au', '.mp3', '.ram', '.wma', '.mmf', '.amr', '.aac', '.flac'];
@@ -17,7 +19,10 @@ export function getFileShortName(fileName: string, maxLength: number): string {
         return fileName;
     }
 }
-
+/**
+ * 根据文件后缀名判断文件类型
+ * @param fileName 
+ */
 export function getFileType(fileName: string): string {
     const extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
 
@@ -32,6 +37,10 @@ export function getFileType(fileName: string): string {
     }
 }
 
+/**
+ * 生成随机字符串
+ * @param length 
+ */
 export function generateRandomString(length: number): string {
     const charArr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 				'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l',
@@ -43,4 +52,17 @@ export function generateRandomString(length: number): string {
         result += charArr[Math.floor(Math.random() * charArr.length)];
     }
     return result;
+}
+
+/**
+ * 获取字符串第一个字符的字母
+ * @param s 
+ */
+export function getFirstLetters(s: string): string {
+    if (/^[A-Za-z]/.test(s)) {
+        return s[0];
+    }
+    return pinyin(s, {
+        style: pinyin.STYLE_FIRST_LETTER,
+    })
 }
