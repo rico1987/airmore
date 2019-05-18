@@ -31,7 +31,7 @@ import { downloadText } from '../../utils/tools';
 })
 export class DeviceStateService {
 
-    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard'  = 'pictures';
+    activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard'  = 'contacts';
 
     sidebarItemList: Array<any> = [];
 
@@ -65,7 +65,7 @@ export class DeviceStateService {
 
     totalCount: number;
 
-    tempContactsGroupList: Array<any>;
+    tempContactsGroupList: Array<any> = [];
 
     contactLetterGroupList: Array<any>;
 
@@ -178,6 +178,11 @@ export class DeviceStateService {
             this.deviceService.getContactGroupList()
                 .subscribe((data) => {
                     this.tempContactsGroupList = data;
+                    for(let i = 0, l = this.tempContactsGroupList.length; i < l; i++) {
+                        this.tempContactsGroupList[i]['key'] = this.tempContactsGroupList[i]['ID'];
+                        this.tempContactsGroupList[i]['label'] = this.tempContactsGroupList[i]['GroupName'];
+                        this.tempContactsGroupList[i]['value'] = this.tempContactsGroupList[i]['ID']
+                    }
                     this.getItemList(false);
                 });
         }
@@ -823,7 +828,7 @@ export class DeviceStateService {
                 const fileName = `Clipboard_airmore_${fecha.format(new Date(), 'YY_MM_DD_h_m')}`;
                 downloadText(this.selectedItems[i]['Content'], 'text/plain', fileName);
             }
-        } else if (this.activeFunction === 'documents' || this.activeFunction === 'videos' || this.activeFunction === 'pictures' || this.activeFunction === 'musics') {
+        } else if (this.activeFunction === 'documents' || this.activeFunction === 'videos' || this.activeFunction === 'pictures' || this.activeFunction === 'musics' || this.activeFunction === 'files') {
             for (let i = 0, l = this.selectedItems.length; i < l; i++) {
                 this.download(this.selectedItems[i]);
             }

@@ -1,0 +1,54 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(dropdown-select-options) {
+    position: fixed;
+    height: auto;
+    box-shadow: 0 0 10px rgba(0,0,0,.35);
+    z-index: 1000;
+    background: #fff;
+    border-radius: 5px;
+    line-height: 30px;
+    font-size: 12px;
+    padding: 5px 0;
+    text-align: left;
+    transition: opacity .2s ease;
+
+    @include e(container) {
+        list-style: none;
+    }
+
+    @include e(option) {
+        padding: 0 10px;
+        cursor: pointer;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: $primary-light-5;
+            color: white;
+        }
+        .label{
+            display: inline-block;
+            vertical-align: top;
+            min-width: 20px;;
+            padding-left: 10px;
+            
+            @include when(show-icon) {
+                padding-left: 28px;
+                background-repeat: no-repeat;
+                background-position: -2px center;
+                background-image: url('../../../../assets/img/common/input/checkbox.svg');
+            }
+        }
+
+        @include when(selected) {
+            background-color: $primary;
+            color: white;
+            .label {
+                @include when(show-icon) {
+                    background-image: url('../../../../assets/img/common/input/checkbox-checked.svg');
+                }
+            }
+        }
+    }
+} 

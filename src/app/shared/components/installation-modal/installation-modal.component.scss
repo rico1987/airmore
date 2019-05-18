@@ -1,0 +1,57 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(installation-modal) {
+    display: flex;
+    >div{
+        flex: 0.5;
+        width: 240px;
+        min-height: 234px;
+        margin-top: 10px;
+        line-height: 22px;
+        &:nth-child(n+2) {
+            border-left: 1px solid #ccc;
+            padding-left: 20px;
+        }
+
+        .label{
+            color: #888;
+        }
+        .method{
+
+        }
+        .qrcode {
+            width: 180px;
+            height: 180px;
+            margin-top: 10px;
+            background: url('../../../../assets/img/qrcode.png') no-repeat;
+            background-size: 100% 100%;
+        }
+        .btn {
+            padding-left: 64px;
+            height: 45px;
+            line-height: 41px;
+            border-width: 2px;
+            margin-top: 37px;
+            border-radius: 25px;
+            width: 170px;
+            text-align: left;
+            cursor: pointer;
+            border: 1px solid #1fbbde;
+            &.android {
+                background: url('../../../../assets/img/download/android.png') 22px center no-repeat;;
+            }
+            &.ios {
+                background: url('../../../../assets/img/download/ios.png') 22px center no-repeat;;
+            }
+            &:hover {
+                box-shadow: 0 0 0 1px #1fbbde;
+            }
+            >a {
+                color: #1fbbde;
+                text-decoration: none;
+            }
+        }
+    }
+
+}

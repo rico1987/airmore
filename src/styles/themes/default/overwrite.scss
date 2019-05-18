@@ -1,1 +1,8 @@
 @import "variables.scss";
+
+.ant-modal-header{
+    border-bottom: none!important;
+}
+.ant-modal-footer{
+    border-top: none!important;
+}

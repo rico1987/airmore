@@ -251,7 +251,7 @@
               [nzChecked]="deviceStateService.hasItem(data)"
               (nzCheckedChange)="onTdCheckedChange($event, data)"
             ></td>
-            <td class="airmore-device-item-list__td" style="position: relative;">
+            <td class="airmore-device-item-list__td file" style="position: relative;">
               <i nz-icon [type]="'folder'" *ngIf="data.FileType === 2"></i>
               <i nz-icon [type]="'file'" *ngIf="data.FileType === 1"></i>
               <span>{{ data.ShowName }}</span>

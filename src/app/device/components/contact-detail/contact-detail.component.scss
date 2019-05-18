@@ -85,6 +85,56 @@
     }
 
     @include e(bottom) {
-
+        padding-left: 136px;
+        .form-group{
+            margin-bottom: 40px;
+            .contact-add{
+                border-bottom: 1px solid #ebebeb;
+                padding: 5px 0;
+                p{
+                    display: inline-block;
+                    cursor: pointer;
+                    height: 30px;
+                    width: 100%;
+                    line-height: 30px;
+                    font-size: 12px;
+                    color: #666;
+                    background: url('../../../../assets/img/contact/add-item.svg') left center no-repeat;
+                    padding: 0 10px 0 35px;
+                }
+            }
+            .form-control{
+                font-size: 14px;
+                line-height: 30px;
+                &:after{
+                    content: '';
+                    clear: both;
+                    display: block;
+                }
+                .label, .select{
+                    padding: 5px 0;
+                    margin-right: 25px;
+                    width: calc(33.3333% - 25px);
+                    border-bottom: 1px solid #ebebeb;
+                    height: 100%;
+                    float: left;
+                    font-size: 12px;
+                    color: #666;
+                }
+                .input{
+                    width: 66.6666%;
+                    height: 100%;
+                    float: left;
+                    user-select: auto;
+                    padding: 5px 0;
+                    border-bottom: 1px solid #ebebeb;
+                    input{
+                        border: none;
+                        width: 66.6666%;
+                        height: 30px;
+                    }
+                }
+            }
+        }
     }
 }

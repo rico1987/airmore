@@ -1,0 +1,20 @@
+<div
+  *ngIf="open"
+  class="airmore-dropdown-select-options"
+  [class.is-multiple]="multiple"
+  [style.min-width]="minWidth + 'px'"
+>
+  <ul class="airmore-dropdown-select-options__container">
+    <li
+      class="airmore-dropdown-select-options__option"
+      *ngFor="let option of options"
+      [class.is-selected]="isSelected(option)"
+      (click)="onClickOption(option)"
+    >
+      <p
+        class="label"
+        [class.is-show-icon]="showIcon"
+      >{{option['label']}}</p>
+    </li>
+  </ul>
+</div>

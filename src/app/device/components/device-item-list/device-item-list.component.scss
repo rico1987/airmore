@@ -113,6 +113,12 @@
                 display: block;
             }
         }
+        &.file{
+            span{
+                display: inline;
+                margin-left: 10px;
+            }
+        }
     }
 
     @include e(container-message) {

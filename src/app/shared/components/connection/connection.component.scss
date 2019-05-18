@@ -62,6 +62,10 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                >div{
+                    position: relative;
+                    top: -10px;
+                }
             }
             p{
                 position: absolute;

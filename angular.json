@@ -34,7 +34,7 @@
               "node_modules/ng-zorro-antd/input/style/index.min.css",
               "node_modules/ng-zorro-antd/tree/style/index.min.css",
               "node_modules/ng-zorro-antd/icon/style/index.min.css",
-              "node_modules/ng-zorro-antd/dropdown/style/index.min.css"
+              "node_modules/@angular/cdk/overlay-prebuilt.css"
             ],
             "scripts": []
           },

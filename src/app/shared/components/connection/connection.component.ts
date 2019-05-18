@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStateService } from '../../service/app-state.service';
 import { ConnectionService } from '../../service/connection.service';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { InstallationModalComponent } from '../installation-modal/installation-modal.component';
 
 @Component({
   selector: 'app-connection',
@@ -18,6 +20,7 @@ export class ConnectionComponent implements OnInit {
   constructor(
     private appStateService: AppStateService,
     private connectionService: ConnectionService,
+    private modalService: NzModalService,
     ) {}
 
   ngOnInit() {
@@ -53,5 +56,25 @@ export class ConnectionComponent implements OnInit {
           });
       }
     }, 1000);
+  }
+
+  showInstallModal(): void {
+    const installModal = this.modalService.create({
+      nzTitle: '<i>安装爱莫助手应用</i>',
+      nzContent: InstallationModalComponent,
+      nzFooter: [
+        {
+          label: 'OK',
+          onClick: componentInstance => {
+            installModal.close();
+          }
+        }
+      ],
+      nzMaskClosable: false,
+      nzClosable: true,
+      nzOnOk: () => {
+
+      }
+    });
   }
 }

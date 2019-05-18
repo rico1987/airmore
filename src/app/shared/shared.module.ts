@@ -53,6 +53,9 @@ import { LoadingDirective } from './directives/loading.directive';
 import { LoadingComponent } from './components/loading/loading.component';
 import { DeviceInfoComponent } from './components/device-info/device-info.component';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
+import { InstallationModalComponent } from './components/installation-modal/installation-modal.component';
+import { DropdownSelectComponent } from './components/dropdown-select/dropdown-select.component';
+import { DropdownSelectOptionsComponent } from './components/dropdown-select-options/dropdown-select-options.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -72,6 +75,8 @@ const COMPONENTS = [
   ToolModalComponent,
   ReflectorModalComponent,
   LoadingComponent,
+  InstallationModalComponent,
+  DropdownSelectComponent,
 ];
 const DIRECTIVES = [
   LoadingDirective,
@@ -122,6 +127,9 @@ const PIPES = [
     DeviceInfoComponent,
     SafeUrlPipe,
     SafeUrlPipe,
+    InstallationModalComponent,
+    DropdownSelectComponent,
+    DropdownSelectOptionsComponent,
   ],
   imports: [
     CommonModule,
@@ -157,6 +165,8 @@ const PIPES = [
     ToolModalComponent,
     ReflectorModalComponent,
     LoadingComponent,
+    InstallationModalComponent,
+    DropdownSelectOptionsComponent,
   ],
 })
 export class SharedModule { }
