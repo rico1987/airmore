@@ -67,6 +67,30 @@
                     top: -10px;
                 }
             }
+            &.radar{
+                position: relative;
+                >div{
+                    position: absolute;
+                    width: 253px;
+                    height: 253px;
+                    left: 0;
+                    right: 0;
+                    top: 34px;
+                    margin: auto;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    &.radar-bg {
+                        background-image: url('../../../../assets/img/radar/bg.svg')
+                    }
+                    &.radar-scan {
+                        background-image: url('../../../../assets/img/radar/scan.svg');
+                        animation: rotate 5s linear infinite;
+                    }
+                    &.radar-pin{
+                        background-image: url('../../../../assets/img/radar/pin.svg');
+                    }
+                }
+            }
             p{
                 position: absolute;
                 bottom: 20px;

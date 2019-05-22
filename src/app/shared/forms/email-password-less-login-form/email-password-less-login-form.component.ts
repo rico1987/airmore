@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AppStateService } from '../../service/app-state.service';
 import { UserService } from '../../service/user.service';
-import { CloudBaseService } from '../../../cloud/service/cloud-base.service';
-import { EmailPasswordLessLoginInfo } from '../../../shared/models/email-password-login-info.model';
-import { CommonResponse } from '../../models/common-response.model';
-import { CommonError } from '../../models/common-error.model';
 import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../shared/service/message.service';
+import { CommonResponse, EmailPasswordLessLoginInfo } from '../../models';
 
 @Component({
   selector: 'app-email-password-less-login-form',
@@ -92,7 +89,7 @@ export class EmailPasswordLessLoginFormComponent implements OnInit {
       this.userService.emailPasswordLessLogin(this.emailPasswordLessLoginInfo)
         .subscribe(
           (data: CommonResponse) => {
-            this.userService.setUserInfo(data.data);
+            this.userService.userInfo = data.data;
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']

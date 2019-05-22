@@ -2,13 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AppStateService } from '../../service/app-state.service';
 import { UserService } from '../../service/user.service';
-import { CloudBaseService } from '../../../cloud/service/cloud-base.service';
-import { RegisterInfo } from '../../models/register-info.model';
-import { CommonResponse } from '../../models/common-response.model';
-import { CommonError } from '../../models/common-error.model';
 import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../shared/service/message.service';
+import { CommonResponse, RegisterInfo } from '../../models';
 
 @Component({
   selector: 'app-register-form',
@@ -101,7 +98,7 @@ export class RegisterFormComponent implements OnInit {
       this.userService.register(this.registerInfo)
         .subscribe(
           (data: CommonResponse) => {
-            this.userService.setUserInfo(data.data);
+            this.userService.userInfo = data.data;
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']

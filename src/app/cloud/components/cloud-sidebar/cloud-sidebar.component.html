@@ -10,7 +10,7 @@
   </ul>
   <div class="airmore-cloud-sidebar__space-info">
     <p>Used Storage: {{usedSpace}}G/{{totalSpace}}G</p>
-    <progress max="100" :value="50"></progress>
+    <div class="progress" [style.width]="progressWidth"></div>
     <p>Need more space? <span (click)="showInvitation()">Click to get</span></p>
   </div>
 </div>

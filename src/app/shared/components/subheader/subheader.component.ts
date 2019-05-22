@@ -16,7 +16,7 @@ export class SubheaderComponent implements OnInit {
     { class: 'add-folder', action: 'new-folder', text: 'New Folder' },
     { class: 'add-contact', action: 'new-contact', text: 'New Contact' },
     { class: 'add-message', action: 'new-message', text: 'New Message' },
-    { class: 'add', action: 'copy-to-clipboard', text: 'Add' },
+    { class: 'add-clipboard', action: 'copy-to-clipboard', text: 'Add' },
     { class: 'upload', action: 'import', text: 'Import Files' },
     { class: 'upload', action: 'upload', text: 'Upload' },
     { class: 'download', action: 'export', text: 'Export' },

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { isArray } from '../../../utils/is'; 
 
 export interface SelectOption {
   key: string | number;
@@ -25,7 +26,7 @@ export class DropdownSelectOptionsComponent implements OnInit {
 
   @Input() showIcon: boolean = true;
 
-  @Input() default: Array<SelectOption>;
+  @Input() default: Array<string | number> | string | number;
 
   open = true;
 
@@ -33,7 +34,11 @@ export class DropdownSelectOptionsComponent implements OnInit {
 
   ngOnInit() {
     if (this.default && this.selectedOptions.length === 0) {
-      this.selectedOptions = this.default.concat();
+      for (let i = 0, l = this.options.length; i < l; i++) {
+        if (this.checkInDefault(this.options[i]['key'])) {
+          this.selectedOptions.push(this.options[i]);
+        }
+      }
     }
   }
 
@@ -61,6 +66,14 @@ export class DropdownSelectOptionsComponent implements OnInit {
     }
     this.onValueChange(this.selectedOptions);
     this.close();
+  }
+
+  checkInDefault(toCheckValue: number | string): boolean {
+    if (isArray(this.default)) {
+      return (this.default as Array<string | number>).some((ele) => ele === toCheckValue);
+    } else {
+      return this.default === toCheckValue;
+    }
   }
 
   close(): void {

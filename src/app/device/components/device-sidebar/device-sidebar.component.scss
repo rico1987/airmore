@@ -109,12 +109,12 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
                 min-width: 20px;
                 height: 100%;
                 overflow: hidden;
-                background: url('../../../../assets/img/input/checkbox-bigger.svg') center no-repeat;
+                background: url('../../../../assets/img/common/input/checkbox.svg') center no-repeat;
                 background-size: contain;
                 cursor: pointer;
 
                 &.selected {
-                    background-image: url('../../../../assets/img/input//checkbox-bigger-checked.svg');
+                    background-image: url('../../../../assets/img/common/input/checkbox-checked.svg');
                 }
             }
             .container{

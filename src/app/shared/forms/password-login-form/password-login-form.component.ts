@@ -2,12 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AppStateService } from '../../service/app-state.service';
 import { UserService } from '../../service/user.service';
-import { CloudBaseService } from '../../../cloud/service/cloud-base.service';
-import { PasswordLoginInfo } from '../../models/password-login-info.model';
-import { CommonResponse } from '../../models/common-response.model';
-import { CommonError } from '../../models/common-error.model';
 import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
+import { CommonResponse, PasswordLoginInfo } from '../../models';
 
 @Component({
   selector: 'app-password-login-form',
@@ -61,7 +58,7 @@ export class PasswordLoginFormComponent implements OnInit {
       this.userService.accountLogin(this.passwordLoginInfo)
         .subscribe(
           (data: CommonResponse) => {
-            this.userService.setUserInfo(data.data);
+            this.userService.userInfo = data.data;
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']

@@ -5,21 +5,13 @@ import { AppStateService } from './app-state.service';
 import { MyClientService } from './my-client.service';
 import { CloudBaseService } from '../../cloud/service/cloud-base.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
-import { UserInfo } from '../models/user-info.model';
-import { PasswordLoginInfo } from '../models/password-login-info.model';
-import { ResetPasswordInfo } from '../models/reset-password-info.model';
-import { EmailPasswordLessLoginInfo } from '../models/email-password-login-info.model';
-import { RegisterInfo } from '../models/register-info.model';
 import { BrowserStorageService } from './storage.service';
+import { EmailPasswordLessLoginInfo, PasswordLoginInfo, RegisterInfo, ResetPasswordInfo, UserInfo } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-  private userInfo: UserInfo;
-
-  public isAccountLogined = false; // 账号是否已登陆
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
@@ -28,16 +20,6 @@ export class UserService {
     private appStateService: AppStateService,
     private storage: BrowserStorageService,
   ) {}
-
-  setUserInfo(v: UserInfo): void {
-    this.storage.set(this.appConfig.app.accountStorageKey, v);
-    this.cloudBaseService.getCloudToken(v);
-    this.userInfo = v;
-  }
-
-  getUserInfo(): UserInfo | any {
-    return this.userInfo || this.storage.get(this.appConfig.app.accountStorageKey);
-  }
 
   accountLogin(passwordLoginInfo: PasswordLoginInfo): Observable < any > {
     const data = {
@@ -58,7 +40,7 @@ export class UserService {
       email: resetPasswordInfo.email,
       language: this.appStateService.currentLanguage,
       password: resetPasswordInfo.password,
-      brand: 'Apowersoft',
+      brand: this.appConfig.brand,
     };
     return this.myClientService.put('account', '/passwords', data);
   }
@@ -90,8 +72,8 @@ export class UserService {
       email: registerInfo.email,
       password: registerInfo.email,
       language: this.appStateService.currentLanguage,
-      brand: 'Apowersoft',
-      registed_app: 'web.airmore.com',
+      brand: this.appConfig.brand,
+      registed_app: this.appConfig.app.registedApp,
     }
     return this.myClientService.post('account', '/users', data);
   }
@@ -101,9 +83,21 @@ export class UserService {
       captcha: emailPasswordLessLoginInfo.captcha,
       email: emailPasswordLessLoginInfo.email,
       language: this.appStateService.currentLanguage,
-      brand: 'Apowersoft',
-      registed_app: 'web.airmore.com',
+      brand: this.appConfig.brand,
+      registed_app: this.appConfig.app.registedApp,
     }
     return this.myClientService.post('account', '/users', data);
   }
+
+  private _userInfo: UserInfo;
+  public get userInfo(): UserInfo {
+    return this._userInfo || this.storage.get(this.appConfig.app.accountStorageKey);;
+  }
+  public set userInfo(v: UserInfo) {
+    this.storage.set(this.appConfig.app.accountStorageKey, v);
+    this.cloudBaseService.getCloudToken(v);
+    this._userInfo = v;
+  }
+
+  public isAccountLogined = false; // 账号是否已登陆
 }

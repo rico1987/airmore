@@ -7,7 +7,7 @@ export class ProductsInfoService {
 
   lang: string = 'en';
 
-  langDomainMappings: object = {
+  readonly langDomainMappings: object = {
     pt: '.com.br',
     en: '.com',
     zh: '.cn',
@@ -20,7 +20,7 @@ export class ProductsInfoService {
     el: '.gr',
   };
 
-  pathMappings: object = {
+  readonly pathMappings: object = {
     'phone-manager': {
       en: 'phone-manager',
       fr: 'gestionnaire-smartphone ',

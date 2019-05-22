@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Inject, ViewChild, ElementRef } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
-import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
 import { CloudStateService, NodeService } from '../../service';
-import { CommonResponse } from '../../../shared/models/common-response.model';
 
 @Component({
   selector: 'app-cloud-item-list',

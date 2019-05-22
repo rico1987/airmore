@@ -28,6 +28,8 @@ import { filter, take } from 'rxjs/operators';
 import { DropdownSelectOptionsComponent } from '../dropdown-select-options/dropdown-select-options.component';
 import { SelectOption } from '../dropdown-select-options/dropdown-select-options.component'
 import { ComponentPortal } from '@angular/cdk/portal';
+import { isArray } from '../../../utils/is'; 
+
 
 @Component({
   selector: 'app-dropdown-select',
@@ -35,7 +37,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
   styleUrls: ['./dropdown-select.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DropdownSelectComponent {
+export class DropdownSelectComponent implements OnInit {
   
 
   @Input() multiple: boolean = false;
@@ -46,7 +48,7 @@ export class DropdownSelectComponent {
 
   @Input() showIcon: boolean = true;
 
-  @Input() default: Array<SelectOption>;
+  @Input() default: Array<string | number> | string | number;
 
   @Output() readonly onChange = new EventEmitter<Array<any>>();
 
@@ -59,23 +61,21 @@ export class DropdownSelectComponent {
     private overlay: Overlay,
     private ref: ElementRef,
   ) {
-    this.options = [
-      {
-        key: 'aaa',
-        label: 'aaa',
-        value: 1
-      },
-      {
-        key: 'bbb',
-        label: 'bbb',
-        value: 2
-      },
-      {
-        key: 'ccc',
-        label: 'ccc',
-        value: 3
-      },
-    ];
+  }
+
+  ngOnInit() {
+    console.log(this.default);
+    if (this.default) {
+      if (isArray(this.default)) {
+        for (let i = 0, l = this.options.length; i < l; i++)  {
+          if ((this.default as Array<number | string>).some((ele) => this.options[i]['key'] === ele)) {
+            this._selectedOptions.push(this.options[i]);
+          }
+        }
+      } else {
+        this._selectedOptions = [this.options.find((ele) => ele['key'] === this.default)];
+      }
+    }
   }
 
   create($event: MouseEvent): DropdownSelectOptionsComponent {
@@ -117,19 +117,8 @@ export class DropdownSelectComponent {
 
   onValueChange(selectedOptions: Array<SelectOption>): void {
     this._selectedOptions = selectedOptions.concat();
-    this._valueString = '';
-    if (this.multiple) {
-      for (let i = 0, l = this.options.length; i < l; i++) {
-        if (this._selectedOptions.some((ele) => ele['key'] === this.options[i]['key'])) {
-          this._valueString += this.options[i]['label'] + ';';
-        }
-      }
-    } else {
-      this._valueString = this._selectedOptions[0]['label'];
-    }
     this.onChange.emit(this._selectedOptions);
   }
-
 
 
   dispose(): void {
@@ -140,6 +129,19 @@ export class DropdownSelectComponent {
   }
 
   get valueString(): string {
+    if (this._selectedOptions.length === 0) {
+      return '';
+    }
+    this._valueString = '';
+    if (this.multiple) {
+      for (let i = 0, l = this.options.length; i < l; i++) {
+        if (this._selectedOptions.some((ele) => ele['key'] === this.options[i]['key'])) {
+          this._valueString += this.options[i]['label'] + ';';
+        }
+      }
+    } else {
+      this._valueString = this._selectedOptions[0]['label'];
+    }
     return this._valueString;
   }
 }

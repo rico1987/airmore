@@ -26,10 +26,11 @@
         </div>
       </div>
       <div class="contact-toolbar">
-        <span (click)="edit()">Save</span>
+        <span (click)="cancel()">Cancel</span>
+        <span class="primary" (click)="save()">Save</span>
       </div>
       <div class="contact-name">
-        <input class="contact-input" type="text" placeholder="名称" />
+        <input class="contact-input" [(ngModel)]="editingContact['Name']['DisplayName']" type="text" placeholder="名称" />
       </div>
     </div>
     <div class="airmore-contact-detail__bottom" *ngIf="isEdit">
@@ -37,36 +38,109 @@
           <div class="form-control">
             <div class="label">公司</div>
             <div class="input">
-              <input class="contact-input" type="text" placeholder="公司" />
+              <input class="contact-input" [(ngModel)]="editingContact['Organization'][0]['Company']" type="text" placeholder="公司" />
             </div>
           </div>
           <div class="form-control">
             <div class="label">职位</div>
             <div class="input">
-              <input class="contact-input" type="text" placeholder="职位" />
+              <input class="contact-input" [(ngModel)]="editingContact['Organization'][0]['Job']" type="text" placeholder="职位" />
             </div>
           </div>
           <div class="form-control">
             <div class="label">分组</div>
             <div class="input">
-              <app-dropdown-select [multiple]=true [options]="groups" (onChange)="onSelectGroupChange($event)"></app-dropdown-select>
+              <app-dropdown-select [multiple]=true [options]="groups" [default]="editingContact.GroupSelect" (onChange)="onSelectGroupChange($event)"></app-dropdown-select>
             </div>
           </div>
       </div>
 
       <div class="form-group">
-        <div class="form-control">
+        <div class="form-control" *ngFor="let phone of editingContact['Phone']">
           <div class="select">
-              <app-dropdown-select [multiple]=false [showIcon]=false [options]="phoneTypes"></app-dropdown-select>
+              <app-dropdown-select [multiple]=false [showIcon]=false [default]="phone['Type']" [options]="phoneTypes"></app-dropdown-select>
           </div>
           <div class="input">
-              <input class="contact-input" type="text" placeholder="手机" />
+              <input class="contact-input" [(ngModel)]="phone['Name']" type="text" placeholder="手机" />
           </div>  
         </div>
         <div class="contact-add">
-          <p>添加手机</p>
+          <p (click)="addItem('Phone')">添加手机</p>
         </div>
       </div>
 
+      <div class="form-group">
+        <div class="form-control" *ngFor="let address of editingContact['Address']">
+          <div class="select">
+              <app-dropdown-select [multiple]=false [showIcon]=false [default]="address['Type']" [options]="addressTypes"></app-dropdown-select>
+          </div>
+          <div class="input">
+              <input class="contact-input" [(ngModel)]="address['Street']" type="text" placeholder="地址" />
+          </div>  
+        </div>
+        <div class="contact-add">
+          <p (click)="addItem('Address')">添加地址</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control" *ngFor="let im of editingContact['IM']">
+          <div class="select">
+              <app-dropdown-select [multiple]=false [showIcon]=false [default]="im['Type']" [options]="imTypes"></app-dropdown-select>
+          </div>
+          <div class="input">
+              <input class="contact-input" [(ngModel)]="im['Name']" type="text" placeholder="即时通讯" />
+          </div>  
+        </div>
+        <div class="contact-add">
+          <p (click)="addItem('IM')">添加即时通讯</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control" *ngFor="let site of editingContact['Website']">
+          <div class="select">
+              <app-dropdown-select [multiple]=false [showIcon]=false [default]="site['Type']" [options]="websiteTypes"></app-dropdown-select>
+          </div>
+          <div class="input">
+              <input class="contact-input" [(ngModel)]="site['Url']" type="text" placeholder="http://..." />
+          </div>  
+        </div>
+        <div class="contact-add">
+          <p (click)="addItem('Website')">添加网站</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="form-control" *ngFor="let event of editingContact['Event']">
+          <div class="select">
+              <app-dropdown-select [multiple]=false [showIcon]=false [default]="event['Type']" [options]="eventTypes"></app-dropdown-select>
+          </div>
+          <div class="input">
+              <input class="contact-input" [(ngModel)]="event['StartDate']" type="text" placeholder="yyyy-mm-dd" />
+          </div>  
+        </div>
+        <div class="contact-add">
+          <p (click)="addItem('Event')">添加日期</p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+          <div class="form-control">
+            <div class="label">备忘</div>
+            <div class="input">
+              <input class="contact-input" [(ngModel)]="editingContact['Note'][0]['Content']" type="text" placeholder="备忘" />
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <div class="form-control">
+              <span class="btn delete" (click)="delete()">删除联系人</span>
+          </div>
+        </div>
+
     </div>
+
+    
 </div>

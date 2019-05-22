@@ -2,13 +2,12 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 const OSS = require('ali-oss');
 import { MyClientService } from '../../shared/service/my-client.service';
-import { CommonResponse } from '../../shared/models/common-response.model';
-import { UserInfo } from '../../shared/models/user-info.model';
 import { CloudUserInfo } from '../models/cloud-user-info.model';
 import { BrowserStorageService } from '../../shared/service/storage.service';
 import { Logger } from '../../shared/service/logger.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { getFileType, generateRandomString } from '../../utils/index';
+import { CommonResponse, UserInfo, } from '../../shared/models';
 
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 

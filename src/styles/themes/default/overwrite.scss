@@ -1,8 +1,32 @@
 @import "variables.scss";
-
-.ant-modal-header{
-    border-bottom: none!important;
+.ant-modal-content{
+    border-radius: 6px!important;
+    .ant-modal-header{
+        border-bottom: none!important;
+        border-radius: 6px !important;
+    }
 }
 .ant-modal-footer{
     border-top: none!important;
+}
+
+.ant-table-wrapper {
+    color: red;
+}
+.ant-table-tbody>tr>td, .ant-table-thead>tr>th {
+    height: 37px;
+    line-height: 37px;
+    padding: 0 10px!important;
+    font-size: 12px;
+}
+
+.ant-table-placeholder {
+    display: none;
+}
+.ant-btn{
+    border-radius: 15px!important;
+    &:hover, &:focus {
+        color: $primary!important;
+        border-color: $primary!important;
+    }
 }

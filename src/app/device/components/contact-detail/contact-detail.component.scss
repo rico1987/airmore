@@ -2,6 +2,8 @@
 @import "../../../../styles/themes/default/variables.scss";
 
 @include b(contact-detail) {
+    height: 100%;
+    overflow-y: hidden;
     .contact-input {
         border: none;
         width: 66.6666%;
@@ -72,6 +74,10 @@
                 cursor: pointer;
                 margin-left: 10px;
                 font-size: 12px;
+                &.primary{
+                    border-color: $primary;
+                    color: $primary;
+                }
             }
         }
         .contact-name {
@@ -86,6 +92,8 @@
 
     @include e(bottom) {
         padding-left: 136px;
+        height: calc(100% - 147px);
+        overflow-y: auto;
         .form-group{
             margin-bottom: 40px;
             .contact-add{
@@ -133,6 +141,14 @@
                         width: 66.6666%;
                         height: 30px;
                     }
+                }
+                span.delete{
+                    display: inline-block;
+                    cursor: pointer;
+                    height: 30px;
+                    color: #e22b2b;
+                    background: url('../../../../assets/img/contact/delete-contact.svg') left center no-repeat;
+                    padding: 0 10px 0 35px;
                 }
             }
         }

@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
-import { NzFormatEmitEvent, NzTreeNodeOptions, NzTreeNode } from 'ng-zorro-antd';
+import { NzFormatEmitEvent, NzTreeNode } from 'ng-zorro-antd';
 import { NodeService } from '../../../cloud/service/node.service';
-import { CommonResponse } from '../../../shared/models/common-response.model';
+import { CommonResponse } from '../../models';
 
 @Component({
   selector: 'app-copy-modal',

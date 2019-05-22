@@ -59,6 +59,7 @@ export function generateRandomString(length: number): string {
  * @param s 
  */
 export function getFirstLetters(s: string): string {
+    // todo
     if (/^[A-Za-z]/.test(s)) {
         return s[0];
     }

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { CloudStateService } from '../../service/cloud-state.service';
 import { CloudBaseService } from '../../service/cloud-base.service';
-import { CommonResponse } from '../../../shared/models/common-response.model';
+import { CommonResponse } from '../../../shared/models';
 
 import { MessageService } from '../../../shared/service/message.service';
 
@@ -30,6 +30,8 @@ export class CloudSidebarComponent implements OnInit {
 
   activeFunction: 'clouds' | 'pictures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
 
+  progressWidth: string = '0';
+
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
@@ -50,6 +52,9 @@ export class CloudSidebarComponent implements OnInit {
         (data: CommonResponse) => {
           this.usedSpace = (data.data.used_space / 1024 / 1024 / 1024).toFixed(2);
           this.totalSpace = (data.data.total_space / 1024 / 1024 / 1024).toFixed(2);
+          setTimeout(() => {
+            this.progressWidth = Math.floor(data.data.used_space / data.data.total_space  * 100) + '%';
+          }, 1000);
         },
         (error) => {
           if (error) {

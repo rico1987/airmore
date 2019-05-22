@@ -72,6 +72,7 @@ export class ConnectionComponent implements OnInit {
       ],
       nzMaskClosable: false,
       nzClosable: true,
+      nzMask: false,
       nzOnOk: () => {
 
       }

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../models';
 import { CloudStateService } from '../../service/cloud-state.service';
 import { getFileShortName } from '../../../utils';
 

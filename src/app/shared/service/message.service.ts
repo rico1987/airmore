@@ -8,8 +8,6 @@ import {
     TemplateRef,
     Type
 } from '@angular/core';
-import { Message } from '../models/message.model';
-import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { MessageConfig } from '../components/message/message-config';
 import { MessageContainerComponent } from '../components/message/message-container.component';
 import { MessageDataOptions, MessageDataFilled, MessageData } from '../components/message/message.definitions';

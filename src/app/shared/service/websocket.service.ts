@@ -1,9 +1,10 @@
+// websocket 封装
 import { Injectable } from '@angular/core';
 import { Logger } from './logger.service';
 
 const EventEmitter = require('events');
 const W3CWebSocket = require('websocket').w3cwebsocket;
-const hosts = [
+export const Hosts = [
   'airmore.com',
   'airmore.cn',
   'airmore.jp'
@@ -14,26 +15,12 @@ const hosts = [
 })
 export class WebsocketService extends EventEmitter {
 
-  public connected = false;
-
-  private client = null;
-
-  private heartBeatInterval = 10000;
-
-  private heartBeat = null;
-
-  protected host: string;
-
-  protected protocol: string;
-
-  protected path: string;
-
   constructor(protected logger: Logger) {
     super();
   }
 
   init(): void {
-    const host = this.host || hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || hosts[1];
+    const host = this.host || Hosts.find((ele) => location.hostname.toLowerCase().includes(ele)) || Hosts[1];
     const protocol = this.protocol || 'wss:';
     const path = this.path || '/wss';
 
@@ -53,7 +40,7 @@ export class WebsocketService extends EventEmitter {
 
       this.client.onclose = () => {
         this.connected = false;
-        this.logger.warn('echo-protocol Client Closed');
+        this.logger.warn('Websocket Client Closed');
         this.onClose();
       };
 
@@ -115,15 +102,54 @@ export class WebsocketService extends EventEmitter {
     this.heartBeat = null;
   }
 
-  setHost(host: string): void {
-    this.host = host;
+
+  public connected = false;
+
+  private _client = null;
+  public get client() {
+    return this._client;
+  }
+  public set client(value) {
+    this._client = value;
   }
 
-  setProtocol(protocol: string): void {
-    this.protocol = protocol;
+  private _heartBeatInterval = 10000;
+  public get heartBeatInterval() {
+    return this._heartBeatInterval;
+  }
+  public set heartBeatInterval(value) {
+    this._heartBeatInterval = value;
   }
 
-  setPath(path: string): void {
-    this.path = path;
+  private _heartBeat = null;
+  public get heartBeat() {
+    return this._heartBeat;
+  }
+  public set heartBeat(value) {
+    this._heartBeat = value;
+  }
+
+  private _host: string;
+  protected get host(): string {
+    return this._host;
+  }
+  protected set host(value: string) {
+    this._host = value;
+  }
+
+  private _protocol: string;
+  protected get protocol(): string {
+    return this._protocol;
+  }
+  protected set protocol(value: string) {
+    this._protocol = value;
+  }
+
+  private _path: string;
+  public get path(): string {
+    return this._path;
+  }
+  public set path(value: string) {
+    this._path = value;
   }
 }

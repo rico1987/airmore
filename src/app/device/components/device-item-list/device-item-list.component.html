@@ -169,7 +169,7 @@
     <!-- clipboard start -->
     <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">
       <div class="toolbar">
-        <span (click)="cancelClipboardEdit()" *ngIf="isClipboardEditing">Cancel</span>
+        <span class="cancel" (click)="cancelClipboardEdit()" *ngIf="isClipboardEditing">Cancel</span>
         <span class="primary" (click)="saveToClipboard()" *ngIf="isClipboardEditing" [class.active]="clipboardValue">Save to clipboard</span>
       </div>
       <textarea *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
@@ -276,15 +276,22 @@
         <span>名称 0 / 136</span>
       </div>
       <div class="airmore-device-item-list__contact-list" *ngIf="deviceStateService.contactLetterGroupList">
-        <div class="container"
-         *ngFor="let item of deviceStateService.contactLetterGroupList"
-        >
-            <app-contact-letter-group
-            *ngIf="item['contacts'].length > 0"
-            [item]="item"
-          ></app-contact-letter-group>
+        <div class="container" #contactGroupContainer>
+          <div
+            class="group-item"
+            *ngFor="let item of deviceStateService.contactLetterGroupList"
+          >
+              <app-contact-letter-group
+              [ngClass]="'letter-' + item['key']"
+              *ngIf="item['contacts'].length > 0"
+              [item]="item"
+            ></app-contact-letter-group>
+          </div>
         </div>
-        <div class="contact-letters"></div>
+       
+        <div class="contact-letters">
+          <div *ngFor="let letter of allLetters" (click)="scrollToLetter(letter)"><div>{{letter}}</div></div>
+        </div>
       </div>
       <div class="airmore-device-item-list__contact-detail">
         <app-contact-detail></app-contact-detail>

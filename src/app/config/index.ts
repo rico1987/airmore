@@ -16,6 +16,7 @@ export interface AppConfig {
         cloudStorageKey: string,
         cloudItemsPerPage: number,
         messageInterval: number,
+        registedApp: string,
     };
     brand?: string;
 }
@@ -42,6 +43,7 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
             cloudStorageKey: 'cloudUserInfo',
             cloudItemsPerPage: 50,
             messageInterval: 1000,
+            registedApp: window.location.host,
         },
         brand: 'Apowersoft',
     }

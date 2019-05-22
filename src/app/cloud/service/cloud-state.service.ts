@@ -13,7 +13,7 @@ import { Observable, Observer } from 'rxjs';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../models';
 import { NodeService } from './node.service';
-import { CommonResponse } from '../../shared/models/common-response.model';
+import { CommonResponse } from '../../shared/models';
 import { downloadLink } from '../../utils/tools';
 import { MessageService } from '../../shared/service/message.service';
 import { CloudBaseService } from './cloud-base.service';

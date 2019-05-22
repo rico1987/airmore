@@ -23,6 +23,7 @@ export class LoadingDirective {
   set apploading(loading: boolean) {
     this.vcRef.clear();
 
+    console.log(loading);
     if (loading)
     {
       // create and embed an instance of the loading component

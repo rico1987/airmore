@@ -1,7 +1,7 @@
 @import "../../../../styles/mixins/bem.scss";
 @import "../../../../styles/themes/default/variables.scss";
 
-$actions: select, upload, upload-folder, download, refresh, delete, add, wallpaper, install, backup, play, pause, preview, add-folder, add-contact, add-message, rename, copy;
+$actions: select, upload, upload-folder, download, refresh, delete, add, wallpaper, install, backup, play, pause, preview, add-folder, add-contact, add-message, add-clipboard, rename, copy;
 @include b(subheader) {
     height: $subheader-height;
     border-bottom: $border-base;

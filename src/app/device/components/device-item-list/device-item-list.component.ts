@@ -21,6 +21,8 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
 
   @ViewChild('musicPlayer') musicPlayer: MusicPlayerComponent;
 
+  @ViewChild('contactGroupContainer') contactGroupContainer: ElementRef;
+
   listOfData: any[] = [];
 
   allLetters: Array<string> = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
@@ -118,6 +120,11 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
 
   cancelClipboardEdit(): void {
     this.deviceStateService.isClipboardEditing = false;
+  }
+
+  scrollToLetter(letter: string): void {
+    const element = this.contactGroupContainer.nativeElement.getElementsByClassName('letter-' + letter)[0];
+    element && element.scrollIntoView();
   }
 
   saveToClipboard(): void {

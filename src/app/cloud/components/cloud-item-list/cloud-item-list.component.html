@@ -7,7 +7,6 @@
       *ngIf="cloudStateService.itemList && cloudStateService.activeFunction === 'clouds' || cloudStateService.activeFunction === 'musics' || cloudStateService.activeFunction === 'videos' || cloudStateService.activeFunction === 'documents' || cloudStateService.activeFunction === 'others'"
       #rowSelectionTable
       #headerTable
-      nzBordered
       [nzShowPagination]=false
       [nzPageSize]="50"
       [nzScroll]="{ y: scrollHeight + 'px' }"
@@ -64,7 +63,6 @@
       *ngIf="cloudStateService.itemList && cloudStateService.activeFunction === 'pictures'"
       #rowSelectionTable
       #headerTable
-      nzBordered
       [nzShowPagination]=false
       [nzPageSize]="50"
       [nzScroll]="{ y: scrollHeight + 'px' }"

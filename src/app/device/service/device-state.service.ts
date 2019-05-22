@@ -5,13 +5,14 @@ import {
     ApplicationRef,
     ComponentFactoryResolver,
     EmbeddedViewRef,
+    ViewChild,
+    ElementRef,
   } from '@angular/core';
 import fecha from 'fecha';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { MessageService } from '../../shared/service/message.service';
-import { CommonResponse } from '../../shared/models/common-response.model';
-import { NewFolderModalComponent } from '../../shared/components/new-folder-modal/new-folder-modal.component';
+import { CommonResponse } from '../../shared/models';
 
 
 import { downloadLink } from '../../utils/tools';
@@ -22,6 +23,8 @@ import { DynamicInputComponent } from '../../shared/components/dynamic-input/dyn
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { VideoPlayerComponent } from '../../shared/components/video-player/video-player.component';
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
+import { NewFolderModalComponent } from '../../shared/components/new-folder-modal/new-folder-modal.component';
+
 import { getFirstLetters } from '../../utils/index';
 
 import { downloadText } from '../../utils/tools';
@@ -205,7 +208,6 @@ export class DeviceStateService {
         } else if (this.activeFunction === 'contacts') {
             this.deviceService.getAllContacts()
                 .subscribe((data) => {
-                    console.log(data);
                     this.generateContactsData(data);
                 });
         } else if (this.activeAlbumId) {
@@ -752,6 +754,9 @@ export class DeviceStateService {
 
     copyToClipboard(): void {
         this.isClipboardEditing = true;
+        setTimeout(() => {
+            document.getElementsByTagName('textarea')[0].focus();
+        }, 0);
     }
 
     saveClipboard(text: string): void {

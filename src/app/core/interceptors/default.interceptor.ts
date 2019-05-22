@@ -4,7 +4,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 import { BrowserStorageService } from '../../shared/service/storage.service';
 import { environment } from '../../../environments/environment';
-import { UserInfo } from '../../shared/models/user-info.model';
+import { UserInfo } from '../../shared/models';
 import { CloudUserInfo } from '../../cloud/models/cloud-user-info.model';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 
