@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject, ViewChild, ElementRef } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
-import { CloudStateService, NodeService } from '../../service';
+import { CloudStateService } from '../../../shared/service/cloud-state.service';
 
 @Component({
   selector: 'app-cloud-item-list',

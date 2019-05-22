@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CloudStateService } from '../../service/cloud-state.service';
+import { CloudStateService } from '../../../shared/service';
 
 @Component({
   selector: 'app-cloud-navigator',

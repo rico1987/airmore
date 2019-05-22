@@ -8,14 +8,12 @@ import {
 } from '@angular/core';
 import { NzModalService } from 'ng-zorro-antd/modal';
 
-import { Observable, Observer } from 'rxjs';
-
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
-import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../models';
+import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../cloud/models';
 import { NodeService } from './node.service';
 import { CommonResponse } from '../../shared/models';
 import { downloadLink } from '../../utils/tools';
-import { MessageService } from '../../shared/service/message.service';
+import { MessageService } from './message.service';
 import { CloudBaseService } from './cloud-base.service';
 
 import { RenameModalComponent } from '../../shared/components/rename-modal/rename-modal.component';

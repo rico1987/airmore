@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MyClientService } from '../../shared/service/my-client.service';
+import { MyClientService } from './my-client.service';
 
 @Injectable({
   providedIn: 'root'

@@ -2,8 +2,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { Logger } from './logger.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
-import { CloudStateService } from '../../cloud/service/cloud-state.service';
-import { DeviceStateService } from '../../device/service/device-state.service';
+import { CloudStateService } from './cloud-state.service';
+import { DeviceStateService } from './device-state.service';
 import { BrowserStorageService } from './storage.service';
 
 @Injectable({

@@ -1,9 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { TranslateService, TranslationChangeEvent } from '@ngx-translate/core';
-import { AppStateService } from './shared/service/app-state.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from './config';
-import { DeviceService } from './shared/service/device.service';
-import { BrowserStorageService } from './shared/service/storage.service';
+import { AppStateService, BrowserStorageService, DeviceService } from './shared/service';
 
 @Component({
   selector: 'app-root',

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 
 import { AppStateService } from './app-state.service';
 import { MyClientService } from './my-client.service';
-import { CloudBaseService } from '../../cloud/service/cloud-base.service';
+import { CloudBaseService } from './cloud-base.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { BrowserStorageService } from './storage.service';
 import { EmailPasswordLessLoginInfo, PasswordLoginInfo, RegisterInfo, ResetPasswordInfo, UserInfo } from '../models';

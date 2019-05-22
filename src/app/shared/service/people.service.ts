@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CloudModule } from '../cloud.module';
-import { Logger } from '../../shared/service/logger.service';
-import { MyClientService } from '../../shared/service/my-client.service';
+import { Logger } from './logger.service';
+import { MyClientService } from './my-client.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { NzFormatEmitEvent, NzTreeNode } from 'ng-zorro-antd';
-import { NodeService } from '../../../cloud/service/node.service';
+import { NodeService } from '../../service/node.service';
 import { CommonResponse } from '../../models';
 
 @Component({

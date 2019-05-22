@@ -2,10 +2,10 @@ import { Injectable, Injector, Inject } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpErrorResponse, HttpEvent, HttpResponseBase } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
-import { BrowserStorageService } from '../../shared/service/storage.service';
+import { BrowserStorageService } from '../../shared/service';
 import { environment } from '../../../environments/environment';
 import { UserInfo } from '../../shared/models';
-import { CloudUserInfo } from '../../cloud/models/cloud-user-info.model';
+import { CloudUserInfo } from '../../cloud/models';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CloudStateService } from '../../../cloud/service/cloud-state.service';
-import { DeviceStateService } from '../../../device/service/device-state.service';
+import { CloudStateService, DeviceStateService } from '../../service';
 import { AppStateService } from '../../../shared/service/app-state.service';
 import { MessageService } from '../../../shared/service/message.service';
 

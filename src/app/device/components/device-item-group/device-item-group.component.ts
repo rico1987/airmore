@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeviceStateService } from '../../service/device-state.service';
+import { DeviceStateService } from '../../../shared/service';
 import { ImageGroup } from '../../models';
 
 @Component({

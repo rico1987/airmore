@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { AppStateService } from '../../../shared/service/app-state.service';
-import { DeviceStateService } from '../../../device/service/device-state.service';
+import { DeviceStateService } from '../../service';
 import { Router } from '@angular/router';
 
 

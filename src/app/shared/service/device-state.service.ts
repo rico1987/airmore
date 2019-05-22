@@ -11,14 +11,14 @@ import {
 import fecha from 'fecha';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { MessageService } from '../../shared/service/message.service';
+import { MessageService } from './message.service';
 import { CommonResponse } from '../../shared/models';
 
 
 import { downloadLink } from '../../utils/tools';
-import { DeviceService } from '../../shared/service/device.service';
-import { MyClientService } from '../../shared/service/my-client.service';
-import { BrowserStorageService } from '../../shared/service/storage.service';
+import { DeviceService } from './device.service';
+import { MyClientService } from './my-client.service';
+import { BrowserStorageService } from './storage.service';
 import { DynamicInputComponent } from '../../shared/components/dynamic-input/dynamic-input.component';
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { VideoPlayerComponent } from '../../shared/components/video-player/video-player.component';

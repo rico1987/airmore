@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppStateService } from '../../../shared/service/app-state.service';
+import { AppStateService } from '../../../shared/service';
 
 @Component({
   selector: 'app-device-layout',

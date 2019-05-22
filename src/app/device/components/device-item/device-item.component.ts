@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeviceStateService } from '../../service/device-state.service';
-import { BrowserStorageService } from '../../../shared/service/storage.service';
-import { DeviceService } from '../../../shared/service/device.service';
+import { DeviceStateService } from '../../../shared/service';
+import { BrowserStorageService, DeviceService } from '../../../shared/service';
 
 
 @Component({

@@ -6,3 +6,4 @@ export { Node } from './node.model';
 export { OtherResource } from './other-resource.model';
 export { People } from './people.model';
 export { Video } from './video.model';
+export { CloudUserInfo } from './cloud-user-info.model';

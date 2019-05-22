@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { AppStateService } from '../../service/app-state.service';
-import { DeviceStateService } from '../../../device/service/device-state.service';
+import { DeviceStateService } from '../../service';
 import { DeviceService } from '../../service/device.service';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { ToolModalComponent } from '../tool-modal/tool-modal.component';

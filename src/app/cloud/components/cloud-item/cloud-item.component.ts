@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CloudStateService } from '../../service/cloud-state.service';
+import { CloudStateService } from '../../../shared/service';
 import { getFileShortName } from '../../../utils';
 
 @Component({

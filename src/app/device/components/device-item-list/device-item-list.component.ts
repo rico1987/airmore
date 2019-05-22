@@ -1,10 +1,9 @@
 import { Component, OnInit, Input, Inject, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { DeviceStateService } from '../../service/device-state.service';
 import { NzTableComponent } from 'ng-zorro-antd';
 const copy = require('clipboard-copy')
-import { MessageService } from '../../../shared/service/message.service';
+import { MessageService } from '../../../shared/service';
+import { DeviceStateService } from '../../../shared/service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { MusicPlayerComponent } from '../../../shared/components/music-player/music-player.component';
 
 @Component({

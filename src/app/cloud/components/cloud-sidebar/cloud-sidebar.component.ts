@@ -1,10 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
-import { CloudStateService } from '../../service/cloud-state.service';
-import { CloudBaseService } from '../../service/cloud-base.service';
+import { CloudBaseService, CloudStateService } from '../../../shared/service';
 import { CommonResponse } from '../../../shared/models';
-
-import { MessageService } from '../../../shared/service/message.service';
+import { MessageService } from '../../../shared/service';
 
 @Component({
   selector: 'app-cloud-sidebar',

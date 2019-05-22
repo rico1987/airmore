@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent, NzTreeNodeOptions, NzTreeNode } from 'ng-zorro-antd';
 const copy = require('clipboard-copy')
-import { AppStateService } from '../../../shared/service/app-state.service';
-import { DeviceStateService } from '../../service/device-state.service';
-import { DeviceService } from '../../../shared/service/device.service';
-import { BrowserStorageService } from '../../../shared/service/storage.service';
-import { MessageService } from '../../../shared/service/message.service';
+import { AppStateService, BrowserStorageService, DeviceService, MessageService } from '../../../shared/service';
+import { DeviceStateService } from '../../../shared/service';
 
 
 @Component({

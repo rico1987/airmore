@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeviceStateService } from '../../service/device-state.service';
+import { DeviceStateService } from '../../../shared/service';
 import { SelectOption } from '../../../shared/components/dropdown-select-options/dropdown-select-options.component'
-import { Contact } from '../../models/contact.model';
+import { Contact } from '../../models';
 
 const PhoneTypes: Array<SelectOption> = [
   {
