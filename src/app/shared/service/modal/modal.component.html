@@ -1,0 +1,105 @@
+<ng-template #tplOriginContent>
+  <ng-content></ng-content>
+</ng-template> <!-- Compatible: the <ng-content> can appear only once -->
+
+<div class="airmore-modal">
+  <div *ngIf="mask" class="airmore-modal__mask" [ngClass]="maskAnimationClassMap" [class.airmore-modal-mask-hidden]="hidden"
+    [ngStyle]="amMaskStyle" [style.zIndex]="amZIndex"></div>
+  <div (click)="onClickMask($event)" class="airmore-modal__wrap {{ amWrapClassName }}" [style.zIndex]="amZIndex"
+    [style.visibility]="hidden ? 'hidden' : null" tabindex="-1" role="dialog">
+    <div #modalContainer class="airmore-modal__container {{ amClassName }}" [ngClass]="modalAnimationClassMap" [ngStyle]="amStyle"
+      [style.width]="amWidth | toCssUnit" [style.transform-origin]="transformOrigin" role="document">
+      <div class="airmore-modal__content">
+        <span *ngIf="amClosable" (click)="onClickCloseBtn()" class="airmore-modal__close" aria-label="Close">
+        </span>
+        <ng-container *ngIf="!hidden" [ngSwitch]="true">
+          <ng-container *ngSwitchCase="isModalType('default')" [ngTemplateOutlet]="tplContentDefault"></ng-container>
+          <ng-container *ngSwitchCase="isModalType('confirm')" [ngTemplateOutlet]="tplContentConfirm"></ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- [Predefined] Default Modal Content -->
+<ng-template #tplContentDefault>
+  <div *ngIf="amTitle" class="airmore-modal__header">
+    <div class="airmore-modal__title">
+      <ng-container [ngSwitch]="true">
+        <ng-container *ngSwitchCase="isTemplateRef(amTitle)" [ngTemplateOutlet]="amTitle"></ng-container>
+        <ng-container *ngSwitchCase="isNonEmptyString(amTitle)">
+          <div class="airmore-modal__title-text" [innerHTML]="amTitle"></div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="airmore-modal__body" [ngStyle]="amBodyStyle">
+    <ng-container #bodyContainer>
+      <ng-container *ngIf="!isComponent(amContent)" [ngSwitch]="true">
+        <ng-container *ngSwitchCase="isTemplateRef(amContent)" [ngTemplateOutlet]="amContent"></ng-container>
+        <ng-container *ngSwitchCase="isNonEmptyString(amContent)">
+          <div [innerHTML]="amContent"></div>
+        </ng-container>
+        <ng-container *ngSwitchDefault [ngTemplateOutlet]="tplOriginContent"></ng-container>
+      </ng-container>
+    </ng-container>
+  </div>
+  <div *ngIf="amFooter !== null" class="airmore-modal__footer">
+    <ng-container [ngSwitch]="true">
+      <ng-container *ngSwitchCase="isTemplateRef(amFooter)" [ngTemplateOutlet]="amFooter"></ng-container>
+      <ng-container *ngSwitchCase="isNonEmptyString(amFooter)">
+        <div [innerHTML]="amFooter"></div>
+      </ng-container>
+      <ng-container *ngSwitchCase="isModalButtons(amFooter)">
+        <span class="airmore-modal__footer-btn" *ngFor="let button of amFooter" (click)="onButtonClick(button)"
+          [hidden]="!getButtonCallableProp(button, 'show')"
+        >{{ button.label }}</span>
+      </ng-container>
+      <ng-container *ngSwitchDefault>
+        <span class="airmore-modal__footer-btn" *ngIf="amCancelText!==null" (click)="onClickOkCancel('cancel')">
+          {{ cancelText }}
+        </span>
+        <span class="airmore-modal__footer-btn" *ngIf="amOkText!==null" (click)="onClickOkCancel('ok')">
+          {{ okText }}
+        </span>
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-template>
+<!-- /[Predefined] Default Modal Content -->
+
+<!-- [Predefined] Confirm Modal Content -->
+<ng-template #tplContentConfirm>
+  <div class="airmore-modal__body" [ngStyle]="amBodyStyle">
+    <div class="airmore-modal-confirm-body-wrapper">
+      <div class="airmore-modal-confirm-body">
+        <span class="airmore-modal-confirm-title">
+          <ng-container [ngSwitch]="true">
+            <ng-container *ngSwitchCase="isTemplateRef(amTitle)" [ngTemplateOutlet]="amTitle"></ng-container>
+            <ng-container *ngSwitchCase="isNonEmptyString(amTitle)"><span [innerHTML]="amTitle"></span></ng-container>
+          </ng-container>
+        </span>
+        <div class="airmore-modal-confirm-content">
+          <ng-container>
+            <ng-container *ngIf="!isComponent(amContent)" [ngSwitch]="true">
+              <ng-container *ngSwitchCase="isTemplateRef(amContent)" [ngTemplateOutlet]="amContent"></ng-container>
+              <ng-container *ngSwitchCase="isNonEmptyString(amContent)">
+                <div [innerHTML]="amContent"></div>
+              </ng-container>
+              <ng-container *ngSwitchDefault [ngTemplateOutlet]="tplOriginContent"></ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+      <div class="airmore-modal-confirm-btns">
+        <button am-button *ngIf="amCancelText!==null" (click)="onClickOkCancel('cancel')">
+          {{ cancelText }}
+        </button>
+        <button *ngIf="amOkText!==null" #autoFocusButtonOk (click)="onClickOkCancel('ok')">
+          {{ okText }}
+        </button>
+      </div>
+    </div> <!-- /.airmore-modal-confirm-body-wrapper -->
+  </div>
+</ng-template>
+<!-- /[Predefined] Confirm Modal Content -->

@@ -20,3 +20,14 @@ body {
     width: 100%;
     z-index: 9999;
 }
+
+.airmore-tooltip{
+    .ant-tooltip-inner{
+        background-color: white;
+        color: black;
+        font-size: 12px;
+    }
+    .ant-tooltip-arrow{
+        border-bottom-color: white!important;
+    }
+}

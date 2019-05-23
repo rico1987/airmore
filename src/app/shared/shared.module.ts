@@ -35,9 +35,13 @@ import { NewFolderModalComponent } from './components/new-folder-modal/new-folde
 import { DynamicInputComponent } from './components/dynamic-input/dynamic-input.component';
 import { ImageViewerComponent } from './components/image-viewer/image-viewer.component';
 import { CopyModalComponent } from './components/copy-modal/copy-modal.component';
+import { MODAL_DEFAULT_CONFIG_PROVIDER } from './service/modal/modal-config';
 
 import { NzTreeModule } from 'ng-zorro-antd/tree';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+
+import { ModalModule } from './service/modal/modal.module';
 
 import { SizePipe } from './pipes/size.pipe';
 import { DurationPipe } from './pipes/duration.pipe';
@@ -57,7 +61,6 @@ import { InstallationModalComponent } from './components/installation-modal/inst
 import { DropdownSelectComponent } from './components/dropdown-select/dropdown-select.component';
 import { DropdownSelectOptionsComponent } from './components/dropdown-select-options/dropdown-select-options.component';
 import { ToolTipComponent } from './components/tool-tip/tool-tip.component';
-import { ModalComponent } from './components/modal/modal.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -134,7 +137,6 @@ const PIPES = [
     DropdownSelectComponent,
     DropdownSelectOptionsComponent,
     ToolTipComponent,
-    ModalComponent,
   ],
   imports: [
     CommonModule,
@@ -146,9 +148,12 @@ const PIPES = [
     NzTreeModule,
     NzIconModule,
     NzDropDownModule,
+    ModalModule,
+    NzToolTipModule,
   ],
   providers: [
     MESSAGE_DEFAULT_CONFIG_PROVIDER,
+    MODAL_DEFAULT_CONFIG_PROVIDER,
   ],
   exports: [
     RouterModule,

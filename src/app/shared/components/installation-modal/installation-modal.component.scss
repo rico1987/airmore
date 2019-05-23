@@ -38,6 +38,7 @@
             text-align: left;
             cursor: pointer;
             border: 1px solid #1fbbde;
+            outline: none;
             &.android {
                 background: url('../../../../assets/img/download/android.png') 22px center no-repeat;;
             }
@@ -50,6 +51,7 @@
             >a {
                 color: #1fbbde;
                 text-decoration: none;
+                outline: none;
             }
         }
     }

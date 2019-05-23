@@ -7,7 +7,7 @@ export { DeviceStateService } from './device-state.service';
 export { DeviceService } from './device.service';
 export { Logger } from './logger.service';
 export { MessageService } from './message.service';
-export { ModalService } from './modal.service';
+export { ModalService } from './modal/modal.service';
 export { MyClientService } from './my-client.service';
 export { NodeService } from './node.service';
 export { PeopleService } from './people.service';

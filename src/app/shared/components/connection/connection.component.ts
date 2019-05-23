@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppStateService } from '../../service/app-state.service';
 import { ConnectionService } from '../../service/connection.service';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { ModalService } from '../../service/modal';
 import { InstallationModalComponent } from '../installation-modal/installation-modal.component';
 
 @Component({
@@ -20,7 +20,7 @@ export class ConnectionComponent implements OnInit {
   constructor(
     private appStateService: AppStateService,
     private connectionService: ConnectionService,
-    private modalService: NzModalService,
+    private modalService: ModalService,
     ) {}
 
   ngOnInit() {
@@ -60,9 +60,9 @@ export class ConnectionComponent implements OnInit {
 
   showInstallModal(): void {
     const installModal = this.modalService.create({
-      nzTitle: '<i>安装爱莫助手应用</i>',
-      nzContent: InstallationModalComponent,
-      nzFooter: [
+      amTitle: '<i>安装爱莫助手应用</i>',
+      amContent: InstallationModalComponent,
+      amFooter: [
         {
           label: 'OK',
           onClick: componentInstance => {
@@ -70,10 +70,10 @@ export class ConnectionComponent implements OnInit {
           }
         }
       ],
-      nzMaskClosable: false,
-      nzClosable: true,
-      nzMask: false,
-      nzOnOk: () => {
+      amMaskClosable: false,
+      amClosable: true,
+      amMask: true,
+      amOnOk: () => {
 
       }
     });

@@ -1,0 +1,120 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(modal) {
+    color: red;
+    @include e(mask) {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        z-index: 1000;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    @include e(wrap) {
+        position: fixed;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        z-index: 1000;
+        overflow: auto;
+        outline: 0px;
+    }
+
+    @include e(container) {
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, 0.65);
+        font-size: 14px;
+        line-height: 1.5;
+        font-feature-settings: "tnum";
+        position: relative;
+        top: 100px;
+        width: auto;
+        margin: 0px auto;
+        padding: 0px 0px 24px;
+        font-variant: tabular-nums;
+        list-style: none;
+    }
+
+    @include e(content) {
+        position: relative;
+        background-color: rgb(255, 255, 255);
+        background-clip: padding-box;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 4px 12px;
+        border-width: 0px;
+        border-style: initial;
+        border-color: initial;
+        border-image: initial;
+        border-radius: 6px;
+    }
+
+    @include e(close) {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        right: 9px;
+        top: 9px;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url('../../../../assets/img/common/win/close.svg');
+        &:hover {
+            background-image: url('../../../../assets/img/common/win/close-hover.svg');
+        }
+    }
+
+    @include e(header) {
+        display: block;
+        height: 48px;
+        margin-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 58px;
+        line-height: 58px;
+        font-size: 20px;
+        cursor: move;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @include e(title-text) {
+        font-style: normal!important;
+    }
+
+    @include e(body) {
+        display: block;
+        padding: 0 20px;
+        overflow-y: auto;
+    }
+
+    @include e(footer) {
+        display: block;
+        text-align: right;
+        padding: 20px 20px;
+    }
+
+    @include e(footer-btn) {
+        border: 1px solid #aaa;
+        border-radius: 15px;
+        padding: 0 10px;
+        background: #fff;
+        font-weight: 700;
+        color: #888;
+        cursor: default;
+        height: 30px;
+        line-height: 30px;
+        display: inline-block;
+        cursor: pointer;
+        margin: 0 0 0 10px;
+        text-align: center;
+        min-width: 60px;
+        &:hover {
+            box-shadow: 0 0 0 1px #bbb;
+            border-color: #bbb;
+        }
+    }
+}
