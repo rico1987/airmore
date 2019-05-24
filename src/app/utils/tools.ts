@@ -1,4 +1,5 @@
 import { isIE } from './env';
+import { Observable, Observer } from 'rxjs';
 
 export function downloadLink(link: string, fileName?: string): void {
     let anchor = document.createElement('a');
@@ -30,4 +31,29 @@ export function downloadText(text: string, type: string, fileName: string): void
         }
         fs.readAsDataURL(blob)
     }
+}
+
+export function getIp(): Observable<any> {
+    return new Observable((observer: Observer<string>) => {
+        try {
+            const RTCPeerConnection = (window as any).RTCPeerConnection || (window as any).mozRTCPeerConnection || (window as any).webkitRTCPeerConnection;//compatibility for Firefox and chrome
+            if (!RTCPeerConnection) {
+                observer.next('');
+                observer.complete();
+            }
+            const pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};      
+            pc.createDataChannel(''); // create a bogus data channel
+            pc.createOffer(pc.setLocalDescription.bind(pc), noop); // create offer and set local description
+            pc.onicecandidate = (ice) => {
+                if (ice && ice.candidate && ice.candidate.candidate) {
+                    const myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
+                    observer.next(myIP);
+                    observer.complete(); 
+                    pc.onicecandidate = noop;
+                }
+            };
+        } catch (e) {
+            observer.error(e);
+        } 
+    })
 }

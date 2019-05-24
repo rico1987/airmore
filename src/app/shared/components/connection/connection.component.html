@@ -15,10 +15,8 @@
       <p>Scan QR code using AirMore</p>
     </li>
     <li *ngSwitchCase="'radar'" class="radar">
-      <div class="radar-bg"></div>
-      <div class="radar-scan"></div>
-      <div class="radar-pin"></div>
-      <div class="tip">点击手机名称来连接</div>
+      <app-radar #radarElement></app-radar>
+      <p>点击手机名称来连接</p>
     </li>
     <li *ngSwitchCase="'account'">
       <app-account></app-account>

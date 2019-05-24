@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { AppStateService } from '../../service/app-state.service';
 import { ConnectionService } from '../../service/connection.service';
+import { DeviceService } from '../../service/device.service';
 import { ModalService } from '../../service/modal';
 import { InstallationModalComponent } from '../installation-modal/installation-modal.component';
+import { RadarComponent } from '../radar/radar.component';
 
 @Component({
   selector: 'app-connection',
@@ -11,14 +13,18 @@ import { InstallationModalComponent } from '../installation-modal/installation-m
 })
 export class ConnectionComponent implements OnInit {
 
+  @ViewChild('radarElement') radarElement: ElementRef<RadarComponent>;
+
   qrCodeUrl: string | null;
 
   private isLoadingQrCode = false;
 
   private _interval: any = null;
 
+
   constructor(
     private appStateService: AppStateService,
+    private deviceService: DeviceService,
     private connectionService: ConnectionService,
     private modalService: ModalService,
     ) {}
@@ -31,6 +37,11 @@ export class ConnectionComponent implements OnInit {
     this.appStateService.changeConnectionType(connectionType);
     if (connectionType === 'qrcode') {
       this.getQrCode();
+      this.deviceService.stopScan();
+    } else if (connectionType === 'radar') {
+      this.deviceService.scan();
+    } else if (connectionType === 'account') {
+      this.deviceService.stopScan();
     }
   }
 

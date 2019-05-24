@@ -6,3 +6,4 @@ export { PasswordLoginInfo } from './password-login-info.model';
 export { RegisterInfo } from './register-info.model';
 export { ResetPasswordInfo } from './reset-password-info.model';
 export { UserInfo } from './user-info.model';
+export { DeviceInfo } from './device-info.model';

@@ -20,9 +20,9 @@ export class ConnectionService extends WebsocketService {
     private browserStorageService: BrowserStorageService,
     private appStateService: AppStateService,
     private deviceService: DeviceService,
-    protected logger: Logger,
+    private log: Logger,
   ) {
-    super(logger);
+    super(log);
   }
 
   /**
@@ -53,9 +53,9 @@ export class ConnectionService extends WebsocketService {
         this.send({
           Key: 'WebCloseSocket',
         });
-        this.deviceService.setHost(`${data.PrivateIP}:${data.Port}`);
-        this.deviceService.setProtocol('ws:');
-        this.deviceService.setPath('/channel.do');
+        this.deviceService.host = `${data.PrivateIP}:${data.Port}`;
+        this.deviceService.protocol = 'ws:';
+        this.deviceService.path = '/channel.do';
         this.deviceService.init();
       });
     });

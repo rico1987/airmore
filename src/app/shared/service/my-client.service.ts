@@ -46,6 +46,8 @@ export class MyClientService {
     return this.http.post(`http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/?Key=${key}`, data, options);
   }
 
+  
+
   deviceGet (key: string, params?: Object, options?: Object): Observable<any> {
     const deviceInfo = this.browserStorageService.get('deviceInfo');
     let requestUrl = `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/?Key=${key}`;

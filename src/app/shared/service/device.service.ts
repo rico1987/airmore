@@ -1,28 +1,143 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Logger } from './logger.service';
 import { WebsocketService } from './websocket.service';
 import { BrowserStorageService } from './storage.service';
 import { MyClientService } from './my-client.service';
+import { DeviceInfo } from '../models/device-info.model';
+import { getIp } from '../../utils/tools';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceService extends WebsocketService {
 
+  // 雷达连接相关 start
+
+  private availableConnections: Array<DeviceInfo> = [];
+
+  private detectReqs: Array<Subscription> = [];
+
+  private failedHosts: Array<any> = [];
+
+  private intervalId: any = null;
+
+  scan(): void {
+    getIp()
+      .subscribe((ip) => {
+        this.detectClosedIp(ip);
+      }, (err) => {
+        console.log(err);
+      })
+  }
+  
+  reScan(): void {
+    this.intervalId = window.setInterval(() => {
+      this.detectReqs = [];
+
+      for (let i = 0, l = this.failedHosts.length; i < l; i++) {
+        const host = this.failedHosts[i];
+        const req = this.queryOnlineDevice(host)
+          .subscribe(
+            (info: DeviceInfo) => {
+              this.onOnlineDevice(host, info);
+            },
+            (error) => {
+              console.log(error);
+            },
+            () => {
+              if (!this.availableConnections.some((ele) => `http://${ele.PrivateIP}:${ele.Port}` === host)) {
+                this.failedHosts.push(host);
+              }
+            }
+          )
+        this.detectReqs.push(req);
+      }
+      this.failedHosts = [];
+    }, 5000);
+  }
+
+  stopScan(): void {
+    window.clearInterval(this.intervalId);
+    this.intervalId = null;
+
+    for(let i = 0, l = this.detectReqs.length; i < l; i++) {
+      this.detectReqs[i].unsubscribe();
+    }
+    this.failedHosts = [];
+    this.detectReqs = [];
+  }
+  
+  detectClosedIp(ip: string): void {
+    if (!ip) {
+      return
+    }
+
+    this.availableConnections = []
+    this.detectReqs = []
+
+    const ipLastNum = Number(ip.substr(ip.lastIndexOf('.') + 1));
+    let start = Math.max(1, ipLastNum - 50);
+    const end   = Math.min(254, ipLastNum + 50);
+
+    if (ipLastNum >= 100) {
+      start = 100
+    }
+
+    for (let i = start; i <= end; i++) {
+      if (i === ipLastNum) {
+        continue
+      }
+
+      const newIp = ip.replace(/\d+$/, i.toString())
+      let host = 'http://' + newIp + ':2333'
+      const req = this.queryOnlineDevice(host)
+        .subscribe(
+          (info: DeviceInfo) => {
+            this.onOnlineDevice(host, info);
+          },
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            if (!this.availableConnections.some((ele) => `http://${ele.PrivateIP}:${ele.Port}` === host)) {
+              console.log(host);
+              this.failedHosts.push(host);
+            }
+          }
+        )
+      this.detectReqs.push(req);
+    }
+    this.reScan()
+  }
+
+  onOnlineDevice(host: string, info: DeviceInfo): void {
+    if (info && info.DeviceName && info.Model) {
+      this.availableConnections.push(info);
+    }
+  }
+
+  // 雷达连接相关 end
+
   constructor(
+    private http: HttpClient,
     private browserStorageService: BrowserStorageService,
     private myClientService: MyClientService,
     private router: Router,
-    protected logger: Logger,
+    private log: Logger
   ) {
-    super(logger);
+    super(log);
   }
 
   init() {
     super.init();
     this.checkAuthorization();
+  }
+
+  queryOnlineDevice(host: string): Observable<any> {
+    return this.http.post(`${host}/?Key=WebQueryOnlineDevice`, {}, {});
   }
 
   checkAuthorization(): void {

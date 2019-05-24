@@ -1,0 +1,105 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(radar) {
+
+    position: relative;
+    >div{
+        position: absolute;
+        width: 253px;
+        height: 253px;
+        left: 0;
+        right: 0;
+        top: 34px;
+        margin: auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        
+    }
+
+    @include e(bg) {
+        background-image: url('../../../../assets/img/radar/bg.svg')
+    }
+    @include e(scan) {
+        background-image: url('../../../../assets/img/radar/scan.svg');
+        animation: rotate 5s linear infinite;
+    }
+    @include e(pin) {
+        background-image: url('../../../../assets/img/radar/pin.svg');
+    }
+    ul {
+        position: relative;
+        height: 313px;
+        li{
+            position: absolute;
+			background-position: center top;
+			background-repeat: no-repeat;
+			padding-top: 50px;
+			font-size: 12px;
+			line-height: 18px;
+            max-width: 180px;
+            transform: translate(-50%);
+            transition: opacity .3s ease-out;
+            cursor: pointer;
+            min-width: 46px;
+            list-style: none;
+
+            &::before{
+				content: '';
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 1px;
+				margin: auto;
+				width: 44px;
+				height: 44px;
+				border-radius: 50%;
+				background-position: center top;
+				background-repeat: no-repeat;
+				border: 1px solid transparent;
+			}
+
+			&.iphone::before{
+				background-image: url('../../../../assets/img/radar/radar-iphone.svg');
+			}
+
+			&.android::before{
+				background-image: url('../../../../assets/img/radar/radar-android.svg');
+			}
+
+			span:first-child{
+				&::after{
+					content: '-';
+				}
+			}
+
+			&:hover{
+				color: $blue;
+
+				&::before{
+					box-shadow: 0 0 0 1px $blue;
+				}
+			}
+
+			&:nth-child(1){
+				left: 140px;
+				top: 55px;
+			}
+
+			&:nth-child(2){
+				left: 260px;
+				top: 125px;
+			}
+
+			&:nth-child(3){
+				left: 90px;
+				top: 180px;
+			}
+
+			&:nth-child(4){
+				left: 205px;
+				top: 210px;
+			}
+        }
+    }
+}

@@ -15,7 +15,7 @@ export const Hosts = [
 })
 export class WebsocketService extends EventEmitter {
 
-  constructor(protected logger: Logger) {
+  constructor(private logger: Logger) {
     super();
   }
 
@@ -130,18 +130,18 @@ export class WebsocketService extends EventEmitter {
   }
 
   private _host: string;
-  protected get host(): string {
+  public get host(): string {
     return this._host;
   }
-  protected set host(value: string) {
+  public set host(value: string) {
     this._host = value;
   }
 
   private _protocol: string;
-  protected get protocol(): string {
+  public get protocol(): string {
     return this._protocol;
   }
-  protected set protocol(value: string) {
+  public set protocol(value: string) {
     this._protocol = value;
   }
 

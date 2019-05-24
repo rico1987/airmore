@@ -1,3 +1,15 @@
-<p>
-  radar works!
-</p>
+<div class="airmore-radar">
+    <div class="airmore-radar__bg"></div>
+    <div class="airmore-radar__scan"></div>
+    <div class="airmore-radar__pin"></div>
+    <ul>
+        <li
+            [class.iphone]="connection.Platform === 2"
+            [class.android]="connection.Platform === 1"
+            *ngFor="let connection of deviceService.availableConnections"
+            (click)="connectTo(connection)"
+        >
+            {{connection['DeviceName']}}
+        </li>
+    </ul>
+</div>

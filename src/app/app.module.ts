@@ -27,8 +27,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultInterceptor } from './core/interceptors/default.interceptor';
+import { TimeoutInterceptor, DEFAULT_TIMEOUT_PROVIDER } from './core/interceptors/timeout.interceptor';
+
 const INTERCEPTOR_PROVIDES = [
   { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
+  [{ provide: HTTP_INTERCEPTORS, useClass: TimeoutInterceptor, multi: true }],
 ];
 // #endregion
 
@@ -57,7 +60,8 @@ const INTERCEPTOR_PROVIDES = [
   providers: [
     ...INTERCEPTOR_PROVIDES,
     APP_DEFAULT_CONFIG_PROVIDER,
-    { provide: NZ_MODAL_CONFIG, useValue: { nzMask: true }},
+    DEFAULT_TIMEOUT_PROVIDER,
+    { provide: NZ_MODAL_CONFIG, useValue: { nzMask: true }}
   ],
   bootstrap: [AppComponent]
 })
