@@ -27,11 +27,13 @@
       nzPlacement="bottom"
       ></div>
       <div
+        [class.hidden]="!deviceService.deviceConnected"
         class="icon logout"
         nz-tooltip
         nzTitle="断开连接"
         nzOverlayClassName="airmore-tooltip"
         nzPlacement="bottom"
+        (click)="logout()"
     ></div>
     </div>
   </div>

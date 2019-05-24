@@ -50,7 +50,6 @@ import { TimePipe } from './pipes/time.pipe';
 import { VideoPlayerComponent } from './components/video-player/video-player.component';
 import { IsFolderPipe } from './pipes/is-folder.pipe';
 import { InvitationModalComponent } from './components/invitation-modal/invitation-modal.component';
-import { DeviceHeaderComponent } from './components/device-header/device-header.component';
 import { ToolModalComponent } from './components/tool-modal/tool-modal.component';
 import { ReflectorModalComponent } from './components/reflector-modal/reflector-modal.component';
 import { LoadingDirective } from './directives/loading.directive';
@@ -76,7 +75,6 @@ const COMPONENTS = [
   TableComponent,
   MusicPlayerComponent,
   InvitationModalComponent,
-  DeviceHeaderComponent,
   ToolModalComponent,
   ReflectorModalComponent,
   LoadingComponent,
@@ -125,7 +123,6 @@ const PIPES = [
     VideoPlayerComponent,
     IsFolderPipe,
     InvitationModalComponent,
-    DeviceHeaderComponent,
     ToolModalComponent,
     ReflectorModalComponent,
     LoadingDirective,

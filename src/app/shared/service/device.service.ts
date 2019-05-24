@@ -8,6 +8,7 @@ import { BrowserStorageService } from './storage.service';
 import { MyClientService } from './my-client.service';
 import { DeviceInfo } from '../models/device-info.model';
 import { getIp } from '../../utils/tools';
+import { MessageService } from '../service/message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,8 @@ export class DeviceService extends WebsocketService {
   private failedHosts: Array<any> = [];
 
   private intervalId: any = null;
+
+  public deviceConnected = false;
 
   scan(): void {
     getIp()
@@ -103,7 +106,6 @@ export class DeviceService extends WebsocketService {
           },
           () => {
             if (!this.availableConnections.some((ele) => `http://${ele.PrivateIP}:${ele.Port}` === host)) {
-              console.log(host);
               this.failedHosts.push(host);
             }
           }
@@ -115,7 +117,9 @@ export class DeviceService extends WebsocketService {
 
   onOnlineDevice(host: string, info: DeviceInfo): void {
     if (info && info.DeviceName && info.Model) {
-      this.availableConnections.push(info);
+      if (this.availableConnections.indexOf(info) === -1) {
+        this.availableConnections.push(info);
+      }
     }
   }
 
@@ -126,7 +130,8 @@ export class DeviceService extends WebsocketService {
     private browserStorageService: BrowserStorageService,
     private myClientService: MyClientService,
     private router: Router,
-    private log: Logger
+    private log: Logger,
+    private messageService: MessageService,
   ) {
     super(log);
   }
@@ -142,6 +147,7 @@ export class DeviceService extends WebsocketService {
 
   checkAuthorization(): void {
     // 开始连接设备
+    this.stopScan();
     this.myClientService.devicePost('PhoneCheckAuthorization', {})
       .subscribe(
         (status: any) => {
@@ -151,17 +157,18 @@ export class DeviceService extends WebsocketService {
             })
               .subscribe((res: any) => {
                 if (res) {
+                  this.deviceConnected = true;
                   this.router.navigate(['/desktop']);
                 }
               },
               (error) => {
               });
           } else if (status === '1') {
-
+            this.messageService.error('请确保airmore应用在前台');
           } else if (status === '2') {
-
+            this.messageService.error('移动设备已连接至其他服务, 请先断开再尝试连接.');
           } else {
-
+            this.messageService.error('连接失败！请确保您的移动设备和电脑在同一无线网络环境内。');
           }
         },
         (error) => {

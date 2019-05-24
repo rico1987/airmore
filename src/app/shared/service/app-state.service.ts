@@ -19,8 +19,6 @@ export class AppStateService {
 
   currentLanguage: string; // 当前语言
 
-  deviceConnected = false;
-
   _platform: 'android' | 'iphone' = null; // 'android', 'iphone'
 
   currentModule: 'cloud' | 'device' = 'cloud';

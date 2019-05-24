@@ -117,4 +117,66 @@
             border-color: #bbb;
         }
     }
+
+    @include e(confirm-header) {
+        display: block;
+        height: 48px;
+        margin-bottom: 10px;
+        padding-left: 20px;
+        padding-right: 58px;
+        line-height: 58px;
+        font-size: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    @include e(confirm-body) {
+        padding: 0 20px;
+        overflow-y: auto;
+        @include e(confirm-wrapper) {
+            line-height: 24px;
+            min-height: 38px;
+            padding: 0 0 10px 0;
+            padding-left: 50px;
+            background-position: left top;
+            background-repeat: no-repeat;
+            background-image: url('../../../../assets/img/common/msg/confirm.svg');
+            @include e(confirm-content) {
+                padding-top: 7px;
+                line-height: 24px;
+                font-size: 14px;
+                color: #333;
+            }
+        }
+
+        @include e(confirm-btns) {
+            display: block;
+            text-align: right;
+            padding: 10px 20px 20px;
+            button{
+                border: 1px solid #888;
+                border-radius: 15px;
+                height: 30px;
+                min-width: 60px;
+                text-align: center;
+                margin: 0 0 0 10px;
+                padding: 0 10px;
+                background: #fff;
+                font-weight: 700;
+                color: #888;
+                cursor: default;
+                &:hover {
+                    box-shadow: 0 0 0 1px #bbb;
+                }
+                &.primary{
+                    border-color: $primary;
+                    color: $primary;
+                    &:hover {
+                        box-shadow: 0 0 0 1px $primary;
+                    }
+                }
+            }
+        }
+    }
 }

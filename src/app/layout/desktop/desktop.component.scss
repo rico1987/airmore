@@ -41,6 +41,10 @@
             cursor: pointer;
             opacity: .6;
             margin: 0 10px;
+            
+        }
+        .hidden{
+            display:  none!important;
         }
         >:hover{
             opacity: 1;
