@@ -24,12 +24,12 @@
                 position: absolute;
                 right: 7px;
                 top: 7px;
-                background: url('../../../../assets/img/input/checkbox-bigger.svg');
+                background: url('../../../../assets/img/common/input/checkbox.svg');
                 display: none;
 
                 &.selected {
                     display: block;
-                    background-image: url('../../../../assets/img/input/checkbox-bigger-checked.svg');
+                    background-image: url('../../../../assets/img/common//input/checkbox-checked.svg');
                 }
             }
 

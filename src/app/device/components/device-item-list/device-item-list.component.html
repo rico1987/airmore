@@ -172,7 +172,7 @@
         <span class="cancel" (click)="cancelClipboardEdit()" *ngIf="isClipboardEditing">Cancel</span>
         <span class="primary" (click)="saveToClipboard()" *ngIf="isClipboardEditing" [class.active]="clipboardValue">Save to clipboard</span>
       </div>
-      <textarea *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
+      <textarea (keydown)="onKeyDown($event)" *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
       <p *ngIf="!isClipboardEditing && deviceStateService.activeItem && deviceStateService.activeItem['Content']">{{deviceStateService.activeItem['Content']}}</p>
     </div>
     <!-- clipboard end -->

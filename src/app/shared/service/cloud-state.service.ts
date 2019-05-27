@@ -6,7 +6,7 @@ import {
   ComponentFactoryResolver,
   EmbeddedViewRef,
 } from '@angular/core';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { ModalService } from '../../shared/service/modal';
 
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { Audio, Document, Label, Location, Node, OtherResource, People, Video } from '../../cloud/models';
@@ -65,7 +65,7 @@ export class CloudStateService {
     private cfr: ComponentFactoryResolver,
     private appRef: ApplicationRef,
     private nodeService: NodeService,
-    private modalService: NzModalService,
+    private modalService: ModalService,
     private messageService: MessageService,
     private cloudBaseService: CloudBaseService,
   ) {
@@ -303,9 +303,9 @@ export class CloudStateService {
       this.messageService.error('请至少选择一个项目');
     }
     this.modalService.confirm({
-      nzTitle: '<i>Warning</i>',
-      nzContent: '<b>Do you Want to delete these items?</b>',
-      nzOnOk: () => {
+      amTitle: 'Warning',
+      amContent: 'Do you Want to delete these items?',
+      amOnOk: () => {
         this.loading = true;
         let node_list  = [];
         for (let i = 0, l = this.selectedItems.length; i < l; i++) {
@@ -341,9 +341,9 @@ export class CloudStateService {
    */
   rename(): void {
     const renameModal = this.modalService.create({
-      nzTitle: '<i>Rename</i>',
-      nzContent: RenameModalComponent,
-      nzFooter: [
+      amTitle: 'Rename',
+      amContent: RenameModalComponent,
+      amFooter: [
         {
           label: 'OK',
           onClick: componentInstance => {
@@ -385,9 +385,9 @@ export class CloudStateService {
           }
         }
       ],
-      nzMaskClosable: false,
-      nzClosable: false,
-      nzOnOk: () => {
+      amMaskClosable: false,
+      amClosable: false,
+      amOnOk: () => {
 
       }
     });
@@ -398,9 +398,9 @@ export class CloudStateService {
    */
   copy(): void {
     const copyModal = this.modalService.create({
-      nzTitle: '<i>Copy or Move</i>',
-      nzContent: CopyModalComponent,
-      nzFooter: [
+      amTitle: 'Copy or Move',
+      amContent: CopyModalComponent,
+      amFooter: [
         {
           label: 'Copy',
           onClick: componentInstance => {
@@ -454,9 +454,9 @@ export class CloudStateService {
           }
         }
       ],
-      nzMaskClosable: false,
-      nzClosable: true,
-      nzOnOk: () => {
+      amMaskClosable: false,
+      amClosable: true,
+      amOnOk: () => {
 
       }
     });
@@ -542,9 +542,9 @@ export class CloudStateService {
    */
   newFolder(): void {
     const newFolderModal = this.modalService.create({
-      nzTitle: '<i>New Folder</i>',
-      nzContent: NewFolderModalComponent,
-      nzFooter: [
+      amTitle: 'New Folder',
+      amContent: NewFolderModalComponent,
+      amFooter: [
         {
           label: 'OK',
           onClick: componentInstance => {
@@ -583,9 +583,9 @@ export class CloudStateService {
           }
         }
       ],
-      nzMaskClosable: false,
-      nzClosable: false,
-      nzOnOk: () => {
+      amMaskClosable: false,
+      amClosable: false,
+      amOnOk: () => {
 
       }
     });
@@ -593,12 +593,12 @@ export class CloudStateService {
 
   showInvitationModal(): void {
     const invitationModal = this.modalService.create({
-      nzTitle: '<i>获取更大云空间</i>',
-      nzContent: InvitationModalComponent,
-      nzMaskClosable: false,
-      nzFooter: null,
-      nzClosable: true,
-      nzOnOk: () => {
+      amTitle: '获取更大云空间',
+      amContent: InvitationModalComponent,
+      amMaskClosable: false,
+      amFooter: null,
+      amClosable: true,
+      amOnOk: () => {
 
       }
     });
@@ -690,6 +690,10 @@ export class CloudStateService {
 
   setActiveViewMode(activeViewMode:  'list' | 'grid'): void {
     this.activeViewMode = activeViewMode;
+  }
+
+  get isAllSelected(): boolean {
+    return this.itemList.length === this.selectedItems.length;
   }
 
   get currentParentId(): string {

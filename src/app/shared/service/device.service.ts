@@ -27,6 +27,28 @@ export class DeviceService extends WebsocketService {
 
   public deviceConnected = false;
 
+  private _platform: 'android' | 'iphone' = null; // 'android', 'iphone'
+  public get platform(): 'android' | 'iphone' {
+    if (this._platform) {
+      return this._platform;
+    } else {
+      const deviceInfo = this.browserStorageService.get('deviceInfo');
+      let platform;
+      if (deviceInfo) {
+        if (deviceInfo['Platform'] === 1) {
+          platform = 'android';
+        } else if (deviceInfo['Platform'] === 2) {
+          platform = 'iphone';
+        }
+      } 
+      return platform;
+    }
+  }
+
+  public set platform(value: 'android' | 'iphone') {
+    this._platform = value;
+  }
+
   scan(): void {
     getIp()
       .subscribe((ip) => {
@@ -117,7 +139,7 @@ export class DeviceService extends WebsocketService {
 
   onOnlineDevice(host: string, info: DeviceInfo): void {
     if (info && info.DeviceName && info.Model) {
-      if (this.availableConnections.indexOf(info) === -1) {
+      if (this.availableConnections.indexOf(info) === -1 && this.availableConnections.length < 4) {
         this.availableConnections.push(info);
       }
     }

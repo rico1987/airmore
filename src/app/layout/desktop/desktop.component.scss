@@ -59,6 +59,10 @@
             align-items: center;
             position: relative;
         }
+        .account{
+            background-image: url('../../../assets/img/cloud/default-portrait.svg');
+            background-size: 60%;
+        }
         .logout{
             background-image: url('../../../assets/img/header/quit.svg');
         }

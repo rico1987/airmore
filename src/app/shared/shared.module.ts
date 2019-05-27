@@ -60,6 +60,8 @@ import { InstallationModalComponent } from './components/installation-modal/inst
 import { DropdownSelectComponent } from './components/dropdown-select/dropdown-select.component';
 import { DropdownSelectOptionsComponent } from './components/dropdown-select-options/dropdown-select-options.component';
 import { ToolTipComponent } from './components/tool-tip/tool-tip.component';
+import { AboutModalComponent } from './components/about-modal/about-modal.component';
+import { HelpModalComponent } from './components/help-modal/help-modal.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -81,6 +83,8 @@ const COMPONENTS = [
   InstallationModalComponent,
   DropdownSelectComponent,
   ToolTipComponent,
+  AboutModalComponent,
+  HelpModalComponent
 ];
 const DIRECTIVES = [
   LoadingDirective,
@@ -132,8 +136,7 @@ const PIPES = [
     SafeUrlPipe,
     InstallationModalComponent,
     DropdownSelectComponent,
-    DropdownSelectOptionsComponent,
-    ToolTipComponent,
+    DropdownSelectOptionsComponent
   ],
   imports: [
     CommonModule,
@@ -175,6 +178,8 @@ const PIPES = [
     InstallationModalComponent,
     DropdownSelectOptionsComponent,
     ToolTipComponent,
+    AboutModalComponent,
+    HelpModalComponent,
   ],
 })
 export class SharedModule { }

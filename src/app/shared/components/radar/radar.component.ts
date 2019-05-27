@@ -28,9 +28,9 @@ export class RadarComponent implements OnInit {
   connectTo(info: DeviceInfo): void {
     this.browserStorageService.set('deviceInfo', info);
     if (info.Platform === 1) {
-      this.appStateService.setPlatform('android');
+      this.deviceService.platform = 'android';
     } else if (info.Platform === 2) {
-      this.appStateService.setPlatform('iphone');
+      this.deviceService.platform = 'iphone';
     }
     
     this.deviceService.host = `${info.PrivateIP}:${info.Port}`;

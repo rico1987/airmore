@@ -4,7 +4,7 @@ import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { AppStateService } from '../../service/app-state.service';
 import { DeviceStateService } from '../../service';
 import { DeviceService } from '../../service/device.service';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { ModalService } from '../../service/modal';
 import { ToolModalComponent } from '../tool-modal/tool-modal.component';
 import { ReflectorModalComponent } from '../reflector-modal/reflector-modal.component';
 
@@ -23,9 +23,9 @@ export class DesktopComponent implements OnInit {
     private appStateService: AppStateService,
     private deviceStateService: DeviceStateService,
     private deviceService: DeviceService,
-    private modalService: NzModalService,
+    private modalService: ModalService,
   ) {
-    if (this.appStateService.platform === 'iphone') {
+    if (this.deviceService.platform === 'iphone') {
       this.functions = this.appConfig.app.iosDesktopFunctions;
     } else {
       this.functions = this.appConfig.app.androidDesktopFunctions;
@@ -39,23 +39,24 @@ export class DesktopComponent implements OnInit {
     if (fun !== 'cloud') {
       if (fun === 'reflector') {
         const reflectorModal = this.modalService.create({
-          nzTitle: '<i>Reflector</i>',
-          nzContent: ReflectorModalComponent,
-          nzFooter: null,
-          nzMaskClosable: false,
-          nzClosable: true,
-          nzOnOk: () => {
+          amTitle: 'Reflector',
+          amContent: ReflectorModalComponent,
+          amWidth: 360,
+          amFooter: null,
+          amMaskClosable: false,
+          amClosable: true,
+          amOnOk: () => {
     
           }
         });
       } else if (fun === 'tool') {
         const toolModal = this.modalService.create({
-          nzTitle: '<i>Tools</i>',
-          nzContent: ToolModalComponent,
-          nzFooter: null,
-          nzMaskClosable: false,
-          nzClosable: true,
-          nzOnOk: () => {
+          amTitle: 'Tools',
+          amContent: ToolModalComponent,
+          amFooter: null,
+          amMaskClosable: false,
+          amClosable: true,
+          amOnOk: () => {
             
           }
         });

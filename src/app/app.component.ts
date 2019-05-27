@@ -30,9 +30,9 @@ export class AppComponent {
     });
 
     // todo
-    // const deviceInfo = browserStorageService.get('deviceInfo');
-    // if (deviceInfo && deviceInfo.PrivateIP && deviceInfo.Port) {
-    //   deviceService.checkAuthorization();
-    // }
+    const deviceInfo = browserStorageService.get('deviceInfo');
+    if (deviceInfo && deviceInfo.PrivateIP && deviceInfo.Port) {
+      deviceService.checkAuthorization();
+    }
   }
 }

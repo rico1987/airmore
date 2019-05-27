@@ -1,11 +1,23 @@
 // 管理app全局状态
-import { Injectable, Inject } from '@angular/core';
+import { Injectable, Inject, ElementRef } from '@angular/core';
+import {
+  ConnectionPositionPair,
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  OverlayConfig,
+  OverlayRef
+} from '@angular/cdk/overlay';
+import { fromEvent } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { Logger } from './logger.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { CloudStateService } from './cloud-state.service';
 import { DeviceStateService } from './device-state.service';
 import { BrowserStorageService } from './storage.service';
-
+import { ModalService } from './modal';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { ConnectionComponent } from '../../shared/components/connection/connection.component';
+ 
 @Injectable({
   providedIn: 'root'
 })
@@ -15,18 +27,14 @@ export class AppStateService {
 
   accountRoute = 'passwordLogin'; // 'resetPassword', 'phonePasswordLess', 'emailPasswordLess', 'register'
 
-  activeConnectionType = 'qrcode'; // 当前连接方式, 可选值 'qrcode', 'radar', 'account'
-
   currentLanguage: string; // 当前语言
-
-  _platform: 'android' | 'iphone' = null; // 'android', 'iphone'
 
   currentModule: 'cloud' | 'device' = 'cloud';
 
   private _activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
    'tools' | 'clipboard' | 'cloud' = 'pictures';
 
-  connectionStatus: 'connecting' | 'connected' | 'disconnected'; // 当前连接状态
+   private _overlayRef: OverlayRef | null;
 
   // todo
   isSupportZipDownload: boolean = false;
@@ -36,9 +44,41 @@ export class AppStateService {
     private cloudStateService: CloudStateService,
     private deviceStateService: DeviceStateService,
     private storage: BrowserStorageService,
+    private modalService: ModalService,
     private logger: Logger,
+    private overlay: Overlay,
   ) {
     this.currentLanguage = this.appConfig.app.defaultLang;
+  }
+
+  showConnection(connectionType: 'qrcode' | 'radar' | 'account' | null): void {
+    this.dispose();
+    this._overlayRef = this.overlay.create(
+      new OverlayConfig({
+        scrollStrategy: this.overlay.scrollStrategies.close(),
+      })
+    );
+    const instance = this._overlayRef.attach(new ComponentPortal(ConnectionComponent)).instance;
+    if (connectionType) {
+      instance.activeConnectionType = connectionType;
+    }
+    fromEvent<MouseEvent>(document, 'click')
+      .pipe(
+        filter(event => !!this._overlayRef && !this._overlayRef.overlayElement.contains(event.target as HTMLElement)),
+        take(1)
+      )
+      .subscribe(() => instance.hide());
+  }
+
+  hideConnection(): void {
+    this.dispose();
+  }
+
+  dispose(): void {
+    if (this._overlayRef) {
+      this._overlayRef.dispose();
+      this._overlayRef = null;
+    }
   }
 
   setActiveViewMode(mode: 'list' | 'grid'): void {
@@ -49,24 +89,12 @@ export class AppStateService {
     }
   }
 
-  changeConnectionType(connectionType: string): void {
-    this.activeConnectionType = connectionType;
-  }
-
   setCurrentLang(lang: string): void {
     this.currentLanguage = lang;
   }
 
   setCurrentModule(module: 'cloud' | 'device'): void {
     this.currentModule = module;
-  }
-
-  setConnectionStatus(connectionStatus: 'connecting' | 'connected' | 'disconnected'): void {
-    this.connectionStatus = connectionStatus;
-  }
-
-  setPlatform(platform: 'android' | 'iphone') {
-    this._platform = platform;
   }
 
   doAction(action: string, isInactive: boolean): void {
@@ -307,6 +335,14 @@ export class AppStateService {
     return false;
   }
 
+  get isAllSelected(): boolean {
+    if (this.currentModule === 'cloud') {
+      return this.cloudStateService.isAllSelected;
+    } else if (this.currentModule === 'device') {
+      return this.deviceStateService.isAllSelected;
+    }
+  }
+
   get activeFunction(): any {
     if (this.currentModule === 'cloud') {
       return 'cloud';
@@ -320,24 +356,6 @@ export class AppStateService {
       return this.cloudStateService.activeViewMode;
     } else if (this.currentModule === 'device') {
       return this.deviceStateService.activeViewMode;
-    }
-  }
-
-  get platform(): 'android' | 'iphone' {
-    if (this._platform) {
-      return this._platform;
-    } else {
-      const deviceInfo = this.storage.get('deviceInfo');
-      let platform;
-      if (deviceInfo) {
-        if (deviceInfo['Platform'] === 1) {
-          platform = 'android';
-        } else if (deviceInfo['Platform'] === 2) {
-          platform = 'iphone';
-        }
-      } 
-      
-      return platform;
     }
   }
 }

@@ -64,7 +64,6 @@ export class DropdownSelectComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.default);
     if (this.default) {
       if (isArray(this.default)) {
         for (let i = 0, l = this.options.length; i < l; i++)  {
@@ -79,7 +78,7 @@ export class DropdownSelectComponent implements OnInit {
   }
 
   create($event: MouseEvent): DropdownSelectOptionsComponent {
-    event.stopPropagation();
+    
     this.dispose();
     this._overlayRef = this.overlay.create(
       new OverlayConfig({
@@ -112,6 +111,7 @@ export class DropdownSelectComponent implements OnInit {
         take(1)
       )
       .subscribe(() => instance.close());
+    event.stopPropagation();
     return instance;
   }
 

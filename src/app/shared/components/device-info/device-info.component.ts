@@ -38,7 +38,7 @@ export class DeviceInfoComponent implements OnInit {
     private deviceService: DeviceService,
     private productsInfoService: ProductsInfoService,
   ) {
-    this.platform = this.appStateService.platform;
+    this.platform = this.deviceService.platform;
     this.refreshScreenshot();
     this.getDeviceDetails();
   }

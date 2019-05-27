@@ -53,8 +53,16 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
                         background-image: url('../../../../assets/img/action/white/#{$action}-white.svg');
                     }
                 }
+
+                &.select {
+                    background-image: url('../../../../assets/img/common/input/checkbox.svg');
+
+                    @include when(checked) {
+                        background-image: url('../../../../assets/img/common/input/checkbox-checked.svg');
+                    }
+                }
                 &.refresh{
-                    background-image: none;
+                    background-image: none!important;
                     @include e(toolbar-loading) {
                         position: absolute;
                         background-image: url('../../../../assets/img/action/gray/refresh-gray.svg');
@@ -64,8 +72,8 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
                         top: 3px;
                         left: 50%;
                         margin-left: -12px;
-                        transition: All 0.4s ease-in-out;
-                        animation: rotate 3s linear infinite;
+                        transition: rotate 0.4s ease-in-out;
+                        animation: rotate 1.5s linear infinite;
                         animation-play-state: paused;
                     }
                     @include when(loading) {
@@ -75,6 +83,12 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
                             animation-play-state: running;
                         }
 
+                    }
+
+                    &:hover {
+                        @include e(toolbar-loading) {
+                            background-image: url('../../..//../assets/img/action//white/refresh-white.svg');
+                        }
                     }
                 }
 

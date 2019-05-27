@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { AppStateService } from '../../service/app-state.service';
 import { ConnectionService } from '../../service/connection.service';
 import { DeviceService } from '../../service/device.service';
 import { ModalService } from '../../service/modal';
@@ -21,9 +20,16 @@ export class ConnectionComponent implements OnInit {
 
   private _interval: any = null;
 
+  private _activeConnectionType: 'qrcode' | 'radar' | 'account' = 'qrcode';
+  public get activeConnectionType(): 'qrcode' | 'radar' | 'account' {
+    return this._activeConnectionType;
+  }
+  public set activeConnectionType(value: 'qrcode' | 'radar' | 'account') {
+    this._activeConnectionType = value;
+  }
+
 
   constructor(
-    private appStateService: AppStateService,
     private deviceService: DeviceService,
     private connectionService: ConnectionService,
     private modalService: ModalService,
@@ -33,8 +39,9 @@ export class ConnectionComponent implements OnInit {
     this.getQrCode();
   }
 
-  changeConnectionType(connectionType: string): void {
-    this.appStateService.changeConnectionType(connectionType);
+  changeConnectionType(connectionType: 'qrcode' | 'radar' | 'account'): void {
+    this.connectionService.activeConnectionType = connectionType;
+    this.activeConnectionType = connectionType;
     if (connectionType === 'qrcode') {
       this.getQrCode();
       this.deviceService.stopScan();
@@ -88,5 +95,9 @@ export class ConnectionComponent implements OnInit {
 
       }
     });
+  }
+
+  hide(): void {
+
   }
 }

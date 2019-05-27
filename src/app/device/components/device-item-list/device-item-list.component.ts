@@ -80,6 +80,15 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
 
   }
 
+  onKeyDown(event: KeyboardEvent): boolean {
+    if (event.keyCode == 83 && (navigator.platform.match("Mac") ? event.metaKey : event.ctrlKey)) {
+      this.saveToClipboard();
+      event.stopPropagation();
+      return false;
+    }
+    return true;
+  }
+
   playMusic(item): void {
     this.musicPlayer.setPlayList(this.deviceStateService.itemList);
     this.musicPlayer.setCurrentPlayingItem(item);

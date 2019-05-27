@@ -934,4 +934,8 @@ export class DeviceStateService {
             this.generateContactsData(this.activeItem['contacts']);
         }
     }
+
+    get isAllSelected(): boolean {
+        return this.itemList.length === this.selectedItems.length;
+    }
 }

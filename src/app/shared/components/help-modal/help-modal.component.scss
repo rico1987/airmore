@@ -1,0 +1,39 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(help-modal) {
+    h4{
+		font-size: 1em;
+		background: rgba(#000, 0.1);
+		padding: 0 10px;
+		margin-bottom: 5px;
+	}
+
+	section{
+		margin-bottom: 20px;
+	}
+
+	p{
+		padding: 0 10px;
+	}
+
+	a{
+		font-weight: bold;
+        color: $blue;
+        outline: none;
+	}
+
+	ul{
+		list-style-type: disc;
+		padding-left: 30px;
+
+		header{
+			margin-top: 10px;
+			font-weight: bold;
+		}
+
+		p{
+			padding: 0;
+		}
+	}
+}

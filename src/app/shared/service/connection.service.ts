@@ -3,7 +3,6 @@ import { Logger } from './logger.service';
 import { WebsocketService } from './websocket.service';
 import { BrowserStorageService } from './storage.service';
 import { DeviceService } from './device.service';
-import { AppStateService } from './app-state.service';
 
 const hosts = [
   'airmore.com',
@@ -16,13 +15,21 @@ const hosts = [
 })
 export class ConnectionService extends WebsocketService {
 
+  private _activeConnectionType: 'qrcode' | 'radar' | 'account';
+  public get activeConnectionType(): 'qrcode' | 'radar' | 'account' {
+    return this._activeConnectionType;
+  }
+  public set activeConnectionType(value: 'qrcode' | 'radar' | 'account') {
+    this._activeConnectionType = value;
+  }
+
   constructor(
     private browserStorageService: BrowserStorageService,
-    private appStateService: AppStateService,
     private deviceService: DeviceService,
     private log: Logger,
   ) {
     super(log);
+    this.activeConnectionType = 'qrcode';
   }
 
   /**
@@ -46,9 +53,9 @@ export class ConnectionService extends WebsocketService {
         this.clearHeartBeat();
         this.browserStorageService.set('deviceInfo', data);
         if (data.Platform === 1) {
-          this.appStateService.setPlatform('android');
+          this.deviceService.platform = 'android';
         } else if (data.Platform === 2) {
-          this.appStateService.setPlatform('iphone');
+          this.deviceService.platform = 'iphone';
         }
         this.send({
           Key: 'WebCloseSocket',

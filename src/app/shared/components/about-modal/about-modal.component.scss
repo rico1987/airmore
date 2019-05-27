@@ -1,0 +1,33 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(about-modal) {
+
+    @include e(logo) {
+        width: 144px;
+        height: 94px;
+        float: left;
+        background: url('../../../../assets/img/logo.svg') 0 0/auto 94px no-repeat;
+    }
+    
+    @include e(info) {
+        margin-left: 165px;
+        >*{
+            line-height: 1.75;
+        }
+        .header{
+            font-size: 18px;
+        }
+        .copy-right{
+            margin-top: 8px;
+        }
+        .link {
+            text-decoration: none;
+            color: black;
+            outline: none;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+}

@@ -1,6 +1,9 @@
 <section class="airmore-layout-desktop">
   <div class="airmore-layout-desktop__header">
-    <div class="airmore-layout-desktop__logo">
+    <div
+      class="airmore-layout-desktop__logo"
+      (click)="showAboutModal()"
+    >
       Airmore
     </div>
     <div class="airmore-layout-desktop__toolbar">
@@ -10,6 +13,7 @@
       nzTitle="账户"
       nzOverlayClassName="airmore-tooltip"
       nzPlacement="bottom"
+      (click)="gotoAccount()"
       >
       </div>
       <div
@@ -25,6 +29,7 @@
       nzTitle="帮助"
       nzOverlayClassName="airmore-tooltip"
       nzPlacement="bottom"
+      (click)="showHelp()"
       ></div>
       <div
         [class.hidden]="!deviceService.deviceConnected"
