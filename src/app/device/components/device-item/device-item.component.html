@@ -6,7 +6,7 @@
   (dblclick)="openResource()">
   <!-- apps start -->
   <div class="airmore-device-item__container" *ngIf="deviceStateService.activeFunction === 'apps' && item">
-    <app-lazy-load-image class="airmore-device-item__icon" [imgSrc]="getAppIcon(item.PackageName)" *ngIf="item.PackageName"></app-lazy-load-image>
+    <img class="airmore-device-item__icon" [src]="getAppIcon(item.PackageName)" *ngIf="item.PackageName" />
     <p class="airmore-device-item__name">{{item.ShowName}}</p>
     <p class="airmore-device-item__size">{{item.Size | size}}</p>
     <ul class="airmore-device-item__toolbar">

@@ -6,7 +6,7 @@
     bottom: 0;
     left: $main-content-position-left;
     right: $main-content-position-right;
-    top: $header-height + $subheader-height; 
+    top: $header-height + $subheader-height + 10; 
     
     // todo
     @include e(content) {

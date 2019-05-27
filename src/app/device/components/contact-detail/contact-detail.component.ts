@@ -257,6 +257,7 @@ export class ContactDetailComponent implements OnInit {
 
   ngOnInit() {
     this.groups = this.deviceStateService.tempContactsGroupList.concat();
+    console.log(this.contact);
   }
 
 
@@ -309,5 +310,25 @@ export class ContactDetailComponent implements OnInit {
 
   onSelectGroupChange(selectedOptions: Array<any>): void {
     console.log(selectedOptions);
+  }
+
+  getPhoneType(type: number): string {
+    return PhoneTypes.find((ele) => ele.key === type)['label'];
+  }
+
+  getAddressType(type: number): string {
+    return AddressTypes.find((ele) => ele.key === type)['label'];
+  }
+
+  getImType(type: number): string {
+    return ImTypes.find((ele) => ele.key === type)['label'];
+  }
+
+  getWebsiteType(type: number): string {
+    return WebsiteTypes.find((ele) => ele.key === type)['label'];
+  }
+
+  getEventType(type: number): string {
+    return EventTypes.find((ele) => ele.key === type)['label'];
   }
 }

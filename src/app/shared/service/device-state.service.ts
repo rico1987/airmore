@@ -229,6 +229,9 @@ export class DeviceStateService {
             } else if (this.activeFunction === 'documents') {
                 this.deviceService.getDocList(this.activeAlbumId)
                     .subscribe((data) => {
+                        for (let i = 0, l = data.length; i < l; i++) {
+                            data[i]['album'] = this.activeAlbumId; 
+                        }
                         this.itemList = data;
                         console.log(this.itemList);
                         this.loading = false;
@@ -245,8 +248,6 @@ export class DeviceStateService {
                 this.deviceService.getMessageList(this.activeAlbumId, this.Start, this.totalCount)
                     .subscribe((data) => {
                         this.processData(data, isAddTo);
-                        console.log(this.itemList);
-                        console.log(this.itemGroupList);
                         this.loading = false;
                     });
             }
@@ -347,7 +348,9 @@ export class DeviceStateService {
             this.itemList = data;
             this.itemGroupList = processedGroupList;
         }
-        console.log(this.itemGroupList);
+        if (this.activeFunction === 'messages') {
+            this.itemList = this.itemList.reverse();
+        }
     }
 
     newContact(): void {

@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Inject, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { NzTableComponent } from 'ng-zorro-antd';
 const copy = require('clipboard-copy')
-import { MessageService } from '../../../shared/service';
+import { MessageService, DeviceService } from '../../../shared/service';
 import { DeviceStateService } from '../../../shared/service';
 import { Subject } from 'rxjs';
 import { MusicPlayerComponent } from '../../../shared/components/music-player/music-player.component';
@@ -11,7 +11,7 @@ import { MusicPlayerComponent } from '../../../shared/components/music-player/mu
   templateUrl: './device-item-list.component.html',
   styleUrls: ['./device-item-list.component.scss']
 })
-export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DeviceItemListComponent implements OnInit, OnDestroy {
   
 
   @ViewChild('itemListContainer') itemListContainer: ElementRef;
@@ -21,6 +21,8 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
   @ViewChild('musicPlayer') musicPlayer: MusicPlayerComponent;
 
   @ViewChild('contactGroupContainer') contactGroupContainer: ElementRef;
+
+  @ViewChild('messageContent') messageContent: ElementRef;
 
   listOfData: any[] = [];
 
@@ -33,6 +35,9 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
   clipboardTextareaPlaceholder: string = 'Ctrl + Enter 保存到手机';
   clipboardValue: string = '';
 
+  messageTextareaPlaceholder: string = 'Ctrl + Enter 发送';
+  messageValue: string = '';
+
 
   sortName: string | null = null;
   sortValue: string | null = null;
@@ -43,6 +48,7 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private messageService: MessageService,
     private deviceStateService: DeviceStateService,
+    private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {
@@ -53,11 +59,35 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
     const containerHeight = this.itemListContainer.nativeElement.offsetHeight;
     if (this.deviceStateService.activeFunction === 'musics') {
       this.scrollHeight = containerHeight - 150;
-      console.log(this.scrollHeight);
     } else {
-      // todo
-      this.scrollHeight = containerHeight - 80;
+      this.scrollHeight = containerHeight - 60;
     }
+  }
+
+  call(): void {
+    const Phone = this.deviceStateService.activeItem['Phone'];
+    if (Phone) {
+      this.deviceService.call(Phone)
+        .subscribe((res) => {
+          if (res) {
+            this.messageService.info('请在手机上完成拨打电话步骤.');
+          } else {
+            this.messageService.error('呼叫失败！');
+          }
+        })
+    }
+  }
+
+  onMessageContentKeyDown(): void {
+
+  }
+
+  checkContact(): void {
+
+  }
+
+  addToContact(): void {
+
   }
 
   checkAll(): void {
@@ -87,6 +117,21 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
       return false;
     }
     return true;
+  }
+
+  sendMessage(): void {
+    if (this.messageValue) {
+      this.messageContent.nativeElement.scrollTop = this.messageContent.nativeElement.scrollHeight;
+      this.messageValue = '';
+      this.deviceService.sendMessage(this.deviceStateService.activeItem['Phone'], this.messageValue)
+        .subscribe((res) => {
+          if (res === 0) {
+            this.messageService.error('发送失败！');
+          } else {
+            this.messageService.success('发送成功。');
+          }
+        });
+    }
   }
 
   playMusic(item): void {
@@ -155,11 +200,12 @@ export class DeviceItemListComponent implements OnInit, AfterViewInit, OnDestroy
     this.destroy$.next();
     this.destroy$.complete();
   }
-  ngAfterViewInit(): void {
-    // this.nzTableComponent.cdkVirtualScrollViewport.scrolledIndexChange
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(data => {
-    //     console.log('scroll index to', data);
-    //   });
+
+  getFileType(path: string): string {
+    if (!path) {
+      return '-';
+    }
+    const index = path.lastIndexOf('.');
+    return path.substring(index + 1);
   }
 }

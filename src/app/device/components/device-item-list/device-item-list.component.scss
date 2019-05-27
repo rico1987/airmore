@@ -46,10 +46,12 @@
                     color: white;
                     border: none;
                     &.active{
+                        cursor: pointer;
                         background-color: $primary;
                     }
                 }
                 &.cancel {
+                    cursor: pointer;
                     &:hover {
                         box-shadow: 0 0 0 1px #bbb;
                         border-color: #bbb;
@@ -74,11 +76,15 @@
 
     @include e(td) {
         position: relative;
-        >span{
-            text-overflow: ellipsis;
+        display: flex;
+        justify-content: flex-start;
+        height: 38px;
+        .name{
             display: inline-block;
-            max-width: 150px;
+            width: 350px;
+            text-overflow: ellipsis;
             overflow: hidden;
+            white-space: nowrap;
         }
         @include e(td-operations) {
             float: right;
@@ -119,10 +125,33 @@
                 display: block;
             }
         }
-        &.file{
-            span{
-                display: inline;
-                margin-left: 10px;
+        span.icon {
+            width: 18px;
+            height: 100%;
+            margin-right: 7px;
+            display: inline-block;
+            vertical-align: top;
+            @include when(folder) {
+                background: url('../../../../assets/img/common/tree/tree-folder.svg') center no-repeat;
+            }
+            @include when(file) {
+                background: url('../../../../assets/img/common/tree/tree-file.svg') center no-repeat;
+            }
+        }
+        span.file-icon{
+            width: 20px;
+            height: 100%;
+            margin-right: 7px;
+            display: inline-block;
+            vertical-align: top;
+            background-size: 20px 20px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-image: url('../../../../assets/img/common/tree/tree-file.svg');
+            @each $ext in $exts{
+                &.#{$ext}{
+                    background-image: url('../../../../assets/img/doc/#{$ext}.svg');
+                }
             }
         }
     }
@@ -201,13 +230,33 @@
                     user-select: auto;
                     background: #ebebeb;
                 }
-                &.is-from-me{
+                @include when(received) {
+                    .text {
+                        &::after{
+                            content: '';
+                            position: absolute;
+                            left: -3px;
+                            bottom: 0;
+                            border-bottom: 10px solid #ebebeb;
+                            border-left: 20px solid transparent;
+                        }
+                    }
+                }
+                @include when(from-me){
                     float: right;
                     .text{
                         background: #0bb521;
                         color: #fff;
                         margin-left: 30px;
                         float: right;
+                        &::after{
+                            content: '';
+                            position: absolute;
+                            right: -3px;
+                            bottom: 0;
+                            border-bottom: 10px solid #0bb521;
+                            border-right: 20px solid transparent;
+                        }
                     }
                     .copy-btn{
                         float: left;
@@ -251,9 +300,21 @@
                 border: 1px solid #ddd;
                 border-left: none;
                 background: url('../../../../assets/img/message/send.svg') center no-repeat;
+                &::before{
+                    content: '';
+                    width: 1px;
+                    height: 30px;
+                    float: left;
+                    margin: 10px 0;
+                    background: #ddd;
+                }
 
-                &.active{
-                    :hover {
+                @include when(active){
+                    cursor: pointer;
+                    &:hover {
+                        background-image: url('../../../../assets/img/message/send-hover.svg');
+                    }
+                    &:active{
                         background-image: url('../../../../assets/img/message/send-active.svg');
                     }
                 }
@@ -354,5 +415,15 @@
             height: 75px;
             margin: 10px 0;
         }
+        .artist, .album{
+            display: inline-block;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+    
+    @include e(container-apps) {
+        padding-top: 10px;
     }
 }

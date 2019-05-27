@@ -9,6 +9,8 @@
         height: 100%;
         display: inline-block;
         text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
         padding-right: 8%;
         background: url('../../../../assets/img/common/drop/arrow.svg') 97.5% center no-repeat;
         background-position: calc(100% - 5px) center;

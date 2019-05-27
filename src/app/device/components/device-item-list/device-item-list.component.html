@@ -41,12 +41,11 @@
           <tr>
             <th
               nzShowCheckbox
-              nzWidth="60px"
+              nzWidth="40px"
               [(nzChecked)]="isAllDisplayDataChecked"
               (nzCheckedChange)="checkAll($event)"
             ></th>
             <th
-              nzWidth="350px"
               nzShowSort
               nzSortKey="ShowName"
             >Name</th>
@@ -59,6 +58,7 @@
               nzSortKey="Size"
             >Size</th>
             <th
+              nzWidth="150px"
               nzShowSort
               nzSortKey="ModifyTime"
             >Modify time</th>
@@ -68,13 +68,14 @@
           <ng-template nz-virtual-scroll let-data let-index="index">
             <tr>
               <td
-                style="width: 60px;"
+                style="width: 40px;"
                 nzShowCheckbox
                 [nzChecked]="deviceStateService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
-              <td style="width: 350px;" class="airmore-device-item-list__td">
-                {{ data.ShowName }}
+              <td class="airmore-device-item-list__td">
+                <span class="file-icon" [ngClass]="data.album"></span>
+                <span class="name">{{ data.ShowName }}</span>
                 <div class="airmore-device-item-list__td-operations">
                   <span class="export" (click)="export(data)"></span>
                   <span class="delete" (click)="delete(data)"></span>
@@ -82,7 +83,7 @@
               </td>
               <td style="width: 150px;">{{ data.Path | fileType }}</td>
               <td style="width: 150px;">{{ data.Size | size }}</td>
-              <td>{{ data.ModifyTime * 1000 | time }}</td>
+              <td style="width: 150px;">{{ data.ModifyTime * 1000 | time }}</td>
             </tr>
           </ng-template>
         </tbody>
@@ -107,12 +108,11 @@
           <tr>
             <th
               nzShowCheckbox
-              nzWidth="60px"
+              nzWidth="40px"
               [(nzChecked)]="isAllDisplayDataChecked"
               (nzCheckedChange)="checkAll($event)"
             ></th>
             <th
-              nzWidth="350px"
               nzShowSort
               nzSortKey="ShowName"
             >Name</th>
@@ -132,6 +132,7 @@
               nzSortKey="Duration"
             >Duration</th>
             <th
+              nzWidth="100px"
               nzShowSort
               nzSortKey="Size"
             >Size</th>
@@ -141,23 +142,23 @@
           <ng-template nz-virtual-scroll let-data let-index="index">
             <tr>
               <td
-                style="width: 60px;"
+                style="width: 40px;"
                 nzShowCheckbox
                 [nzChecked]="deviceStateService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
-              <td style="width: 350px;" class="airmore-device-item-list__td">
-                <span>{{ data.ShowName }}</span>
+              <td class="airmore-device-item-list__td">
+                {{ data.ShowName }}
                 <div class="airmore-device-item-list__td-operations">
                     <span class="play" (click)="playMusic(data)"></span>
                     <span class="export" (click)="export(data)"></span>
                     <span class="delete" (click)="delete(data)"></span>
                 </div>
               </td>
-              <td style="width: 250px;" class="airmore-device-item-list__td"><span>{{ data.Artist || '-' }}</span></td>
-              <td style="width: 250px;" class="airmore-device-item-list__td"><span>{{ data.Album || '-' }}</span></td>
+              <td style="width: 250px;">{{ data.Artist | cutOff }}</td>
+              <td style="width: 250px;">{{ data.Album | cutOff }}</td>
               <td style="width: 100px;">{{ data.Duration / 1000 | duration }}</td>
-              <td>{{ data.Size | size }}</td>
+              <td style="width: 100px;">{{ data.Size | size }}</td>
             </tr>
           </ng-template>
         </tbody>
@@ -183,90 +184,91 @@
         <span class="to">To: {{deviceStateService.activeItem.ShowName}}
           <span *ngIf="deviceStateService.activeItem.Phone && deviceStateService.activeItem.Phone !== deviceStateService.activeItem.ShowName">({{deviceStateService.activeItem.Phone}})</span>
         </span>
-        <span class="btn">添加为联系人</span>
-        <span class="btn">查看联系人</span>
-        <span class="btn">拨打电话</span>
+        <span class="btn" (click)="call()">拨打电话</span>
+        <span class="btn" (click)="checkContact()">查看联系人</span>
+        <span class="btn" (click)="addToContact()">添加为联系人</span>
       </div>
-      <div class="content">
-        <div class="message" *ngFor="let item of deviceStateService.itemList" [class.is-from-me]="item.MsgType === 2">
+      <div class="content" #messageContent>
+        <div class="message" *ngFor="let item of deviceStateService.itemList" [class.is-received]="item.MsgType === 1" [class.is-from-me]="item.MsgType === 2">
           <div class="date">{{item.Date}}</div>
           <div class="copy-btn" (click)="copyToClipboard(item, $event)">复制</div>
           <div class="text">{{item.Content}}</div>
         </div>
       </div>
       <div class="message-sender">
-        <textarea placeholder="Ctrl + Enter 发送"></textarea>
-        <div class="send-message"></div>
+        <textarea (keydown)="onMessageContentKeyDown($event)" placeholder="{{messageTextareaPlaceholder}}" [(ngModel)]="messageValue"></textarea>
+        <div class="send-message" (click)="sendMessage()" [class.is-active]="messageValue"></div>
       </div>
     </div>
     <!-- messages end -->
 
     <!-- files start -->
-    <nz-table
-      *ngIf="deviceStateService.itemList && deviceStateService.activeFunction === 'files'"
-      #virtualTable
-      #rowSelectionTable
-      nzVirtualScroll
-      [nzVirtualItemSize]="50"
-      [nzData]="listOfDisplayData"
-      [nzFrontPagination]="false"
-      [nzShowPagination]="false"
-      [nzScroll]="{ y: scrollHeight + 'px' }"
-    >
-      <thead>
-        <tr>
-          <th
-            nzShowCheckbox
-            nzWidth="60px"
-            [(nzChecked)]="isAllDisplayDataChecked"
-            (nzCheckedChange)="checkAll($event)"
-          ></th>
-          <th
-            nzWidth="350px"
-            nzShowSort
-            nzSortKey="ShowName"
-          >Name</th>
-          <th
-            nzWidth="150px"
-            nzShowSort
-            nzSortKey="FileType"
-          >FileType</th>
-          <th
-            nzWidth="150px"
-            nzShowSort
-            nzSortKey="Size"
-          >Size</th>
-          <th
-            nzWidth="150px"
-            nzShowSort
-            nzSortKey="ModifyTime"
-          >ModifyTime</th>
-        </tr>
-      </thead>
-      <tbody>
-        <ng-template nz-virtual-scroll let-data let-index="index">
+    <div class="airmore-device-item-list__container-files" *ngIf="deviceStateService.activeFunction === 'files'">
+      <nz-table
+        *ngIf="deviceStateService.itemList && deviceStateService.activeFunction === 'files'"
+        #virtualTable
+        #rowSelectionTable
+        nzVirtualScroll
+        [nzVirtualItemSize]="50"
+        [nzData]="listOfDisplayData"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        [nzScroll]="{ y: scrollHeight + 'px' }"
+      >
+        <thead>
           <tr>
-            <td
+            <th
               nzShowCheckbox
-              [nzChecked]="deviceStateService.hasItem(data)"
-              (nzCheckedChange)="onTdCheckedChange($event, data)"
-            ></td>
-            <td class="airmore-device-item-list__td file" style="position: relative;">
-              <i nz-icon [type]="'folder'" *ngIf="data.FileType === 2"></i>
-              <i nz-icon [type]="'file'" *ngIf="data.FileType === 1"></i>
-              <span>{{ data.ShowName }}</span>
-              <div class="airmore-device-item-list__td-operations">
-                <span class="export" (click)="export(data)"></span>
-                <span class="delete" (click)="delete(data)"></span>
-              </div>
-            </td>
-            <td>{{ data.FileType | isFolder }}</td>
-            <td>{{ data.Size | size }}</td>
-            <td>{{ data.ModifyTime | time }}</td>
+              nzWidth="40px"
+              [(nzChecked)]="isAllDisplayDataChecked"
+              (nzCheckedChange)="checkAll($event)"
+            ></th>
+            <th
+              nzShowSort
+              nzSortKey="ShowName"
+            >Name</th>
+            <th
+              nzWidth="150px"
+              nzShowSort
+              nzSortKey="FileType"
+            >FileType</th>
+            <th
+              nzWidth="150px"
+              nzShowSort
+              nzSortKey="Size"
+            >Size</th>
+            <th
+              nzWidth="150px"
+              nzShowSort
+              nzSortKey="ModifyTime"
+            >ModifyTime</th>
           </tr>
-        </ng-template>
-      </tbody>
-    </nz-table> 
+        </thead>
+        <tbody>
+          <ng-template nz-virtual-scroll let-data let-index="index">
+            <tr>
+              <td
+                style="width: 40px;"
+                nzShowCheckbox
+                [nzChecked]="deviceStateService.hasItem(data)"
+                (nzCheckedChange)="onTdCheckedChange($event, data)"
+              ></td>
+              <td class="airmore-device-item-list__td">
+                <span class="icon" [class.is-file]="data.FileType === 1" [class.is-folder]="data.FileType === 2"></span>
+                {{ data.ShowName }}
+                <div class="airmore-device-item-list__td-operations">
+                  <span class="export" (click)="export(data)"></span>
+                  <span class="delete" (click)="delete(data)"></span>
+                </div>
+              </td>
+              <td style="width: 150px;">{{ data.FileType | isFolder }}</td>
+              <td style="width: 150px;">{{ data.Size | size }}</td>
+              <td style="width: 150px;">{{ data.ModifyTime | time }}</td>
+            </tr>
+          </ng-template>
+        </tbody>
+      </nz-table>
+    </div>
     <!-- files end -->
 
     <!-- contacts start -->
@@ -294,7 +296,7 @@
         </div>
       </div>
       <div class="airmore-device-item-list__contact-detail">
-        <app-contact-detail></app-contact-detail>
+        <app-contact-detail [contact]="deviceStateService.activeContact"></app-contact-detail>
       </div>
     </div>
     <!-- contacts end -->

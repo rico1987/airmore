@@ -8,7 +8,7 @@
         [class.is-hidden]="!hasAction(item.action)"
         [class.is-inactive]="isInactive(item.action)"
         [class.is-loading]="appStateService.loading"
-        [class.is-checked]="item.action === 'select-all' && appStateService.isAllSelected && !appStateService.loading"
+        [class.is-checked]="item.action === 'select-all' && appStateService.isAllSelected && !appStateService.loading && !appStateService.isEmpty"
         [ngClass]=item.class
         *ngFor="let item of toolbarItems"
         (click)="doAction(item.action, isInactive(item.action))"

@@ -9,6 +9,7 @@ import { MyClientService } from './my-client.service';
 import { DeviceInfo } from '../models/device-info.model';
 import { getIp } from '../../utils/tools';
 import { MessageService } from '../service/message.service';
+import { generateRandomString } from '../../utils/index';
 
 @Injectable({
   providedIn: 'root'
@@ -379,5 +380,22 @@ export class DeviceService extends WebsocketService {
       Path: path,
       Rotation: rotation ? rotation : 0,
     });
+  }
+
+  call(Phone: string): Observable<any> {
+    return this.myClientService.devicePost('CallMake', {
+      Phone,
+    })
+  }
+
+  sendMessage(Phone: string, Content: String): Observable<any> {
+    return this.myClientService.devicePost('MessageSend', JSON.stringify([
+      {
+        ID: '',
+        Content,
+        Phone,
+        UniqueID: generateRandomString(10),
+      }
+    ]))
   }
 }

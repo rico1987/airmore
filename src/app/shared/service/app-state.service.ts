@@ -326,6 +326,14 @@ export class AppStateService {
     return this.appConfig.app.isDebug;
   }
 
+  get isEmpty(): boolean {
+    if (this.currentModule === 'cloud') {
+      return this.cloudStateService.itemList.length === 0;
+    } else if (this.currentModule === 'device') {
+      return this.deviceStateService.itemList.length === 0;
+    }
+  }
+
   get loading(): boolean {
     if (this.currentModule === 'cloud') {
       return this.cloudStateService.loading;

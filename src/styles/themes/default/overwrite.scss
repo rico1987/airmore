@@ -7,7 +7,8 @@
     height: 37px;
     line-height: 37px;
     padding: 0 10px!important;
-    font-size: 12px;
+    font-size: 14px;
+    background: white!important;
 }
 
 .ant-table-placeholder {
@@ -19,4 +20,13 @@
         color: $primary!important;
         border-color: $primary!important;
     }
+}
+.ant-checkbox-inner{
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+    background-color: $primary !important;
+    border-color: $primary !important;
 }

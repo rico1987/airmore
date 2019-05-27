@@ -33,7 +33,7 @@ export const APP_DEFAULT_CONFIG_PROVIDER = {
             // tslint:disable-next-line
             appFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'reflector', 'tool', 'clipboard', 'cloud'],
             androidDesktopFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'reflector', 'tool', 'clipboard', 'cloud'],
-            iosDesktopFunctions: ['pictures' , 'musics', 'videos', 'apps', 'documents', 'files', 'reflector', 'tools', 'clipboard', 'cloud'],
+            iosDesktopFunctions: ['pictures' , 'musics', 'videos', 'documents', 'files', 'tools', 'clipboard', 'cloud'],
             // tslint:disable-next-line
             androidSidebarFunctions: ['pictures' , 'musics', 'videos', 'contacts', 'messages', 'apps', 'documents', 'files', 'clipboard', 'cloud'],
             iosSidebarFunctions: ['pictures' , 'musics', 'videos', 'documents', 'files', 'clipboard', 'cloud'],

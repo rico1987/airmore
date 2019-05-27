@@ -84,7 +84,7 @@
   <!-- messages end -->
   <!-- apps start -->
   <div class="airmore-device-sidebar__apps" *ngIf="appStateService.activeFunction === 'apps' && !appStateService.loading">
-    <div class="airmore-device-sidebar__item active" (click)="selectAlbum(item)">
+    <div class="airmore-device-sidebar__item is-active" (click)="selectAlbum(item)">
       <div class="airmore-device-sidebar__item-icon is-app">
       </div>
       <div class="airmore-device-sidebar__item-info">
@@ -131,17 +131,15 @@
         </ul>
       </ng-template>
       <ng-template #nzTreeTemplate let-node>
-        <span class="custom-node" style="display: block;padding-left: 5px;" [class.selected]="activedNode?.key === node.key" (click)="selectNode(node)">
+        <span class="custom-node" style="display: block;padding-left: 5px;" [class.is-selected]="activedNode?.key === node.key" (click)="selectNode(node)">
           <span *ngIf="!node.isLeaf" (contextmenu)="contextMenu($event, contextTemplate)">
-            <i
-              nz-icon
-              *ngIf="!node.touched || node.children.length !== 0"
-              [type]="node.isExpanded ? 'down' : 'right'"
+            <span
+              class="tree-icon"
+              [class.is-active]="node.isExpanded"
+              [class.is-empty]="node.touched && node.children.length === 0"
               (click)="openFolder(node, $event)"
-            ></i>
-            <i nz-icon *ngIf="node.touched && node.children.length === 0" [type]="'down'" style="opacity: 0;"></i>
-            <i nz-icon [type]="'folder'"></i>
-            <span style="margin-left: 5px;" class="folder-name">{{ node.origin.ShowName }}</span>
+              ></span>
+            <span class="tree-folder">{{ node.origin.ShowName }}</span>
           </span>
         </span>
       </ng-template>

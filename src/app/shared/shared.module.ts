@@ -46,6 +46,7 @@ import { ModalModule } from './service/modal/modal.module';
 import { SizePipe } from './pipes/size.pipe';
 import { DurationPipe } from './pipes/duration.pipe';
 import { FileTypePipe } from './pipes/file-type.pipe';
+import { CutOffPipe } from './pipes/cut-off.pipe';
 import { TimePipe } from './pipes/time.pipe';
 import { VideoPlayerComponent } from './components/video-player/video-player.component';
 import { IsFolderPipe } from './pipes/is-folder.pipe';
@@ -97,6 +98,7 @@ const PIPES = [
   TimePipe,
   IsFolderPipe,
   SafeUrlPipe,
+  CutOffPipe,
 ];
 
 @NgModule({
@@ -124,6 +126,7 @@ const PIPES = [
     DurationPipe,
     FileTypePipe,
     TimePipe,
+    CutOffPipe,
     VideoPlayerComponent,
     IsFolderPipe,
     InvitationModalComponent,

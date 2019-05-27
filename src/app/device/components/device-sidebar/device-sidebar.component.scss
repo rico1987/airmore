@@ -37,7 +37,7 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
             height: 50px;
             border-radius: 2px;
             margin-right: 12px;
-            background-color: $primary;
+            background-color: $primary-light-5;
             background-position: center;
             background-repeat: no-repeat;
             img {
@@ -84,7 +84,7 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
 
             @include e(item-info) {
                 border-bottom-color: $primary;
-                background: url('../../../../assets/img/album/arrow-active.svg') 95% center no-repeat;
+                background: url('../../../../assets/img/album/arrow-right-active.svg') 95% center no-repeat;
             }
         }
     }
@@ -279,7 +279,7 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
 
                 @include when(active) {
                     border-bottom-color: $primary;
-                    background: url('../../../../assets/img/album/arrow-active.svg') 95% center no-repeat;
+                    background: url('../../../../assets/img/album/arrow-right-active.svg') 95% center no-repeat;
                 }
             }
         }
@@ -290,4 +290,37 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
         background: $primary;
         color: white;
     }
+
+    @include when(selected) {
+        background: $primary;
+        color: white;
+        .tree-icon {
+            background-image: url('../../../../assets/img/common/tree/tree-arrow-active.svg');
+        }
+        .tree-folder {
+            background-image: url('../../../../assets/img/common/tree/tree-folder-active.svg');
+        }
+    }
+
+    .tree-icon{
+        display: inline-block;
+        vertical-align: top;
+        height: 30px;
+        width: 16px;
+        transition: transform .3s ease;
+        background: url('../../../../assets/img/common/tree/tree-arrow.svg') center no-repeat;
+        @include when(active) {
+            transform: rotate(90deg);
+        }
+        @include when(empty) {
+            opacity: 0;
+        }
+    }
+    .tree-folder{
+        padding-left: 26px;
+        line-height: 30px;
+        background: url('../../../../assets/img/common/tree/tree-folder.svg') left center no-repeat;
+    }
+
+    
 }

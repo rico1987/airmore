@@ -8,10 +8,93 @@
     <div class="contact-toolbar">
       <span (click)="edit()">Edit</span>
     </div>
-    <div class="contact-name">Arraon</div>
+    <div class="contact-name">{{contact['Name']['DisplayName']}}</div>
   </div>
   <div class="airmore-contact-detail__bottom" *ngIf="!isEdit">
+    <div class="form-group">
+        <div class="form-control">
+          <div class="label">公司</div>
+          <div class="input" *ngIf="contact['Organization'] && contact['Organization'].length > 0">
+            <span>{{ contact['Organization'][0]['Company'] || ' &nbsp;' }}</span>
+          </div>
+        </div>
+        <div class="form-control">
+          <div class="label">职位</div>
+          <div class="input" *ngIf="contact['Organization'] && contact['Organization'].length > 0">
+              <span>{{ contact['Organization'][0]['Job'] || ' &nbsp;' }}</span>
+          </div>
+        </div>
+    </div>
 
+    <div class="form-group">
+        <div class="form-control" *ngFor="let phone of contact['Phone']">
+          <div class="select">
+              <span>{{ getPhoneType(phone['Type']) }}</span>
+          </div>
+          <div class="input">
+              <span>{{ phone['Name'] || ' &nbsp;' }}</span>
+          </div>  
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="form-control" *ngFor="let address of contact['Address']">
+          <div class="select">
+              <span>{{ getAddressType(address['Type']) }}</span>
+          </div>
+          <div class="input">
+              <span>{{ address['Street'] || ' &nbsp;' }}</span>
+          </div>  
+        </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-control" *ngFor="let im of contact['IM']">
+        <div class="select">
+            <span>{{ getImType(im['Type']) }}</span>
+        </div>
+        <div class="input">
+            <span>{{ im['Name'] || ' &nbsp;' }}</span>
+        </div>  
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-control" *ngFor="let site of contact['Website']">
+        <div class="select">
+            <span>{{ getWebsiteType(site['Type']) }}</span>
+        </div>
+        <div class="input">
+            <span>{{ site['Url'] || ' &nbsp;' }}</span>
+        </div>  
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-control" *ngFor="let event of contact['Event']">
+        <div class="select">
+            <span>{{ getEventType(event['Type']) }}</span>
+        </div>
+        <div class="input">
+            <span>{{ event['StartDate'] | date }}</span>
+        </div>  
+      </div>
+    </div>
+
+    <div class="form-group">
+        <div class="form-control" *ngFor="let note of contact['Note']">
+          <div class="label">备忘</div>
+          <div class="input" *ngIf="note['Content']">
+            <span>{{ note['Content'] || ' &nbsp;' }}</span>
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+
+    </div>
+
+    <!-- display end  -->
   </div>
 
 
