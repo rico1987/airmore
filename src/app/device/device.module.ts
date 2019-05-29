@@ -19,9 +19,11 @@ import { DeviceItemComponent } from './components/device-item/device-item.compon
 import { DeviceItemGroupComponent } from './components/device-item-group/device-item-group.component';
 import { ContactLetterGroupComponent } from './components/contact-letter-group/contact-letter-group.component';
 import { ContactDetailComponent } from './components/contact-detail/contact-detail.component';
+import { ContactsSelectorComponent } from './components/contacts-selector/contacts-selector.component';
+import { UploadingProgressComponent } from './components/uploading-progress/uploading-progress.component';
 
 @NgModule({
-  declarations: [DeviceLayoutComponent, DeviceItemListComponent, DeviceSidebarComponent, DeviceItemComponent, DeviceItemGroupComponent, ContactLetterGroupComponent, ContactDetailComponent],
+  declarations: [DeviceLayoutComponent, DeviceItemListComponent, DeviceSidebarComponent, DeviceItemComponent, DeviceItemGroupComponent, ContactLetterGroupComponent, ContactDetailComponent, ContactsSelectorComponent, UploadingProgressComponent],
   imports: [
     CommonModule,
     SharedModule,
@@ -36,6 +38,9 @@ import { ContactDetailComponent } from './components/contact-detail/contact-deta
     NzListModule,
     ScrollDispatchModule,
   ],
-  providers: []
+  providers: [],
+  entryComponents: [
+    ContactsSelectorComponent,
+  ]
 })
 export class DeviceModule { }

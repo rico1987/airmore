@@ -47,7 +47,7 @@
   <!-- contacts start -->
   <div class="airmore-device-sidebar__contacts" *ngIf="appStateService.activeFunction === 'contacts' && !appStateService.loading">
       <div class="toolbar">
-          <p class="add-group">新建分组</p>
+          <p class="add-group" (click)="newContactGroup()">新建分组</p>
       </div>
       <div class="airmore-device-sidebar__container">
           <div

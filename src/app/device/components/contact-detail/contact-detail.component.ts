@@ -1,7 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { DeviceStateService } from '../../../shared/service';
+import { Component, OnInit, Input, ApplicationRef, ComponentFactoryResolver, Injector, EmbeddedViewRef } from '@angular/core';
+import { DeviceStateService, ModalService, DeviceService, MessageService } from '../../../shared/service';
 import { SelectOption } from '../../../shared/components/dropdown-select-options/dropdown-select-options.component'
 import { Contact } from '../../models';
+import { DynamicInputComponent } from '../../../shared/components/dynamic-input/dynamic-input.component';
+import { UploadFile } from '../../../shared/components/dynamic-input/interfaces';
+
 
 const PhoneTypes: Array<SelectOption> = [
   {
@@ -33,6 +36,11 @@ const PhoneTypes: Array<SelectOption> = [
     key: 7,
     label: '其他电话',
     value: 7,
+  },
+  {
+    key: 0,
+    label: '自定义',
+    value: 0,
   },
 ];
 
@@ -249,15 +257,20 @@ export class ContactDetailComponent implements OnInit {
 
   private eventTypes: Array<any> = EventTypes;
 
-  private editingContact: Contact;
+  private editingContact: Contact = Object.assign({}, ContactTemplate);
 
   constructor(
     private deviceStateService: DeviceStateService,
+    private appRef: ApplicationRef,
+    private injector: Injector,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private modalService: ModalService,
+    private deviceService: DeviceService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit() {
     this.groups = this.deviceStateService.tempContactsGroupList.concat();
-    console.log(this.contact);
   }
 
 
@@ -265,26 +278,129 @@ export class ContactDetailComponent implements OnInit {
     if (this.isEdit) {
       this.save();
     } else {
-      this.editingContact = ContactTemplate;
+      if (!this.contact['Organization']) {
+        this.contact['Organization'] = [{
+          Company: '',
+          Job: '',
+        }];
+      }
+      this.editingContact = this.contact;
     }
     this.isEdit = !this.isEdit;
   }
 
+  // 删除联系人
   delete(): void {
+    this.modalService.confirm({
+      amTitle: 'Warning',
+      amContent: '确定要删除这条记录吗？',
+      amOnOk: () => {
+          console.log(this.contact);
+          this.deviceService.deleteContact(this.contact['AccountName'], this.contact['RawContactId'])
+              .subscribe(
+                  (data) => {
+                      if (data) {
+                          this.messageService.success('删除成功!');
+                          this.deviceStateService.getItemList(false);
+                      } else {
+                          this.messageService.error('删除失败');
+                      }
+                  },
+                  (error) => {
+                      if (error) {
+                          this.messageService.error('删除失败！');
+                      }
+                  },
+                  () => {
+                  }
+              );
+        }
+    });
+  }
+
+  save(): void {
+    console.log(this.editingContact);
+    this.deviceService.updateContact([this.editingContact])
+      .subscribe(
+          (data) => {
+              if (data.length === 1) {
+                this.messageService.success('保存联系人成功！');
+                this.editingContact = Object.assign({}, ContactTemplate);
+              } else {
+                this.messageService.error('保存联系人失败！');
+              }
+          },
+          (error) => {
+              if (error) {
+                  this.messageService.error('保存联系人失败！');
+              }
+          },
+          () => {
+            this.isEdit = false;
+            this.deviceStateService.isAddingContact = false;
+          }
+      );
+  }
+  
+  messageTo(phone: string): void {
 
   }
 
-  save(): void {}
+  callTo(phone: string): void {
+    this.deviceService.call(phone)
+      .subscribe((res) => {
+        if (res) {
+          this.messageService.info('请在手机上完成拨打电话步骤.');
+        } else {
+          this.messageService.error('呼叫失败！');
+        }
+      })
+  }
 
   cancel(): void {
     this.isEdit = false;
+    this.deviceStateService.isAddingContact = false;
   }
 
-  updatePortrait(): void {}
+  updatePortrait(): void {
+    const componentRef = this.componentFactoryResolver
+            .resolveComponentFactory(DynamicInputComponent)
+            .create(this.injector);
 
-  deletePortrait(): void {}
+        componentRef.instance.options = {
+            multiple: false,
+        };
+        
+        this.appRef.attachView(componentRef.hostView);
+
+        const domElem = (componentRef.hostView as EmbeddedViewRef<any>)
+        .rootNodes[0] as HTMLElement;
+        
+        document.body.appendChild(domElem);
+
+        componentRef.instance.onFileChange = (fileList: UploadFile[]) => {
+            const reader = new FileReader();
+            reader.onload = (event: ProgressEvent) => {
+              this.editingContact['Portrait'] = {
+                Data: (event.currentTarget as FileReader).result as string,
+              }
+            }
+            reader.readAsDataURL(fileList[0] as any);
+        };
+
+        componentRef.instance.onClick();
+  }
+
+  deletePortrait(): void {
+    this.editingContact['Portrait'] = {
+      Data: null,
+    };
+  }
 
   addItem(type: string): void {
+    if (!this.editingContact[type]) {
+      this.editingContact[type] = [];
+    }
     if (type === 'Address') {
       this.editingContact[type].push({
         Type: 1,

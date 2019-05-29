@@ -31,7 +31,11 @@ export class ContactLetterGroupComponent implements OnInit {
   }
 
   setActive(contact): void {
-    this.deviceStateService.activeContact = contact;
+    this.deviceStateService.activeContact = null;
+    this.deviceStateService.isAddingContact = false;
+    setTimeout(() => {
+      this.deviceStateService.activeContact = contact;
+    }, 0);
   }
 
 }

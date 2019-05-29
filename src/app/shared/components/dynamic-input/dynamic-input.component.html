@@ -1,3 +1,4 @@
 <div class="airmore-dynamic-input">
-  <input #fileInput type="file" (change)="onChange($event)"  [multiple]="options.multiple" style="display: none;" />
+  <input #fileInput type="file" (change)="onChange($event)" style="display: none;" />
+  <input #multipleFileInput type="file" (change)="onMultiFileChange($event)" multiple="multiple" style="display: none;" />
 </div>

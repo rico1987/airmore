@@ -34,10 +34,7 @@ export class AppStateService {
   private _activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
    'tools' | 'clipboard' | 'cloud' = 'pictures';
 
-   private _overlayRef: OverlayRef | null;
-
-  // todo
-  isSupportZipDownload: boolean = false;
+  private _overlayRef: OverlayRef | null;
 
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
@@ -139,6 +136,7 @@ export class AppStateService {
                     this.deviceStateService.activeFunction === 'videos' ||
                     this.deviceStateService.activeFunction === 'files' ||
                     this.deviceStateService.activeFunction === 'pictures' ||
+                    this.deviceStateService.activeFunction === 'contacts' ||
                     this.deviceStateService.activeFunction === 'musics') {
             this.deviceStateService.deleteItems();
           }
@@ -183,11 +181,6 @@ export class AppStateService {
           this.deviceStateService.copyToClipboard();
         }
         break;
-      case 'import':
-        if (this.currentModule === 'device') {
-          this.deviceStateService.import();
-        }
-        break;
       case 'new-message':
         this.deviceStateService.newMessage();
         break;
@@ -196,7 +189,10 @@ export class AppStateService {
         break;
       case 'new-contact':
         this.deviceStateService.newContact();
-
+        break;
+      case 'import-contact':
+        this.deviceStateService.importContact();
+        break;
     }
   }
 
@@ -250,8 +246,7 @@ export class AppStateService {
                this.deviceStateService.activeFunction === 'videos' ||
                this.deviceStateService.activeFunction === 'musics' ||
                this.deviceStateService.activeFunction === 'documents' ||
-               this.deviceStateService.activeFunction === 'files' ||
-               this.deviceStateService.activeFunction === 'contacts';
+               this.deviceStateService.activeFunction === 'files';
         break;
         case 'export':
         flag = this.deviceStateService.activeFunction === 'pictures' ||
@@ -278,7 +273,8 @@ export class AppStateService {
         flag = this.deviceStateService.activeFunction === 'pictures';
         break;
         case 'new-contact':
-        flag = this.deviceStateService.activeFunction === 'contacts';
+        case 'import-contact':        
+        flag = this.deviceStateService.activeFunction == 'contacts';
         break;
       }
     }

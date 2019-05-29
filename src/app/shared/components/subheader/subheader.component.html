@@ -11,10 +11,10 @@
         [class.is-checked]="item.action === 'select-all' && appStateService.isAllSelected && !appStateService.loading && !appStateService.isEmpty"
         [ngClass]=item.class
         *ngFor="let item of toolbarItems"
-        (click)="doAction(item.action, isInactive(item.action))"
+        (click)="doAction(item.action, isInactive(item.action), $event)"
       >
         <i class="airmore-subheader__toolbar-loading" *ngIf="item.action === 'refresh'"></i>
-        <div class="airmore-subheader__toolbar-icon">{{item.text}}</div>
+        <div class="airmore-subheader__toolbar-icon toolbar-icon">{{item.text}}</div>
       </div>
   </div>
   <div class="airmore-subheader__search">

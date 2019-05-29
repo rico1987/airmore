@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { CloudStateService, DeviceStateService } from '../../service';
 import { AppStateService } from '../../../shared/service/app-state.service';
 import { MessageService } from '../../../shared/service/message.service';
+import { SubheaderDropdownComponent } from '../subheader-dropdown/subheader-dropdown.component';
+import { OverlayRef, Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { fromEvent } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { ComponentPortal } from '@angular/cdk/portal';
+
 
 
 @Component({
@@ -16,7 +22,8 @@ export class SubheaderComponent implements OnInit {
     { class: 'add-contact', action: 'new-contact', text: 'New Contact' },
     { class: 'add-message', action: 'new-message', text: 'New Message' },
     { class: 'add-clipboard', action: 'copy-to-clipboard', text: 'Add' },
-    { class: 'upload', action: 'import', text: 'Import Files' },
+    { class: 'import', action: 'import', text: 'Import Files' },
+    { class: 'import-contact', action: 'import-contact', text: 'Import' },
     { class: 'upload', action: 'upload', text: 'Upload' },
     { class: 'download', action: 'export', text: 'Export' },
     { class: 'copy', action: 'copy-or-move', text: 'Copy or Move' },
@@ -30,18 +37,63 @@ export class SubheaderComponent implements OnInit {
     { class: 'select', action: 'select-all', text: 'Select All' },
   ];
 
+  private _overlayRef: OverlayRef | null;
+
   constructor(
     private cloudStateService: CloudStateService,
     private deviceStateService: DeviceStateService,
     private appStateService: AppStateService,
-    private messageService: MessageService,
+    private overlay: Overlay,
   ) { }
 
   ngOnInit() {
   }
 
-  doAction(action: string, isInactive: boolean): void {
-    this.appStateService.doAction(action, isInactive);
+  doAction(action: string, isInactive: boolean, $event: any): void {
+    if (action === 'import') {
+
+      let target;
+      if ($event.target.classList.contains('toolbar-icon')) {
+        target = $event.target.parentNode;
+      } else {
+        target = $event.target;
+      }
+      const targetRef = new ElementRef(target);
+      this.dispose();
+      this._overlayRef = this.overlay.create(
+        new OverlayConfig({
+          scrollStrategy: this.overlay.scrollStrategies.close(),
+          positionStrategy: this.overlay
+            .position()
+            .flexibleConnectedTo(targetRef)
+            .withPositions([{
+              originX: 'start',
+              originY: 'bottom',
+              overlayX: 'start',
+              overlayY: 'top',
+              offsetX: 0,
+              offsetY: 10
+            }])
+        })
+      );
+      const instance = this._overlayRef.attach(new ComponentPortal(SubheaderDropdownComponent)).instance;
+      
+      fromEvent<MouseEvent>(document, 'click')
+        .pipe(
+          filter(event => !!this._overlayRef && !this._overlayRef.overlayElement.contains(event.target as HTMLElement) && event.target !== $event.target),
+          take(1)
+        )
+        .subscribe(() => instance.close());
+    } else {
+      this.appStateService.doAction(action, isInactive);
+    }
+  }
+
+  dispose(): void {
+    if (this._overlayRef) {
+      this._overlayRef.dispose();
+      this._overlayRef = null;
+    }
   }
 
   hasAction(action: string): boolean {

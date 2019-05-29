@@ -6,6 +6,10 @@ export const AudioFileExtensions = ['.wav', '.aif', '.au', '.mp3', '.ram', '.wma
 
 export const VideoFileExtensions = ['.avi', '.mov', '.mpg', '.mpeg', '.vob', '.asf', '.3gp', '.mp4', '.wmv', '.rm', '.rmvb', '.flv', '.mkv'];
 
+export const DocFileExtensions = ['.doc', '.docx', '.xls', '.xlsx', '.txt', '.pdf', '.ppt', '.pptx', '.zip'];
+
+export const DocFileTypes = ['doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'ppt', 'pptx', 'zip'];
+
 export function getFileShortName(fileName: string, maxLength: number): string {
     if (!fileName) {
         return '';
@@ -66,4 +70,15 @@ export function getFirstLetters(s: string): string {
     return pinyin(s, {
         style: pinyin.STYLE_FIRST_LETTER,
     })
+}
+
+export function isDocument(fileName: string): boolean {
+    const extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+    return DocFileExtensions.some((ele) => ele === extension);
+}
+
+export function getDocTye(fileName: string): string {
+    const extension = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+    const index = DocFileExtensions.findIndex((ele) => ele === extension);
+    return DocFileTypes[index];
 }

@@ -1,0 +1,9 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(new-contact-group-modal) {
+    .row{
+        height: 30px;
+        margin: 5px 0;
+    }
+}

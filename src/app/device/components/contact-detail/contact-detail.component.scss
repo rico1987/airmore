@@ -34,6 +34,13 @@
                 height: 96px;
                 border-radius: 50%;
                 overflow: hidden;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    border: none;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
             }
             &-toolbar{
                 text-align: center;
@@ -140,6 +147,28 @@
                         border: none;
                         width: 66.6666%;
                         height: 30px;
+                    }
+
+                    .actions {
+                        float: right;
+                        margin-left: -80px;
+                        margin-right: 10px;
+                        >span{
+                            display: block;
+                            height: 30px;
+                            width: 30px;
+                            float: left;
+                            cursor: pointer;
+                            &:hover {
+                                filter: brightness(0);
+                            }
+                        }
+                        .message {
+                            background: url('../../../../assets/img/contact/send-message.svg') center no-repeat;
+                        }
+                        .call {
+                            background: url('../../../../assets/img/contact/call.svg') center no-repeat;
+                        }
                     }
                 }
                 span.delete{

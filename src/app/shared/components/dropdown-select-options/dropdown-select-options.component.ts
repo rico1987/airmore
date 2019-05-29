@@ -28,7 +28,7 @@ export class DropdownSelectOptionsComponent implements OnInit {
 
   @Input() default: Array<string | number> | string | number;
 
-  open = true;
+  show = true;
 
   constructor() { }
 
@@ -77,6 +77,6 @@ export class DropdownSelectOptionsComponent implements OnInit {
   }
 
   close(): void {
-    this.open = false;
+    this.show = false;
   }
 }

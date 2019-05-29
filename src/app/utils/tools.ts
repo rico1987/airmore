@@ -7,7 +7,9 @@ export function downloadLink(link: string, fileName?: string): void {
     if (fileName) {
         anchor.download = fileName;
     }
+    window.document.body.appendChild(anchor);
     anchor.click();
+    window.document.body.removeChild(anchor);
     anchor = null;
 }
 

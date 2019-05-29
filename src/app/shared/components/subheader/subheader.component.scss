@@ -1,7 +1,7 @@
 @import "../../../../styles/mixins/bem.scss";
 @import "../../../../styles/themes/default/variables.scss";
 
-$actions: select, upload, upload-folder, download, refresh, delete, add, wallpaper, install, backup, play, pause, preview, add-folder, add-contact, add-message, add-clipboard, rename, copy;
+$actions: select, upload, upload-folder, download, refresh, delete, add, wallpaper, install, backup, play, pause, preview, add-folder, add-contact, add-message, add-clipboard, rename, copy, import, import-contact;
 @include b(subheader) {
     height: $subheader-height;
     border-bottom: $border-base;
@@ -88,6 +88,16 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
                     &:hover {
                         @include e(toolbar-loading) {
                             background-image: url('../../..//../assets/img/action//white/refresh-white.svg');
+                        }
+                    }
+                }
+
+                &.import{
+                    .toolbar-icon{
+                        padding-right: 15px;
+                        background: url('../../../../assets/img/common/drop/arrow.svg') right center no-repeat;
+                        &:hover{
+                            background-image: url('../../../../assets/img/common/drop/arrow-white.svg');
                         }
                     }
                 }

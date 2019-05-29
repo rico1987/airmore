@@ -86,6 +86,20 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
                 border-bottom-color: $primary;
                 background: url('../../../../assets/img/album/arrow-right-active.svg') 95% center no-repeat;
             }
+            &:hover {
+                @include e(item-title) {
+                    font-weight: 700;
+                }
+            }
+        }
+
+        &:hover {
+            @include e(item-info) {
+                border-bottom-color: $primary;
+            }
+            @include e(item-title) {
+                font-weight: 500;
+            }
         }
     }
     
@@ -226,7 +240,6 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
 
     @include e(contacts) {
         .toolbar{
-            margin-top: 5px;
             border-bottom: 1px solid #ebebeb;
             p{
                 padding-left: 25px;
@@ -266,6 +279,7 @@ $exts: doc, xls, ppt, epub, pdf, txt, zip;
                     margin-left: 62px;
                     .name{
                         padding-right: 20px;
+                        white-space: nowrap;
                     }
                     .count{
                         font-size: 11px;

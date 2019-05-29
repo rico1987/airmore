@@ -44,6 +44,8 @@ export class DeviceSidebarComponent implements OnInit {
   }
 
   setActive(item): void {
+    this.deviceStateService.isAddingContact = false;
+    this.deviceStateService.isAddingMessage = false;
     this.deviceStateService.setActiveItem(item);
   }
 
@@ -59,6 +61,10 @@ export class DeviceSidebarComponent implements OnInit {
     event.stopPropagation();
     copy(item.Content);
     this.messageService.success('Copied to clipboard!');
+  }
+
+  newContactGroup(): void {
+    this.deviceStateService.newContactGroup();
   }
 
   removeSecondes(time: string): string {

@@ -1,0 +1,51 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(subheader-dropdown) {
+    background-color: white;
+    border-radius: 5px;
+    line-height: 30px;
+    font-size: 12px;
+    padding: 10px 0;
+    box-shadow: 0 0 30px rgba(0,0,0,.35);
+    text-align: left;
+    .triangle{
+        top: -7px;
+        left: 10px;
+        right: auto;
+        position: absolute;
+        height: 0;
+        width: 0;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid #fff;
+    }
+    ul{
+        li{
+            padding-right: 20px;
+            padding-left: 40px;
+            background-position: 10px center;
+            background-repeat: no-repeat;
+            background-size: 20px auto;
+            cursor: pointer;
+            white-space: nowrap;
+            list-style: none;
+            &.upload{
+                background-image: url('../../../../assets/img/action/gray/upload-gray.svg');
+                &:hover{
+                    background-image: url('../../../../assets/img/action/white/upload-white.svg');
+                }
+            }
+            &.upload-folder{
+                background-image: url('../../../../assets/img/action/gray/upload-folder-gray.svg');
+                &:hover{
+                    background-image: url('../../../../assets/img/action/white/upload-folder-white.svg');
+                }
+            }
+            &:hover{
+                color: white;
+                background-color: $primary;
+            }
+        }
+    }
+}

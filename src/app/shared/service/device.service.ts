@@ -9,7 +9,8 @@ import { MyClientService } from './my-client.service';
 import { DeviceInfo } from '../models/device-info.model';
 import { getIp } from '../../utils/tools';
 import { MessageService } from '../service/message.service';
-import { generateRandomString } from '../../utils/index';
+import { generateRandomString, getDocTye, isDocument } from '../../utils/index';
+const fecha = require('fecha');
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,14 @@ export class DeviceService extends WebsocketService {
 
   public set platform(value: 'android' | 'iphone') {
     this._platform = value;
+  }
+
+  isSupportZipDownload(): boolean {
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+
+    return (this.platform === 'android' && deviceInfo.AppVersionCode >= 5) ||
+      (this.platform === 'iphone' && deviceInfo.AppVersionCode >= 8) ||
+      deviceInfo.AppVersionCode >= 10;
   }
 
   scan(): void {
@@ -223,9 +232,7 @@ export class DeviceService extends WebsocketService {
    * 获取设备屏幕截图
    */
   getScreenImage(): Observable<any> {
-    return this.myClientService.devicePost('PhoneRefreshScreen', {}, {
-      responseType: 'text/plain',
-    });
+    return this.myClientService.devicePost('PhoneRefreshScreen', {}, {responseType: 'text'});
   }
 
   getPhotoAlbumList(): Observable<any> {
@@ -288,13 +295,28 @@ export class DeviceService extends WebsocketService {
     return this.myClientService.devicePost('AppInstall', formData);
   }
 
-  importFile(key: string, AlbumID: string, file: any): Observable<any> {
+  importFile(key: string, AlbumID: string, file: any, Directory?: string): Observable<any> {
     const formData = new FormData();
-    formData.append('Post', JSON.stringify({
-      AlbumID,
-    }));
+    if (Directory) {
+      formData.append('Post', JSON.stringify({
+        Directory,
+      }));
+    } else {
+      if (isDocument(file['name'])) {
+        formData.append('Post', JSON.stringify({
+          AlbumID: getDocTye(file['name']),
+        }));
+      } else {
+        formData.append('Post', JSON.stringify({
+          AlbumID,
+        }));
+      }
+    }
+    
     formData.append('File', file);
-    return this.myClientService.devicePost(key, formData);
+    return this.myClientService.devicePost(key, formData, { reportProgress: true, headers: {
+      Accept: 'text/plain'
+    }, });
   }
 
   saveClipboard(text: string): Observable<any> {
@@ -397,5 +419,63 @@ export class DeviceService extends WebsocketService {
         UniqueID: generateRandomString(10),
       }
     ]))
+  }
+
+  sendMessages(messages: Array<any>): Observable<any> {
+    for (let i = 0, l = messages.length; i < l; i++) {
+      messages[i]['UniqueID'] = generateRandomString(10);
+    }
+    return this.myClientService.devicePost('MessageSend', JSON.stringify(messages));
+  }
+
+  deleteContact(AccountName: string, RawContactId: string): Observable<any> {
+    return this.myClientService.devicePost('ContactDeleteMul', JSON.stringify([
+      {
+        AccountName,
+        RawContactId,
+      }
+    ]))
+  }
+
+  updateContact(contacts: Array<any>): Observable<any> {
+    return this.myClientService.devicePost('ContactUpdate', JSON.stringify(contacts));
+  }
+
+  addGroup(GroupName: string): Observable<any> {
+    return this.myClientService.devicePost('ContactAddGroup', JSON.stringify([
+      {
+        GroupName,
+      },
+    ]));
+  }
+
+  zipFileDownload(pre: string, paths: Array<any>): void {
+    const postData = {
+      Paths: JSON.stringify(paths),
+      Name: pre + '_airmore_' + fecha.default.format(new Date(), 'YYYYMMDD_hhmmss') + '.zip',
+    }
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    const url = `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}?Key=FileZipExport`;
+
+    console.log(postData);
+    console.log(url);
+    const Form = document.createElement('form');
+    Form.setAttribute('target', '_blank');
+    Form.setAttribute('method', 'post');
+    Form.setAttribute('action', url);
+
+    for (let name in postData) {
+      const value = postData[name];
+      const input = document.createElement('input');
+      input.setAttribute('type', 'hidden');
+      input.setAttribute('name', name);
+      input.setAttribute('value', value);
+      console.log(input);
+      Form.append(input);
+    }
+    document.body.append(Form);
+    console.log(Form);
+    Form.submit();
+    document.body.removeChild(Form);
   }
 }

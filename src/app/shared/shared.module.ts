@@ -63,6 +63,8 @@ import { DropdownSelectOptionsComponent } from './components/dropdown-select-opt
 import { ToolTipComponent } from './components/tool-tip/tool-tip.component';
 import { AboutModalComponent } from './components/about-modal/about-modal.component';
 import { HelpModalComponent } from './components/help-modal/help-modal.component';
+import { NewContactGroupModalComponent } from './components/new-contact-group-modal/new-contact-group-modal.component';
+import { SubheaderDropdownComponent } from './components/subheader-dropdown/subheader-dropdown.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -85,7 +87,9 @@ const COMPONENTS = [
   DropdownSelectComponent,
   ToolTipComponent,
   AboutModalComponent,
-  HelpModalComponent
+  HelpModalComponent,
+  NewContactGroupModalComponent,
+  SubheaderDropdownComponent
 ];
 const DIRECTIVES = [
   LoadingDirective,
@@ -139,7 +143,8 @@ const PIPES = [
     SafeUrlPipe,
     InstallationModalComponent,
     DropdownSelectComponent,
-    DropdownSelectOptionsComponent
+    DropdownSelectOptionsComponent,
+    SubheaderDropdownComponent,
   ],
   imports: [
     CommonModule,
@@ -183,6 +188,8 @@ const PIPES = [
     ToolTipComponent,
     AboutModalComponent,
     HelpModalComponent,
+    NewContactGroupModalComponent,
+    SubheaderDropdownComponent,
   ],
 })
 export class SharedModule { }

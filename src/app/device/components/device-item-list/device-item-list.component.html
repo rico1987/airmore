@@ -1,4 +1,4 @@
-<div class="airmore-device-item-list" #itemListContainer>
+<div class="airmore-device-item-list" #itemListContainer [class.is-uploading]="deviceStateService.uploadQueue.length > 0">
   <div class="airmore-device-item-list__container" *ngIf="!deviceStateService.loading">
 
     <!-- pictures start -->
@@ -179,7 +179,7 @@
     <!-- clipboard end -->
 
     <!-- messages start -->
-    <div class="airmore-device-item-list__container-message" *ngIf="deviceStateService.activeFunction === 'messages'">
+    <div class="airmore-device-item-list__container-message" *ngIf="deviceStateService.activeFunction === 'messages' && !deviceStateService.isAddingMessage">
       <div class="toolbar">
         <span class="to">To: {{deviceStateService.activeItem.ShowName}}
           <span *ngIf="deviceStateService.activeItem.Phone && deviceStateService.activeItem.Phone !== deviceStateService.activeItem.ShowName">({{deviceStateService.activeItem.Phone}})</span>
@@ -200,6 +200,23 @@
         <div class="send-message" (click)="sendMessage()" [class.is-active]="messageValue"></div>
       </div>
     </div>
+    <div class="airmore-device-item-list__container-message" *ngIf="deviceStateService.activeFunction === 'messages' && deviceStateService.isAddingMessage">
+        <div class="toolbar">
+          <span class="to">
+            <span class="label">To:</span>
+            <span class="contact" *ngFor="let contact of deviceStateService.selectedMessageReceivers">
+              {{contact['Name']['DisplayName']}}
+              <i (click)="removeFormReceivers(contact)">─</i>
+            </span>
+            <input type="text" autofocus (keyup)="onContactKey($event)" maxlength="50" />
+          </span>
+          <span #addContactBtn class="add-contact" (click)="showContactSelector($event)"></span>
+        </div>
+        <div class="message-sender">
+          <textarea (keydown)="onMessageContentKeyDown($event)" placeholder="{{messageTextareaPlaceholder}}" [(ngModel)]="messageValue"></textarea>
+          <div class="send-message" (click)="sendMessage()" [class.is-active]="messageValue"></div>
+        </div>
+      </div>
     <!-- messages end -->
 
     <!-- files start -->
@@ -274,8 +291,8 @@
     <!-- contacts start -->
     <div class="airmore-device-item-list__container-contact" *ngIf="deviceStateService.activeFunction === 'contacts' && !deviceStateService.loading">
       <div class="airmore-device-item-list__container-header">
-        <div class="checkbox"></div>
-        <span>名称 0 / 136</span>
+        <div class="checkbox" [class.is-checked]="isAllSelected" (click)="selectAllContacts()"></div>
+        <span>名称 {{deviceStateService.selectedItems.length}} / {{contactsCount}}</span>
       </div>
       <div class="airmore-device-item-list__contact-list" *ngIf="deviceStateService.contactLetterGroupList">
         <div class="container" #contactGroupContainer>
@@ -296,7 +313,7 @@
         </div>
       </div>
       <div class="airmore-device-item-list__contact-detail">
-        <app-contact-detail [contact]="deviceStateService.activeContact"></app-contact-detail>
+        <app-contact-detail #contactDetail *ngIf="deviceStateService.activeContact" [contact]="deviceStateService.activeContact"></app-contact-detail>
       </div>
     </div>
     <!-- contacts end -->

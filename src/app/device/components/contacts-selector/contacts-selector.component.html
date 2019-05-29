@@ -1,0 +1,20 @@
+<div class="airmore-contacts-selector" *ngIf="show">
+  <div class="airmore-contacts-selector__group-list">
+    <div class="group"
+      *ngFor="let group of contactGroupList"
+      [class.is-active]="activeGroup && activeGroup['ID'] === group['ID']"
+      (click)="selectGroup(group)"
+    >{{group['GroupName']}}</div>
+  </div>
+  <div class="airmore-contacts-selector__contact-list">
+    <div
+      class="contact"
+      *ngFor="let contact of contactList"
+      (click)="addContact(contact)"
+      [class.is-checked]="isSelected(contact) !== false"
+    >
+      <span class="check" ></span>
+      {{contact['Name']['DisplayName']}}
+    </div>
+  </div>
+</div>

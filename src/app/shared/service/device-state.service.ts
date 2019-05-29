@@ -7,11 +7,12 @@ import {
     EmbeddedViewRef,
     ViewChild,
     ElementRef,
+    ComponentRef,
   } from '@angular/core';
 import fecha from 'fecha';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
-import { NzModalService } from 'ng-zorro-antd/modal';
 import { MessageService } from './message.service';
+import { ModalService } from './modal';
 import { CommonResponse } from '../../shared/models';
 
 
@@ -24,10 +25,13 @@ import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { VideoPlayerComponent } from '../../shared/components/video-player/video-player.component';
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
 import { NewFolderModalComponent } from '../../shared/components/new-folder-modal/new-folder-modal.component';
+import { NewContactGroupModalComponent } from '../../shared/components/new-contact-group-modal/new-contact-group-modal.component';
+import { ContactDetailComponent } from '../../device/components/contact-detail/contact-detail.component';
 
 import { getFirstLetters } from '../../utils/index';
 
 import { downloadText } from '../../utils/tools';
+import { HttpResponse, HttpEventType } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root'
@@ -56,6 +60,10 @@ export class DeviceStateService {
 
     isClipboardEditing: boolean = false;
 
+    isAddingContact: boolean = false;
+
+    isAddingMessage: boolean = false;
+
     root: any = null;
 
     rootNodes: Array<any>;
@@ -70,16 +78,70 @@ export class DeviceStateService {
 
     tempContactsGroupList: Array<any> = [];
 
+    contactGroupList: Array<any>;
+
     contactLetterGroupList: Array<any>;
 
+    selectedMessageReceivers: Array<any> = [];
+
     allLetters: Array<string> = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+    contactDetailRef: ElementRef<ContactDetailComponent>;
+
+    // upload queue start
+
+    uploadQueue: Array<any> = [];
+
+    uploadQueueLength: number;
+
+    uploadingItem: any;
+
+    processUploadQueue(): void {
+        if (this.uploadQueue.length > 0) {
+            this.uploadingItem = this.uploadQueue.shift();
+
+            let key: string, directory: string = '';
+
+            if (this.activeFunction === 'videos') {
+                key = 'VideoImport';
+            } else if (this.activeFunction === 'documents') {
+                key = 'DocImport';
+            } else if (this.activeFunction === 'musics') {
+                key = 'MusicImport';
+            } else if (this.activeFunction === 'files') {
+                key = 'FileImport';
+                if (this.activeNode) {
+                    directory = this.activeNode.Path;
+                }
+            }
+              this.deviceService.importFile(key, this.activeAlbumId, this.uploadingItem, directory)
+                    .subscribe(
+                        (data) => {
+                        },
+                        (error) => {
+                            if (error) {
+                                this.messageService.error('导入失败');
+                            }
+                        },
+                        () => {
+                            if (this.uploadQueue.length > 0) {
+                                this.processUploadQueue();
+                            } else {
+                                this.messageService.success(`成功导入${this.uploadQueueLength}个文件`);
+                                this.getItemList(false);
+                            }
+                        }
+                    );
+        }
+    }
+    // upload queue end
 
     constructor(
         private deviceService: DeviceService,
         private injector: Injector,
         private appRef: ApplicationRef,
         private componentFactoryResolver: ComponentFactoryResolver,
-        private modalService: NzModalService,
+        private modalService: ModalService,
         private messageService: MessageService,
         private myClientService: MyClientService,
         private browserStorageService: BrowserStorageService,
@@ -93,6 +155,18 @@ export class DeviceStateService {
             this.activeNode = null;
             this.activeFunction = fun;
             this.getSidebarItemList();
+            if (fun === 'messages' && !this.contactGroupList) {
+                this.deviceService.getContactGroupList()
+                .subscribe((data) => {
+                    this.tempContactsGroupList = data;
+                    for(let i = 0, l = this.tempContactsGroupList.length; i < l; i++) {
+                        this.tempContactsGroupList[i]['key'] = this.tempContactsGroupList[i]['ID'];
+                        this.tempContactsGroupList[i]['label'] = this.tempContactsGroupList[i]['GroupName'];
+                        this.tempContactsGroupList[i]['value'] = this.tempContactsGroupList[i]['ID']
+                    }
+                    this.getItemList(false);
+                });
+            }
         }
     }
 
@@ -254,10 +328,10 @@ export class DeviceStateService {
         }
     }
 
-    generateContactsData(data): void {
-        this.sidebarItemList = [];
-        const ungroupedContacts = [];
-        const hasNumberContacts = [];
+    generateContactLetterGroupList(data: Array<any>): void {
+        if(!data) {
+            return
+        }
         this.contactLetterGroupList = [];
         for (let i = 0; i < this.allLetters.length; i++) {
             this.contactLetterGroupList.push({
@@ -265,7 +339,6 @@ export class DeviceStateService {
                 contacts: []
             });
         }
-
         for (let i = 0, l = data.length; i < l; i++) {
             data[i]['letters'] = getFirstLetters(data[i]['Name']['DisplayName']);
             const firstLetter = data[i]['letters'][0][0].toUpperCase();
@@ -275,6 +348,17 @@ export class DeviceStateService {
             if (index > -1) {
                 this.contactLetterGroupList[index]['contacts'].push(data[i]);
             }
+        }
+    }
+
+    generateContactsData(data): void {
+        this.sidebarItemList = [];
+        const ungroupedContacts = [];
+        const hasNumberContacts = [];
+
+        this.generateContactLetterGroupList(data);
+
+        for (let i = 0, l = data.length; i < l; i++) {
 
             if (data[i]['Phone'] && data[i]['Phone'].length > 0) {
                 hasNumberContacts.push(data[i]);
@@ -284,12 +368,11 @@ export class DeviceStateService {
             }
             for (let j = 0, l = this.tempContactsGroupList.length; j < l; j++) {
                 if (data[i]['Groups'] && data[i]['Groups'].length > 0) {
-                    const index = this.tempContactsGroupList.findIndex(ele => data[i]['Groups'].some(group => group['GroupRowId'] === ele['ID']));
-                    if (index > -1) {
-                        if (this.tempContactsGroupList[index]['contacts']) {
-                            this.tempContactsGroupList[index]['contacts'].push(data[i]);
+                    if (data[i]['Groups'].some(group => group['GroupRowId'] === this.tempContactsGroupList[j]['ID'])) {
+                        if (this.tempContactsGroupList[j]['contacts']) {
+                            this.tempContactsGroupList[j]['contacts'].push(data[i]);
                         } else {
-                            this.tempContactsGroupList[index]['contacts'] = [data[i]];
+                            this.tempContactsGroupList[j]['contacts'] = [data[i]];
                         }
                     }
                 }
@@ -312,6 +395,7 @@ export class DeviceStateService {
         });
         this.sidebarItemList.push(...this.tempContactsGroupList);
         this.activeItem = this.sidebarItemList[0];
+        this.contactGroupList = this.sidebarItemList.concat();
         this.activeContact = this.contactLetterGroupList[0]['contacts'][0];
         this.loading = false;                                                                            
     }
@@ -354,7 +438,7 @@ export class DeviceStateService {
     }
 
     newContact(): void {
-
+        this.isAddingContact = true;
     }
 
     /**
@@ -404,19 +488,33 @@ export class DeviceStateService {
     }
 
     selectAll(): void {
-        if (this.selectedItems.length < this.itemList.length) {
-            this.selectedItems = this.itemList.concat();
+        if (this.activeFunction === 'contacts') {
+            let contactsCount = 0;
+            for (let i = 0, l = this.contactLetterGroupList.length; i < l; i++) {
+                contactsCount += this.contactLetterGroupList[i]['contacts'].length;
+            }
+            if (this.selectedItems.length < contactsCount) {
+                this.selectedItems = [];
+                for (let i = 0, l = this.contactLetterGroupList.length; i < l; i++) {
+                    this.addItems(this.contactLetterGroupList[i]['contacts']);
+                }
+            } else {
+                this.selectedItems = []
+            }
         } else {
-            this.selectedItems = [];
+            if (this.selectedItems.length < this.itemList.length) {
+                this.selectedItems = this.itemList.concat();
+            } else {
+                this.selectedItems = [];
+            }
         }
     }
 
-    import(): void {
-        let key: string;
+    importFolder(): void {
 
-        if (this.activeFunction === 'videos') {
-            key = 'VideoImport';
-        }
+    }
+
+    importFile(): void {
         const componentRef = this.componentFactoryResolver
             .resolveComponentFactory(DynamicInputComponent)
             .create(this.injector);
@@ -433,36 +531,26 @@ export class DeviceStateService {
         document.body.appendChild(domElem);
 
         componentRef.instance.onFileChange = (fileList: UploadFile[]) => {
-            for(let i = 0, l = fileList.length; i < l; i++) {
-                this.deviceService.importFile(key, this.activeAlbumId, fileList[i])
-                    .subscribe(
-                        (data) => {
-                            if (data && data.Success === 1) {
-                                this.messageService.success(`${data.Data[0].ShowName}导入成功！`)
-                                this.getItemList(false);
-                            } else {
-                                this.messageService.error('导入失败');
-                            }
-                        },
-                        (error) => {
-                            if (error) {
-                            }
-                        },
-                        () => {
-                            this.isClipboardEditing = false;
-                        }
-                    );
-            }
+            this.uploadQueue.push(...fileList);
+            this.uploadQueueLength = fileList.length;
+            this.processUploadQueue();
+            this.appRef.detachView(componentRef.hostView);
+            document.body.removeChild(domElem);
+            componentRef.destroy();
         };
 
         componentRef.instance.onClick();
     }
 
+    importContact(): void {
+        
+    }
+
     newFolder(): void {
         const newFolderModal = this.modalService.create({
-            nzTitle: '<i>New Folder</i>',
-            nzContent: NewFolderModalComponent,
-            nzFooter: [
+            amTitle: 'New Folder',
+            amContent: NewFolderModalComponent,
+            amFooter: [
               {
                 label: 'OK',
                 onClick: componentInstance => {
@@ -503,9 +591,52 @@ export class DeviceStateService {
                 }
               }
             ],
-            nzMaskClosable: false,
-            nzClosable: false,
-            nzOnOk: () => {
+            amMaskClosable: false,
+            amClosable: false,
+            amOnOk: () => {
+      
+            }
+          });
+    }
+
+    newContactGroup(): void {
+        const newContactGroupModal = this.modalService.create({
+            amTitle: '请输入分组名称',
+            amContent: NewContactGroupModalComponent,
+            amFooter: [
+              {
+                label: 'OK',
+                onClick: componentInstance => {
+                  newContactGroupModal.close();
+                  const name = componentInstance.name;
+                  if (!name) {
+                    return;
+                  }
+                  this.deviceService.addGroup(name)
+                    .subscribe(
+                        (data: any) => {
+                            if(data) {
+                                this.messageService.success('添加成功');
+                                this.getSidebarItemList();
+                            } else {
+                                this.messageService.error('添加失败');
+                            }
+                        },
+                        (error) => {
+                            if (error) {
+                                this.messageService.error('添加失败');
+                            }
+                        },
+                        () => {
+                            this.loading = false;
+                        }
+                    )
+                }
+              }
+            ],
+            amMaskClosable: false,
+            amClosable: false,
+            amOnOk: () => {
       
             }
           });
@@ -570,6 +701,10 @@ export class DeviceStateService {
                 AlbumID: this.activeAlbumId,
                 Data: this.selectedItems,
             }
+        } else if (this.activeFunction === 'contacts') {
+            key = 'ContactDeleteMul';
+            console.log(this.selectedItems);
+            postData = this.selectedItems;
         }
         if (this.activeFunction === 'videos') {
             this.messageService.info('请在手机上确认删除');
@@ -593,9 +728,9 @@ export class DeviceStateService {
             );
         } else {
             this.modalService.confirm({
-                nzTitle: '<i>Warning</i>',
-                nzContent: '<b>确定要删除这些记录吗？</b>',
-                nzOnOk: () => {
+                amTitle: '<i>Warning</i>',
+                amContent: '<b>确定要删除这些记录吗？</b>',
+                amOnOk: () => {
                     this.deviceService.deleteItems(key, postData)
                         .subscribe(
                             (data: CommonResponse) => {
@@ -670,9 +805,9 @@ export class DeviceStateService {
             );
         } else {
             this.modalService.confirm({
-                nzTitle: '<i>Warning</i>',
-                nzContent: '<b>确定要删除这条记录吗？</b>',
-                nzOnOk: () => {
+                amTitle: 'Warning',
+                amContent: '确定要删除这条记录吗？',
+                amOnOk: () => {
                     this.deviceService.deleteItems(key, postData)
                         .subscribe(
                             (data: CommonResponse) => {
@@ -695,11 +830,12 @@ export class DeviceStateService {
     }
 
     backupApps(): void {
-        if (this.selectedItems.length === 0) {
-            return;
-        }
-        for (let i = 0; i < this.selectedItems.length; i++) {
-            this.backupSingleApp(this.selectedItems[i]);
+        if (this.selectedItems.length === 1) {
+            this.backupSingleApp(this.selectedItems[0]);
+        } else if (this.selectedItems.length > 1) {
+            for (let i = 0, l = this.selectedItems.length; i < l; i++) {
+                this.backupSingleApp(this.selectedItems[i]);
+            }
         }
     }
 
@@ -711,21 +847,25 @@ export class DeviceStateService {
      * 下载item
      */
     download(item: any): void {
+        console.log(item);
         if (item && item.Path) {
             if (item.FileType && item.FileType === 2) {
-                downloadLink(this.deviceService.resolvePath(item.Path) + '?Export=1');
+                if (this.deviceService.isSupportZipDownload()) {
+                    this.deviceService.zipFileDownload(this.activeFunction, [item.Path]);
+                } else {
+                    this.messageService.error('不支持下载文件夹！');
+                }
             } else {
                 downloadLink(this.deviceService.resolvePath(item.Path) + '?Export=1');
             }
-            
         }
     }
 
     uninstall(item?: any): void {
         this.modalService.confirm({
-            nzTitle: '<i>Warning</i>',
-            nzContent: '<b>Do you Want to uninstall the app?</b>',
-            nzOnOk: () => {
+            amTitle: 'Warning',
+            amContent: 'Do you Want to uninstall the app?',
+            amOnOk: () => {
               let arr;
               if (item) {
                   arr = [item];
@@ -752,7 +892,8 @@ export class DeviceStateService {
     }
 
     newMessage(): void {
-        
+        this.selectedMessageReceivers = [];
+        this.isAddingMessage = true;
     }
 
     copyToClipboard(): void {
@@ -832,13 +973,31 @@ export class DeviceStateService {
 
     export() {
         if (this.activeFunction === 'clipboard') {
+            const fileName = `Clipboard_airmore_${fecha.format(new Date(), 'YY_MM_DD_h_m')}`;
+            let content = '';
             for (let i = 0, l = this.selectedItems.length; i < l; i++) {
-                const fileName = `Clipboard_airmore_${fecha.format(new Date(), 'YY_MM_DD_h_m')}`;
-                downloadText(this.selectedItems[i]['Content'], 'text/plain', fileName);
+                content += this.selectedItems[i]['Content'] + '\n';
             }
-        } else if (this.activeFunction === 'documents' || this.activeFunction === 'videos' || this.activeFunction === 'pictures' || this.activeFunction === 'musics' || this.activeFunction === 'files') {
-            for (let i = 0, l = this.selectedItems.length; i < l; i++) {
-                this.download(this.selectedItems[i]);
+            downloadText(content, 'text/plain', fileName);
+        } else if (this.activeFunction === 'documents' ||
+                this.activeFunction === 'videos' ||
+                this.activeFunction === 'pictures' ||
+                this.activeFunction === 'musics' ||
+                this.activeFunction === 'files') {
+            if (this.selectedItems.length === 1) {
+                this.download(this.selectedItems[0]);
+            } else if (this.selectedItems.length > 1) {
+                if (this.deviceService.isSupportZipDownload()) {
+                    const paths = [];
+                    for (let i = 0, l = this.selectedItems.length; i < l; i++) {
+                        paths.push(this.selectedItems[i]['Path'] || this.selectedItems[i]['APPPath']);
+                    }
+                    this.deviceService.zipFileDownload(this.activeFunction, paths);
+                } else {
+                    for (let i = 0, l = this.selectedItems.length; i < l; i++) {
+                        this.download(this.selectedItems[i]);
+                    }
+                }
             }
         }
     }
@@ -934,11 +1093,22 @@ export class DeviceStateService {
                     }
                 )
         } else if (this.activeFunction === 'contacts') {
-            this.generateContactsData(this.activeItem['contacts']);
+            this.generateContactLetterGroupList(this.activeItem['contacts']);
         }
     }
 
     get isAllSelected(): boolean {
-        return this.itemList.length === this.selectedItems.length;
+        if (this.activeFunction !== 'contacts') {
+            return this.itemList.length === this.selectedItems.length;
+        }
+        if (!this.contactLetterGroupList) {
+            return false
+        } else {
+            let count = 0;
+            for (let i = 0, l = this.contactLetterGroupList.length; i < l; i++) {
+                count += this.contactLetterGroupList[i]['contacts'].length;
+            }
+            return count === this.selectedItems.length;
+        }   
     }
 }

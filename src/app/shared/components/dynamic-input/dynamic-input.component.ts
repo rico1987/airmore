@@ -16,6 +16,9 @@ export class DynamicInputComponent implements OnInit, OnDestroy {
   @Input() onFileChange: (fileList: UploadFile[]) => void;
 
   @ViewChild('fileInput') fileInput: ElementRef;
+
+  @ViewChild('multipleFileInput') multipleFileInput: ElementRef;
+
   
   constructor() { }
 
@@ -26,10 +29,23 @@ export class DynamicInputComponent implements OnInit, OnDestroy {
     if(this.options.disabled) {
       return
     }
-    (this.fileInput.nativeElement as HTMLInputElement).click();
+    if (this.options.multiple) {
+      (this.multipleFileInput.nativeElement as HTMLInputElement).click();
+    } else {
+      (this.fileInput.nativeElement as HTMLInputElement).click();
+    }
   }
 
   onChange(event) {
+    let fileList = (event.target as HTMLInputElement).files;
+    const files = [];
+    for (let i = 0, l = fileList.length; i < l; i++) {
+      files.push(fileList[i]);
+    }
+    this.onFileChange(files);
+  }
+
+  onMultiFileChange(event) {
     let fileList = (event.target as HTMLInputElement).files;
     const files = [];
     for (let i = 0, l = fileList.length; i < l; i++) {

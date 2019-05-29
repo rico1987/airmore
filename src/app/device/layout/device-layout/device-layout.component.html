@@ -7,6 +7,7 @@
     [class.is-files]="appStateService.activeFunction === 'files'"
     [class.is-contacts]="appStateService.activeFunction === 'contacts'"
   >
-      <router-outlet></router-outlet>
+    <app-uploading-progress *ngIf="deviceStateService.uploadQueue.length > 0"></app-uploading-progress>
+    <router-outlet></router-outlet>
   </div>
 </div>
