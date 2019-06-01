@@ -18,8 +18,8 @@
       </div>
   </div>
   <div class="airmore-subheader__search">
-    <input type="text" placeholder="Search" maxlength="20" />
+    <input type="text" [(ngModel)]="appStateService.searchKey" (keyup)="onSearchChange()"  placeholder="Search" maxlength="20" />
     <div class="airmore-subheader__search-submit"></div>
-    <div class="airmore-subheader__search-clear"></div>
+    <div class="airmore-subheader__search-clear" (click)="clearSearchKey()" *ngIf="appStateService.searchKey"></div>
   </div>
 </div>

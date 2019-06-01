@@ -1,0 +1,91 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(reflector) {
+
+    @include e(body) {
+        width: 100%;
+        height: 640px;
+        .guide {
+            padding: 100px 20px 0;
+            background: url('../../../../assets/img/reflector/info.svg') center 32px no-repeat;
+            .phone{
+                height: 274px;
+                background: url('../../../../assets/img/reflector/mobile-frame.svg') center center no-repeat;
+                text-align: center;
+                padding-top: 50px;
+                .phone-screen{
+                    width: 234px;
+                    height: 223px;
+                    margin: 0 auto;
+                    position: relative;
+                    overflow: hidden;
+                    img{
+                        width: 100%;
+                    }
+                    .popup{
+                        position: absolute;
+                        top: 45px;
+                        right: 0;
+                        left: 0;
+                        margin: auto;
+                        z-index: 10;
+                        width: 200px;
+                        background: #fff;
+                        border-radius: 5px;
+                        padding: 15px 15px 15px 20px;
+                        font-size: 10px;
+                        text-align: left;
+                        &-message{
+                            line-height: 14px;
+                        }
+                        &-skip{
+                            padding: 15px 0;
+                            line-height: 12px;
+                            &::before{
+                                content: '';
+                                display: inline-block;
+                                width: 11px;
+                                height: 11px;
+                                border: 1px solid #333;
+                                margin-right: 3px;
+                                vertical-align: top;
+                            }
+                        }
+                        &-btns{
+                            overflow: hidden;
+                            color: #1fbbde;
+                            line-height: 19px;
+                            >div {
+                                float: right;
+                                padding: 0 10px;
+                                border: 1px solid transparent;
+                                border-radius: 10.5px;
+                            }
+                            .start-now{
+                                border-color: #1fbbde;
+                            }
+                        }
+                    }
+                }
+            }
+            .click-start{
+                font-size: 16px;
+                line-height: 20px;
+                margin-top: 55px;
+                text-align: center;
+            }
+            .click-skip{
+                font-size: 14px;
+                line-height: 18px;
+                margin-top: 10px;
+                color: #888;
+                text-align: center;
+            }
+        }
+    }
+
+    @include e(footer) {
+
+    }
+}

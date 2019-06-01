@@ -65,6 +65,13 @@
                 >div{
                     position: relative;
                     top: -10px;
+                    &.loading{
+                        width: 200px;
+                        height: 200px;
+                    }
+                    &.timeout{
+                        cursor: pointer;
+                    }
                 }
             }
             p{

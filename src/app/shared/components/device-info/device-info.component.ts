@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppStateService } from '../../../shared/service/app-state.service';
 import { DeviceService } from '../../../shared/service/device.service';
 import { ProductsInfoService } from '../../../shared/service/products-info.service';
+import { BrowserStorageService } from '../../../shared/service/storage.service';
 
 @Component({
   selector: 'app-device-info',
@@ -34,7 +35,7 @@ export class DeviceInfoComponent implements OnInit {
 
 
   constructor(
-    private appStateService: AppStateService,
+    private browserStorageService: BrowserStorageService,
     private deviceService: DeviceService,
     private productsInfoService: ProductsInfoService,
   ) {
@@ -46,11 +47,20 @@ export class DeviceInfoComponent implements OnInit {
   ngOnInit() {
   }
 
+  openScr(): void {
+    this.deviceService.openReflector();
+  }
+
+  openRef(): void {
+    this.deviceService.openReflector();
+  }
+
   refreshScreenshot(): void {
     this.loading = true;
     this.deviceService.getScreenImage()
       .subscribe(
         (data) => {
+          this.browserStorageService.set('screenshot', data);
           this.screenshot = data;
           this.loading = false;
         }
@@ -62,12 +72,14 @@ export class DeviceInfoComponent implements OnInit {
       .subscribe(
         (data) => {
           this.deviceInfo = data;
+          console.log(this.deviceInfo);
           setTimeout(() => {
             this.deviceInfo['OtherSize'] = this.deviceInfo['MemorySize'] 
                                           - this.deviceInfo['PicSize']
                                           - this.deviceInfo['MusicSize']
                                           - this.deviceInfo['VideoSize']
-                                          - this.deviceInfo['APKSize'];
+                                          - this.deviceInfo['APKSize']
+                                          - this.deviceInfo['MemoryAvaSize'];
             this.iphoneUsedStorageWidth = `${100 * (1 - (this.deviceInfo['MemoryAvaSize'] / this.deviceInfo['MemorySize']))}%`;
             this.photoUsedStorageWidth = `${100 * (this.deviceInfo['PicSize'] / this.deviceInfo['MemorySize']) || 0}%`;
             this.musicUsedStorageWidth = `${100 * (this.deviceInfo['MusicSize'] / this.deviceInfo['MemorySize']) || 0}%`;
@@ -79,9 +91,10 @@ export class DeviceInfoComponent implements OnInit {
       );
   }
 
-  closeAdd(event: Event): void {
+  closeAdd(event: Event): boolean {
     this.showAdd = false;
     event.stopPropagation();
+    return false;
   }
 
   get softwareDownloadLink(): string {

@@ -63,13 +63,15 @@ export function generateRandomString(length: number): string {
  * @param s 
  */
 export function getFirstLetters(s: string): string {
-    // todo
     if (/^[A-Za-z]/.test(s)) {
         return s[0];
+    } else if (/^[0-9]/.test(s)) {
+        return '#';
+    } else {
+        return pinyin(s, {
+            style: pinyin.STYLE_FIRST_LETTER,
+        });
     }
-    return pinyin(s, {
-        style: pinyin.STYLE_FIRST_LETTER,
-    })
 }
 
 export function isDocument(fileName: string): boolean {

@@ -5,6 +5,8 @@ import { ModalService } from '../../service/modal';
 import { InstallationModalComponent } from '../installation-modal/installation-modal.component';
 import { RadarComponent } from '../radar/radar.component';
 
+export const QRTIMEOUT = 300000; // seconds
+ 
 @Component({
   selector: 'app-connection',
   templateUrl: './connection.component.html',
@@ -20,11 +22,18 @@ export class ConnectionComponent implements OnInit {
 
   private _interval: any = null;
 
+  private _isTimeout: boolean;
+
+  private _qrTimeoutCount: number;
+
+  private _qrTimeoutInterval: any = null;
+
   private _activeConnectionType: 'qrcode' | 'radar' | 'account' = 'qrcode';
   public get activeConnectionType(): 'qrcode' | 'radar' | 'account' {
     return this._activeConnectionType;
   }
   public set activeConnectionType(value: 'qrcode' | 'radar' | 'account') {
+    this.connectionService.activeConnectionType = value;
     this._activeConnectionType = value;
   }
 
@@ -56,6 +65,7 @@ export class ConnectionComponent implements OnInit {
    * 获取二维码
    */
   getQrCode(): void {
+    this._isTimeout = false;
     this.isLoadingQrCode = true;
     this.connectionService.init();
     this._interval = window.setInterval(() => {
@@ -65,8 +75,19 @@ export class ConnectionComponent implements OnInit {
             if (res.URL) {
               this.isLoadingQrCode = false;
               this.qrCodeUrl = res.URL;
-              clearInterval(this._interval);
+              window.clearInterval(this._interval);
               this._interval = null;
+
+              this._isTimeout = false;
+              this._qrTimeoutCount = QRTIMEOUT / 1000;
+              this._qrTimeoutInterval = window.setInterval(() => {
+                this._qrTimeoutCount -= 1;
+                if (this._qrTimeoutCount === 0) {
+                  this._isTimeout = true;
+                  window.clearInterval(this._qrTimeoutInterval);
+                  this._qrTimeoutInterval = null;
+                }
+              }, 1000);
             }
           })
           .catch((e) => {
@@ -74,6 +95,13 @@ export class ConnectionComponent implements OnInit {
           });
       }
     }, 1000);
+  }
+
+  clearQrcodeInterval(): void {
+    if (this._interval) {
+      window.clearInterval(this._interval);
+      this._interval = null;
+    }
   }
 
   showInstallModal(): void {

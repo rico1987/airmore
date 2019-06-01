@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { AppStateService } from '../../service/app-state.service';
-import { DeviceStateService } from '../../service';
+import { DeviceStateService, UserService } from '../../service';
 import { DeviceService } from '../../service/device.service';
 import { ModalService } from '../../service/modal';
 import { ToolModalComponent } from '../tool-modal/tool-modal.component';
@@ -24,6 +24,7 @@ export class DesktopComponent implements OnInit {
     private deviceStateService: DeviceStateService,
     private deviceService: DeviceService,
     private modalService: ModalService,
+    private userService: UserService,
   ) {
     if (this.deviceService.platform === 'iphone') {
       this.functions = this.appConfig.app.iosDesktopFunctions;
@@ -68,10 +69,14 @@ export class DesktopComponent implements OnInit {
         );
       }
     } else {
-      this.appStateService.setCurrentModule('cloud');
-      this.router.navigate(
-        ['cloud']
-      );
+      if (this.userService.isAccountLogined) {
+        this.appStateService.setCurrentModule('cloud');
+        this.router.navigate(
+          ['cloud']
+        );
+      } else {
+        this.appStateService.showConnection('account');
+      }
     }
   }
 

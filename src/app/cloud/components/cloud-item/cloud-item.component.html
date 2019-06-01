@@ -12,6 +12,7 @@
         [class.lab]="type === 'lab'"
         [class.place]="type === 'place'"
         [class.people]="type === 'people'"
+        [class.has-cover-folder]="item.cover_thumb_url"
         
       >
         <app-lazy-load-image [imgSrc]="item.cover_thumb_url || item.image_url" *ngIf="type === 'folder' && item.cover_thumb_url"></app-lazy-load-image>

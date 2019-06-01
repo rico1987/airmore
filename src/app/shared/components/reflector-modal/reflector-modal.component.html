@@ -1,3 +1,33 @@
-<p>
-  reflector-modal works!
-</p>
+<div class="airmore-reflector">
+  <div class="airmore-reflector__body" [style.width]="width + 'px'" [style.height]="height + 'px'">
+    <div class="guide" *ngIf="showGuid">
+      <div class="phone">
+        <div class="phone-screen">
+          <img *ngIf="screenshot" [src]="screenshot | safeUrl" />
+          <div class="popup">
+            <div class="popup-message">爱莫助手将开始截取您的屏幕上显示的所有内容。</div>
+            <div class="popup-skip">不再显示</div>
+            <div class="popup-btns">
+              <div class="start-now">立即开始</div>
+              <div class="cancel">取消</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="click-start">
+        请在您的手机上点击“立即开始”
+      </div>
+      <div class="click-skip">
+        勾选“不再显示”跳过此步骤
+      </div>
+    </div>
+    <div class="main">
+      <img [src]="frame | safeUrl" />
+    </div>
+  </div>
+  <div class="airmore-reflector__footer">
+    <div class="ref-cap"></div>
+    <div class="ref-ful"></div>
+    <div class="ref-set"></div>
+  </div>
+</div>

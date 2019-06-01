@@ -7,6 +7,7 @@ import { AppStateService } from '../../shared/service/app-state.service';
 import { DeviceService } from '../../shared/service/device.service';
 import { AboutModalComponent } from '../../shared/components/about-modal/about-modal.component';
 import { HelpModalComponent } from '../../shared/components/help-modal/help-modal.component';
+import { UserService } from '../../shared/service/user.service';
 
 @Component({
   selector: 'app-layout-desktop',
@@ -20,6 +21,7 @@ export class LayoutDesktopComponent implements OnInit {
     private browserStorageService: BrowserStorageService,
     private appStateService: AppStateService,
     private connectionService: ConnectionService,
+    private userService: UserService,
     private router: Router,
     private deviceService: DeviceService,
   ) { }
@@ -40,12 +42,7 @@ export class LayoutDesktopComponent implements OnInit {
   }
 
   gotoAccount(): void {
-    // todo
-    if (this.appStateService.isAccountLogined) {
-
-    } else {
-      this.connectionService.activeConnectionType = 'account';
-    }
+    this.appStateService.showConnection('account');
   }
 
   showAboutModal(): void {

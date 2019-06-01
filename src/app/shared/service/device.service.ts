@@ -10,6 +10,9 @@ import { DeviceInfo } from '../models/device-info.model';
 import { getIp } from '../../utils/tools';
 import { MessageService } from '../service/message.service';
 import { generateRandomString, getDocTye, isDocument } from '../../utils/index';
+import { ModalService } from '../service/modal';
+import { ReflectorModalComponent } from '../components/reflector-modal/reflector-modal.component';
+
 const fecha = require('fecha');
 
 @Injectable({
@@ -49,6 +52,23 @@ export class DeviceService extends WebsocketService {
 
   public set platform(value: 'android' | 'iphone') {
     this._platform = value;
+  }
+
+  openReflector(): void {
+    const reflectorModal = this.modalService.create({
+      amTitle: '镜像',
+      amStyle: {
+        top: '20px',
+      },
+      amContent: ReflectorModalComponent,
+      amMaskClosable: false,
+      amFooter: null,
+      amClosable: true,
+      amMask: true,
+      amOnOk: () => {
+
+      }
+    });
   }
 
   isSupportZipDownload(): boolean {
@@ -149,7 +169,7 @@ export class DeviceService extends WebsocketService {
 
   onOnlineDevice(host: string, info: DeviceInfo): void {
     if (info && info.DeviceName && info.Model) {
-      if (this.availableConnections.indexOf(info) === -1 && this.availableConnections.length < 4) {
+      if (!this.availableConnections.some((ele) => ele['PrivateIP'] === info['PrivateIP']) && this.availableConnections.length < 4) {
         this.availableConnections.push(info);
       }
     }
@@ -164,6 +184,7 @@ export class DeviceService extends WebsocketService {
     private router: Router,
     private log: Logger,
     private messageService: MessageService,
+    private modalService: ModalService,
   ) {
     super(log);
   }
@@ -439,6 +460,10 @@ export class DeviceService extends WebsocketService {
 
   updateContact(contacts: Array<any>): Observable<any> {
     return this.myClientService.devicePost('ContactUpdate', JSON.stringify(contacts));
+  }
+
+  addContact(contacts: Array<any>): Observable<any> {
+    return this.myClientService.devicePost('ContactAdd', JSON.stringify(contacts));
   }
 
   addGroup(GroupName: string): Observable<any> {

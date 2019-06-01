@@ -4,7 +4,7 @@
 @include b(lazy-load-image) {
     width: 100%;
     height: 100%;
-    background: $primary-light-3 url('../../../../assets/img/fun/white/pictures-white.svg') center no-repeat;
+    background: rgba(198,227,245,.5) url('../../../../assets/img/fun/white/pictures-white.svg') center no-repeat;
     background-size: contain;
 
     @include when(loaded) {

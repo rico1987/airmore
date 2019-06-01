@@ -56,7 +56,7 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   ];
 
 
-  sortName: string | null = null;
+  sortKey: string | null = null;
   sortValue: string | null = null;
   pageSize: number;
 
@@ -182,6 +182,8 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
 
 
   sort(sort: { key: string; value: string }): void {
+    this.sortKey = sort['key'];
+    this.sortValue = sort['value'];
   }
 
   play(item): void {
@@ -273,6 +275,7 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   cancelClipboardEdit(): void {
+    this.deviceStateService.clipboardValue = '';
     this.deviceStateService.isClipboardEditing = false;
   }
 
@@ -282,7 +285,12 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   saveToClipboard(): void {
-    this.deviceStateService.saveClipboard(this.clipboardValue);
+    this.deviceStateService.saveClipboard();
+  }
+
+  openItem(item: any): void {
+    console.log(item);
+    // todo
   }
 
   get isAllSelected(): boolean {
@@ -290,7 +298,24 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   get listOfDisplayData(): Array<any> {
-    return this.deviceStateService.itemList;
+    if (this.sortKey && this.sortValue) {
+      return this.deviceStateService.itemList.concat().sort((a, b) => {
+        let flag;
+        if (a[this.sortKey] > b[this.sortKey]) {
+          flag = 1;
+        } else if (a[this.sortKey] < b[this.sortKey]) {
+          flag = -1;
+        } else {
+          flag = 0;
+        }
+        if (this.sortValue === 'descend') {
+          flag = -flag;
+        }
+        return flag;
+      });
+    } else {
+      return this.deviceStateService.itemList;
+    }    
   }
 
   get isAllDisplayDataChecked(): boolean {

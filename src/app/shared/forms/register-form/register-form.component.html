@@ -25,7 +25,7 @@
       </span>
     </div>
     <div class="airmore-register-form__item">
-      <button class="airmore-register-form__submit-btn" type="submit" [disabled]="!registerForm.valid">Register</button>
+      <button class="airmore-register-form__submit-btn" type="submit" [disabled]="!registerForm.valid"><span *ngIf="loading" class="loading"></span>Register</button>
     </div>
     <div class="airmore-register-form__item airmore-register-form__links">
       <span (click)="appStateService.accountRoute='passwordLogin'">Password Login</span>

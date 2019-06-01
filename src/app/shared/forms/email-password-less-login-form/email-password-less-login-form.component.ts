@@ -6,6 +6,9 @@ import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../shared/service/message.service';
 import { CommonResponse, EmailPasswordLessLoginInfo } from '../../models';
+import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-email-password-less-login-form',
@@ -37,6 +40,8 @@ export class EmailPasswordLessLoginFormComponent implements OnInit {
 
   interval: any = null;
 
+  loading = false;
+
   constructor(
     private router: Router,
     private userService: UserService,
@@ -60,9 +65,7 @@ export class EmailPasswordLessLoginFormComponent implements OnInit {
   }
 
   getCaptcha(): void {
-    if (this.count !== 0) {
-      this.messageService.error('请稍后再试')
-    }
+
     if (this.emailPasswordLessLoginForm.get('email').invalid) {
       this.messageService.error('请输入正确的邮箱！');
       return;
@@ -72,8 +75,11 @@ export class EmailPasswordLessLoginFormComponent implements OnInit {
         (data: CommonResponse) => {
           if (data && data.status === '1') {
             this.count = 60;
-            this.interval = setInterval(() => {
+            this.interval = window.setInterval(() => {
               this.count --;
+              if (this.count === 0) {
+                window.clearInterval(this.interval);
+              }
             }, 1000);
           }
         },
@@ -85,19 +91,29 @@ export class EmailPasswordLessLoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.emailPasswordLessLoginForm.valid) {
+    if (this.emailPasswordLessLoginForm.valid && !this.loading) {
+      this.loading = true;
       this.userService.emailPasswordLessLogin(this.emailPasswordLessLoginInfo)
         .subscribe(
           (data: CommonResponse) => {
+            this.userService.isAccountLogined = true;
             this.userService.userInfo = data.data;
+            this.appStateService.hideConnection();
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']
             );
+            this.loading = false;
           },
           (error) => {
-            if (error) {
+            if (error instanceof HttpErrorResponse) {
+              if (error.error.status === -206) {
+                this.messageService.error('Invalid verification code');
+              }
             }
+            this.loading = false;
+          },
+          () => {
           }
         );
     }

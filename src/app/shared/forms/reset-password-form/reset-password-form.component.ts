@@ -6,6 +6,7 @@ import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../shared/service/message.service';
 import { CommonResponse, ResetPasswordInfo } from '../../models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -42,6 +43,8 @@ export class ResetPasswordFormComponent implements OnInit {
   count: number;
 
   interval: any = null;
+
+  loading = false;
 
   constructor(
     private router: Router,
@@ -97,19 +100,31 @@ export class ResetPasswordFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.resetPasswordForm.valid) {
+    if (this.resetPasswordForm.valid && !this.loading) {
+      this.loading = true;
       this.userService.resetPassword(this.resetPasswordInfo)
         .subscribe(
           (data: CommonResponse) => {
+            this.userService.isAccountLogined = true;
             this.userService.userInfo = data.data;
+            this.appStateService.hideConnection();
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']
             );
+            this.loading = false;
           },
           (error) => {
-            if (error) {
+            if (error instanceof HttpErrorResponse) {
+              if (error.error.status === -200) {
+                this.messageService.error('账号不存在');
+              } else if (error.error.status === -206) {
+                this.messageService.error('Invalid verification code');
+              }
             }
+            this.loading = false;
+          },
+          () => {
           }
         );
     }

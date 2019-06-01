@@ -1,0 +1,45 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(sharer) {
+    ul{
+        display: flex;
+        justify-content: space-between;
+        list-style-type: none;
+        overflow: hidden;
+        li{
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: top;
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            opacity: 1;
+            &.sharer-facebook{
+                background-image: url("../../../../assets/img/common/share/facebook.svg");
+            }
+        
+            &.sharer-twitter{
+                background-image: url("../../../../assets/img/common/share/twitter.svg");
+            }
+        
+            &.sharer-google{
+                background-image: url("../../../../assets/img/common/share/google.svg");
+            }
+        
+            &.sharer-weibo{
+                background-image: url("../../../../assets/img/common/share/weibo.svg");
+            }
+        
+            &.sharer-douban{
+                background-image: url("../../../../assets/img/common/share/douban.svg");
+            }
+        
+            &.sharer-weixin{
+                background-image: url("../../../../assets/img/common/share/weixin.svg");
+            }
+        }
+    }
+}

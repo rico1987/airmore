@@ -1,5 +1,5 @@
 <div class="airmore-contacts-selector" *ngIf="show">
-  <div class="airmore-contacts-selector__group-list">
+  <div class="airmore-contacts-selector__group-list" *ngIf="contactGroupList">
     <div class="group"
       *ngFor="let group of contactGroupList"
       [class.is-active]="activeGroup && activeGroup['ID'] === group['ID']"
@@ -17,4 +17,5 @@
       {{contact['Name']['DisplayName']}}
     </div>
   </div>
+  <app-loading *ngIf="loading"></app-loading>
 </div>

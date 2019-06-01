@@ -24,6 +24,8 @@ import { InvitationModalComponent } from '../../shared/components/invitation-mod
 
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
+const deepcopy = require('deepcopy');
+
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +60,8 @@ export class CloudStateService {
 
   interval = null;
 
+  tempItemList: Array<any>;
+
   constructor(
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -71,6 +75,22 @@ export class CloudStateService {
   ) {
     this.functions = this.appConfig.app.cloudFunctions;
     // todo 计算排列参数
+  }
+
+  filter(searchKey: string): void {
+    this.itemList = deepcopy(this.tempItemList);
+    this.itemList = this.itemList.filter((ele) => {
+      let flag = false;
+
+      flag = (ele['title'] && ele['title'].indexOf(searchKey) > -1) ||
+        (ele['filename'] && ele['filename'].indexOf(searchKey) > -1);
+
+      return flag;
+    })
+  }
+
+  clearFilter(): void {
+    this.itemList = deepcopy(this.tempItemList);
   }
 
   /**
@@ -262,6 +282,7 @@ export class CloudStateService {
           }
           if (index === data.data.list.length - 1) {
             clearInterval(this.interval);
+            this.tempItemList = deepcopy(this.itemList);
             this.interval = null;
           }
         }, 50);
@@ -296,6 +317,35 @@ export class CloudStateService {
     } else {
       this.selectedItems = [];
     }
+  }
+
+  deleteItem(item: any): void {
+    this.modalService.confirm({
+      amTitle: 'Warning',
+      amContent: 'Do you want to this item?',
+      amOnOk: () => {
+        this.loading = true;
+        const id = item['library_id'] || item['resource_id'];
+        let node_list  = [id];
+        this.nodeService.deleteNodes(node_list)
+          .subscribe(
+            (data: CommonResponse) => {
+              if(data.status === '1') {
+                this.messageService.success('删除成功');
+                this.refreshItemList();
+              }
+            },
+            (error) => {
+              if (error) {
+                this.messageService.error('删除失败');
+              }
+            },
+            () => {
+              this.loading = false;
+            }
+          );
+      }
+    });
   }
 
   deleteItems(): void {
@@ -595,6 +645,7 @@ export class CloudStateService {
     const invitationModal = this.modalService.create({
       amTitle: '获取更大云空间',
       amContent: InvitationModalComponent,
+      amWidth: 340,
       amMaskClosable: false,
       amFooter: null,
       amClosable: true,

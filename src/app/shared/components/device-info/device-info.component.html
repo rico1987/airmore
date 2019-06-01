@@ -1,4 +1,4 @@
-<div class="airmore-device-info" [class.is-android]="appStateService.platform === 'android'">
+<div class="airmore-device-info" [class.is-android]="deviceInfo && deviceInfo.Platform === 1">
     <div class="airmore-device-info__screenshot">
       <img *ngIf="screenshot" [src]="screenshot | safeUrl" />
       <div class="refresh" [class.loading]="loading" (click)="refreshScreenshot()"></div>
@@ -18,10 +18,10 @@
         <dd *ngIf="platform === 'android' && deviceInfo">{{ deviceInfo['SDKVersionName'] }}</dd>
         <dt *ngIf="platform === 'android'">序列号</dt>
         <dd *ngIf="platform === 'android' && deviceInfo">{{ deviceInfo['SerialNum'] }}</dd>
-        <dt *ngIf="platform === 'iphone'">Pictures</dt><dd *ngIf="platform === 'iphone'">{{ deviceInfo['PicCount'] || '-' }}</dd>
+        <dt *ngIf="platform === 'iphone' && deviceInfo">Pictures</dt><dd *ngIf="platform === 'iphone'">{{ deviceInfo['PicCount'] || '-' }}</dd>
 			  <dt *ngIf="platform === 'iphone' && deviceInfo">Videos</dt><dd *ngIf="platform === 'iphone'">{{ deviceInfo['VideoCount'] || '-' }}</dd>
         <dt>是否 root</dt>
-        <dd *ngIf="deviceInfo">{{ deviceInfo['Root'] }}</dd>
+        <dd *ngIf="deviceInfo">{{ deviceInfo['Root'] | isRoot }}</dd>
         <div class="detail">详细信息</div>
       </dl>
       <div class="memory-list">
@@ -97,5 +97,18 @@
         </a>
       </div>
     </div>
-    <div class="airmore-device-info__btns"></div>
+    <div class="airmore-device-info__btns">
+      <div
+        class="open-scr"
+        nz-tooltip
+        nzTitle="截图"
+        (click)="openScr()"
+      ></div>
+      <div
+        class="open-ref"
+        nz-tooltip
+        nzTitle="镜像"
+        (click)="openRef()"
+      ></div>
+    </div>
 </div>

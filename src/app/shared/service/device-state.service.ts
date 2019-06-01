@@ -32,6 +32,7 @@ import { getFirstLetters } from '../../utils/index';
 
 import { downloadText } from '../../utils/tools';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
+const deepcopy = require('deepcopy');
 
 @Injectable({
     providedIn: 'root'
@@ -84,7 +85,7 @@ export class DeviceStateService {
 
     selectedMessageReceivers: Array<any> = [];
 
-    allLetters: Array<string> = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    allLetters: Array<string> = '#ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
     contactDetailRef: ElementRef<ContactDetailComponent>;
 
@@ -95,6 +96,14 @@ export class DeviceStateService {
     uploadQueueLength: number;
 
     uploadingItem: any;
+
+    tempContactLetterGroupList: Array<any>;
+
+    tempItemList: Array<any>;
+
+    tempSidebarItemList: Array<any>;
+
+    clipboardValue: string = '';
 
     processUploadQueue(): void {
         if (this.uploadQueue.length > 0) {
@@ -149,6 +158,54 @@ export class DeviceStateService {
     ) {
     }
 
+    filter(searchKey: string): void {
+        if (!searchKey) {
+            this.clearFilter();
+            return;
+        }
+        if (this.activeFunction === 'contacts') {
+            this.contactLetterGroupList = deepcopy(this.tempContactLetterGroupList);
+               
+            for(let i = 0, l = this.contactLetterGroupList.length; i < l; i++) {
+                this.contactLetterGroupList[i]['contacts'] = this.contactLetterGroupList[i]['contacts'].filter((ele) => {
+                    return ele['Name']['DisplayName'].indexOf(searchKey) > -1;
+                })
+            }
+        } else if (this.activeFunction === 'messages') {
+            this.sidebarItemList = deepcopy(this.tempSidebarItemList);
+
+            this.sidebarItemList = this.sidebarItemList.filter((ele) => {
+                return ele['ShowName'].indexOf(searchKey) > -1 || ele['Content'].indexOf(searchKey) > -1
+            })
+        } else if (this.activeFunction === 'documents' || this.activeFunction === 'apps' || this.activeFunction === 'files' || this.activeFunction === 'videos') {
+            this.itemList = deepcopy(this.tempItemList);
+
+            this.itemList = this.itemList.filter((ele) => {
+                return ele['ShowName'].indexOf(searchKey) > -1;
+            })
+        } else if (this.activeFunction === 'clipboard') {
+            this.itemList = deepcopy(this.tempItemList);
+            this.itemList = this.itemList.filter((ele) => {
+                return ele['Content'].indexOf(searchKey) > -1;
+            })
+        } else if (this.activeFunction === 'musics') {
+            this.itemList = deepcopy(this.tempItemList);
+            this.itemList = this.itemList.filter((ele) => {
+                return ele['ShowName'].indexOf(searchKey) > -1 || ele['Artist'].indexOf(searchKey) > -1 || ele['Album'].indexOf(searchKey) > -1;
+            })
+        }
+    }
+
+    clearFilter(): void {
+        if (this.activeFunction === 'contacts') {
+            this.contactLetterGroupList = deepcopy(this.tempContactLetterGroupList);
+        } else if (this.activeFunction === 'messages') {
+            this.sidebarItemList = deepcopy(this.tempSidebarItemList);
+        } else if (this.activeFunction === 'documents' || this.activeFunction === 'apps' || this.activeFunction === 'files' || this.activeFunction === 'clipboard' || this.activeFunction === 'videos' || this.activeFunction === 'musics') {
+            this.itemList = deepcopy(this.tempItemList);
+        }
+    }
+
     setDeviceActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard'): void {
         if (fun !== this.activeFunction) {
             this.activeItem = null;
@@ -172,6 +229,7 @@ export class DeviceStateService {
 
     setItemList(itemList: Array<any>): void {
         this.itemList = itemList.concat();
+        this.tempItemList = deepcopy(this.itemList);
     }
 
 
@@ -208,7 +266,7 @@ export class DeviceStateService {
             this.deviceService.getAppList()
                 .subscribe((data) => {
                     this.itemList = data;
-                    console.log(this.itemList)
+                    this.tempItemList = deepcopy(this.itemList);
                     this.loading = false;
                 });
         } else if (this.activeFunction === 'documents') {
@@ -224,13 +282,15 @@ export class DeviceStateService {
             this.deviceService.getClipboardList(this.activeAlbumId)
                 .subscribe((data) => {
                     this.itemList = data;
-                    console.log(this.itemList);
+                    this.tempItemList = deepcopy(this.itemList);
+                    this.activeItem = this.itemList.length > 0 ? this.itemList[0] : null;
                     this.loading = false;
                 });
         } else if (this.activeFunction === 'messages') {
             this.deviceService.getMessageLatestList()
                 .subscribe((data) => {
                     this.sidebarItemList = data;
+                    this.tempSidebarItemList = deepcopy(this.sidebarItemList);
                     if (this.sidebarItemList.length > 0) {
                         this.activeAlbumId = this.sidebarItemList[0]['ID'];
                         this.totalCount = this.sidebarItemList[0]['Count'];
@@ -260,13 +320,16 @@ export class DeviceStateService {
                         this.tempContactsGroupList[i]['label'] = this.tempContactsGroupList[i]['GroupName'];
                         this.tempContactsGroupList[i]['value'] = this.tempContactsGroupList[i]['ID']
                     }
-                    this.getItemList(false);
+                    this.deviceService.getAllContacts()
+                        .subscribe((data) => {
+                            this.generateContactsData(data);
+                        });
                 });
         }
     }
 
-
     getItemList(isAddTo: boolean): void {
+        this.loading = true;
         this.resetSelected();
         if (this.activeFunction === 'files') {
             let path;
@@ -278,6 +341,9 @@ export class DeviceStateService {
             this.deviceService.getDirectoryFiles(path)
                 .subscribe((data) => {
                     this.itemList = data;
+                    setTimeout(() => {
+                        this.loading = false;
+                    }, 1000);
                 })
         } else if (this.activeFunction === 'contacts') {
             this.deviceService.getAllContacts()
@@ -289,16 +355,15 @@ export class DeviceStateService {
                 this.deviceService.getPhotoList(this.activeAlbumId, this.Start, this.totalCount)
                     .subscribe((data) => {
                         this.processData(data, isAddTo);
-                        console.log(this.itemGroupList);
                         this.loading = false;
                     });
             } else if (this.activeFunction === 'musics') {
                 this.deviceService.getMusictList(this.activeAlbumId, this.Start, this.totalCount)
                     .subscribe((data) => {
                         this.processData(data, isAddTo);
-                        console.log(this.itemList);
-                        console.log(this.itemGroupList);
-                        this.loading = false;
+                        setTimeout(() => {
+                            this.loading = false;
+                        }, 1000);    
                     });
             } else if (this.activeFunction === 'documents') {
                 this.deviceService.getDocList(this.activeAlbumId)
@@ -307,15 +372,13 @@ export class DeviceStateService {
                             data[i]['album'] = this.activeAlbumId; 
                         }
                         this.itemList = data;
-                        console.log(this.itemList);
+                        this.tempItemList = deepcopy(this.itemList);
                         this.loading = false;
                     });
             } else if (this.activeFunction === 'videos') {
                 this.deviceService.getVideoList(this.activeAlbumId, this.Start, this.totalCount)
                     .subscribe((data) => {
                         this.processData(data, isAddTo);
-                        console.log(this.itemList);
-                        console.log(this.itemGroupList);
                         this.loading = false;
                     });
             } else if (this.activeFunction === 'messages') {
@@ -330,6 +393,7 @@ export class DeviceStateService {
 
     generateContactLetterGroupList(data: Array<any>): void {
         if(!data) {
+            this.contactLetterGroupList = [];
             return
         }
         this.contactLetterGroupList = [];
@@ -357,6 +421,8 @@ export class DeviceStateService {
         const hasNumberContacts = [];
 
         this.generateContactLetterGroupList(data);
+
+        this.tempContactLetterGroupList = deepcopy(this.contactLetterGroupList);
 
         for (let i = 0, l = data.length; i < l; i++) {
 
@@ -435,6 +501,7 @@ export class DeviceStateService {
         if (this.activeFunction === 'messages') {
             this.itemList = this.itemList.reverse();
         }
+        this.tempItemList = deepcopy(this.itemList);
     }
 
     newContact(): void {
@@ -474,6 +541,7 @@ export class DeviceStateService {
         this.deviceService.getDirectoryFiles(this.root.Path)
             .subscribe((data) => {
                 this.itemList = data;
+                this.tempItemList = deepcopy(this.itemList);
                 this.loading = false;
             });
     }
@@ -676,10 +744,7 @@ export class DeviceStateService {
             postData = this.selectedItems;
         } else if (this.activeFunction === 'documents') {
             key = 'DocDeleteMul';
-            postData = {
-                AlbumID: this.activeAlbumId,
-                Data: this.selectedItems,
-            }
+            postData = this.selectedItems;
         } else if (this.activeFunction === 'videos') {
             key = 'VideoDeleteMul';
             postData = {
@@ -703,11 +768,11 @@ export class DeviceStateService {
             }
         } else if (this.activeFunction === 'contacts') {
             key = 'ContactDeleteMul';
-            console.log(this.selectedItems);
             postData = this.selectedItems;
         }
         if (this.activeFunction === 'videos') {
             this.messageService.info('请在手机上确认删除');
+            // todo 
             this.deviceService.deleteItems(key, postData)
             .subscribe(
                 (data: CommonResponse) => {
@@ -903,13 +968,14 @@ export class DeviceStateService {
         }, 0);
     }
 
-    saveClipboard(text: string): void {
-        if (text) {
-            this.deviceService.saveClipboard(text)
+    saveClipboard(): void {
+        if (this.clipboardValue) {
+            this.deviceService.saveClipboard(this.clipboardValue)
                 .subscribe(
                     (data: CommonResponse) => {
                         if (data) {
                             this.messageService.success('添加成功!');
+                            this.clipboardValue = '';
                             this.refreshItemList();
                         }
                     },
@@ -922,6 +988,8 @@ export class DeviceStateService {
                         this.isClipboardEditing = false;
                     }
                 );
+        } else {
+            this.messageService.error('内容不能为空！');
         }
     }
 

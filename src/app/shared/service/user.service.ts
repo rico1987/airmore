@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AppStateService } from './app-state.service';
 import { MyClientService } from './my-client.service';
@@ -86,7 +87,7 @@ export class UserService {
       brand: this.appConfig.brand,
       registed_app: this.appConfig.app.registedApp,
     }
-    return this.myClientService.post('account', '/users', data);
+    return this.myClientService.post('account', '/sessions', data);
   }
 
   private _userInfo: UserInfo;

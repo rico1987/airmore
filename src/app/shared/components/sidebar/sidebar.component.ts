@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
 import { AppStateService } from '../../../shared/service/app-state.service';
-import { DeviceStateService, DeviceService, ConnectionService, MessageService } from '../../service';
+import { DeviceStateService, DeviceService, ConnectionService, MessageService, UserService, ModalService} from '../../service';
 import { Router } from '@angular/router';
 
 
@@ -20,21 +20,24 @@ export class SidebarComponent implements OnInit {
     private deviceService: DeviceService,
     private connectionService: ConnectionService,
     private messageService: MessageService,
+    private userService: UserService,
+    private modalService: ModalService,
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private router: Router,
   ) {
     // android and ios have different functions
     if (this.deviceService.platform === 'iphone') {
       this.functions = appConfig.app.iosSidebarFunctions;
-    } else if (this.deviceService.platform === 'android') {
+    } else {
       this.functions = appConfig.app.androidSidebarFunctions;
-    }
+    } 
   }
 
   ngOnInit() {
   }
 
   setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard' | 'cloud'): void {
+    this.appStateService.searchKey = null;
     if (fun !== 'cloud') {
       if (this.deviceService.deviceConnected) {
         this.appStateService.setCurrentModule('device');
@@ -43,16 +46,23 @@ export class SidebarComponent implements OnInit {
         );
         this.deviceStateService.setDeviceActiveFunction(fun);
       } else {
-        this.messageService.error('需要连接手机后才可以查看手机中的文件哦');
         this.connectionService.activeConnectionType = 'qrcode';
         this.appStateService.showConnection('qrcode');
+        this.modalService.error({
+          amTitle: null,
+          amContent: '需要连接手机后才可以查看到手机中的文件哦'
+        })
       }
     } else {
+      if (this.userService.isAccountLogined) {
+        this.appStateService.setCurrentModule('cloud');
+        this.router.navigate(
+          ['cloud']
+        );
+      } else {
+        this.appStateService.showConnection('account');
+      }
       
-      this.appStateService.setCurrentModule('cloud');
-      this.router.navigate(
-        ['cloud']
-      );
     }
   }
 

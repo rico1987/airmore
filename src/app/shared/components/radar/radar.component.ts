@@ -37,7 +37,6 @@ export class RadarComponent implements OnInit {
     this.deviceService.protocol = 'ws:';
     this.deviceService.path = '/channel.do';
     this.deviceService.init();
-    this.deviceService.checkAuthorization();
   }
 
 }

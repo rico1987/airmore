@@ -154,6 +154,7 @@ $actions: select, upload, upload-folder, download, refresh, delete, add, wallpap
             height: 32px;
             border: none;
             background: url('../../../../assets/img/action/gray/quit-gray.svg') center no-repeat;
+            background-size: 16px auto;
             &:hover {
                 background-image: url('../../../../assets/img/action/blue/quit-blue.svg');
             }

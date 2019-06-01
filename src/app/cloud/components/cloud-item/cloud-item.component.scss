@@ -38,6 +38,7 @@
                 height: 100%;
                 background-size: contain;
                 background-repeat: no-repeat;
+                position: relative;
 
                 &.defaultFolder {
                     background-image: url('../../../../assets/img/fun/blue/files-blue.svg');
@@ -57,6 +58,31 @@
                 &.document {
                     background: $primary-light-3 url('../../../../assets/img/fun/white/documents-white.svg') center no-repeat;
                     background-size: 40%;
+                }
+
+                &.has-cover-folder{
+                    border: 1px solid #eee;
+                    &::before{
+                        content: '';
+                        width: 95%;
+                        left: 2.5%;
+                        border: 1px solid #eee;
+                        border-bottom: none;
+                        height: 3px;
+                        position: absolute;
+                        top: -4px;
+                    }
+                    &::after{
+                        content: '';
+                        width: 90%;
+                        left: 4%;
+                        border: 1px solid #eee;
+                        border-bottom: none;
+                        height: 3px;
+                        position: absolute;
+                        top: -7.5px;
+                    }
+                    
                 }
             }
         }

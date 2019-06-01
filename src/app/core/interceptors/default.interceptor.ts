@@ -44,12 +44,16 @@ export class DefaultInterceptor implements HttpInterceptor {
                     return of(event);
                 }
             }),
-            catchError((err: HttpErrorResponse) => this.handleData(err)),
+            catchError((err: HttpErrorResponse) => this.handleError(err)),
         );
     }
 
 
     private handleData(ev: HttpResponseBase): Observable<any> {
         return of(ev);
+    }
+
+    private handleError(err: any): Observable<any> {
+        throw(err);
     }
 }

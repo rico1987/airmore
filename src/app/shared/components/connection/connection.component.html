@@ -6,11 +6,14 @@
   </ul>
   <ul class="airmore-connection__tabs" [ngSwitch]="connectionService.activeConnectionType">
     <li *ngSwitchCase="'qrcode'" class="qrcode">
-      <div *ngIf="qrCodeUrl && !isLoadingQrCode">
+      <div *ngIf="qrCodeUrl && !isLoadingQrCode && !_isTimeout">
         <img [src]="qrCodeUrl" />
       </div>
-      <div *ngIf="isLoadingQrCode">
-        
+      <div class="timeout" *ngIf="_isTimeout">
+        <span (click)="getQrCode()">二维码已失效，请点击刷新</span>
+      </div>
+      <div *ngIf="isLoadingQrCode && !_isTimeout" class="loading">
+        <app-loading></app-loading>
       </div>
       <p>Scan QR code using AirMore</p>
     </li>

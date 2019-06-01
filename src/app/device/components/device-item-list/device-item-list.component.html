@@ -37,7 +37,9 @@
         [nzShowPagination]="false"
         [nzScroll]="{ y: scrollHeight + 'px' }"
       >
-        <thead>
+        <thead
+        (nzSortChange)="sort($event)"
+        >
           <tr>
             <th
               nzShowCheckbox
@@ -104,7 +106,9 @@
         [nzShowPagination]="false"
         [nzScroll]="{ y: scrollHeight + 'px' }"
       >
-        <thead>
+        <thead
+        (nzSortChange)="sort($event)"
+        >
           <tr>
             <th
               nzShowCheckbox
@@ -148,7 +152,7 @@
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
               <td class="airmore-device-item-list__td">
-                {{ data.ShowName }}
+                <span class="name">{{ data.ShowName }}</span>
                 <div class="airmore-device-item-list__td-operations">
                     <span class="play" (click)="playMusic(data)"></span>
                     <span class="export" (click)="export(data)"></span>
@@ -171,9 +175,9 @@
     <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">
       <div class="toolbar">
         <span class="cancel" (click)="cancelClipboardEdit()" *ngIf="isClipboardEditing">Cancel</span>
-        <span class="primary" (click)="saveToClipboard()" *ngIf="isClipboardEditing" [class.active]="clipboardValue">Save to clipboard</span>
+        <span class="primary" (click)="saveToClipboard()" *ngIf="isClipboardEditing" [class.active]="deviceStateService.clipboardValue">Save to clipboard</span>
       </div>
-      <textarea (keydown)="onKeyDown($event)" *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
+      <textarea (keydown)="onKeyDown($event)" *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="deviceStateService.clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
       <p *ngIf="!isClipboardEditing && deviceStateService.activeItem && deviceStateService.activeItem['Content']">{{deviceStateService.activeItem['Content']}}</p>
     </div>
     <!-- clipboard end -->
@@ -210,7 +214,7 @@
             </span>
             <input type="text" autofocus (keyup)="onContactKey($event)" maxlength="50" />
           </span>
-          <span #addContactBtn class="add-contact" (click)="showContactSelector($event)"></span>
+          <span #addContactBtn class="add-contact" [class.is-loading]="!deviceStateService.contactGroupList" (click)="showContactSelector($event)"></span>
         </div>
         <div class="message-sender">
           <textarea (keydown)="onMessageContentKeyDown($event)" placeholder="{{messageTextareaPlaceholder}}" [(ngModel)]="messageValue"></textarea>
@@ -231,8 +235,11 @@
         [nzFrontPagination]="false"
         [nzShowPagination]="false"
         [nzScroll]="{ y: scrollHeight + 'px' }"
+        
       >
-        <thead>
+        <thead
+          (nzSortChange)="sort($event)"
+        >
           <tr>
             <th
               nzShowCheckbox
@@ -270,7 +277,7 @@
                 [nzChecked]="deviceStateService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
-              <td class="airmore-device-item-list__td">
+              <td class="airmore-device-item-list__td" (dblclick)="openItem(data)">
                 <span class="icon" [class.is-file]="data.FileType === 1" [class.is-folder]="data.FileType === 2"></span>
                 {{ data.ShowName }}
                 <div class="airmore-device-item-list__td-operations">

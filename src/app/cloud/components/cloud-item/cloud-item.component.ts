@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CloudStateService } from '../../../shared/service';
+import { CloudStateService, MessageService } from '../../../shared/service';
 import { getFileShortName } from '../../../utils';
 
 @Component({
@@ -18,6 +18,7 @@ export class CloudItemComponent implements OnInit {
 
   constructor(
     private cloudStateService: CloudStateService,
+    private messageService: MessageService,
   ) {
   }
 
@@ -59,6 +60,8 @@ export class CloudItemComponent implements OnInit {
         this.openResource();
     } else if (this.item.type === 'image') {
         this.cloudStateService.preview(this.item);
+    } else {
+      this.messageService.error('无法预览当前格式文件！');
     }
   }
 
@@ -69,6 +72,7 @@ export class CloudItemComponent implements OnInit {
 
   delete(): void {
     event.stopPropagation();
+    this.cloudStateService.deleteItem(this.item);
   }
 
   supportOperation(operation: 'preview' | 'download' | 'delete'): boolean {

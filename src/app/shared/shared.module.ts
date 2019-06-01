@@ -44,6 +44,7 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { ModalModule } from './service/modal/modal.module';
 
 import { SizePipe } from './pipes/size.pipe';
+import { IsRootPipe } from './pipes/is-root.pipe';
 import { DurationPipe } from './pipes/duration.pipe';
 import { FileTypePipe } from './pipes/file-type.pipe';
 import { CutOffPipe } from './pipes/cut-off.pipe';
@@ -65,6 +66,7 @@ import { AboutModalComponent } from './components/about-modal/about-modal.compon
 import { HelpModalComponent } from './components/help-modal/help-modal.component';
 import { NewContactGroupModalComponent } from './components/new-contact-group-modal/new-contact-group-modal.component';
 import { SubheaderDropdownComponent } from './components/subheader-dropdown/subheader-dropdown.component';
+import { SharerComponent } from './components/sharer/sharer.component';
 
 const COMPONENTS = [
   ConnectionComponent,
@@ -103,6 +105,7 @@ const PIPES = [
   IsFolderPipe,
   SafeUrlPipe,
   CutOffPipe,
+  IsRootPipe,
 ];
 
 @NgModule({
@@ -121,6 +124,7 @@ const PIPES = [
     MessageComponent,
     MessageContainerComponent,
     SizePipe,
+    IsRootPipe,
     DurationPipe,
     RenameModalComponent,
     NewFolderModalComponent,
@@ -135,7 +139,6 @@ const PIPES = [
     IsFolderPipe,
     InvitationModalComponent,
     ToolModalComponent,
-    ReflectorModalComponent,
     LoadingDirective,
     LoadingComponent,
     DeviceInfoComponent,
@@ -145,6 +148,7 @@ const PIPES = [
     DropdownSelectComponent,
     DropdownSelectOptionsComponent,
     SubheaderDropdownComponent,
+    SharerComponent,
   ],
   imports: [
     CommonModule,

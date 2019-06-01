@@ -1,0 +1,47 @@
+<div class="airmore-sharer">
+  <ul *ngIf="lang === 'zh'">
+    <li
+      nz-tooltip
+      [nzTitle]="weixinTemplate"
+      class="sharer-weixin"
+      (click)="shareTo('weixin')"
+      ></li>
+      <li
+      nz-tooltip
+      [nzTitle]="getShareTip('douban')"
+      class="sharer-douban"
+      (click)="shareTo('douban')"
+      ></li>
+      <li
+      nz-tooltip
+      [nzTitle]="getShareTip('weibo')"
+      class="sharer-weibo"
+      (click)="shareTo('weibo')"
+      ></li>
+  </ul>
+  <ul *ngIf="lang !== 'zh'">
+      <li
+      nz-tooltip
+      [nzTitle]="getShareTip('google')"
+      class="sharer-google"
+      (click)="shareTo('google')"
+      ></li>
+      <li
+      nz-tooltip
+      [nzTitle]="getShareTip('facebook')"
+      class="sharer-facebook"
+      (click)="shareTo('facebook')"
+      ></li>
+      <li
+      nz-tooltip
+      [nzTitle]="getShareTip('twitter')"
+      class="sharer-twitter"
+      (click)="shareTo('twitter')"
+      ></li>
+    </ul>
+</div>
+<ng-template #weixinTemplate>
+  <div class="weixin-qrcode" style="width: 125px;" *ngIf="weixinQrcodeUrl">
+      <img style="margin: 6px 0;" [src]="weixinQrcodeUrl" />
+  </div>
+</ng-template>

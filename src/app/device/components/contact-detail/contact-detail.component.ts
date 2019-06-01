@@ -275,6 +275,7 @@ export class ContactDetailComponent implements OnInit {
 
 
   edit(): void {
+    console.log(this.contact);
     if (this.isEdit) {
       this.save();
     } else {
@@ -319,27 +320,49 @@ export class ContactDetailComponent implements OnInit {
   }
 
   save(): void {
-    console.log(this.editingContact);
-    this.deviceService.updateContact([this.editingContact])
-      .subscribe(
-          (data) => {
-              if (data.length === 1) {
-                this.messageService.success('保存联系人成功！');
-                this.editingContact = Object.assign({}, ContactTemplate);
-              } else {
-                this.messageService.error('保存联系人失败！');
-              }
-          },
-          (error) => {
-              if (error) {
+    if (this.deviceStateService.isAddingContact) {
+      this.deviceService.addContact([this.editingContact])
+        .subscribe(
+            (data) => {
+                if (data.length === 1) {
+                  this.messageService.success('保存联系人成功！');
+                } else {
                   this.messageService.error('保存联系人失败！');
-              }
-          },
-          () => {
-            this.isEdit = false;
-            this.deviceStateService.isAddingContact = false;
-          }
-      );
+                }
+            },
+            (error) => {
+                if (error) {
+                    this.messageService.error('保存联系人失败！');
+                }
+            },
+            () => {
+              this.isEdit = false;
+              this.deviceStateService.isAddingContact = false;
+              this.editingContact = Object.assign({}, ContactTemplate);
+            }
+        );
+    } else {
+      this.deviceService.updateContact([this.editingContact])
+        .subscribe(
+            (data) => {
+                if (data.length === 1) {
+                  this.messageService.success('保存联系人成功！');
+                  this.editingContact = Object.assign({}, ContactTemplate);
+                } else {
+                  this.messageService.error('保存联系人失败！');
+                }
+            },
+            (error) => {
+                if (error) {
+                    this.messageService.error('保存联系人失败！');
+                }
+            },
+            () => {
+              this.isEdit = false;
+              this.editingContact = Object.assign({}, ContactTemplate);
+            }
+        );
+    }
   }
   
   messageTo(phone: string): void {
@@ -425,6 +448,7 @@ export class ContactDetailComponent implements OnInit {
   }
 
   onSelectGroupChange(selectedOptions: Array<any>): void {
+    this.editingContact;
     console.log(selectedOptions);
   }
 

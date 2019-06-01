@@ -44,7 +44,7 @@
         <app-lazy-load-image [imgSrc]="resolveVideoCoverPath(item.Path)" *ngIf="item.Path"></app-lazy-load-image>
       </div>
       <ul class="airmore-device-item__toolbar">
-        <li class="play" (click)="playImage($event)"></li>
+        <li class="preview" (click)="playImage($event)"></li>
         <li class="download" (click)="download($event)"></li>
         <li class="delete" (click)="delete($event)"></li>
       </ul>

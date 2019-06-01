@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { AppStateService } from '../../service/app-state.service';
+import { AppStateService, MessageService } from '../../service';
 import { UserService } from '../../service/user.service';
 import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
 import { CommonResponse, PasswordLoginInfo } from '../../models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-password-login-form',
@@ -31,11 +32,15 @@ export class PasswordLoginFormComponent implements OnInit {
     },
   };
 
+  loading = false;
+
+
   constructor(
     private router: Router,
     private userService: UserService,
     private appStateService: AppStateService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -54,19 +59,31 @@ export class PasswordLoginFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.passwordLoginForm.valid) {
+    if (this.passwordLoginForm.valid && !this.loading) {
+      this.loading = true;
       this.userService.accountLogin(this.passwordLoginInfo)
         .subscribe(
           (data: CommonResponse) => {
+            this.userService.isAccountLogined = true;
             this.userService.userInfo = data.data;
+            this.appStateService.hideConnection();
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']
             );
+            this.loading = false;
           },
           (error) => {
-            if (error) {
+            if (error instanceof HttpErrorResponse) {
+              if (error.error.status === -207) {
+                this.messageService.error('密码错误');
+              } else if (error.error.status === - 200) {
+                this.messageService.error('账号不存在');
+              }
             }
+            this.loading = false;
+          },
+          () => {
           }
         );
     }

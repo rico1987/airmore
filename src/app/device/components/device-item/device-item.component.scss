@@ -63,9 +63,10 @@
                     background-position: center;
                     background-repeat: no-repeat;
                     &.play {background-image: url('../../../../assets/img/action/white/play-white.svg');}
+                    &.preview {background-image: url('../../../../assets/img/action/white/preview-white.svg')}
                     &.download {background-image: url('../../../../assets/img/action/white/download-white.svg');}
                     &.delete {background-image: url('../../../../assets/img/action/white/delete-white.svg');}
-                    &.active:hover{
+                    &:hover{
                         opacity: 1;
                     }
                 }
@@ -143,9 +144,10 @@
                     background-position: center;
                     background-repeat: no-repeat;
                     &.play {background-image: url('../../../../assets/img/action/white/play-white.svg');}
+                    &.preview {background-image: url('../../../../assets/img/action/white/preview-white.svg')}
                     &.download {background-image: url('../../../../assets/img/action/white/download-white.svg');}
                     &.delete {background-image: url('../../../../assets/img/action/white/delete-white.svg');}
-                    &.active:hover{
+                    &:hover{
                         opacity: 1;
                     }
                 }

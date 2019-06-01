@@ -15,6 +15,8 @@ export class LazyLoadImageComponent implements OnInit {
 
   @Output() onLoaded = new EventEmitter<any>();
 
+  @Input() isLazyLoad: boolean = false;
+
   private _imgSrc: string;
 
   isLoaded = false;
@@ -24,15 +26,17 @@ export class LazyLoadImageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const image = document.createElement('img');
-    image.setAttribute('src', this.imgSrc);
-    const timer = setInterval(() => {
-      if (image.complete) {
-        this.isLoaded = true;
-        this.onLoaded.emit();
-        clearInterval(timer);
-      }
-    }, 50);
+    if (!this.isLazyLoad) {
+      const image = document.createElement('img');
+      image.setAttribute('src', this.imgSrc);
+      const timer = setInterval(() => {
+        if (image.complete) {
+          this.isLoaded = true;
+          this.onLoaded.emit();
+          clearInterval(timer);
+        }
+      }, 50);
+    }
   }
 
   get isInsideView(): boolean {

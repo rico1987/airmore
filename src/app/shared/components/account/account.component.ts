@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppStateService } from '../../service/app-state.service';
+import { AppStateService } from '../../service';
 
 @Component({
   selector: 'app-account',
@@ -8,7 +8,9 @@ import { AppStateService } from '../../service/app-state.service';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private appStateService: AppStateService) { }
+  constructor(
+    private appStateService: AppStateService,
+  ) { }
 
   ngOnInit() {
   }

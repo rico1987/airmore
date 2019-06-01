@@ -96,6 +96,18 @@ export class SubheaderComponent implements OnInit {
     }
   }
 
+  onSearchChange(): void {
+    if (this.appStateService.searchKey) {
+      this.appStateService.filter();
+    } else {
+      this.appStateService.clearFilter();
+    }
+  }
+
+  clearSearchKey():void {
+    this.appStateService.clearFilter();
+  }
+
   hasAction(action: string): boolean {
     return this.appStateService.hasAction(action);
   }

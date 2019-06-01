@@ -23,13 +23,15 @@ import { ConnectionComponent } from '../../shared/components/connection/connecti
 })
 export class AppStateService {
 
-  isAccountLogined = false; // 账号是否已登陆
-
-  accountRoute = 'passwordLogin'; // 'resetPassword', 'phonePasswordLess', 'emailPasswordLess', 'register'
+  accountRoute = 'passwordLogin'; // 'resetPassword', 'phonePasswordLess', 'emailPasswordLess', 'register', 'logined'
 
   currentLanguage: string; // 当前语言
 
   currentModule: 'cloud' | 'device' = 'cloud';
+
+  connectionInstance: any;
+
+  searchKey: string = null;
 
   private _activeFunction: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'reflector' |
    'tools' | 'clipboard' | 'cloud' = 'pictures';
@@ -48,6 +50,23 @@ export class AppStateService {
     this.currentLanguage = this.appConfig.app.defaultLang;
   }
 
+  filter(): void {
+    if (this.currentModule === 'device') {
+      this.deviceStateService.filter(this.searchKey);
+    } else if (this.currentModule === 'cloud') {
+      this.cloudStateService.filter(this.searchKey);
+    }
+  }
+
+  clearFilter(): void {
+    this.searchKey = null;
+    if (this.currentModule === 'device') {
+      this.deviceStateService.clearFilter();
+    } else if (this.currentModule === 'cloud') {
+      this.cloudStateService.clearFilter();
+    }
+  }
+
   showConnection(connectionType: 'qrcode' | 'radar' | 'account' | null): void {
     this.dispose();
     this._overlayRef = this.overlay.create(
@@ -55,19 +74,23 @@ export class AppStateService {
         scrollStrategy: this.overlay.scrollStrategies.close(),
       })
     );
-    const instance = this._overlayRef.attach(new ComponentPortal(ConnectionComponent)).instance;
+    this.connectionInstance = this._overlayRef.attach(new ComponentPortal(ConnectionComponent)).instance;
     if (connectionType) {
-      instance.activeConnectionType = connectionType;
+      this.connectionInstance.activeConnectionType = connectionType;
     }
     fromEvent<MouseEvent>(document, 'click')
       .pipe(
         filter(event => !!this._overlayRef && !this._overlayRef.overlayElement.contains(event.target as HTMLElement)),
         take(1)
       )
-      .subscribe(() => instance.hide());
+      .subscribe(() => this.connectionInstance.hide());
   }
 
   hideConnection(): void {
+    if (this.connectionInstance) {
+      this.connectionInstance.hide();
+      this.connectionInstance = null;
+    }
     this.dispose();
   }
 

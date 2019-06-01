@@ -1,7 +1,7 @@
 <div class="airmore-header">
-  <div class="airmore-header__title">ApowerCloud</div>
-  <ul class="airmore-header__viewmodes" *ngIf="appStateService.currentModule === 'cloud'">
-    <li class="airmore-header__viewmode-list" tooltip="aaaa" tipPosition="top" [class.active]="appStateService.activeViewMode==='list'" (click)="setActiveViewMode('list')"></li>
+  <div class="airmore-header__title">{{title}}</div>
+  <ul class="airmore-header__viewmodes" *ngIf="appStateService.currentModule === 'cloud' && cloudStateService.activeFunction !== 'pictures'">
+    <li class="airmore-header__viewmode-list" [class.active]="appStateService.activeViewMode==='list'" (click)="setActiveViewMode('list')"></li>
     <li class="airmore-header__viewmode-grid" [class.active]="appStateService.activeViewMode==='grid'" (click)="setActiveViewMode('grid')"></li>
   </ul>
 </div>

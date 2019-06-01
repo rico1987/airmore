@@ -1,3 +1,44 @@
-<p>
-  invitation-modal works!
-</p>
+<div class="airmore-invitation-modal">
+  <div [ngSwitch]="route">
+    <div *ngSwitchCase="'getSpace'" class="share-content">
+      <div class="loading" *ngIf="!inviteCodeInfo"></div>
+      <p class="info" *ngIf="inviteCodeInfo">分享邀请码给好友，每一位成功注册的好友都可以为你增加1G云空间哦</p>
+			<input *ngIf="inviteCodeInfo" [(value)]="inviteCodeInfo.code" readonly="true" />
+			<p *ngIf="inviteCodeInfo" class="invited">成功邀请: <span>{{ inviteCodeInfo.used_times }}</span>/{{ inviteCodeInfo.total_times }}</p>
+      <span *ngIf="inviteCodeInfo"
+        class="btn"
+        [class.is-disabled]="available_space === 0"
+				(click)="getSpace()">获取<span>{{ available_space }}</span>G</span>
+			<div class="get_space_footer" *ngIf="inviteCodeInfo">
+				<span (click)="changeRoute('shareWithApp')">打开应用分享</span>
+				<span (click)="changeRoute('useInvitationCode')">输入邀请码</span>
+			</div>
+    </div>
+    <div *ngSwitchCase="'getSpaceSuccess'" class="share-content get-space-success">
+      <p class="info">恭喜成功获取{{Math.floor(obtainedSpace/1024/1024/1024)}}G云空间，继续邀请好友还能获取哦</p>
+			<div class="cup"></div>
+			<div class="link">
+				<span (click)="changeRoute('shareWithApp')">分享我的邀请码</span>
+			</div>
+    </div>
+    <div *ngSwitchCase="'shareWithApp'" class="share-content share-with-app">
+      <p>点击打开应用分享给好友</p>
+      <app-sharer class="sharer" [shareUrl]=shareURL [shareTitle]=shareTitle [shareText]=shareText></app-sharer>
+			<div class="link">
+				<a (click)="changeRoute('getSpace')">我的邀请码</a>
+			</div>
+    </div>
+    <div *ngSwitchCase="'useInvitationCode'" class="share-content use-invitation-code">
+      <p class="info">输入好友分享的邀请码，即可获取1G云空间</p>
+			<input [(ngModel)]="invitationCode" maxlength="10" />
+			<span class="btn" (click)="submitInvitationCode()">获取<span>1</span>G</span>
+			<div class="get_space_footer">
+				<span (click)="changeRoute('shareWithApp')">分享我的邀请码</span>
+			</div>
+    </div>
+    <div *ngSwitchCase="'invited'" class="share-content invited">
+      <p class="info">你已经输入过好友的邀请码了哦</p>
+      <span class="btn" (click)="changeRoute('shareWithApp')">分享我的邀请码</span>
+    </div>
+  </div>
+</div>

@@ -126,4 +126,18 @@ export class CloudBaseService {
     return this.myClientService.get('cloud', '/my/info')
   }
 
+  getCloudInvitationInfo(): Observable<any> {
+    return this.myClientService.get('cloud', '/my/invitation/space');
+  }
+
+  getCloudInvitationCodeInfo(): Observable<any> {
+    return this.myClientService.get('cloud', '/my/invitation/code');
+  }
+
+  getSpace(code: string): Observable<any> {
+    return this.myClientService.post('cloud', '/my/invitation/code', {
+      code,
+    })
+  }
+
 }

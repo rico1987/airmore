@@ -1,0 +1,130 @@
+@import "../../../../styles/mixins/bem.scss";
+@import "../../../../styles/themes/default/variables.scss";
+
+@include b(invitation-modal) {
+
+    min-height: 300px;
+
+    .share-content{
+        p.info{
+			font-size: 14px;
+			text-align: center;
+			color: #666;
+			width: 80%;
+			margin: 0 10%;
+		}
+		input{
+			width: 160px;
+			height: 31px;
+			line-height: 31px;
+			font-size: 14px;
+			margin: 0 auto;
+			border: 1px solid rgba(170,170,170,1);
+			text-align: center;
+			color: #333333;
+			display: block;
+			margin: 30px auto 20px;
+		}
+		.invited{
+			text-align: center;
+			span{
+				color: #53d4e4;
+			}
+		}
+		.btn{
+			width: 280px;
+			height: 31px;
+			display: block;
+			border-radius: 15.5px;
+			margin: 29px auto 0;
+			background-color: #53d4e4;
+			color: white;
+			font-size: 14px;
+			text-align: center;
+			line-height: 31px;
+			cursor: pointer;
+			@include when(disabled){
+				background-color: rgba(83, 212, 228, 0.54);
+			}
+		}
+		.get_space_footer{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			padding: 20px 30px;
+			font-size: 14px;
+			span{
+				text-decoration: underline;
+				cursor: pointer;
+			}
+		}
+		.cup{
+			width: 143px;
+            height: 132px;
+            margin: 28px auto;
+            background: url('../../../../assets/img/cloud/cup.svg') center no-repeat;
+        }
+        
+        .sharer{
+            width: 215px;
+            position: relative;
+            right: auto;
+            bottom: auto;
+            margin: 45px auto;
+        }
+		&.get-space-success{
+			.link{
+				text-align: center;
+				a{
+					text-decoration: underline;
+					cursor: pointer;
+				}
+			}
+		}
+		&.share-with-app{
+            padding-top: 33px;
+			p{
+				text-align: center;
+			}
+			.sharer{
+				width: 215px;
+				position: relative;
+				right: auto;
+				bottom: auto;
+                margin: 45px auto 0;
+                display: block;
+				ul{
+					display: flex;
+					justify-content: space-between;
+				}
+			}
+			.link{
+				display: block;
+				text-align: center;
+				position: absolute;
+				width: 100%;
+				bottom: 36px;
+				left: 0;
+				a{
+					text-decoration: underline;
+					cursor: pointer;
+				}
+			}
+		}
+		&.use-invitation-code{
+			.get_space_footer{
+				justify-content: center;
+			}
+		}
+		&.invited{
+            padding-top: 75px;
+			.btn{
+				margin-top: 40px;
+			}
+		}
+    }
+    
+}

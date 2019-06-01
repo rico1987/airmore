@@ -6,6 +6,7 @@ import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
 import { MessageService } from '../../../shared/service/message.service';
 import { CommonResponse, RegisterInfo } from '../../models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register-form',
@@ -42,6 +43,8 @@ export class RegisterFormComponent implements OnInit {
   count: number;
 
   interval: any = null;
+
+  loading = false;
 
 
   constructor(
@@ -94,19 +97,29 @@ export class RegisterFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.registerForm.valid) {
+    if (this.registerForm.valid && !this.loading) {
+      this.loading = true;
       this.userService.register(this.registerInfo)
         .subscribe(
           (data: CommonResponse) => {
+            this.userService.isAccountLogined = true;
             this.userService.userInfo = data.data;
+            this.appStateService.hideConnection();
             this.appStateService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']
             );
+            this.loading = false;
           },
           (error) => {
-            if (error) {
+            if (error instanceof HttpErrorResponse) {
+              if (error.error.status === -206) {
+                this.messageService.error('Invalid verification code');
+              }
             }
+            this.loading = false;
+          },
+          () => {
           }
         );
     }
