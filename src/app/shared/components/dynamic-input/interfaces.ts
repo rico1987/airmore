@@ -30,6 +30,7 @@ export interface uploadOptions {
     accept?: string | string[];
     multiple?: boolean;
     filters?: UploadFilter[];
+    folder?: boolean;
 }
 
 export interface UploadFilter {

@@ -1,18 +1,18 @@
 <div class="airmore-connection">
   <ul class="airmore-connection__type">
-    <li (click)="changeConnectionType('qrcode')"><span [class.active]="connectionService.activeConnectionType==='qrcode'">QR Code</span></li>
-    <li (click)="changeConnectionType('radar')"><span [class.active]="connectionService.activeConnectionType==='radar'">Radar</span></li>
-    <li (click)="changeConnectionType('account')"><span [class.active]="connectionService.activeConnectionType==='account'">Account</span></li>
+    <li (click)="changeConnectionType('qrcode')"><span [class.active]="deviceService.activeConnectionType==='qrcode'">QR Code</span></li>
+    <li (click)="changeConnectionType('radar')"><span [class.active]="deviceService.activeConnectionType==='radar'">Radar</span></li>
+    <li (click)="changeConnectionType('account')"><span [class.active]="deviceService.activeConnectionType==='account'">Account</span></li>
   </ul>
-  <ul class="airmore-connection__tabs" [ngSwitch]="connectionService.activeConnectionType">
+  <ul class="airmore-connection__tabs" [ngSwitch]="deviceService.activeConnectionType">
     <li *ngSwitchCase="'qrcode'" class="qrcode">
-      <div *ngIf="qrCodeUrl && !isLoadingQrCode && !_isTimeout">
-        <img [src]="qrCodeUrl" />
+      <div *ngIf="_qrCodeUrl && !_isLoadingQrCode && !_isTimeout">
+        <img [src]="_qrCodeUrl" />
       </div>
       <div class="timeout" *ngIf="_isTimeout">
         <span (click)="getQrCode()">二维码已失效，请点击刷新</span>
       </div>
-      <div *ngIf="isLoadingQrCode && !_isTimeout" class="loading">
+      <div *ngIf="_isLoadingQrCode && !_isTimeout" class="loading">
         <app-loading></app-loading>
       </div>
       <p>Scan QR code using AirMore</p>

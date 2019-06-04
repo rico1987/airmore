@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppStateService } from '../../../shared/service/app-state.service';
+import { AppService } from '../../../shared/service/app.service';
 import { DeviceService } from '../../../shared/service/device.service';
 import { ProductsInfoService } from '../../../shared/service/products-info.service';
 import { BrowserStorageService } from '../../../shared/service/storage.service';
@@ -38,6 +38,7 @@ export class DeviceInfoComponent implements OnInit {
     private browserStorageService: BrowserStorageService,
     private deviceService: DeviceService,
     private productsInfoService: ProductsInfoService,
+    private appService: AppService,
   ) {
     this.platform = this.deviceService.platform;
     this.refreshScreenshot();
@@ -48,11 +49,11 @@ export class DeviceInfoComponent implements OnInit {
   }
 
   openScr(): void {
-    this.deviceService.openReflector();
+    this.appService.openReflector();
   }
 
   openRef(): void {
-    this.deviceService.openReflector();
+    this.appService.openReflector();
   }
 
   refreshScreenshot(): void {

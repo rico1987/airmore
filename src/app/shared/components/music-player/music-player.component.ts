@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { DeviceService } from '../../../shared/service/device.service';
+import { DeviceService } from '../../../shared/service';
 
 @Component({
   selector: 'app-music-player',
@@ -28,11 +28,19 @@ export class MusicPlayerComponent implements OnInit {
 
   _interval: any;
 
+  _isMute: boolean = false;
+
   _playList: Array<any> = [];
 
   volume: number = 1;
 
   playedTime: number  = 0;  // seconds
+
+  timePercent: number = 0;
+
+  volumePercent: number = 100;
+
+  _tempVolume: number;
 
   currentPlayingItem: any = null;
 
@@ -46,6 +54,27 @@ export class MusicPlayerComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  mute(): void {
+    if (this._isMute) {
+      this.audioElement.nativeElement.volume = this._tempVolume;
+    } else {
+      this._tempVolume = this.audioElement.nativeElement.volume;
+      this.audioElement.nativeElement.volume = 0;
+    }
+    this.volumePercent = this.audioElement.nativeElement.volume * 100;
+    this._isMute = !this._isMute;
+  }
+
+  onTimeChange(percent): void {
+    const duration = this.currentPlayingItem[this.durationKey] / 1000;
+    this.setPlayTime(Math.floor(duration * percent / 100));
+  }
+
+  onVolumeChange(percent): void {
+    this.audioElement.nativeElement.volume = percent / 100;
+  }
+
 
   playMusic(): void {
     if (this.isPlaying) {
@@ -65,20 +94,22 @@ export class MusicPlayerComponent implements OnInit {
     this.getPlayedTime();
   }
 
-  getPlayedTime(): void {
-    if (!this._interval) {
-      this._interval = setInterval(() => {
-        this.playedTime = this.audioElement.nativeElement.currentTime;
-      }, 1000);
-    }
-  }
-
   pause(): void {
     this.isPlaying = false;
     this.audioElement.nativeElement.pause();
     window.clearInterval(this._interval);
-    clearInterval(this._interval);
   }
+
+  getPlayedTime(): void {
+    if (!this._interval) {
+      this._interval = setInterval(() => {
+        this.playedTime = this.audioElement.nativeElement.currentTime;
+        this.timePercent = Math.floor(this.playedTime / (this.currentPlayingItem[this.durationKey] / 1000) *100);
+      }, 1000);
+    }
+  }
+
+ 
 
   next(): void {
     if (this.playMode === 'order') {
@@ -108,10 +139,6 @@ export class MusicPlayerComponent implements OnInit {
     }
     this.setPlayTime(0);
     this.play();
-  }
-
-  setTime(event): void {
-    console.log(event);
   }
 
   setCurrentPlayingItem(item: any): void {

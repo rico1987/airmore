@@ -1,4 +1,5 @@
 <div class="airmore-dynamic-input">
   <input #fileInput type="file" (change)="onChange($event)" style="display: none;" />
   <input #multipleFileInput type="file" (change)="onMultiFileChange($event)" multiple="multiple" style="display: none;" />
+  <input #folderFileInput type="file" (change)="onFolderFileChange($event)" webkitdirectory directory style="display: none;" />
 </div>

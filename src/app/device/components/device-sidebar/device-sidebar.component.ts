@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent, NzTreeNodeOptions, NzTreeNode } from 'ng-zorro-antd';
 const copy = require('clipboard-copy')
-import { AppStateService, BrowserStorageService, DeviceService, MessageService } from '../../../shared/service';
-import { DeviceStateService } from '../../../shared/service';
+import { AppService, BrowserStorageService, DeviceService, MessageService } from '../../../shared/service';
 
 
 @Component({
@@ -15,15 +14,14 @@ export class DeviceSidebarComponent implements OnInit {
   activedNode: NzTreeNode;
 
   constructor(
-    private appStateService: AppStateService,
+    private appService: AppService,
     private deviceService: DeviceService,
-    private deviceStateService: DeviceStateService,
     private browserStorageService: BrowserStorageService,
     private messageService: MessageService,
   ) { }
 
   ngOnInit() {
-    this.deviceStateService.getSidebarItemList();
+    this.deviceService.getSidebarItemList();
   }
 
   getThumbPath(path: string, size: number): string {
@@ -32,29 +30,29 @@ export class DeviceSidebarComponent implements OnInit {
   }
 
   selectAlbum(item): void {
-    this.deviceStateService.selectAlbum(item);
+    this.deviceService.selectAlbum(item);
   }
 
   checkItem(item): void {
-    if (this.deviceStateService.hasItem(item)) {
-      this.deviceStateService.removeItems([item]);
+    if (this.deviceService.hasItem(item)) {
+      this.deviceService.removeItems([item]);
     } else {
-      this.deviceStateService.addItems([item]);
+      this.deviceService.addItems([item]);
     }
   }
 
   setActive(item): void {
-    this.deviceStateService.isAddingContact = false;
-    this.deviceStateService.isAddingMessage = false;
-    this.deviceStateService.setActiveItem(item);
+    this.deviceService.isAddingContact = false;
+    this.deviceService.isAddingMessage = false;
+    this.deviceService.setActiveItem(item);
   }
 
   isSelected(item): boolean {
-    return this.deviceStateService.hasItem(item);
+    return this.deviceService.hasItem(item);
   }
 
   isActive(item): boolean {
-    return this.deviceStateService.activeItem && this.deviceStateService.activeItem['ID'] == item['ID'];
+    return this.deviceService.activeItem && this.deviceService.activeItem['ID'] == item['ID'];
   }
 
   copyToClipboard(item, event: Event): void {
@@ -64,7 +62,7 @@ export class DeviceSidebarComponent implements OnInit {
   }
 
   newContactGroup(): void {
-    this.deviceStateService.newContactGroup();
+    this.deviceService.newContactGroup();
   }
 
   removeSecondes(time: string): string {
@@ -76,11 +74,11 @@ export class DeviceSidebarComponent implements OnInit {
 
   selectNode(node: NzTreeNode): void {
     this.activedNode = node;
-    this.deviceStateService.activeNode = node;
+    this.deviceService.activeNode = node;
     this.deviceService.getDirectoryFiles(node.origin.Path)
         .subscribe(
             (data) => {
-              this.deviceStateService.setItemList(data);
+              this.deviceService.setItemList(data);
             },
             (error) => {
               if (error) {

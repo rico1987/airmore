@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeviceStateService } from '../../../shared/service';
 import { BrowserStorageService, DeviceService } from '../../../shared/service';
 
 
@@ -17,7 +16,6 @@ export class DeviceItemComponent implements OnInit {
 
   constructor(
     private browserStorageService: BrowserStorageService,
-    private deviceStateService: DeviceStateService,
     private deviceService: DeviceService,
   ) { }
 
@@ -26,14 +24,14 @@ export class DeviceItemComponent implements OnInit {
 
   checkItem(): void {
     if (this.isSelected) {
-      this.deviceStateService.removeItems([this.item]);
+      this.deviceService.removeItems([this.item]);
     } else {
-      this.deviceStateService.addItems([this.item]);
+      this.deviceService.addItems([this.item]);
     }
   }
 
   playImage(event): void {
-    this.deviceStateService.preview(this.item);
+    this.deviceService.preview(this.item);
     event.stopPropagation();
   }
 
@@ -42,26 +40,26 @@ export class DeviceItemComponent implements OnInit {
   }
 
   playVideo(event: Event): void {
-    this.deviceStateService.playVideo(this.item);
+    this.deviceService.playVideo(this.item);
     event.stopPropagation();
   }
 
   download(event: Event): void {
-    this.deviceStateService.download(this.item);
+    this.deviceService.download(this.item);
     event.stopPropagation();
   }
 
   delete(event: Event): void {
-    if (this.deviceStateService.activeFunction === 'apps') {
-      this.deviceStateService.uninstall(this.item);
+    if (this.deviceService.activeFunction === 'apps') {
+      this.deviceService.uninstall(this.item);
     } else {
-      this.deviceStateService.deleteItem(this.item);
+      this.deviceService.deleteItem(this.item);
     }
     event.stopPropagation();
   }
 
   backup(event: Event): void {
-    this.deviceStateService.backupSingleApp(this.item);
+    this.deviceService.backupSingleApp(this.item);
     event.stopPropagation();
   }
 
@@ -80,6 +78,6 @@ export class DeviceItemComponent implements OnInit {
   }
 
   get isSelected(): boolean {
-    return this.deviceStateService.hasItem(this.item);
+    return this.deviceService.hasItem(this.item);
   }
 }

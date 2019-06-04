@@ -1,14 +1,14 @@
 <div
   class="airmore-device-sidebar"
-  [class.is-clipboard]="appStateService.activeFunction === 'clipboard'"
-  [class.is-message]="appStateService.activeFunction === 'messages'"
-  [class.is-files]="appStateService.activeFunction === 'files'"
-  [class.is-loading]="appStateService.loading"
+  [class.is-clipboard]="appService.activeFunction === 'clipboard'"
+  [class.is-message]="appService.activeFunction === 'messages'"
+  [class.is-files]="appService.activeFunction === 'files'"
+  [class.is-loading]="deviceService.loading"
 >
-  <app-loading *ngIf="appStateService.loading"></app-loading>
+  <app-loading *ngIf="deviceService.loading"></app-loading>
   <!-- pictures start -->
-  <div class="airmore-device-sidebar__pictures" *ngIf="appStateService.activeFunction === 'pictures' && !appStateService.loading">
-    <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
+  <div class="airmore-device-sidebar__pictures" *ngIf="appService.activeFunction === 'pictures' && !deviceService.loading">
+    <div *ngFor="let item of deviceService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceService.activeAlbumId === item.AlbumID">
       <div class="airmore-device-sidebar__item-icon">
         <img [src]="getThumbPath(item.CoverPath)" *ngIf="item.CoverPath" />
       </div>
@@ -20,8 +20,8 @@
   </div>
   <!-- pictures end -->
   <!-- musics start -->
-  <div class="airmore-device-sidebar__musics" *ngIf="appStateService.activeFunction === 'musics' && !appStateService.loading">
-    <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
+  <div class="airmore-device-sidebar__musics" *ngIf="appService.activeFunction === 'musics' && !deviceService.loading">
+    <div *ngFor="let item of deviceService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceService.activeAlbumId === item.AlbumID">
       <div class="airmore-device-sidebar__item-icon is-music">
       </div>
       <div class="airmore-device-sidebar__item-info">
@@ -32,8 +32,8 @@
   </div>
   <!-- musics end -->
   <!-- videos start -->
-  <div class="airmore-device-sidebar__videos" *ngIf="appStateService.activeFunction === 'videos' && !appStateService.loading">
-    <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
+  <div class="airmore-device-sidebar__videos" *ngIf="appService.activeFunction === 'videos' && !deviceService.loading">
+    <div *ngFor="let item of deviceService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceService.activeAlbumId === item.AlbumID">
       <div class="airmore-device-sidebar__item-icon">
         <img [src]="getThumbPath(item.CoverPath)" *ngIf="item.CoverPath" />
       </div>
@@ -45,7 +45,7 @@
   </div>
   <!-- videos end -->
   <!-- contacts start -->
-  <div class="airmore-device-sidebar__contacts" *ngIf="appStateService.activeFunction === 'contacts' && !appStateService.loading">
+  <div class="airmore-device-sidebar__contacts" *ngIf="appService.activeFunction === 'contacts' && !deviceService.loading">
       <div class="toolbar">
           <p class="add-group" (click)="newContactGroup()">新建分组</p>
       </div>
@@ -53,7 +53,7 @@
           <div
             class="airmore-device-sidebar__contacts-item"
             [class.is-active]="isActive(item)"
-            *ngFor="let item of deviceStateService.sidebarItemList"
+            *ngFor="let item of deviceService.sidebarItemList"
             (click)="setActive(item)"
           >
             <div class="group-avatar"></div>
@@ -66,11 +66,11 @@
   </div>
   <!-- contacts end -->
   <!-- messages start -->
-  <div class="airmore-device-sidebar__messages" *ngIf="appStateService.activeFunction === 'messages' && !appStateService.loading">
+  <div class="airmore-device-sidebar__messages" *ngIf="appService.activeFunction === 'messages' && !deviceService.loading">
     <div
       class="airmore-device-sidebar__messages-item"
       [class.is-active]="isActive(item)" 
-      *ngFor="let item of deviceStateService.sidebarItemList"
+      *ngFor="let item of deviceService.sidebarItemList"
       (click)="setActive(item)"
     >
       <div class="avatar"></div>
@@ -83,20 +83,20 @@
   </div>
   <!-- messages end -->
   <!-- apps start -->
-  <div class="airmore-device-sidebar__apps" *ngIf="appStateService.activeFunction === 'apps' && !appStateService.loading">
+  <div class="airmore-device-sidebar__apps" *ngIf="appService.activeFunction === 'apps' && !deviceService.loading">
     <div class="airmore-device-sidebar__item is-active" (click)="selectAlbum(item)">
       <div class="airmore-device-sidebar__item-icon is-app">
       </div>
       <div class="airmore-device-sidebar__item-info">
         <p class="airmore-device-sidebar__item-title">Apps</p>
-        <p class="airmore-device-sidebar__item-count" *ngIf="deviceStateService.itemList">{{deviceStateService.itemList.length}}</p>
+        <p class="airmore-device-sidebar__item-count" *ngIf="deviceService.itemList">{{deviceService.itemList.length}}</p>
       </div>
     </div>
   </div>
   <!-- apps end -->
   <!-- documents start -->
-  <div class="airmore-device-sidebar__documents" *ngIf="appStateService.activeFunction === 'documents' && !appStateService.loading">
-    <div *ngFor="let item of deviceStateService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceStateService.activeAlbumId === item.AlbumID">
+  <div class="airmore-device-sidebar__documents" *ngIf="appService.activeFunction === 'documents' && !deviceService.loading">
+    <div *ngFor="let item of deviceService.sidebarItemList" class="airmore-device-sidebar__item" (click)="selectAlbum(item)" [class.is-active]="deviceService.activeAlbumId === item.AlbumID">
       <div 
       class="airmore-device-sidebar__item-icon"
       [class.is-doc]="item.AlbumID === 'doc'"
@@ -116,10 +116,10 @@
   </div>
   <!-- documents end -->
   <!-- files start -->
-  <div class="airmore-device-sidebar__files" *ngIf="appStateService.activeFunction === 'files' && !appStateService.loading">
+  <div class="airmore-device-sidebar__files" *ngIf="appService.activeFunction === 'files' && !deviceService.loading">
     <nz-tree
-      *ngIf="!deviceStateService.loading"
-      [nzData]="deviceStateService.rootNodes"
+      *ngIf="!deviceService.loading"
+      [nzData]="deviceService.rootNodes"
       [nzShowExpand]="false"
       [nzBlockNode]
       (nzDblClick)="openFolder($event)"
@@ -147,8 +147,8 @@
   </div>
   <!-- files end -->
   <!-- clipboard start -->
-  <div class="airmore-device-sidebar__clipboard" *ngIf="appStateService.activeFunction === 'clipboard' && !appStateService.loading">
-      <div class="airmore-device-sidebar__clipboard-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceStateService.itemList" (click)="setActive(item)">
+  <div class="airmore-device-sidebar__clipboard" *ngIf="appService.activeFunction === 'clipboard' && !deviceService.loadingItems">
+      <div class="airmore-device-sidebar__clipboard-item" [class.is-active]="isActive(item)"  *ngFor="let item of deviceService.itemList" (click)="setActive(item)">
         <div class="checkBox" [class.selected]="isSelected(item)" (click)="checkItem(item)"></div>
         <div class="container">
           <p class="date">{{item.Time | date}}</p>

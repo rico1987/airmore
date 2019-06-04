@@ -17,6 +17,8 @@ export class LazyLoadImageComponent implements OnInit {
 
   @Input() isLazyLoad: boolean = false;
 
+  @Input() autoSize: boolean = false;
+
   private _imgSrc: string;
 
   isLoaded = false;

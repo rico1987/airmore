@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
-import { AppStateService } from '../../../shared/service/app-state.service';
-import { DeviceStateService, DeviceService, ConnectionService, MessageService, UserService, ModalService} from '../../service';
+import { AppService } from '../../../shared/service/app.service';
+import { DeviceService, MessageService, UserService, ModalService} from '../../service';
 import { Router } from '@angular/router';
 
 
@@ -15,10 +15,8 @@ export class SidebarComponent implements OnInit {
   functions: [string];
 
   constructor(
-    private deviceStateService: DeviceStateService,
-    private appStateService: AppStateService,
+    private appService: AppService,
     private deviceService: DeviceService,
-    private connectionService: ConnectionService,
     private messageService: MessageService,
     private userService: UserService,
     private modalService: ModalService,
@@ -37,17 +35,17 @@ export class SidebarComponent implements OnInit {
   }
 
   setActiveFunction(fun: 'pictures' | 'musics' | 'videos' | 'contacts' | 'messages' | 'apps' | 'documents' | 'files' | 'clipboard' | 'cloud'): void {
-    this.appStateService.searchKey = null;
+    this.appService.searchKey = null;
     if (fun !== 'cloud') {
       if (this.deviceService.deviceConnected) {
-        this.appStateService.setCurrentModule('device');
+        this.appService.setCurrentModule('device');
         this.router.navigate(
           ['device']
         );
-        this.deviceStateService.setDeviceActiveFunction(fun);
+        this.deviceService.setDeviceActiveFunction(fun);
       } else {
-        this.connectionService.activeConnectionType = 'qrcode';
-        this.appStateService.showConnection('qrcode');
+        this.deviceService.activeConnectionType = 'qrcode';
+        this.appService.showConnection('qrcode');
         this.modalService.error({
           amTitle: null,
           amContent: '需要连接手机后才可以查看到手机中的文件哦'
@@ -55,12 +53,12 @@ export class SidebarComponent implements OnInit {
       }
     } else {
       if (this.userService.isAccountLogined) {
-        this.appStateService.setCurrentModule('cloud');
+        this.appService.setCurrentModule('cloud');
         this.router.navigate(
           ['cloud']
         );
       } else {
-        this.appStateService.showConnection('account');
+        this.appService.showConnection('account');
       }
       
     }
@@ -73,8 +71,8 @@ export class SidebarComponent implements OnInit {
       );
     } else {
       this.messageService.error('需要连接手机后才可以查看手机中的文件哦');
-      this.connectionService.activeConnectionType = 'qrcode';
-      this.appStateService.showConnection('qrcode');
+      this.deviceService.activeConnectionType = 'qrcode';
+      this.appService.showConnection('qrcode');
     }
   }
 

@@ -4,10 +4,14 @@ import { Observable, Observer } from 'rxjs';
 export function downloadLink(link: string, fileName?: string): void {
     let anchor = document.createElement('a');
     anchor.href = link;
+    anchor.target = '_blank';
     if (fileName) {
         anchor.download = fileName;
     }
     window.document.body.appendChild(anchor);
+    anchor.onclick = function() {
+        window.open(link);
+    }
     anchor.click();
     window.document.body.removeChild(anchor);
     anchor = null;

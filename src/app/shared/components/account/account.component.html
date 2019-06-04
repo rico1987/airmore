@@ -1,13 +1,18 @@
-<div class="airmore-account" [ngSwitch]="appStateService.accountRoute">
+<div class="airmore-account" [ngSwitch]="appService.accountRoute">
   <app-password-login-form *ngSwitchCase="'passwordLogin'"></app-password-login-form>
   <app-reset-password-form *ngSwitchCase="'resetPassword'"></app-reset-password-form>
   <app-email-password-less-login-form *ngSwitchCase="'emailPasswordLess'"></app-email-password-less-login-form>
   <app-phone-password-less-login-form *ngSwitchCase="'phonePasswordLess'"></app-phone-password-less-login-form>
   <app-register-form *ngSwitchCase="'register'"></app-register-form>
   <div class="airmore-account__links" *ngSwitchCase="'passwordLogin'">
-    <p>No account? <span (click)="appStateService.accountRoute='register'">Register now</span></p>
+    <p>No account? <span (click)="appService.accountRoute='register'">Register now</span></p>
   </div>
-  <div *ngSwitchCase="logined">
-    
+  <div *ngSwitchCase="'logined'" class="logined">
+    <p class="tip">Your current account is not logged out, you can return to the ApowerCloud.</p>
+    <p class="btn primary" (click)="returnToCloud()">Return to the ApowerCloud</p>
+    <p class="btn" (click)="switchAccount()">Switch Account</p>
+  </div>
+  <div class="airmore-account__links" *ngSwitchCase="'logined'">
+      <span (click)="logout">logout</span>
   </div>
 </div>

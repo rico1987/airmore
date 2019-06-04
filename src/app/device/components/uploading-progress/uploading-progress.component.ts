@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeviceStateService } from '../../../shared/service';
+import { DeviceService } from '../../../shared/service';
 
 @Component({
   selector: 'app-uploading-progress',
@@ -11,7 +11,7 @@ export class UploadingProgressComponent implements OnInit {
   show: boolean = true;
 
   constructor(
-    private deviceStateService: DeviceStateService,
+    private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {

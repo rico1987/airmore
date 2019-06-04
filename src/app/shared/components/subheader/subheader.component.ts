@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { CloudStateService, DeviceStateService } from '../../service';
-import { AppStateService } from '../../../shared/service/app-state.service';
+import { CloudStateService, DeviceService } from '../../service';
+import { AppService } from '../../../shared/service/app.service';
 import { MessageService } from '../../../shared/service/message.service';
 import { SubheaderDropdownComponent } from '../subheader-dropdown/subheader-dropdown.component';
 import { OverlayRef, Overlay, OverlayConfig } from '@angular/cdk/overlay';
@@ -41,8 +41,8 @@ export class SubheaderComponent implements OnInit {
 
   constructor(
     private cloudStateService: CloudStateService,
-    private deviceStateService: DeviceStateService,
-    private appStateService: AppStateService,
+    private deviceService: DeviceService,
+    private appService: AppService,
     private overlay: Overlay,
   ) { }
 
@@ -85,7 +85,7 @@ export class SubheaderComponent implements OnInit {
         )
         .subscribe(() => instance.close());
     } else {
-      this.appStateService.doAction(action, isInactive);
+      this.appService.doAction(action, isInactive);
     }
   }
 
@@ -97,29 +97,29 @@ export class SubheaderComponent implements OnInit {
   }
 
   onSearchChange(): void {
-    if (this.appStateService.searchKey) {
-      this.appStateService.filter();
+    if (this.appService.searchKey) {
+      this.appService.filter();
     } else {
-      this.appStateService.clearFilter();
+      this.appService.clearFilter();
     }
   }
 
   clearSearchKey():void {
-    this.appStateService.clearFilter();
+    this.appService.clearFilter();
   }
 
   hasAction(action: string): boolean {
-    return this.appStateService.hasAction(action);
+    return this.appService.hasAction(action);
   }
 
   isInactive(action: string): boolean {
-    return this.appStateService.isInactive(action);
+    return this.appService.isInactive(action);
   }
 
   get selectedCount(): number {
-    if (this.appStateService.currentModule === 'device') {
-      return this.deviceStateService.selectedItems.length;
-    } else if (this.appStateService.currentModule === 'cloud') {
+    if (this.appService.currentModule === 'device') {
+      return this.deviceService.selectedItems.length;
+    } else if (this.appService.currentModule === 'cloud') {
       return this.cloudStateService.selectedItems.length;
     }
   }

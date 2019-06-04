@@ -25,12 +25,14 @@ import { InvitationModalComponent } from '../../shared/components/invitation-mod
 import { UploadFile } from '../../shared/components/dynamic-input/interfaces';
 import { ImageViewerComponent } from '../../shared/components/image-viewer/image-viewer.component';
 const deepcopy = require('deepcopy');
+const EventEmitter = require('events');
+
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class CloudStateService {
+export class CloudStateService extends EventEmitter {
 
   activeFunction: 'clouds' | 'pictures' | 'musics' | 'videos' | 'documents' | 'others' = 'clouds';
 
@@ -73,8 +75,8 @@ export class CloudStateService {
     private messageService: MessageService,
     private cloudBaseService: CloudBaseService,
   ) {
+    super();
     this.functions = this.appConfig.app.cloudFunctions;
-    // todo 计算排列参数
   }
 
   filter(searchKey: string): void {
@@ -663,6 +665,7 @@ export class CloudStateService {
         return;
       }
       for (let i = 0; i < this.selectedItems.length; i++) {
+        console.log('aaaa');
         this.download(this.selectedItems[i]);
       }
   }

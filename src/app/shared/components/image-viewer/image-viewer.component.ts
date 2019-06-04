@@ -144,20 +144,26 @@ export class ImageViewerComponent implements OnInit {
 
   prev(isThumbBarScroll: boolean): void {
     if (this.currentDisplayIndex === 0) {
-      return
+      this.currentDisplayIndex = this.imageList.length - 1;
+      this._currentDisplayItem = this.imageList[this.currentDisplayIndex];
+    } else {
+      this.currentDisplayIndex -= 1;
+      this._currentDisplayItem = this.imageList[this.currentDisplayIndex];
+      this.adjustThumb('left');
     }
-    this.currentDisplayIndex -= 1;
-    this._currentDisplayItem = this.imageList[this.currentDisplayIndex];
-    this.adjustThumb('left');
+    
   }
 
   next(isThumbBarScroll: boolean): void {
     if (this.currentDisplayIndex === this.imageList.length - 1) {
-      return
+      this.currentDisplayIndex = 0;
+      this._currentDisplayItem = this.imageList[this.currentDisplayIndex];
+    } else {
+      this.currentDisplayIndex += 1;
+      this._currentDisplayItem = this.imageList[this.currentDisplayIndex];
+      this.adjustThumb('right');
     }
-    this.currentDisplayIndex += 1;
-    this._currentDisplayItem = this.imageList[this.currentDisplayIndex];
-    this.adjustThumb('right');
+    
   }
 
   play(): void {}

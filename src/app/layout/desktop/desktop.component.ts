@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../../shared/service/modal';
 import { Router } from '@angular/router';
 import { BrowserStorageService } from '../../shared/service/storage.service';
-import { ConnectionService } from '../../shared/service/connection.service';
-import { AppStateService } from '../../shared/service/app-state.service';
+import { AppService } from '../../shared/service/app.service';
 import { DeviceService } from '../../shared/service/device.service';
 import { AboutModalComponent } from '../../shared/components/about-modal/about-modal.component';
 import { HelpModalComponent } from '../../shared/components/help-modal/help-modal.component';
@@ -19,9 +18,7 @@ export class LayoutDesktopComponent implements OnInit {
   constructor(
     private modalService: ModalService,
     private browserStorageService: BrowserStorageService,
-    private appStateService: AppStateService,
-    private connectionService: ConnectionService,
-    private userService: UserService,
+    private appService: AppService,
     private router: Router,
     private deviceService: DeviceService,
   ) { }
@@ -42,7 +39,7 @@ export class LayoutDesktopComponent implements OnInit {
   }
 
   gotoAccount(): void {
-    this.appStateService.showConnection('account');
+    this.appService.showConnection('account');
   }
 
   showAboutModal(): void {

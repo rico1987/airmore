@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Inject, ViewChild, ElementRef, OnDestroy } fr
 import { NzTableComponent } from 'ng-zorro-antd';
 const copy = require('clipboard-copy')
 import { MessageService, DeviceService } from '../../../shared/service';
-import { DeviceStateService } from '../../../shared/service';
 import { Subject } from 'rxjs';
 import { fromEvent } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
@@ -64,19 +63,18 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
 
   constructor(
     private messageService: MessageService,
-    private deviceStateService: DeviceStateService,
     private deviceService: DeviceService,
     private overlay: Overlay,
   ) { }
 
   ngOnInit() {
-    this.listOfData = this.deviceStateService.itemList;
-    this.deviceStateService.contactDetailRef = this.contactDetail;
+    this.listOfData = this.deviceService.itemList;
+    this.deviceService.contactDetailRef = this.contactDetail;
   }
 
   ngAfterContentInit() {
     const containerHeight = this.itemListContainer.nativeElement.offsetHeight;
-    if (this.deviceStateService.activeFunction === 'musics') {
+    if (this.deviceService.activeFunction === 'musics') {
       this.scrollHeight = containerHeight - 150;
     } else {
       this.scrollHeight = containerHeight - 60;
@@ -84,7 +82,7 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   call(): void {
-    const Phone = this.deviceStateService.activeItem['Phone'];
+    const Phone = this.deviceService.activeItem['Phone'];
     if (Phone) {
       this.deviceService.call(Phone)
         .subscribe((res) => {
@@ -142,7 +140,8 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   addToContact(): void {
-
+    this.deviceService.setDeviceActiveFunction('contacts');
+    this.deviceService.isAddingContact = true;
   }
 
   onContactKey(event): void {
@@ -151,25 +150,25 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   removeFormReceivers(contact): void {
-    const index = this.deviceStateService.selectedMessageReceivers.indexOf(contact);
+    const index = this.deviceService.selectedMessageReceivers.indexOf(contact);
     if (index > -1) {
-      this.deviceStateService.selectedMessageReceivers.splice(index, 1);
+      this.deviceService.selectedMessageReceivers.splice(index, 1);
     }
   }
 
   selectAllContacts(): void {
     if (this.isAllSelected) {
-      this.deviceStateService.selectedItems = [];
+      this.deviceService.selectedItems = [];
     } else {
-      console.log(this.deviceStateService.contactLetterGroupList)
-      for (let i = 0, l = this.deviceStateService.contactLetterGroupList.length; i < l; i++) {
-        this.deviceStateService.addItems(this.deviceStateService.contactLetterGroupList[i]['contacts']);
+      console.log(this.deviceService.contactLetterGroupList)
+      for (let i = 0, l = this.deviceService.contactLetterGroupList.length; i < l; i++) {
+        this.deviceService.addItems(this.deviceService.contactLetterGroupList[i]['contacts']);
       }
     }
   }
 
   checkAll(): void {
-    this.deviceStateService.selectAll();
+    this.deviceService.selectAll();
   }
 
   scrollToIndex(index: number): void {
@@ -177,7 +176,7 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   setActive(item: any): void {
-    this.deviceStateService.activeItem = item;
+    this.deviceService.activeItem = item;
   }
 
 
@@ -200,13 +199,13 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   sendMessage(): void {
-    if (!this.deviceStateService.isAddingContact) {
+    if (!this.deviceService.isAddingContact) {
       if (this.messageValue) {
-        if (this.deviceStateService.selectedMessageReceivers.length > 0) {
+        if (this.deviceService.selectedMessageReceivers.length > 0) {
           const postData = [];
-          for (let i = 0, l = this.deviceStateService.selectedMessageReceivers.length; i < l; i++) {
+          for (let i = 0, l = this.deviceService.selectedMessageReceivers.length; i < l; i++) {
             postData.push({
-              Phone: isArray(this.deviceStateService.selectedMessageReceivers[i]['Phone']) ? this.deviceStateService.selectedMessageReceivers[i]['Phone'][0]['Name'] : '',
+              Phone: isArray(this.deviceService.selectedMessageReceivers[i]['Phone']) ? this.deviceService.selectedMessageReceivers[i]['Phone'][0]['Name'] : '',
               Content: this.messageValue,
             })
           }
@@ -225,7 +224,7 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
       if (this.messageValue) {
         this.messageContent.nativeElement.scrollTop = this.messageContent.nativeElement.scrollHeight;
         this.messageValue = '';
-        this.deviceService.sendMessage(this.deviceStateService.activeItem['Phone'], this.messageValue)
+        this.deviceService.sendMessage(this.deviceService.activeItem['Phone'], this.messageValue)
           .subscribe((res) => {
             if (res === 0) {
               this.messageService.error('发送失败！');
@@ -238,25 +237,25 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   playMusic(item): void {
-    this.musicPlayer.setPlayList(this.deviceStateService.itemList);
+    this.musicPlayer.setPlayList(this.deviceService.itemList);
     this.musicPlayer.setCurrentPlayingItem(item);
     this.musicPlayer.play();
   }
 
   export(data): void {
-    this.deviceStateService.download(data);
+    this.deviceService.download(data);
   }
 
   delete(data): void {
-    this.deviceStateService.deleteItem(data);
+    this.deviceService.deleteItem(data);
   }
 
 
   onTdCheckedChange(event: any, item: any): void {
     if (event) {
-      this.deviceStateService.addItems([item]);
+      this.deviceService.addItems([item]);
     } else {
-      this.deviceStateService.removeItems([item]);
+      this.deviceService.removeItems([item]);
     }
   }
 
@@ -267,16 +266,16 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   onPageIndexChange(number): void {
-    // this.deviceStateService.currentPage = number;
-    // this.deviceStateService.getItemList();
+    // this.deviceService.currentPage = number;
+    // this.deviceService.getItemList();
   }
 
   currentPageDataChange(): void {
   }
 
   cancelClipboardEdit(): void {
-    this.deviceStateService.clipboardValue = '';
-    this.deviceStateService.isClipboardEditing = false;
+    this.deviceService.clipboardValue = '';
+    this.deviceService.isClipboardEditing = false;
   }
 
   scrollToLetter(letter: string): void {
@@ -285,21 +284,32 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   }
 
   saveToClipboard(): void {
-    this.deviceStateService.saveClipboard();
+    this.deviceService.saveClipboard();
   }
 
   openItem(item: any): void {
-    console.log(item);
-    // todo
+    // this.deviceService.activeNode = item;
+    // this.deviceService.getDirectoryFiles(item.origin.Path)
+    //     .subscribe(
+    //         (data) => {
+    //           this.deviceService.setItemList(data);
+    //         },
+    //         (error) => {
+    //           if (error) {
+    //           }
+    //         },
+    //         () => {
+    //         }
+    //     );
   }
 
   get isAllSelected(): boolean {
-    return this.contactsCount > 0 && this.contactsCount === this.deviceStateService.selectedItems.length;  
+    return this.contactsCount > 0 && this.contactsCount === this.deviceService.selectedItems.length;  
   }
 
   get listOfDisplayData(): Array<any> {
     if (this.sortKey && this.sortValue) {
-      return this.deviceStateService.itemList.concat().sort((a, b) => {
+      return this.deviceService.itemList.concat().sort((a, b) => {
         let flag;
         if (a[this.sortKey] > b[this.sortKey]) {
           flag = 1;
@@ -314,22 +324,25 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
         return flag;
       });
     } else {
-      return this.deviceStateService.itemList;
+      return this.deviceService.itemList;
     }    
   }
 
   get isAllDisplayDataChecked(): boolean {
-    return this.deviceStateService.selectedItems.length > 0 && this.deviceStateService.selectedItems.length === this.deviceStateService.itemList.length;
+    return this.deviceService.selectedItems.length > 0 && this.deviceService.selectedItems.length === this.deviceService.itemList.length;
   }
 
   get isClipboardEditing(): boolean {
-    return this.deviceStateService.isClipboardEditing;
+    return this.deviceService.isClipboardEditing;
   }
 
   get contactsCount(): number {
     let count = 0;
-    for (let i = 0, l = this.deviceStateService.contactLetterGroupList.length; i < l; i++) {
-      count += this.deviceStateService.contactLetterGroupList[i]['contacts'].length;
+    if (!this.deviceService.contactLetterGroupList) {
+      return 0;
+    }
+    for (let i = 0, l = this.deviceService.contactLetterGroupList.length; i < l; i++) {
+      count += this.deviceService.contactLetterGroupList[i]['contacts'].length;
     }
     return count;
   }

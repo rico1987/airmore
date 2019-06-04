@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { AppStateService, MessageService } from '../../service';
+import { AppService, MessageService } from '../../service';
 import { UserService } from '../../service/user.service';
 import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
@@ -15,8 +15,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PasswordLoginFormComponent implements OnInit {
   passwordLoginInfo: PasswordLoginInfo = {
-    email: 'zyy_solo@qq.com',
-    password: '123654',
+    email: '',
+    password: '',
   };
 
   passwordLoginForm: FormGroup;
@@ -38,7 +38,7 @@ export class PasswordLoginFormComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private appStateService: AppStateService,
+    private appService: AppService,
     private fb: FormBuilder,
     private messageService: MessageService,
   ) { }
@@ -66,12 +66,13 @@ export class PasswordLoginFormComponent implements OnInit {
           (data: CommonResponse) => {
             this.userService.isAccountLogined = true;
             this.userService.userInfo = data.data;
-            this.appStateService.hideConnection();
-            this.appStateService.setCurrentModule('cloud');
+            this.appService.hideConnection();
+            this.appService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']
             );
             this.loading = false;
+            this.appService.accountRoute = 'logined';
           },
           (error) => {
             if (error instanceof HttpErrorResponse) {
@@ -88,7 +89,6 @@ export class PasswordLoginFormComponent implements OnInit {
         );
     }
   }
-
 
   get email() { return this.passwordLoginForm.get('email'); }
   get password() { return this.passwordLoginForm.get('password'); }

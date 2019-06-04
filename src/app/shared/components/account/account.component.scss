@@ -5,6 +5,28 @@
     width: 100%;
     height: 100%;
     position: relative;
+    .logined{
+        p.tip{
+            margin: 40px auto 60px;
+            width: 60%;
+        }
+        p.btn{
+            text-align: center;
+            width: 320px;
+            height: 40px;
+            color: $primary;
+            font-size: 16px;
+            line-height: 40px;
+            border-radius: 20px;
+            border: 1px solid $primary;
+            margin: 20px auto;
+            cursor: pointer;
+            &.primary{
+                background-color: $primary;
+                color: white;
+            }
+        }
+    }
     @include e(links) {
         position: absolute;
         bottom: 20px;

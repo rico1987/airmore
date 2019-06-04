@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeviceStateService } from '../../../shared/service';
+import { DeviceService } from '../../../shared/service';
 import { ImageGroup } from '../../models';
 
 @Component({
@@ -12,7 +12,7 @@ export class DeviceItemGroupComponent implements OnInit {
   @Input() group: ImageGroup;
 
   constructor(
-    private deviceStateService: DeviceStateService,
+    private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {
@@ -21,18 +21,18 @@ export class DeviceItemGroupComponent implements OnInit {
   select() {
     if (this.isChecked) {
       this.group.items.forEach((ele) => {
-        this.deviceStateService.removeItems([ele]);
+        this.deviceService.removeItems([ele]);
       })
     } else {
       this.group.items.forEach((ele) => {
-        this.deviceStateService.addItems([ele]);
+        this.deviceService.addItems([ele]);
       })
     }
   }
 
   get isChecked(): boolean {
     let flag = true;
-    if (this.group.items && this.group.items.some((ele) => !this.deviceStateService.hasItem(ele))) {
+    if (this.group.items && this.group.items.some((ele) => !this.deviceService.hasItem(ele))) {
       flag = false;
     }
     return flag;

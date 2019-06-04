@@ -1,5 +1,5 @@
-<div class="airmore-contact-detail" [class.is-edit]="isEdit && !deviceStateService.isAddingContact">
-  <div class="airmore-contact-detail__top" *ngIf="!isEdit && !deviceStateService.isAddingContact">
+<div class="airmore-contact-detail" [class.is-edit]="isEdit && !deviceService.isAddingContact">
+  <div class="airmore-contact-detail__top" *ngIf="!isEdit && !deviceService.isAddingContact">
     <div class="contact-portrait">
       <div class="contact-portrait-img">
             <img [src]="contact['Portrait']['Data'] | safeUrl" *ngIf="contact['Portrait'] && contact['Portrait']['Data']" />
@@ -10,7 +10,7 @@
     </div>
     <div class="contact-name">{{contact['Name']['DisplayName']}}</div>
   </div>
-  <div class="airmore-contact-detail__bottom" *ngIf="!isEdit && !deviceStateService.isAddingContact">
+  <div class="airmore-contact-detail__bottom" *ngIf="!isEdit && !deviceService.isAddingContact">
     <div class="form-group">
         <div class="form-control">
           <div class="label">公司</div>
@@ -108,7 +108,7 @@
   </div>
 
 
-  <div class="airmore-contact-detail__top" *ngIf="isEdit && !deviceStateService.isAddingContact">
+  <div class="airmore-contact-detail__top" *ngIf="isEdit && !deviceService.isAddingContact">
       <div class="contact-portrait">
         <div class="contact-portrait-img">
             <img [src]="editingContact['Portrait']['Data'] | safeUrl" *ngIf="editingContact['Portrait'] && editingContact['Portrait']['Data']" />
@@ -126,7 +126,7 @@
         <input class="contact-input" [(ngModel)]="editingContact['Name']['DisplayName']" type="text" placeholder="名称" />
       </div>
   </div>
-  <div class="airmore-contact-detail__bottom" *ngIf="isEdit && !deviceStateService.isAddingContact">
+  <div class="airmore-contact-detail__bottom" *ngIf="isEdit && !deviceService.isAddingContact">
     <div class="form-group">
         <div class="form-control">
           <div class="label">公司</div>
@@ -235,7 +235,7 @@
 
   </div>
 
-  <div class="airmore-contact-detail__top" *ngIf=" deviceStateService.isAddingContact">
+  <div class="airmore-contact-detail__top" *ngIf=" deviceService.isAddingContact">
       <div class="contact-portrait">
         <div class="contact-portrait-img">
             <img [src]="editingContact['Portrait']['Data']" *ngIf="editingContact['Portrait'] && editingContact['Portrait']['Data']" />
@@ -253,7 +253,7 @@
         <input class="contact-input" [(ngModel)]="editingContact['Name']['DisplayName']" type="text" placeholder="名称" />
       </div>
   </div>
-  <div class="airmore-contact-detail__bottom" *ngIf="deviceStateService.isAddingContact">
+  <div class="airmore-contact-detail__bottom" *ngIf="deviceService.isAddingContact">
     <div class="form-group">
         <div class="form-control">
           <div class="label">公司</div>

@@ -1,16 +1,12 @@
-export { AppStateService } from './app-state.service';
-export { AuthService } from './auth.service';
+export { AppService } from './app.service';
 export { CloudBaseService } from './cloud-base.service';
 export { CloudStateService } from './cloud-state.service';
-export { ConnectionService } from './connection.service';
-export { DeviceStateService } from './device-state.service';
 export { DeviceService } from './device.service';
 export { Logger } from './logger.service';
 export { MessageService } from './message.service';
 export { ModalService } from './modal/modal.service';
 export { MyClientService } from './my-client.service';
 export { NodeService } from './node.service';
-export { PeopleService } from './people.service';
 export { ProductsInfoService } from './products-info.service';
 export { BrowserStorageService } from './storage.service';
 export { UserService } from './user.service';

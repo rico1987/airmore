@@ -7,20 +7,12 @@
   <div class="airmore-music-player__name">{{ currentPlayingItem ? currentPlayingItem[displayTitleKey] : '' }}</div>
   <div class="airmore-music-player__time">{{ playedTime | duration }}</div>
   <div class="airmore-music-player__slider">
-      <div class="slider-inner" (click)="setTime($event)">
-        <div class="slider-per" [style.width]="_playSliderWidth">
-        <div class="slider-ball"></div>
-        </div>
-      </div>
+    <nz-slider [(ngModel)]="timePercent" [nzTooltipVisible]="'never'" (ngModelChange)="onTimeChange($event)"	></nz-slider>
   </div>
   <div class="airmore-music-player__duration"><span *ngIf="currentPlayingItem">{{ currentPlayingItem[durationKey] / 1000 | duration }}</span></div>
   <div class="airmore-music-player__volume-slider">
-      <div class="slider-inner">
-        <div class="slider-per" style="width: 100%;">
-        <div class="slider-ball"></div>
-        </div>
-      </div>
+      <nz-slider [(ngModel)]="volumePercent" [nzTooltipVisible]="'never'" (ngModelChange)="onVolumeChange($event)"	></nz-slider>
   </div>
-  <div class="airmore-music-player__volume"></div>
+  <div class="airmore-music-player__volume" [class.is-mute]="_isMute" (click)="mute()"></div>
   <audio #audioElement></audio>
 </div>

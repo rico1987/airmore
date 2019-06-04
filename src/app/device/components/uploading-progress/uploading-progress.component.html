@@ -1,9 +1,9 @@
 <div class="airmore-uploading-progress" *ngIf="show">
   <div class="airmore-uploading-progress__bar"></div>
   <div class="airmore-uploading-progress__icon"></div>
-  <div class="airmore-uploading-progress__text" *ngIf="deviceStateService.uploadingItem">
-    正在上传 {{ deviceStateService.uploadingItem['name'] }}
-    ({{deviceStateService.uploadQueue.length}} 个文件剩余)
+  <div class="airmore-uploading-progress__text" *ngIf="deviceService.uploadingItem">
+    正在上传 {{ deviceService.uploadingItem['name'] }}
+    ({{deviceService.uploadQueue.length}} 个文件剩余)
   </div>
   <div class="airmore-uploading-progress__close"></div>
 </div>

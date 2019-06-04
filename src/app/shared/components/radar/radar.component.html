@@ -6,7 +6,7 @@
         <li
             [class.iphone]="connection.Platform === 2"
             [class.android]="connection.Platform === 1"
-            *ngFor="let connection of deviceService.availableConnections"
+            *ngFor="let connection of availableConnections"
             (click)="connectTo(connection)"
         >
             {{connection['DeviceName']}}

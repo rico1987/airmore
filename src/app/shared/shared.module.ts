@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NzInputModule } from 'ng-zorro-antd';
 import { NzDropDownModule } from 'ng-zorro-antd';
+import { NzSliderModule } from 'ng-zorro-antd';
 
 import { ConnectionComponent } from './components/connection/connection.component';
 import { AccountComponent } from './components/account/account.component';
@@ -162,6 +163,7 @@ const PIPES = [
     NzDropDownModule,
     ModalModule,
     NzToolTipModule,
+    NzSliderModule,
   ],
   providers: [
     MESSAGE_DEFAULT_CONFIG_PROVIDER,

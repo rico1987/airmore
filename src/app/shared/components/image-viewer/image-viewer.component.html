@@ -9,7 +9,7 @@
       [style.left]="_imageWrapperLeft + 'px'"
       [style.transform]="'scale(' + _imageScale + ')'"
     >
-      <app-lazy-load-image *ngIf="_currentDisplayItem" [imgSrc]="_currentDisplayItem[srcKey]"></app-lazy-load-image>
+      <app-lazy-load-image *ngIf="_currentDisplayItem" [autoSize]="true" [imgSrc]="_currentDisplayItem[srcKey]"></app-lazy-load-image>
     </div>
   </div>
   <div class="airmore-image-viewer__close" (click)="close()"></div>

@@ -1,5 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { BrowserStorageService } from '../../service/storage.service';
+import {
+  ConnectionPositionPair,
+  FlexibleConnectedPositionStrategy,
+  Overlay,
+  OverlayConfig,
+  OverlayRef
+} from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { fromEvent } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { Component, OnInit, Input, ElementRef, ViewChild, } from '@angular/core';
+import { BrowserStorageService,  } from '../../service/storage.service';
+import { MessageService } from '../../service/message.service';
+import { DropdownSelectOptionsComponent } from '../dropdown-select-options/dropdown-select-options.component';
 
 const W3CWebSocket = require('websocket').w3cwebsocket;
 
@@ -10,6 +22,16 @@ const W3CWebSocket = require('websocket').w3cwebsocket;
   styleUrls: ['./reflector-modal.component.scss']
 })
 export class ReflectorModalComponent implements OnInit {
+
+  @Input() onClose: any;
+
+  @Input() onResize: any;
+
+  @Input() onSaveToPhone: any;
+
+  @Input() onFullScreen: any;
+
+  @ViewChild('settingBtn') settingBtn: ElementRef;
 
   ws: WebSocket = null;
 
@@ -33,8 +55,12 @@ export class ReflectorModalComponent implements OnInit {
 
   frame: string = null;
 
+  private _overlayRef: OverlayRef | null;
+
   constructor(
-    private browserStorageService: BrowserStorageService
+    private overlay: Overlay,
+    private ref: ElementRef,
+    private browserStorageService: BrowserStorageService,
   ) { }
 
   ngOnInit() {
@@ -57,17 +83,22 @@ export class ReflectorModalComponent implements OnInit {
   onWsOpen(): void {
   }
 
+  close(): void {
+    this.onClose();
+  }
+
+  resize(): void {
+    this.onResize();
+  }
+
   onWsMessage(e): void {
     const bytes = new Uint8Array(e.data)
-    console.log(e.data);
     let data = []
     const length = bytes.length
-    console.log(bytes);
 
     for (let i = 0; i < length; i++) {
       data[i] = String.fromCharCode(bytes[i]);
     }
-    console.log(data);
     
     let dataStr = data.join('');
 
@@ -81,7 +112,6 @@ export class ReflectorModalComponent implements OnInit {
         const rotation = (dataStr.charAt(dataStr.length - 1) as unknown as number) % 2;
         if (rotation !== this.rotation) {
           this.rotation = rotation;
-          console.log(this.rotation);
           this.bestSize();
           this.center();
         }
@@ -89,10 +119,7 @@ export class ReflectorModalComponent implements OnInit {
     } else {
       this.showGuid = false;
       this.frame = 'data:image/png;base64,' + window.btoa(dataStr);
-      console.log(this.frame);
     }
-    
-    
   }
 
   bestSize(): void {
@@ -176,5 +203,85 @@ export class ReflectorModalComponent implements OnInit {
       this.ws.close();
       this.ws = null;
     }
+  }
+
+  capture(): void {
+    const method = this.browserStorageService.get('screenshotSaveMethod');
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+    if (method === 'save') {
+      this.onSaveToPhone();
+    } else if (method === 'download') {
+      const url = `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}?Key=MirrorScreenShot&NextStep=Download`;
+      const form = document.createElement('form');
+      form.setAttribute('target', '_blank');
+      form.setAttribute('method', 'post');
+      form.setAttribute('action', url);
+      document.body.append(form);
+      form.submit();
+      document.body.removeChild(form);
+    }
+  }
+
+  fullScreen(): void {
+    this.isFullscreen = !this.isFullscreen;
+    if (this.isFullscreen) {
+      if(document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+      this.onFullScreen(true);
+      this.bestSize();
+    } else {
+      this.onFullScreen(false);
+    }
+    
+  }
+
+  openSetting($event: MouseEvent): void {
+    if (this._overlayRef) {
+      this._overlayRef.dispose();
+      this._overlayRef = null;
+    }
+    this._overlayRef = this.overlay.create(
+      new OverlayConfig({
+        scrollStrategy: this.overlay.scrollStrategies.close(),
+        positionStrategy: this.overlay
+          .position()
+          .flexibleConnectedTo(this.settingBtn)
+          .withPositions([{
+            originX: 'start',
+            originY: 'bottom',
+            overlayX: 'center',
+            overlayY: 'top',
+            offsetX: 0,
+            offsetY: -100
+          }])
+      })
+    );
+    const instance = this._overlayRef.attach(new ComponentPortal(DropdownSelectOptionsComponent)).instance;
+    instance.options = [
+      {
+        key: 'save',
+        value: 'save',
+        label: 'Save Screenshot to phone',
+      },
+      {
+        key: 'download',
+        value: 'download',
+        label: 'Save Screenshot to computer',
+      },
+    ];
+    instance.multiple = false;
+    instance.default = [this.browserStorageService.get('screenshotSaveMethod')];
+    instance.onValueChange = (options: Array<any>) => {
+      this.browserStorageService.set('screenshotSaveMethod', options[0]['key']);
+    }
+    instance.showIcon = true;
+    fromEvent<MouseEvent>(document, 'click')
+      .pipe(
+        filter(event => !!this._overlayRef && !this._overlayRef.overlayElement.contains(event.target as HTMLElement) && event.target !== $event.target),
+        take(1)
+      )
+      .subscribe(() => instance.close());
+    event.stopPropagation();
   }
 }

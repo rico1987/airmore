@@ -85,7 +85,7 @@
         height: 38px;
         .name{
             display: inline-block;
-            width: 200px;
+            width: calc(100% - 120px);
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;

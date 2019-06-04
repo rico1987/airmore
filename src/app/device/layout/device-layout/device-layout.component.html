@@ -2,12 +2,12 @@
   <app-device-sidebar></app-device-sidebar>
   <div
     class="airmore-device-layout__content"
-    [class.is-clipboard]="appStateService.activeFunction === 'clipboard'"
-    [class.is-messages]="appStateService.activeFunction === 'messages'"
-    [class.is-files]="appStateService.activeFunction === 'files'"
-    [class.is-contacts]="appStateService.activeFunction === 'contacts'"
+    [class.is-clipboard]="appService.activeFunction === 'clipboard'"
+    [class.is-messages]="appService.activeFunction === 'messages'"
+    [class.is-files]="appService.activeFunction === 'files'"
+    [class.is-contacts]="appService.activeFunction === 'contacts'"
   >
-    <app-uploading-progress *ngIf="deviceStateService.uploadQueue.length > 0"></app-uploading-progress>
+    <app-uploading-progress *ngIf="deviceService.uploadQueue.length > 0"></app-uploading-progress>
     <router-outlet></router-outlet>
   </div>
 </div>

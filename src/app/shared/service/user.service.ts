@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { AppStateService } from './app-state.service';
+import { AppService } from './app.service';
 import { MyClientService } from './my-client.service';
 import { CloudBaseService } from './cloud-base.service';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
@@ -18,7 +18,7 @@ export class UserService {
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
     private cloudBaseService: CloudBaseService,
     private myClientService: MyClientService,
-    private appStateService: AppStateService,
+    private appService: AppService,
     private storage: BrowserStorageService,
   ) {}
 
@@ -26,7 +26,7 @@ export class UserService {
     const data = {
       password: passwordLoginInfo.password,
       brand: this.appConfig.brand,
-      language: this.appStateService.currentLanguage,
+      language: this.appService.currentLanguage,
     };
 
     if (passwordLoginInfo.email) {
@@ -39,7 +39,7 @@ export class UserService {
     const data = {
       captcha: resetPasswordInfo.captcha,
       email: resetPasswordInfo.email,
-      language: this.appStateService.currentLanguage,
+      language: this.appService.currentLanguage,
       password: resetPasswordInfo.password,
       brand: this.appConfig.brand,
     };
@@ -51,7 +51,7 @@ export class UserService {
       brand: this.appConfig.brand,
       email,
       scene,
-      language: this.appStateService.currentLanguage,
+      language: this.appService.currentLanguage,
     };
     return this.myClientService.post('account', '/captchas', data);
   }
@@ -62,7 +62,7 @@ export class UserService {
       telephone,
       country_code,
       scene,
-      language: this.appStateService.currentLanguage,
+      language: this.appService.currentLanguage,
     };
     return this.myClientService.post('account', '/captchas', data);
   }
@@ -72,7 +72,7 @@ export class UserService {
       captcha: registerInfo.captcha,
       email: registerInfo.email,
       password: registerInfo.email,
-      language: this.appStateService.currentLanguage,
+      language: this.appService.currentLanguage,
       brand: this.appConfig.brand,
       registed_app: this.appConfig.app.registedApp,
     }
@@ -83,7 +83,7 @@ export class UserService {
     const data = {
       captcha: emailPasswordLessLoginInfo.captcha,
       email: emailPasswordLessLoginInfo.email,
-      language: this.appStateService.currentLanguage,
+      language: this.appService.currentLanguage,
       brand: this.appConfig.brand,
       registed_app: this.appConfig.app.registedApp,
     }

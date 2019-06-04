@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ApplicationRef, ComponentFactoryResolver, Injector, EmbeddedViewRef } from '@angular/core';
-import { DeviceStateService, ModalService, DeviceService, MessageService } from '../../../shared/service';
+import { DeviceService, ModalService, MessageService } from '../../../shared/service';
 import { SelectOption } from '../../../shared/components/dropdown-select-options/dropdown-select-options.component'
 import { Contact } from '../../models';
 import { DynamicInputComponent } from '../../../shared/components/dynamic-input/dynamic-input.component';
@@ -260,17 +260,16 @@ export class ContactDetailComponent implements OnInit {
   private editingContact: Contact = Object.assign({}, ContactTemplate);
 
   constructor(
-    private deviceStateService: DeviceStateService,
     private appRef: ApplicationRef,
     private injector: Injector,
     private componentFactoryResolver: ComponentFactoryResolver,
     private modalService: ModalService,
-    private deviceService: DeviceService,
     private messageService: MessageService,
+    private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {
-    this.groups = this.deviceStateService.tempContactsGroupList.concat();
+    this.groups = this.deviceService.tempContactsGroupList.concat();
   }
 
 
@@ -283,6 +282,11 @@ export class ContactDetailComponent implements OnInit {
         this.contact['Organization'] = [{
           Company: '',
           Job: '',
+        }];
+      }
+      if (!this.contact['Note']) {
+        this.contact['Note'] = [{
+          Content: '',
         }];
       }
       this.editingContact = this.contact;
@@ -302,7 +306,7 @@ export class ContactDetailComponent implements OnInit {
                   (data) => {
                       if (data) {
                           this.messageService.success('删除成功!');
-                          this.deviceStateService.getItemList(false);
+                          this.deviceService.getItemList(false);
                       } else {
                           this.messageService.error('删除失败');
                       }
@@ -320,7 +324,7 @@ export class ContactDetailComponent implements OnInit {
   }
 
   save(): void {
-    if (this.deviceStateService.isAddingContact) {
+    if (this.deviceService.isAddingContact) {
       this.deviceService.addContact([this.editingContact])
         .subscribe(
             (data) => {
@@ -337,11 +341,12 @@ export class ContactDetailComponent implements OnInit {
             },
             () => {
               this.isEdit = false;
-              this.deviceStateService.isAddingContact = false;
+              this.deviceService.isAddingContact = false;
               this.editingContact = Object.assign({}, ContactTemplate);
             }
         );
     } else {
+      console.log(this.editingContact);
       this.deviceService.updateContact([this.editingContact])
         .subscribe(
             (data) => {
@@ -382,7 +387,7 @@ export class ContactDetailComponent implements OnInit {
 
   cancel(): void {
     this.isEdit = false;
-    this.deviceStateService.isAddingContact = false;
+    this.deviceService.isAddingContact = false;
   }
 
   updatePortrait(): void {
@@ -448,8 +453,10 @@ export class ContactDetailComponent implements OnInit {
   }
 
   onSelectGroupChange(selectedOptions: Array<any>): void {
-    this.editingContact;
+    this.editingContact['Groups'] = selectedOptions.concat();
     console.log(selectedOptions);
+    console.log(this.deviceService.contactGroupList);
+
   }
 
   getPhoneType(type: number): string {

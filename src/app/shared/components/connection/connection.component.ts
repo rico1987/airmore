@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ConnectionService } from '../../service/connection.service';
 import { DeviceService } from '../../service/device.service';
 import { ModalService } from '../../service/modal';
 import { InstallationModalComponent } from '../installation-modal/installation-modal.component';
@@ -16,9 +15,9 @@ export class ConnectionComponent implements OnInit {
 
   @ViewChild('radarElement') radarElement: ElementRef<RadarComponent>;
 
-  qrCodeUrl: string | null;
+  private _qrCodeUrl: string | null;
 
-  private isLoadingQrCode = false;
+  private _isLoadingQrCode = false;
 
   private _interval: any = null;
 
@@ -33,31 +32,31 @@ export class ConnectionComponent implements OnInit {
     return this._activeConnectionType;
   }
   public set activeConnectionType(value: 'qrcode' | 'radar' | 'account') {
-    this.connectionService.activeConnectionType = value;
+    this.deviceService.activeConnectionType = value;
     this._activeConnectionType = value;
   }
 
 
   constructor(
     private deviceService: DeviceService,
-    private connectionService: ConnectionService,
     private modalService: ModalService,
     ) {}
 
   ngOnInit() {
     this.getQrCode();
   }
+  
 
   changeConnectionType(connectionType: 'qrcode' | 'radar' | 'account'): void {
-    this.connectionService.activeConnectionType = connectionType;
+    this.deviceService.activeConnectionType = connectionType;
     this.activeConnectionType = connectionType;
     if (connectionType === 'qrcode') {
       this.getQrCode();
-      this.deviceService.stopScan();
+      //this.deviceService.stopScan();
     } else if (connectionType === 'radar') {
-      this.deviceService.scan();
+      //this.deviceService.scan();
     } else if (connectionType === 'account') {
-      this.deviceService.stopScan();
+      //this.deviceService.stopScan();
     }
   }
 
@@ -66,15 +65,15 @@ export class ConnectionComponent implements OnInit {
    */
   getQrCode(): void {
     this._isTimeout = false;
-    this.isLoadingQrCode = true;
-    this.connectionService.init();
+    this._isLoadingQrCode = true;
+    this.deviceService.init();
     this._interval = window.setInterval(() => {
-      if (this.connectionService.connected) {
-        this.connectionService.getQrCodeUrl()
+      if (this.deviceService.connected) {
+        this.deviceService.getQrCodeUrl()
           .then((res) => {
             if (res.URL) {
-              this.isLoadingQrCode = false;
-              this.qrCodeUrl = res.URL;
+              this._isLoadingQrCode = false;
+              this._qrCodeUrl = res.URL;
               window.clearInterval(this._interval);
               this._interval = null;
 

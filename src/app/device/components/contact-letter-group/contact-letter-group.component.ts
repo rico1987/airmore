@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DeviceStateService } from '../../../shared/service';
+import { DeviceService } from '../../../shared/service';
 
 @Component({
   selector: 'app-contact-letter-group',
@@ -11,7 +11,7 @@ export class ContactLetterGroupComponent implements OnInit {
   @Input() item: any;
   
   constructor(
-    private deviceStateService: DeviceStateService
+    private deviceService: DeviceService
   ) {
   }
 
@@ -20,22 +20,22 @@ export class ContactLetterGroupComponent implements OnInit {
 
   checkItem(contact): void {
     if (this.isSelected(contact)) {
-      this.deviceStateService.removeItems([contact]);
+      this.deviceService.removeItems([contact]);
     } else {
-      this.deviceStateService.addItems([contact]);
+      this.deviceService.addItems([contact]);
     }
   }
 
   isSelected(contact): boolean {
-    return this.deviceStateService.hasItem(contact);
+    return this.deviceService.hasItem(contact);
   }
 
   setActive(contact): void {
     console.log(contact);
-    this.deviceStateService.activeContact = null;
-    this.deviceStateService.isAddingContact = false;
+    this.deviceService.activeContact = null;
+    this.deviceService.isAddingContact = false;
     setTimeout(() => {
-      this.deviceStateService.activeContact = contact;
+      this.deviceService.activeContact = contact;
     }, 0);
   }
 

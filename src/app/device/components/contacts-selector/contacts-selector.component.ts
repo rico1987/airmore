@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeviceStateService, DeviceService } from '../../../shared/service';
+import { DeviceService } from '../../../shared/service';
 @Component({
   selector: 'app-contacts-selector',
   templateUrl: './contacts-selector.component.html',
@@ -20,13 +20,12 @@ export class ContactsSelectorComponent implements OnInit {
   private loading: boolean;
 
   constructor(
-    private deviceStateService: DeviceStateService,
     private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {
-    if (this.deviceStateService.contactGroupList) {
-      this.contactGroupList = this.deviceStateService.contactGroupList.concat();
+    if (this.deviceService.contactGroupList) {
+      this.contactGroupList = this.deviceService.contactGroupList.concat();
       this.activeGroup = this.contactGroupList[0];
       this.contactList = this.contactGroupList[0]['contacts'];
     } else {
@@ -95,17 +94,17 @@ export class ContactsSelectorComponent implements OnInit {
   addContact(contact): void {
     const index = this.isSelected(contact);
     if (index !== false) {
-      this.deviceStateService.selectedMessageReceivers.splice(index as number, 1);
+      this.deviceService.selectedMessageReceivers.splice(index as number, 1);
     } else {
-      this.deviceStateService.selectedMessageReceivers.push(contact);
+      this.deviceService.selectedMessageReceivers.push(contact);
     }
   }
 
   isSelected(contact): number | false {
-    if (!this.deviceStateService.selectedMessageReceivers) {
+    if (!this.deviceService.selectedMessageReceivers) {
       return false;
     }
-    const index = this.deviceStateService.selectedMessageReceivers.indexOf(contact);
+    const index = this.deviceService.selectedMessageReceivers.indexOf(contact);
     if (index > -1) {
       return index;
     } else {

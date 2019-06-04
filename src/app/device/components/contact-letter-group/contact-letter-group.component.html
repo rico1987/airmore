@@ -5,7 +5,7 @@
       class="airmore-contact-letter-group__contact-item"
       *ngFor="let contact of item['contacts']"
       (click)="setActive(contact)"
-      [class.active]="deviceStateService.activeContact && deviceStateService.activeContact['RawContactId'] === contact['RawContactId']"
+      [class.active]="deviceService.activeContact && deviceService.activeContact['RawContactId'] === contact['RawContactId']"
     >
         <div class="checkbox" (click)="checkItem(contact)" [class.selected]="isSelected(contact)"></div>
         <div class="avatar"></div>

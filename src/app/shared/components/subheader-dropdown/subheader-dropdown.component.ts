@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DeviceStateService } from '../../service/device-state.service';
+import { DeviceService } from '../../service/device.service';
 @Component({
   selector: 'app-subheader-dropdown',
   templateUrl: './subheader-dropdown.component.html',
@@ -10,18 +10,18 @@ export class SubheaderDropdownComponent implements OnInit {
   show = true;
 
   constructor(
-    private deviceStateService: DeviceStateService,
+    private deviceService: DeviceService,
   ) { }
 
   ngOnInit() {
   }
 
   importFile(): void {
-    this.deviceStateService.importFile();
+    this.deviceService.importFile();
   }
 
   importFolder(): void {
-    this.deviceStateService.importFolder();
+    this.deviceService.importFolder();
   }
 
   close(): void {

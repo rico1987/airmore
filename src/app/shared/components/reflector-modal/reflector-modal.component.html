@@ -1,4 +1,8 @@
 <div class="airmore-reflector">
+  <div class="airmore-reflector__header">
+    镜像
+    <span class="close" (click)="close()"></span>
+  </div>
   <div class="airmore-reflector__body" [style.width]="width + 'px'" [style.height]="height + 'px'">
     <div class="guide" *ngIf="showGuid">
       <div class="phone">
@@ -21,13 +25,15 @@
         勾选“不再显示”跳过此步骤
       </div>
     </div>
-    <div class="main">
+    <div class="main" *ngIf="!showGuid">
       <img [src]="frame | safeUrl" />
     </div>
   </div>
   <div class="airmore-reflector__footer">
-    <div class="ref-cap"></div>
-    <div class="ref-ful"></div>
-    <div class="ref-set"></div>
+    <div class="ref-cap"  nz-tooltip nzTitle="截图" (click)="capture()"></div>
+    <div class="ref-ful" nz-tooltip nzTitle="全屏"></div>
+    <div class="ref-set" #settingBtn (click)="openSetting($event)">
+      <span class="drop"></span>
+    </div>
   </div>
 </div>

@@ -76,7 +76,7 @@ export class ModalComponent<T = any, R = any> extends ModalRef<T, R>
   @Input() amOkText: string | null;
   @Input() amCancelText: string | null;
   @Input() amOkType = 'primary';
-  @Input() amIconType: string = 'question-circle'; // Confirm Modal ONLY
+  @Input() amIconType: string = 'exclamation-circle'; // Confirm Modal ONLY
   @Input() amModalType: ModalType = 'default';
 
   @Input() @Output() readonly amOnOk: EventEmitter<T> | OnClickCallback<T> = new EventEmitter<T>();

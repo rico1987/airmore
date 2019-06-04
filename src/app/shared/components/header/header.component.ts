@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppStateService, DeviceStateService, CloudStateService } from '../../../shared/service';
+import { AppService, DeviceService, CloudStateService } from '../../../shared/service';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +9,8 @@ import { AppStateService, DeviceStateService, CloudStateService } from '../../..
 export class HeaderComponent implements OnInit {
 
   constructor(
-    private appStateService: AppStateService,
-    private deviceStateService: DeviceStateService,
+    private appService: AppService,
+    private deviceService: DeviceService,
     private cloudStateService: CloudStateService,
   ) { }
 
@@ -18,14 +18,14 @@ export class HeaderComponent implements OnInit {
   }
 
   setActiveViewMode(viewMode: 'list' | 'grid'): void {
-    this.appStateService.setActiveViewMode(viewMode);
+    this.appService.setActiveViewMode(viewMode);
   }
 
   get title(): string {
-    if (this.appStateService.currentModule === 'cloud') {
+    if (this.appService.currentModule === 'cloud') {
       return 'ApowerCloud';
     } else {
-      return this.deviceStateService.activeFunction;
+      return this.deviceService.activeFunction;
     }
   }
 }

@@ -1,9 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../../config';
-import { AppStateService } from '../../service/app-state.service';
-import { DeviceStateService, UserService } from '../../service';
-import { DeviceService } from '../../service/device.service';
+import { AppService } from '../../service/app.service';
+import { DeviceService, UserService } from '../../service';
 import { ModalService } from '../../service/modal';
 import { ToolModalComponent } from '../tool-modal/tool-modal.component';
 import { ReflectorModalComponent } from '../reflector-modal/reflector-modal.component';
@@ -20,8 +19,7 @@ export class DesktopComponent implements OnInit {
   constructor(
     private router: Router,
     @Inject(APP_DEFAULT_CONFIG) private appConfig: AppConfig,
-    private appStateService: AppStateService,
-    private deviceStateService: DeviceStateService,
+    private appService: AppService,
     private deviceService: DeviceService,
     private modalService: ModalService,
     private userService: UserService,
@@ -62,20 +60,20 @@ export class DesktopComponent implements OnInit {
           }
         });
       } else {
-        this.appStateService.setCurrentModule('device');
-        this.deviceStateService.setDeviceActiveFunction(fun);
+        this.appService.setCurrentModule('device');
+        this.deviceService.setDeviceActiveFunction(fun);
         this.router.navigate(
           ['device']
         );
       }
     } else {
       if (this.userService.isAccountLogined) {
-        this.appStateService.setCurrentModule('cloud');
+        this.appService.setCurrentModule('cloud');
         this.router.navigate(
           ['cloud']
         );
       } else {
-        this.appStateService.showConnection('account');
+        this.appService.showConnection('account');
       }
     }
   }

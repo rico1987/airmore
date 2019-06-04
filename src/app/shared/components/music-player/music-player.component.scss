@@ -124,22 +124,10 @@
         padding: 3.5px 0;
         width: calc(100% - 650px);
         float: left!important;
-        .slider-inner{
-            height: 3px;
-            background: rgba(255,255,255,.5);
-            .slider-per{
-                height: 100%;
-                width: 100%;
-                background: #fff;
-                .slider-ball{
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    background: #fff;
-                    float: right;
-                    margin: -3.5px -5px;
-                }
-            }
+        nz-slider{
+            display: block;
+            position: relative;
+            top: -20px;
         }
     }
 
@@ -162,6 +150,9 @@
         &:hover{
             opacity: 1;
         }
+        @include when(mute) {
+            background-image: url('../../../../assets/img/common/music/mute.svg');
+        }
     }
 
     @include e(volume-slider) {
@@ -169,22 +160,10 @@
         padding: 3.5px 0;
         width: 109px;
         margin: 5px 0 5px 10px;
-        .slider-inner{
-            height: 3px;
-            background: rgba(255,255,255,.5);
-            .slider-per{
-                height: 100%;
-                width: 100%;
-                background: #fff;
-                .slider-ball{
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    background: #fff;
-                    float: right;
-                    margin: -3.5px -5px;
-                }
-            }
+        nz-slider{
+            display: block;
+            position: relative;
+            top: -20px;
         }
     }
 

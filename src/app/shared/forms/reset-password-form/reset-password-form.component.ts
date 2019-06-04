@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { AppStateService } from '../../service/app-state.service';
+import { AppService } from '../../service/app.service';
 import { UserService } from '../../service/user.service';
 import { ANIMATIONS } from '../../animations';
 import { Router } from '@angular/router';
@@ -49,7 +49,7 @@ export class ResetPasswordFormComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private appStateService: AppStateService,
+    private appService: AppService,
     private fb: FormBuilder,
     private messageService: MessageService,
   ) { }
@@ -107,12 +107,14 @@ export class ResetPasswordFormComponent implements OnInit {
           (data: CommonResponse) => {
             this.userService.isAccountLogined = true;
             this.userService.userInfo = data.data;
-            this.appStateService.hideConnection();
-            this.appStateService.setCurrentModule('cloud');
+            this.appService.hideConnection();
+            this.appService.setCurrentModule('cloud');
             this.router.navigate(
               ['cloud']
             );
             this.loading = false;
+            this.appService.accountRoute = 'logined';
+
           },
           (error) => {
             if (error instanceof HttpErrorResponse) {

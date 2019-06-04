@@ -1,33 +1,33 @@
-<div class="airmore-device-item-list" #itemListContainer [class.is-uploading]="deviceStateService.uploadQueue.length > 0">
-  <div class="airmore-device-item-list__container" *ngIf="!deviceStateService.loading">
+<div class="airmore-device-item-list" #itemListContainer [class.is-uploading]="deviceService.uploadQueue.length > 0">
+  <div class="airmore-device-item-list__container" *ngIf="!deviceService.loading">
 
     <!-- pictures start -->
-    <div class="airmore-device-item-list__container-pictures" *ngIf="deviceStateService.activeFunction === 'pictures'" >
+    <div class="airmore-device-item-list__container-pictures" *ngIf="deviceService.activeFunction === 'pictures'" >
       <!-- cdk-virtual-scroll start -->
       <!-- documents: https://material.angular.io/cdk/scrolling/overview -->
       <cdk-virtual-scroll-viewport itemSize="5" class="virtual-scroll-viewport">
-        <app-device-item-group *cdkVirtualFor="let group of deviceStateService.itemGroupList" [group]="group"></app-device-item-group>
+        <app-device-item-group *cdkVirtualFor="let group of deviceService.itemGroupList" [group]="group"></app-device-item-group>
       </cdk-virtual-scroll-viewport>
       <!-- cdk-virtual-scroll end -->
     </div>
     <!-- pictures end -->
 
     <!-- videos start -->
-    <div class="airmore-device-item-list__container-videos" *ngIf="deviceStateService.activeFunction === 'videos'" >
-      <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
+    <div class="airmore-device-item-list__container-videos" *ngIf="deviceService.activeFunction === 'videos'" >
+      <app-device-item *ngFor="let item of deviceService.itemList" [item]="item"></app-device-item>
     </div>
     <!-- videos end -->
 
     <!-- apps start -->
-    <div class="airmore-device-item-list__container-apps" *ngIf="deviceStateService.activeFunction === 'apps'">
-      <app-device-item *ngFor="let item of deviceStateService.itemList" [item]="item"></app-device-item>
+    <div class="airmore-device-item-list__container-apps" *ngIf="deviceService.activeFunction === 'apps' && !deviceService.loadingItems">
+      <app-device-item *ngFor="let item of deviceService.itemList" [item]="item"></app-device-item>
     </div>
     <!-- apps end -->
 
     <!-- documents start -->
-    <div class="airmore-device-item-list__container-docs" *ngIf="deviceStateService.activeFunction === 'documents'">
+    <div class="airmore-device-item-list__container-docs" *ngIf="deviceService.activeFunction === 'documents'">
         <nz-table
-        *ngIf="deviceStateService.itemList && deviceStateService.activeFunction === 'documents'"
+        *ngIf="deviceService.itemList && deviceService.activeFunction === 'documents'"
         #virtualTable
         #rowSelectionTable
         nzVirtualScroll
@@ -72,7 +72,7 @@
               <td
                 style="width: 40px;"
                 nzShowCheckbox
-                [nzChecked]="deviceStateService.hasItem(data)"
+                [nzChecked]="deviceService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
               <td class="airmore-device-item-list__td">
@@ -94,9 +94,9 @@
     <!-- documents end-->
 
     <!-- musics start -->
-    <div class="airmore-device-item-list__container-musics" *ngIf="!deviceStateService.loading && deviceStateService.activeFunction === 'musics'">
+    <div class="airmore-device-item-list__container-musics" *ngIf="!deviceService.loading && deviceService.activeFunction === 'musics'">
       <nz-table
-        *ngIf="deviceStateService.itemList && deviceStateService.activeFunction === 'musics'"
+        *ngIf="deviceService.itemList && deviceService.activeFunction === 'musics'"
         #virtualTable
         #rowSelectionTable
         nzVirtualScroll
@@ -148,7 +148,7 @@
               <td
                 style="width: 40px;"
                 nzShowCheckbox
-                [nzChecked]="deviceStateService.hasItem(data)"
+                [nzChecked]="deviceService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
               <td class="airmore-device-item-list__td">
@@ -167,33 +167,33 @@
           </ng-template>
         </tbody>
       </nz-table> 
-      <app-music-player #musicPlayer [playList]="deviceStateService.itemList" class="airmore-device-item-list__music-player"></app-music-player>
+      <app-music-player #musicPlayer [playList]="deviceService.itemList" class="airmore-device-item-list__music-player"></app-music-player>
     </div>
     <!-- musics end -->
 
     <!-- clipboard start -->
-    <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceStateService.activeFunction === 'clipboard'">
+    <div class="airmore-device-item-list__container-clipboard" *ngIf="deviceService.activeFunction === 'clipboard'">
       <div class="toolbar">
         <span class="cancel" (click)="cancelClipboardEdit()" *ngIf="isClipboardEditing">Cancel</span>
-        <span class="primary" (click)="saveToClipboard()" *ngIf="isClipboardEditing" [class.active]="deviceStateService.clipboardValue">Save to clipboard</span>
+        <span class="primary" (click)="saveToClipboard()" *ngIf="isClipboardEditing" [class.active]="deviceService.clipboardValue">Save to clipboard</span>
       </div>
-      <textarea (keydown)="onKeyDown($event)" *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="deviceStateService.clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
-      <p *ngIf="!isClipboardEditing && deviceStateService.activeItem && deviceStateService.activeItem['Content']">{{deviceStateService.activeItem['Content']}}</p>
+      <textarea (keydown)="onKeyDown($event)" *ngIf="isClipboardEditing" #clipboardInput [(ngModel)]="deviceService.clipboardValue" placeholder="{{clipboardTextareaPlaceholder}}" [readonly]="!isClipboardEditing"></textarea>
+      <p *ngIf="!isClipboardEditing && deviceService.activeItem && deviceService.activeItem['Content']">{{deviceService.activeItem['Content']}}</p>
     </div>
     <!-- clipboard end -->
 
     <!-- messages start -->
-    <div class="airmore-device-item-list__container-message" *ngIf="deviceStateService.activeFunction === 'messages' && !deviceStateService.isAddingMessage">
+    <div class="airmore-device-item-list__container-message" *ngIf="deviceService.activeFunction === 'messages' && !deviceService.isAddingMessage">
       <div class="toolbar">
-        <span class="to">To: {{deviceStateService.activeItem.ShowName}}
-          <span *ngIf="deviceStateService.activeItem.Phone && deviceStateService.activeItem.Phone !== deviceStateService.activeItem.ShowName">({{deviceStateService.activeItem.Phone}})</span>
+        <span class="to">To: {{deviceService.activeItem.ShowName}}
+          <span *ngIf="deviceService.activeItem.Phone && deviceService.activeItem.Phone !== deviceService.activeItem.ShowName">({{deviceService.activeItem.Phone}})</span>
         </span>
         <span class="btn" (click)="call()">拨打电话</span>
-        <span class="btn" (click)="checkContact()">查看联系人</span>
-        <span class="btn" (click)="addToContact()">添加为联系人</span>
+        <span class="btn" (click)="checkContact()" *ngIf="deviceService.isNumberInContact()">查看联系人</span>
+        <span class="btn" (click)="addToContact()" *ngIf="!deviceService.isNumberInContact()">添加为联系人</span>
       </div>
       <div class="content" #messageContent>
-        <div class="message" *ngFor="let item of deviceStateService.itemList" [class.is-received]="item.MsgType === 1" [class.is-from-me]="item.MsgType === 2">
+        <div class="message" *ngFor="let item of deviceService.itemList" [class.is-received]="item.MsgType === 1" [class.is-from-me]="item.MsgType === 2">
           <div class="date">{{item.Date}}</div>
           <div class="copy-btn" (click)="copyToClipboard(item, $event)">复制</div>
           <div class="text">{{item.Content}}</div>
@@ -204,17 +204,17 @@
         <div class="send-message" (click)="sendMessage()" [class.is-active]="messageValue"></div>
       </div>
     </div>
-    <div class="airmore-device-item-list__container-message" *ngIf="deviceStateService.activeFunction === 'messages' && deviceStateService.isAddingMessage">
+    <div class="airmore-device-item-list__container-message" *ngIf="deviceService.activeFunction === 'messages' && deviceService.isAddingMessage">
         <div class="toolbar">
           <span class="to">
             <span class="label">To:</span>
-            <span class="contact" *ngFor="let contact of deviceStateService.selectedMessageReceivers">
+            <span class="contact" *ngFor="let contact of deviceService.selectedMessageReceivers">
               {{contact['Name']['DisplayName']}}
               <i (click)="removeFormReceivers(contact)">─</i>
             </span>
             <input type="text" autofocus (keyup)="onContactKey($event)" maxlength="50" />
           </span>
-          <span #addContactBtn class="add-contact" [class.is-loading]="!deviceStateService.contactGroupList" (click)="showContactSelector($event)"></span>
+          <span #addContactBtn class="add-contact" [class.is-loading]="!deviceService.contactGroupList" (click)="showContactSelector($event)"></span>
         </div>
         <div class="message-sender">
           <textarea (keydown)="onMessageContentKeyDown($event)" placeholder="{{messageTextareaPlaceholder}}" [(ngModel)]="messageValue"></textarea>
@@ -224,9 +224,9 @@
     <!-- messages end -->
 
     <!-- files start -->
-    <div class="airmore-device-item-list__container-files" *ngIf="deviceStateService.activeFunction === 'files'">
+    <div class="airmore-device-item-list__container-files" *ngIf="deviceService.activeFunction === 'files'">
       <nz-table
-        *ngIf="deviceStateService.itemList && deviceStateService.activeFunction === 'files'"
+        *ngIf="deviceService.itemList && deviceService.activeFunction === 'files'"
         #virtualTable
         #rowSelectionTable
         nzVirtualScroll
@@ -274,7 +274,7 @@
               <td
                 style="width: 40px;"
                 nzShowCheckbox
-                [nzChecked]="deviceStateService.hasItem(data)"
+                [nzChecked]="deviceService.hasItem(data)"
                 (nzCheckedChange)="onTdCheckedChange($event, data)"
               ></td>
               <td class="airmore-device-item-list__td" (dblclick)="openItem(data)">
@@ -296,16 +296,16 @@
     <!-- files end -->
 
     <!-- contacts start -->
-    <div class="airmore-device-item-list__container-contact" *ngIf="deviceStateService.activeFunction === 'contacts' && !deviceStateService.loading">
+    <div class="airmore-device-item-list__container-contact" *ngIf="deviceService.activeFunction === 'contacts' && !deviceService.loading">
       <div class="airmore-device-item-list__container-header">
         <div class="checkbox" [class.is-checked]="isAllSelected" (click)="selectAllContacts()"></div>
-        <span>名称 {{deviceStateService.selectedItems.length}} / {{contactsCount}}</span>
+        <span>名称 {{deviceService.selectedItems.length}} / {{contactsCount}}</span>
       </div>
-      <div class="airmore-device-item-list__contact-list" *ngIf="deviceStateService.contactLetterGroupList">
+      <div class="airmore-device-item-list__contact-list" *ngIf="deviceService.contactLetterGroupList">
         <div class="container" #contactGroupContainer>
           <div
             class="group-item"
-            *ngFor="let item of deviceStateService.contactLetterGroupList"
+            *ngFor="let item of deviceService.contactLetterGroupList"
           >
               <app-contact-letter-group
               [ngClass]="'letter-' + item['key']"
@@ -320,12 +320,12 @@
         </div>
       </div>
       <div class="airmore-device-item-list__contact-detail">
-        <app-contact-detail #contactDetail *ngIf="deviceStateService.activeContact" [contact]="deviceStateService.activeContact"></app-contact-detail>
+        <app-contact-detail #contactDetail *ngIf="deviceService.activeContact" [contact]="deviceService.activeContact"></app-contact-detail>
       </div>
     </div>
     <!-- contacts end -->
   </div>
-  <!-- <div class="airmore-device-item-list__no-item" *ngIf="!deviceStateService.loading && (!deviceStateService.itemList || deviceStateService.itemList.length === 0)">
+  <!-- <div class="airmore-device-item-list__no-item" *ngIf="!deviceService.loading && (!deviceService.itemList || deviceService.itemList.length === 0)">
       <p>The folder is empty!</p>
   </div> -->
 </div>

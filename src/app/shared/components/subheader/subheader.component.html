@@ -7,8 +7,8 @@
         class="airmore-subheader__toolbar-btn"
         [class.is-hidden]="!hasAction(item.action)"
         [class.is-inactive]="isInactive(item.action)"
-        [class.is-loading]="appStateService.loading"
-        [class.is-checked]="item.action === 'select-all' && appStateService.isAllSelected && !appStateService.loading && !appStateService.isEmpty"
+        [class.is-loading]="appService.loading"
+        [class.is-checked]="item.action === 'select-all' && appService.isAllSelected && !appService.loading && !appService.isEmpty"
         [ngClass]=item.class
         *ngFor="let item of toolbarItems"
         (click)="doAction(item.action, isInactive(item.action), $event)"
@@ -18,8 +18,8 @@
       </div>
   </div>
   <div class="airmore-subheader__search">
-    <input type="text" [(ngModel)]="appStateService.searchKey" (keyup)="onSearchChange()"  placeholder="Search" maxlength="20" />
+    <input type="text" [(ngModel)]="appService.searchKey" (keyup)="onSearchChange()"  placeholder="Search" maxlength="20" />
     <div class="airmore-subheader__search-submit"></div>
-    <div class="airmore-subheader__search-clear" (click)="clearSearchKey()" *ngIf="appStateService.searchKey"></div>
+    <div class="airmore-subheader__search-clear" (click)="clearSearchKey()" *ngIf="appService.searchKey"></div>
   </div>
 </div>
