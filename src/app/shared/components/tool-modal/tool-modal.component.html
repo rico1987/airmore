@@ -1,3 +1,5 @@
 <div class="airmore-tool-modal">
-  <a href="" target="_blank"></a>
+  <a class="airmore-tool-modal__product" *ngFor="let product of products" [ngClass]="product['name']" [href]="product['url']" target="_blank" >
+    {{product['name']}}
+  </a>
 </div>

@@ -2,5 +2,58 @@
 @import "../../../../styles/themes/default/variables.scss";
 
 @include b(tool-modal) {
+    display: block;
+    @include e(product) {
+        display: inline-block;
+        vertical-align: top;
+        width: 150px;
+        line-height: 20px;
+        padding-top: 95px;
+        padding-bottom: 10px;
+        text-align: center;
+        background-position: center 10px;
+        background-repeat: no-repeat;
+        background-size: 66px auto;
+        text-decoration: none;
+        border-radius: 5px;
+        text-decoration: none;
+        color: black;
+        outline: none;
+        &:hover {
+            background-color: rgba(0,0,0,.05);
+        }
 
+        &.phone-manager{
+            background-image: url("http://cdn.aoscdn.com/img/phone-manager/main/logo.svg");	/*!skip embed*/
+        }
+    
+        &.screen-recorder{
+            background-image: url("http://cdn.aoscdn.com/img/online-screen-recorder/main/logo.svg");	/*!skip embed*/
+            background-position: center 15px;
+        }
+    
+        &.audio-recorder{
+            background-image: url("http://cdn.aoscdn.com/img/online-audio-recorder/main/logo.svg");	/*!skip embed*/
+        }
+    
+        &.video-converter{
+            background-image: url(http://cdn.aoscdn.com/img/online-video-converter/main/logo.svg);	/*!skip embed*/
+        }
+    
+        &.video-downloader{
+            background-image: url("http://cdn.aoscdn.com/img/online-video-downloader/main/logo.svg");	/*!skip embed*/
+        }
+    
+        &.screen-capture{
+            background-image: url("http://cdn.aoscdn.com/img/online-screen-capture/main/logo.png");	/*!skip embed*/
+        }
+    
+        &.iphone-ipad-recorder{
+            background-image: url("http://cdn.aoscdn.com/img/subnav/win/ios-recorder.svg");	/*!skip embed*/
+        }
+    
+        &.android-recorder{
+            background-image: url("http://cdn.aoscdn.com/img/android-recorder/main/logo.svg");	/*!skip embed*/
+        }
+    }
 }

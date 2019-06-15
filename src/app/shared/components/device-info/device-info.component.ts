@@ -73,7 +73,14 @@ export class DeviceInfoComponent implements OnInit {
       .subscribe(
         (data) => {
           this.deviceInfo = data;
-          console.log(this.deviceInfo);
+          if (this.deviceInfo.AccountInfo) {
+            try {
+              const accountInfo = JSON.parse(this.deviceInfo.AccountInfo);
+              console.log(accountInfo);
+            } catch (e) {
+              console.log(e);
+            }
+          }
           setTimeout(() => {
             this.deviceInfo['OtherSize'] = this.deviceInfo['MemorySize'] 
                                           - this.deviceInfo['PicSize']

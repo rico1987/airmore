@@ -52,7 +52,15 @@ export class DesktopComponent implements OnInit {
         const toolModal = this.modalService.create({
           amTitle: 'Tools',
           amContent: ToolModalComponent,
-          amFooter: null,
+          amWidth: '80%',
+          amFooter: [
+            {
+              label: 'OK',
+              onClick: componentInstance => {
+                toolModal.close();
+              }
+            }
+          ],
           amMaskClosable: false,
           amClosable: true,
           amOnOk: () => {

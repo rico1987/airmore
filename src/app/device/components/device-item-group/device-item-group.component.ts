@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { DeviceService } from '../../../shared/service';
 import { ImageGroup } from '../../models';
 
@@ -11,8 +11,13 @@ export class DeviceItemGroupComponent implements OnInit {
 
   @Input() group: ImageGroup;
 
+  @Input() containerScrollTop: number;
+
+  @Input() containerHeight: number;
+
   constructor(
     private deviceService: DeviceService,
+    private ref: ElementRef,
   ) { }
 
   ngOnInit() {
@@ -38,4 +43,7 @@ export class DeviceItemGroupComponent implements OnInit {
     return flag;
   }
 
+  get isInView(): boolean {
+    return !(this.ref.nativeElement.offsetTop > this.containerScrollTop + this.containerHeight);
+  }
 }

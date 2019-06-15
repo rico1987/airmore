@@ -27,6 +27,14 @@ export class ConnectionComponent implements OnInit {
 
   private _qrTimeoutInterval: any = null;
 
+  private _showInstallLink: boolean = true;
+  public get showInstallLink(): boolean {
+    return this._showInstallLink;
+  }
+  public set showInstallLink(value: boolean) {
+    this._showInstallLink = value;
+  }
+
   private _activeConnectionType: 'qrcode' | 'radar' | 'account' = 'qrcode';
   public get activeConnectionType(): 'qrcode' | 'radar' | 'account' {
     return this._activeConnectionType;

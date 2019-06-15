@@ -4,7 +4,7 @@
     <span>{{ group['key'] }}</span>
   </div>
   <div class="airmore-device-item-group__items-container">
-    <app-device-item *ngFor="let item of group.items" [item]="item"></app-device-item>
+    <app-device-item *ngFor="let item of group.items" [isInView]="isInView"  [item]="item"></app-device-item>
     <div class="clear" style="clear:both;"></div>
   </div>
 </div>

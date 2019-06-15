@@ -1,5 +1,5 @@
 <div class="airmore-lazy-load-image" [class.is-loaded]="isLoaded">
-  <div class="airmore-lazy-load-image__container" [class.is-auto-size]="autoSize" *ngIf="isInsideView" [@imageFadeIn]="isLoaded ? 'show' : 'hide'" >
+  <div class="airmore-lazy-load-image__container" [class.is-auto-size]="autoSize" [@imageFadeIn]="isLoaded ? 'show' : 'hide'" >
       <img [src]="imgSrc" *ngIf="isLoaded" />
   </div>
   <div class="airmore-lazy-load-image__loading" *ngIf="!isLoaded"></div>

@@ -12,7 +12,7 @@ import {
 import { AppConfig, APP_DEFAULT_CONFIG } from '../../config';
 import { CommonResponse } from '../../shared/models';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpProgressEvent, HttpRequest, HttpEvent } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Logger } from './logger.service';
@@ -40,6 +40,7 @@ import { getFirstLetters } from '../../utils/index';
 
 import { downloadText } from '../../utils/tools';
 import { HttpResponse, HttpEventType } from '@angular/common/http';
+import { map, tap, last, catchError } from 'rxjs/operators';
 const deepcopy = require('deepcopy');
 
 const fecha = require('fecha');
@@ -79,6 +80,15 @@ const Operators = {
   2: 'Update',
   3: 'Delete'
 };
+
+const fileExtensions = {
+  'pictures': ['bmp', 'jpg', 'jpeg', 'png', 'gif', 'pic', 'tif'],
+  'musics': ['wav', 'aif', 'au', 'mp3', 'ram', 'wma', 'mmf', 'amr', 'aac', 'flac'],
+  'videos': ['mp4', 'm4v', '3gp', '3g2', 'mov', 'flv', 'f4v', 'avi', 'mpeg', 'mpg', 'wmv', 'asf', 'vob', 'mkv', 'rmvb', 'webm', 'mts', 'ts'],
+  'contacts': ['xml'],
+  'apps': ['apk'],
+  'documents': ['doc', 'docx', 'xls', 'xlsx', 'txt', 'pdf', 'ppt', 'pptx', 'zip'],
+}
 
 
 @Injectable({
@@ -152,6 +162,8 @@ export class DeviceService extends WebsocketService {
   uploadQueueLength: number;
 
   uploadingItem: any;
+
+  isUploading: boolean = false;
   // upload queue end
 
   tempContactLetterGroupList: Array<any>;
@@ -198,6 +210,7 @@ export class DeviceService extends WebsocketService {
       this.activeItem = null;
       this.activeNode = null;
       this.activeFunction = fun;
+      this.uploadQueue = [];
       this.getSidebarItemList();
       if (fun === 'messages' && !this.contactGroupList) {
         this.getAllContacts()
@@ -210,8 +223,10 @@ export class DeviceService extends WebsocketService {
   }
 
   processUploadQueue(): void {
+    this.isUploading = true;
     if (this.uploadQueue.length > 0) {
       this.uploadingItem = this.uploadQueue.shift();
+      this.uploadingItem['percent'] = '0';
 
       let key: string, directory: string = '';
 
@@ -226,6 +241,8 @@ export class DeviceService extends WebsocketService {
         if (this.activeNode) {
           directory = this.activeNode.Path;
         }
+      } else if (this.activeFunction === 'pictures') {
+        key = 'PhotoImport';
       }
       if (this.activeFunction === 'apps') {
         this.installApp(this.uploadingItem)
@@ -253,6 +270,7 @@ export class DeviceService extends WebsocketService {
         this.importSingleFile(key, this.activeAlbumId, this.uploadingItem, directory)
           .subscribe(
             (data) => {
+              console.log(data);
             },
             (error) => {
               if (error) {
@@ -264,12 +282,75 @@ export class DeviceService extends WebsocketService {
                 this.processUploadQueue();
               } else {
                 this.messageService.success(`成功导入${this.uploadQueueLength}个文件`);
-                this.getItemList(false);
+                this.isUploading = false;
+                this.refreshItemList();
               }
             }
           );
       }
-    
+    }
+  }
+
+  importSingleFile(key: string, AlbumID: string, file: any, Directory?: string): Observable<any> {
+    const formData = new FormData();
+    if (Directory) {
+      formData.append('Post', JSON.stringify({
+        Directory,
+      }));
+    } else {
+      if (isDocument(file['name'])) {
+        formData.append('Post', JSON.stringify({
+          AlbumID: getDocTye(file['name']),
+        }));
+      } else {
+        formData.append('Post', JSON.stringify({
+          AlbumID,
+        }));
+      }
+    }
+
+    formData.append('File', file);
+
+    const deviceInfo = this.browserStorageService.get('deviceInfo');
+
+    const req = new HttpRequest('POST', `http://${deviceInfo.PrivateIP}:${deviceInfo.Port}/?Key=${key}`, formData, {
+      reportProgress: true,
+    })
+
+    return this.http.request(req).pipe(
+      map(event => this.getEventMessage(event, file)),
+      //tap(message => this.showProgress(message)),
+      last(), // return last (completed) message to caller
+      catchError(this.handleError(file))
+    );
+  }
+
+  // showProgress(message): void {
+  //   console.log(message);
+  // }
+
+  handleError(file): any {
+    console.log(file.name);
+  }
+
+  /** Return distinct message for sent, upload progress, & response events */
+  private getEventMessage(event: HttpEvent<any>, file: File) {
+    switch (event.type) {
+      case HttpEventType.Sent:
+        return `Uploading file "${file.name}" of size ${file.size}.`;
+
+      case HttpEventType.UploadProgress:
+        // Compute and show the % done:
+        const percentDone = Math.round(100 * event.loaded / event.total);
+        this.uploadingItem['percent'] = percentDone + '%';
+        console.log(percentDone);
+        return `File "${file.name}" is ${percentDone}% uploaded.`;
+
+      case HttpEventType.Response:
+        return `File "${file.name}" was completely uploaded!`;
+
+      default:
+        return `File "${file.name}" surprising upload event: ${event.type}.`;
     }
   }
 
@@ -691,11 +772,12 @@ export class DeviceService extends WebsocketService {
 
   refreshItemList(): void {
     this.resetPaging();
-    if (this.activeFunction !== 'apps' && this.activeFunction !== 'clipboard') {
-      this.getItemList(false);
-    } else {
-      this.getSidebarItemList();
-    }
+    // if (this.activeFunction !== 'apps' && this.activeFunction !== 'clipboard') {
+    //   this.getItemList(false);
+    // } else {
+    //   this.getSidebarItemList();
+    // }
+    this.getSidebarItemList();
   }
 
   selectAll(): void {
@@ -767,6 +849,7 @@ export class DeviceService extends WebsocketService {
 
     componentRef.instance.onFileChange = (fileList: UploadFile[]) => {
       this.uploadQueue.push(...fileList);
+      console.log(this.uploadQueue.length);
       this.uploadQueueLength = fileList.length;
       this.processUploadQueue();
       this.appRef.detachView(componentRef.hostView);
@@ -1448,32 +1531,6 @@ export class DeviceService extends WebsocketService {
     }));
     formData.append('File', file);
     return this.myClientService.devicePost('AppInstall', formData);
-  }
-
-  importSingleFile(key: string, AlbumID: string, file: any, Directory?: string): Observable<any> {
-    const formData = new FormData();
-    if (Directory) {
-      formData.append('Post', JSON.stringify({
-        Directory,
-      }));
-    } else {
-      if (isDocument(file['name'])) {
-        formData.append('Post', JSON.stringify({
-          AlbumID: getDocTye(file['name']),
-        }));
-      } else {
-        formData.append('Post', JSON.stringify({
-          AlbumID,
-        }));
-      }
-    }
-
-    formData.append('File', file);
-    return this.myClientService.devicePost(key, formData, {
-      reportProgress: true, headers: {
-        Accept: 'text/plain'
-      },
-    });
   }
 
   saveToClipboard(text: string): Observable<any> {

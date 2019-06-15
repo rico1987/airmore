@@ -14,6 +14,8 @@ export class DeviceItemComponent implements OnInit {
   set item(item: any) { this._item = item; }
   private _item: any;
 
+  @Input() isInView: boolean;
+
   constructor(
     private browserStorageService: BrowserStorageService,
     private deviceService: DeviceService,
@@ -79,5 +81,9 @@ export class DeviceItemComponent implements OnInit {
 
   get isSelected(): boolean {
     return this.deviceService.hasItem(this.item);
+  }
+
+  get shouldLoad(): boolean {
+    return this.isInView;
   }
 }

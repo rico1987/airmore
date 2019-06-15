@@ -1,6 +1,4 @@
 export const adds = {
-    language: 'en',
-
     langDomainMappings: {
         pt: '.com.br',
         en: '.com',
@@ -167,34 +165,34 @@ export const adds = {
 
     products: null,
 
-
-    getProducts: function () {
-        var lang = this.language
-        var domain = this.getDomain()
-        
+    getProducts: function (language: string) {
+        var products = [];
+        for (let i = 0, l = Object.keys(this.pathMappings).length; i < l; i++) {
+            products.push({
+                name: Object.keys(this.pathMappings)[i],
+                url: this.getProductURL(Object.keys(this.pathMappings)[i], language),
+            });
+        }
+        return products;
     },
 
 
-    getDomain: function () {
-        var lang = this.language
-        var dotcom = this.langDomainMappings[this.language] || '.' + this.language
+    getDomain: function (language: string) {
+        var dotcom = this.langDomainMappings[language] || '.' + this.language
         var domain = 'https://www.apowersoft' + dotcom
 
         return domain
     },
 
 
-    getProductURL: function (name) {
-        var lang = this.language
-        var domain = this.getDomain()
-        var url = domain + '/' + (this.pathMappings[name][lang] || this.pathMappings[name]['en'])
-
+    getProductURL: function (name, language) {
+        var domain = this.getDomain(language)
+        var url = domain + '/' + (this.pathMappings[name][language] || this.pathMappings[name]['en'])
         return url
     },
-
-
-    onChangeLanguage: function (language) {
-        this.language = language
+    
+    setLanguage: function(language) {
+        this.language = language;
         this.products = this.getProducts()
     },
 }

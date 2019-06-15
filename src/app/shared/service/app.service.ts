@@ -79,6 +79,7 @@ export class AppService {
             })
         );
         this.connectionInstance = this._overlayRef.attach(new ComponentPortal(ConnectionComponent)).instance;
+        this.connectionInstance.showInstallLink = false;
         if (connectionType) {
             this.connectionInstance.activeConnectionType = connectionType;
         }

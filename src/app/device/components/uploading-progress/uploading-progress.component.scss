@@ -30,14 +30,22 @@
         background-size: 20px auto;
     }
 
+    @include e(text) {
+        position: absolute;
+        width: 100%;
+        left: 30px;
+    }
+
     @include e(close) {
-        position: relative;
         float: right;
         width: 30px;
         height: 100%;
         background: url('../../../../assets/img/common/upload/close.svg') center center no-repeat;
         background-size: 16px auto;
         cursor: pointer;
+        position: absolute;
+        top: 0;
+        right: 0;
         &:hover {
             background-image: url('../../../../assets/img/common/upload/close-hover.svg');
         }

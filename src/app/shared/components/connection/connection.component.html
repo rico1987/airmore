@@ -25,7 +25,7 @@
       <app-account></app-account>
     </li>
   </ul>
-  <div class="airmore-connection__install-link">
+  <div class="airmore-connection__install-link" *ngIf="showInstallLink">
     <span (click)="showInstallModal()">安装爱莫助手应用</span>
   </div>
 </div>

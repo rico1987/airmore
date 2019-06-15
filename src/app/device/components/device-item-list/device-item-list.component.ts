@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Input, Inject, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { NzTableComponent } from 'ng-zorro-antd';
 const copy = require('clipboard-copy')
 import { MessageService, DeviceService } from '../../../shared/service';
@@ -15,7 +15,7 @@ import { isArray } from '../../../utils/is';
 @Component({
   selector: 'app-device-item-list',
   templateUrl: './device-item-list.component.html',
-  styleUrls: ['./device-item-list.component.scss']
+  styleUrls: ['./device-item-list.component.scss'],
 })
 export class DeviceItemListComponent implements OnInit, OnDestroy {
   
@@ -54,6 +54,10 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
     
   ];
 
+  containerScrollTop: number = null;
+
+  containerHeight: number = null;
+
 
   sortKey: string | null = null;
   sortValue: string | null = null;
@@ -70,16 +74,26 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.listOfData = this.deviceService.itemList;
     this.deviceService.contactDetailRef = this.contactDetail;
+    
   }
 
   ngAfterContentInit() {
-    const containerHeight = this.itemListContainer.nativeElement.offsetHeight;
+    this.containerHeight = this.itemListContainer.nativeElement.offsetHeight;
     if (this.deviceService.activeFunction === 'musics') {
-      this.scrollHeight = containerHeight - 150;
+      this.scrollHeight = this.containerHeight - 150;
     } else {
-      this.scrollHeight = containerHeight - 60;
+      this.scrollHeight = this.containerHeight - 60;
     }
+
+    window.onresize = () => {
+      this.containerHeight = this.itemListContainer.nativeElement.offsetHeight;
+    };
   }
+
+  onScroll(event) {
+    this.containerScrollTop = event.target.scrollTop;
+  }
+  
 
   call(): void {
     const Phone = this.deviceService.activeItem['Phone'];
@@ -256,6 +270,14 @@ export class DeviceItemListComponent implements OnInit, OnDestroy {
       this.deviceService.addItems([item]);
     } else {
       this.deviceService.removeItems([item]);
+    }
+  }
+
+  selectItem(item: any): void {
+    if(this.deviceService.hasItem(item)) {
+      this.deviceService.removeItems([item]);
+    } else {
+      this.deviceService.addItems([item]);
     }
   }
 

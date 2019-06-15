@@ -9,31 +9,37 @@ import { ANIMATIONS } from '../../../shared/animations';
 })
 export class LazyLoadImageComponent implements OnInit {
 
-  @Input()
-  get imgSrc(): string { return this._imgSrc; }
-  set imgSrc(imgSrc: string) { this._imgSrc = imgSrc; }
+  @Input() imgSrc: string;
 
   @Output() onLoaded = new EventEmitter<any>();
 
-  @Input() isLazyLoad: boolean = false;
-
   @Input() autoSize: boolean = false;
 
-  private _imgSrc: string;
+  @Input() lazy: boolean = false;
 
-  isLoaded = false;
+  @Input() shouldLoad: boolean = false;
+
+  private _isLoaded = false;
+
+  private _hasLoading = false;
 
   constructor(
-    private elementRef: ElementRef,
   ) { }
 
   ngOnInit() {
-    if (!this.isLazyLoad) {
+    if (!this.lazy) {
+      this.loadImage();
+    }
+  }
+
+  private loadImage(): void {
+    if (!this._hasLoading) {
+      this._hasLoading = true;
       const image = document.createElement('img');
       image.setAttribute('src', this.imgSrc);
       const timer = setInterval(() => {
         if (image.complete) {
-          this.isLoaded = true;
+          this._isLoaded = true;
           this.onLoaded.emit();
           clearInterval(timer);
         }
@@ -41,9 +47,14 @@ export class LazyLoadImageComponent implements OnInit {
     }
   }
 
-  get isInsideView(): boolean {
-    const ClientRect = this.elementRef.nativeElement.getBoundingClientRect();
-    return true;
+  get isLoaded(): boolean {
+    if (this.shouldLoad) {
+      this.loadImage();
+    }
+    if (this.lazy) {
+      return this.shouldLoad && this._isLoaded;
+    } else {
+      return this._isLoaded;
+    }
   }
-
 }

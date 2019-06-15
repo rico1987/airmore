@@ -41,7 +41,7 @@
         *ngIf="item"
         class="airmore-device-item__image"
       >
-        <app-lazy-load-image [imgSrc]="resolveVideoCoverPath(item.Path)" *ngIf="item.Path"></app-lazy-load-image>
+        <app-lazy-load-image [imgSrc]="resolveVideoCoverPath(item.Path)" [lazy]="true" [shouldLoad]="shouldLoad" *ngIf="item.Path"></app-lazy-load-image>
       </div>
       <ul class="airmore-device-item__toolbar">
         <li class="preview" (click)="playImage($event)"></li>

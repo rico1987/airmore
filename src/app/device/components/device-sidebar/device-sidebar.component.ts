@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzFormatEmitEvent, NzTreeNodeOptions, NzTreeNode } from 'ng-zorro-antd';
-const copy = require('clipboard-copy')
+const copy = require('copy-to-clipboard');
 import { AppService, BrowserStorageService, DeviceService, MessageService } from '../../../shared/service';
 
 
